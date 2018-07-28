@@ -10,15 +10,22 @@ get_resp <- function(url, attempts_left = 5) {
 
   resp <- httr::GET(url)
 
+  # Ensure that returned response is application/json
+  if (httr::http_type(resp) != "application/json") {
+    stop("API did not return json", call. = FALSE)
+  }
+
   # On a successful GET, return the response
   if (httr::status_code(resp) == 200) {
     resp
   } else if (attempts_left == 1) { # When attempts run out, stop with an error
-    stop("Cannot connect to the API")
+    stop_for_status(resp) # Return appropiate error message
   } else { # Otherwise, sleep a second and try again
     Sys.sleep(2)
     get_resp(url, attempts_left - 1)
   }
+
+
 }
 
 #' Build a custom url using the httr url class
@@ -42,7 +49,7 @@ make_url <- function(query_path, param = NULL, ...) {
   semi_url <-
     structure(
       list(
-        scheme = "https",
+        scheme = "http",
         hostname = hostname,
         path = query_path,
         query = param,
@@ -52,3 +59,8 @@ make_url <- function(query_path, param = NULL, ...) {
 
   build_url(semi_url)
 }
+
+# Example:
+url <- make_url(query_path = "theme/sector-publico", param = list('_pageSize' = 50, '_page' = 1))
+resp <- get_resp(url)
+
