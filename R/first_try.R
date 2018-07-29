@@ -2,7 +2,9 @@ library(httr)
 library(readr)
 library(RJSONIO)
 library(dplyr)
-
+library(purrr)
+library(magrittr)
+library(tidyr)
 
 # Run this until we ahve the package structure
 # When we have it we can just run devtools::load_all()
@@ -42,3 +44,67 @@ for (i in 1:length(cont$result$items)){
 }
 
 
+
+# This function isn't valid
+# I can't deal with NULLS
+get_topics <- function(topic) {
+
+  url <- make_url(query_path = paste0("theme/", topic), param = list('_sort' = '-issued,title', '_pageSize' = 50, '_page' = 1))
+  response <- get_resp(url)
+
+  # Parse the response obtained with get_resp
+  cont <- content(response, as = "parsed")
+
+  # All items has the same root
+  items <- cont$result$items
+
+  # Create empty dataframe with returned info
+  df <- data.frame(
+    title = character(),
+    desc = character(),
+    about = character(),
+    last_modified = character(),
+    stringsAsFactors = FALSE
+  )
+
+  df <- purrr::map_df(items, `[`, c("title", "description" , "_about", "modified"))
+
+  return(df)
+
+
+}
+
+df <- get_topics("seguridad")
+
+
+# This is another approach but I can't deal with nested list
+url <- make_url(query_path = paste0("theme/", "salud"), param = list('_sort' = '-issued,title', '_pageSize' = 50, '_page' = 1))
+response <- get_resp(url)
+
+# Parse the response obtained with get_resp
+cont <- content(response, as = "parsed")
+
+# All items has the same root
+items <- cont$result$items
+
+
+df <- data.frame(
+  title = purrr::map_chr(items, .null = NA, "title"),
+  desc = purrr::map_chr(items, .null = NA, "description"),
+  about = purrr::map_chr(items, .null = NA, "_about"),
+  last_modified = purrr::map_chr(items, .null = NA, "modified")
+)
+
+# This solution isn't valid
+# If any of the fields is composed by a list, returned column value is null
+
+# Unnest list
+items <- cont$result$items %>% unlist()
+
+df <- data.frame(
+  title = if(length(which(grepl("^title$", names(items)))) > 0) items[grepl("^title$", names(items))] else NA,
+  desc = if(length(which(grepl("^description$", names(items)))) > 0) items[grepl("^description$", names(items))] else NA,
+  about = if(length(which(grepl("^_about$", names(items)))) > 0) items[grepl("^_about$", names(items))] else NA,
+  last_modified = if(length(which(grepl("^modified$", names(items)))) > 0) items[grepl("^modified$", names(items))] else NA,
+  stringsAsFactors = FALSE
+)
