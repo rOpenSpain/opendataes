@@ -15,5 +15,3 @@ raw_vec <- unlist(res$result$items[[1]]$distribution)
 all_urls <- raw_vec[grepl("accessURL", names(raw_vec))]
 
 read.csv2(all_urls)
-
-hola
