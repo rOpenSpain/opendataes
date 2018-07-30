@@ -46,3 +46,18 @@ http_type(GET(cont$result$items[[1]]$distribution[[5]]$accessURL))
 out
 
 
+
+# EXAMPLE 3
+
+x <- GET("http://datos.gob.es/apidata/catalog/dataset/title/seguridad?_sort=title&_pageSize=10&_page=0")
+
+cont <- content(x, as = "parsed")
+
+cont_unlist <- cont %>%
+  unlist()
+
+# Get description
+description <- cont_unlist[grepl("^result.items.description._value$", names(cont_unlist))]
+# Get accessURL, we have more than 10 (max results per page) because for each result could be some ways to download the data
+accessurl <- cont_unlist[grepl("^result.items.distribution.accessURL$", names(cont_unlist))]
+
