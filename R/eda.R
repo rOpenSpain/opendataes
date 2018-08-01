@@ -61,3 +61,13 @@ description <- cont_unlist[grepl("^result.items.description._value$", names(cont
 # Get accessURL, we have more than 10 (max results per page) because for each result could be some ways to download the data
 accessurl <- cont_unlist[grepl("^result.items.distribution.accessURL$", names(cont_unlist))]
 
+
+
+
+## How to grab all dataset
+res <- content(get_resp(path_datasets()))
+
+raw_vec <- unlist(res$result$items[[1]]$distribution)
+
+all_urls <- raw_vec[grepl("accessURL", names(raw_vec))]
+

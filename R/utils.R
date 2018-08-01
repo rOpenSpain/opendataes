@@ -5,7 +5,7 @@
 #'
 #' @examples
 get_resp <- function(url, attempts_left = 5) {
-  
+
   stopifnot(attempts_left > 0)
 
   resp <- httr::GET(url)
@@ -38,8 +38,8 @@ get_resp <- function(url, attempts_left = 5) {
 #'
 #' @examples
 make_url <- function(query_path, param = NULL, ...) {
-  hostname <- "datos.gob.es/apidata/catalog/dataset"
-  
+  hostname <- "datos.gob.es/apidata"
+
   # We could simply just paste together the URL
   # but `httr` has better handling for
   # character vectors of class url
@@ -48,20 +48,33 @@ make_url <- function(query_path, param = NULL, ...) {
   semi_url <-
     structure(
       list(
-        scheme = "http",
+        scheme = "https",
         hostname = hostname,
         path = query_path,
         query = param,
         ...),
       class = "url"
     )
-  
+
   build_url(semi_url)
 }
 
+
+# LEt's develop a 'factory' of path functions that will
+# return all different paths but making everything modular.
+# Only one function is in charge of one path.
+path_catalog <- function(end_path) {
+  paste0("catalog/", end_path)
+}
+
+path_datasets <- function(...) {
+  make_url(path_catalog("dataset"), ...)
+}
+
+
 # Example:
-url <- make_url(query_path = "theme/sector-publico", param = list('_pageSize' = 50, '_page' = 1))
-resp <- get_resp(url)
+# url <- make_url(query_path = "theme/sector-publico", param = list('_pageSize' = 50, '_page' = 1))
+# resp <- get_resp(url)
 
 
 
