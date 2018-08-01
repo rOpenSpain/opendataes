@@ -85,7 +85,26 @@ grab_path <- function(path, param = NULL, ...) {
 }
 
 
-page_counter <- function(path)
+## Get the total number of pages
+# for a given path
+page_counter <- function(path) {
+  total_page <- 0
+  url_path <- grab_path(path, param = list('_pageSize' = 50,
+                                           '_page' = total_page))
+
+  resp <- content(get_resp(url_path))
+
+  while (length(resp$result$items) != 0) {
+    total_page = total_page + 1
+
+    url_path <- grab_path(path, param = list('_pageSize' = 50,
+                                             '_page' = total_page))
+
+    resp <- content(get_resp(url_path))
+  }
+
+  total_page
+}
 
 
 
@@ -108,7 +127,11 @@ data_list_correct <- function(data_list) {
   wrong_length <- length(data_list) == 0
   no_names <- is.null(attr(data_list, 'names'))
 
-  if (wrong_length | no_names) {
+  # Because the URL slot is in the distribution
+  # and all data_lists must follow the same structure
+  no_distribution_slot <- 'distribution' %in% names(data_list)
+
+  if (wrong_length | no_names | no_distribution_slot) {
     return(FALSE)
   }
 
@@ -120,9 +143,11 @@ data_list_correct <- function(data_list) {
 ## For now I think we should concentrate on
 # Keywords
 # Title
+# Description
 # Access URL
 # Language
 # Format
+# Date
 # Publisher
 
 
@@ -153,6 +178,39 @@ extract_title <- function(data_list) {
   title <- data_list$title
   title
 }
+
+extract_url <- function(data_list) {
+  if (!data_list_correct(data_list)) {
+    return(character())
+  }
+
+  if (!'access_url' %in% names(data_list)) {
+    "No URL available"
+  }
+
+  access_url <- data_list$distribution$accessURL
+  access_url
+}
+
+# This is wrong on purpose. Still waiting
+# to create the function to extract
+# the publishers automatically
+# to call this and match the publisher ID
+# to the actual name.
+extract_publisher <- function(data_list) {
+  if (!data_list_correct(data_list)) {
+    return(character())
+  }
+
+  if (!'publisher' %in% names(data_list)) {
+    "No publisher available"
+  }
+
+  publisher <- data_list$publisher
+  publisher
+}
+
+
 
 publisher <- "http://datos.gob.es/recurso/sector-publico/org/Organismo/EA0010987"
 
