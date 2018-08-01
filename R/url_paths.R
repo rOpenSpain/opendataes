@@ -33,12 +33,12 @@ make_url <- function(path, param, ...) {
 # LEt's develop a 'factory' of path functions that will
 # return all different paths but making everything modular.
 # Only one function is in charge of one path.
-
-## these are all 'static' urls, meaning that they have
-# no parameters to add.
 path_catalog <- function(path, param = NULL, ...) {
   make_url(paste0("catalog/", path), param = param, ...)
 }
+
+## these are all 'static' urls, meaning that they have
+# no parameters to add.
 
 path_datasets <- function(param = NULL, ...) {
   path_catalog("dataset", param = NULL, ...)
@@ -62,3 +62,4 @@ path_distribution <- function(param = NULL, ...) {
 path_dataset_id <- function(id, param = NULL, ...) {
   httr::modify_url(paste0(path_datasets(), id), query = param, ...)
 }
+
