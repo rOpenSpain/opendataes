@@ -50,11 +50,6 @@ page_counter <- function(path) {
 
 
 
-
-
-### Here's a set of functions to extract elements from
-### a slot with data information
-
 ## Checks data_list is correct
 ## As we find further requiremenrs that a data_list
 ## must have, we add it here
@@ -76,6 +71,10 @@ data_list_correct <- function(data_list) {
 }
 
 
+### Here's a set of functions to extract elements from
+### a slot with data information
+
+
 ## Extract elements from that data_list
 ## For now I think we should concentrate on
 # Keywords
@@ -87,9 +86,11 @@ data_list_correct <- function(data_list) {
 # Date
 # Publisher
 
-id <- 'l01080193-numero-total-de-edificios-con-viviendas-segun-numero-de-plantas'
-resp <- content(get_resp(path_dataset_id(id)))
+# id <- 'l01080193-numero-total-de-edificios-con-viviendas-segun-numero-de-plantas'
+# resp <- content(get_resp(path_dataset_id(id)))
+# data_list <- resp$result$items[[1]]
 
+resp <- content(get_resp(path_datasets()))
 data_list <- resp$result$items[[1]]
 
 extract_keywords <- function(data_list) {
@@ -118,6 +119,20 @@ extract_title <- function(data_list) {
 
   title <- unlist(data_list$title)
   title
+}
+
+extract_description <- function(data_list) {
+  if (!data_list_correct(data_list)) {
+    return(character())
+  }
+
+  if (!'_value' %in% names(unlist(data_list$description))) {
+    return("No description available")
+  }
+
+  descriptions <- vapply(data_list$description, function(x) unlist(x)['_value'],
+                         FUN.VALUE = character(1))
+  descriptions
 }
 
 extract_url <- function(data_list) {
