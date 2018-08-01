@@ -27,61 +27,6 @@ get_resp <- function(url, attempts_left = 5) {
 
 }
 
-#' Build a custom url using the httr url class
-#'
-#' @param query_path the end path of the dataset of interest
-#' @param param arguments for a query
-#' @param ... any other arguments to building the path correctly. See \code{modify_url}
-#'
-#' @return
-#' @export
-#'
-#' @examples
-make_url <- function(path, param, ...) {
-  hostname <- "datos.gob.es/apidata"
-
-  # We could simply just paste together the URL
-  # but `httr` has better handling for
-  # character vectors of class url
-  # that deal with the structure of URL's
-  # more properly than I would know.
-  semi_url <-
-    structure(
-      list(
-        scheme = "https",
-        hostname = hostname,
-        path = path,
-        query = param,
-        ...),
-      class = "url"
-    )
-
-  build_url(semi_url)
-}
-
-
-# LEt's develop a 'factory' of path functions that will
-# return all different paths but making everything modular.
-# Only one function is in charge of one path.
-path_catalog <- function(path, param = NULL, ...) {
-  make_url(paste0("catalog/", end_path), param = param, ...)
-}
-
-path_datasets <- function(param = NULL, ...) {
-  path_catalog("dataset", param = NULL, ...)
-}
-
-path_dataset_id <- function(id, param = NULL, ...) {
-  paste0(path_datasets(param, ...), "/", id)
-}
-
-path_publishers <- function(param = NULL, ...) {
-  path_catalog("publisher", param, ...)
-}
-
-
-"l01080193-numero-total-de-edificios-con-viviendas-segun-numero-de-plantas"
-
 ## Get the total number of pages
 # for a given path
 page_counter <- function(path) {
@@ -102,13 +47,6 @@ page_counter <- function(path) {
 
   total_page
 }
-
-
-
-
-
-
-
 
 
 
@@ -149,6 +87,9 @@ data_list_correct <- function(data_list) {
 # Date
 # Publisher
 
+resp <- content(get_resp(path_dataset_id(id)))
+
+resp$result$items[[1]]$distribution[[1]]
 
 extract_keywords <- function(data_list) {
 
@@ -191,6 +132,26 @@ extract_url <- function(data_list) {
   access_url
 }
 
+
+# This extracts the position of the spanish langauge
+# because it should be the default. Then we should
+# also give the option of choosing other languages when reading
+# the dataset.
+
+extract_spanish_language_index <- function(data_list) {
+  if (!data_list_correct(data_list)) {
+    return(character())
+  }
+
+  # Check where is the 'es' language
+  pos_es <-
+    which(vapply(data_list$description,
+           function(x) "es" %in% unlist(x), FUN.VALUE = logical(1)))
+
+  pos_es
+}
+
+
 extract_language <- function(data_list) {
   if (!data_list_correct(data_list)) {
     return(character())
@@ -200,7 +161,8 @@ extract_language <- function(data_list) {
     "No language available"
   }
 
-  language <- data_list$description
+  pos_es <- extract_spanish_language_index(data_list)
+  language <- data_list$description[pos_es]
   language
 }
 
