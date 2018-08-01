@@ -37,7 +37,7 @@ make_url <- function(path, param, ...) {
 ## these are all 'static' urls, meaning that they have
 # no parameters to add.
 path_catalog <- function(path, param = NULL, ...) {
-  make_url(paste0("catalog/", end_path), param = param, ...)
+  make_url(paste0("catalog/", path), param = param, ...)
 }
 
 path_datasets <- function(param = NULL, ...) {
@@ -48,6 +48,10 @@ path_publishers <- function(param = NULL, ...) {
   path_catalog("publisher", param, ...)
 }
 
+path_distribution <- function(param = NULL, ...) {
+  path_catalog("distribution", param, ...)
+}
+
 
 
 # Therse are 'dynamic' urls meaning that they have additional
@@ -56,5 +60,5 @@ path_publishers <- function(param = NULL, ...) {
 # ID here is the id of the dataset
 # like 'l01080193-numero-total-de-edificios-con-viviendas-segun-numero-de-plantas'
 path_dataset_id <- function(id, param = NULL, ...) {
-  httr::modify_url(paste0(path_datasets(), "/", id), query = param, ...)
+  httr::modify_url(paste0(path_datasets(), id), query = param, ...)
 }
