@@ -6,9 +6,17 @@ library(readr)
 # or CTRL + SHIFT + L in Windows
 source("./R/utils.R")
 
-datos_url <- make_url("a07002862-resultado-electoral-2003-informacion-complementaria2")
+# There is abig difference between using http and https
+# https is more secure and returns a json and http returns
+# an xml or html.
 
-res <- content(get_resp(datos_url), as = 'parsed')
+# I added a check for json in the GET request to make sure it can
+# be converted into json
+
+# datos_url <- make_url("a07002862-resultado-electoral-2003-informacion-complementaria2")
+datos_url <- "https://datos.gob.es/apidata/catalog/dataset"
+
+res <- content(get_resp(datos_url))
 
 raw_vec <- unlist(res$result$items[[1]]$distribution)
 
