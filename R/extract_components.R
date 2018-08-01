@@ -212,7 +212,7 @@ build_df_datalist <- function(data_list, half_columns = TRUE) {
     )
 
   if (half_columns) {
-    data_df <- data_df[grepl("description|publisher|url", names(final_df))]
+    data_df <- data_df[grepl("description|url|publisher", names(data_df))]
   }
 
   final_df <- dplyr::as_tibble(data_df)
