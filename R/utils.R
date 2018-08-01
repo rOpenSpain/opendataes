@@ -5,7 +5,7 @@
 #'
 #' @examples
 get_resp <- function(url, attempts_left = 5) {
-
+  
   stopifnot(attempts_left > 0)
 
   resp <- httr::GET(url)
@@ -14,7 +14,6 @@ get_resp <- function(url, attempts_left = 5) {
   if (httr::http_type(resp) != "application/json") {
     stop("API did not return json", call. = FALSE)
   }
-
   # On a successful GET, return the response
   if (httr::status_code(resp) == 200) {
     resp
@@ -40,7 +39,7 @@ get_resp <- function(url, attempts_left = 5) {
 #' @examples
 make_url <- function(query_path, param = NULL, ...) {
   hostname <- "datos.gob.es/apidata/catalog/dataset"
-
+  
   # We could simply just paste together the URL
   # but `httr` has better handling for
   # character vectors of class url
@@ -56,7 +55,7 @@ make_url <- function(query_path, param = NULL, ...) {
         ...),
       class = "url"
     )
-
+  
   build_url(semi_url)
 }
 
