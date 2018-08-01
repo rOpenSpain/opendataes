@@ -41,7 +41,7 @@ path_catalog <- function(path, param = NULL, ...) {
 # no parameters to add.
 
 path_datasets <- function(param = NULL, ...) {
-  path_catalog("dataset", param = NULL, ...)
+  path_catalog("dataset", param, ...)
 }
 
 path_publishers <- function(param = NULL, ...) {
