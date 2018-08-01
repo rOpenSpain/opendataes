@@ -86,12 +86,12 @@ data_list_correct <- function(data_list) {
 # Date
 # Publisher
 
-# id <- 'l01080193-numero-total-de-edificios-con-viviendas-segun-numero-de-plantas'
-# resp <- content(get_resp(path_dataset_id(id)))
-# data_list <- resp$result$items[[1]]
-
-resp <- content(get_resp(path_datasets()))
+id <- 'l01080193-numero-total-de-edificios-con-viviendas-segun-numero-de-plantas'
+resp <- content(get_resp(path_dataset_id(id)))
 data_list <- resp$result$items[[1]]
+
+# resp <- content(get_resp(path_datasets()))
+# data_list <- resp$result$items[[1]]
 
 extract_keywords <- function(data_list) {
 
@@ -140,11 +140,12 @@ extract_url <- function(data_list) {
     return(character())
   }
 
-  if (!'access_url' %in% names(data_list)) {
+  if (!'accessURL' %in% names(unlist(data_list$distribution))) {
     "No URL available"
   }
 
-  access_url <- data_list$distribution$accessURL
+  access_url <- vapply(data_list$distribution, function(x) x$accessURL,
+                       FUN.VALUE = character(1))
   access_url
 }
 
@@ -179,8 +180,6 @@ extract_publisher <- function(data_list) {
   publisher <- data_list$publisher
   publisher
 }
-
-
 
 publisher <- "http://datos.gob.es/recurso/sector-publico/org/Organismo/EA0010987"
 
