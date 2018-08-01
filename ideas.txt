@@ -1,0 +1,2 @@
+- Check the size of the request and if it's very large, issue a warning
+- Add progress bar when using GET requests
