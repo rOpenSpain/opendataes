@@ -63,13 +63,15 @@ make_url <- function(query_path, param = NULL, ...) {
 # LEt's develop a 'factory' of path functions that will
 # return all different paths but making everything modular.
 # Only one function is in charge of one path.
-path_catalog <- function(end_path) {
-  paste0("catalog/", end_path)
+path_catalog <- function(end_path, ...) {
+  make_url(paste0("catalog/", end_path), ...)
 }
 
 path_datasets <- function(...) {
-  make_url(path_catalog("dataset"), ...)
+  path_catalog("dataset", ...)
 }
+
+
 
 
 # Example:

@@ -65,7 +65,7 @@ accessurl <- cont_unlist[grepl("^result.items.distribution.accessURL$", names(co
 
 
 ## How to grab all dataset
-res <- content(get_resp(path_datasets()))
+res <- content(get_resp(path_datasets(param = list('_pageSize' = 50, '_page' = 1))))
 
 raw_vec <- unlist(res$result$items[[1]]$distribution)
 
