@@ -87,9 +87,10 @@ data_list_correct <- function(data_list) {
 # Date
 # Publisher
 
+id <- 'l01080193-numero-total-de-edificios-con-viviendas-segun-numero-de-plantas'
 resp <- content(get_resp(path_dataset_id(id)))
 
-resp$result$items[[1]]$distribution[[1]]
+data_list <- resp$result$items[[1]]
 
 extract_keywords <- function(data_list) {
 
@@ -115,7 +116,7 @@ extract_title <- function(data_list) {
     "No title available"
   }
 
-  title <- data_list$title
+  title <- unlist(data_list$title)
   title
 }
 
@@ -132,38 +133,18 @@ extract_url <- function(data_list) {
   access_url
 }
 
-
-# This extracts the position of the spanish langauge
-# because it should be the default. Then we should
-# also give the option of choosing other languages when reading
-# the dataset.
-
-extract_spanish_language_index <- function(data_list) {
-  if (!data_list_correct(data_list)) {
-    return(character())
-  }
-
-  # Check where is the 'es' language
-  pos_es <-
-    which(vapply(data_list$description,
-           function(x) "es" %in% unlist(x), FUN.VALUE = logical(1)))
-
-  pos_es
-}
-
-
 extract_language <- function(data_list) {
   if (!data_list_correct(data_list)) {
     return(character())
   }
 
-  if (!'_lang' %in% names(data_list)) {
-    "No language available"
+  if (!'_lang' %in% names(unlist(data_list$description))) {
+    return("No language available")
   }
 
-  pos_es <- extract_spanish_language_index(data_list)
-  language <- data_list$description[pos_es]
-  language
+  languages <- vapply(data_list$description, function(x) unlist(x)['_lang'],
+                      FUN.VALUE = character(1))
+  languages
 }
 
 # This is wrong on purpose. Still waiting
