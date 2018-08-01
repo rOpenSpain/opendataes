@@ -37,7 +37,7 @@ get_resp <- function(url, attempts_left = 5) {
 #' @export
 #'
 #' @examples
-make_url <- function(query_path, param = NULL, ...) {
+make_url <- function(query_path, param, ...) {
   hostname <- "datos.gob.es/apidata"
 
   # We could simply just paste together the URL
@@ -63,18 +63,26 @@ make_url <- function(query_path, param = NULL, ...) {
 # LEt's develop a 'factory' of path functions that will
 # return all different paths but making everything modular.
 # Only one function is in charge of one path.
-path_catalog <- function(end_path, ...) {
-  make_url(paste0("catalog/", end_path), ...)
+path_catalog <- function(end_path, param, ...) {
+  make_url(paste0("catalog/", end_path), param, ...)
 }
 
-path_datasets <- function(...) {
-  path_catalog("dataset", ...)
+path_datasets <- function(param, ...) {
+  path_catalog("dataset", param, ...)
 }
 
-path_publishers <- function(...) {
-  path_catalog("publisher", ...)
+path_publishers <- function(param, ...) {
+  path_catalog("publisher", param, ...)
 }
 
+
+# Once you develop a new path above
+# just add it below following the same guideline
+grab_path <- function(path, param = NULL, ...) {
+  switch(path,
+         'datasets' = path_datasets(param, ...),
+         'publishers' = path_publishers(param, ...))
+}
 
 
 
