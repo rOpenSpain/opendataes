@@ -74,6 +74,59 @@ path_datasets <- function(...) {
 
 
 
+
+
+
+
+
+
+
+
+
+
+### Here's a set of functions to extract elements from
+### a slot with data information
+data_list_correct <- function(data_list) {
+  wrong_length <- length(data_list) == 0
+  no_names <- is.null(attr(data_list, 'names'))
+
+  if (wrong_length | no_names) {
+    return(FALSE)
+  }
+
+  TRUE
+}
+
+extract_keywords <- function(data_list) {
+
+  if (!data_list_correct(data_list)) {
+    return(character())
+  }
+
+  if (!'keyword' %in% names(data_list)) {
+    "No keywords available"
+  }
+
+  keywords <- paste0(unlist(data_list$keyword), collapse = "; ")
+  keywords
+}
+
+extract_title <- function(data_list) {
+
+  if (!data_list_correct(data_list)) {
+    return(character())
+  }
+
+  if (!'title' %in% names(data_list)) {
+    "No title available"
+  }
+
+  title <- data_list$title
+  title
+}
+
+
+
 # Example:
 # url <- make_url(query_path = "theme/sector-publico", param = list('_pageSize' = 50, '_page' = 1))
 # resp <- get_resp(url)
