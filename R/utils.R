@@ -50,7 +50,7 @@ make_url <- function(path, param, ...) {
       list(
         scheme = "https",
         hostname = hostname,
-        path = query_path,
+        path = path,
         query = param,
         ...),
       class = "url"
@@ -63,27 +63,24 @@ make_url <- function(path, param, ...) {
 # LEt's develop a 'factory' of path functions that will
 # return all different paths but making everything modular.
 # Only one function is in charge of one path.
-path_catalog <- function(path, param, ...) {
-  make_url(paste0("catalog/", end_path), param, ...)
+path_catalog <- function(path, param = NULL, ...) {
+  make_url(paste0("catalog/", end_path), param = param, ...)
 }
 
-path_datasets <- function(param, ...) {
-  path_catalog("dataset", param, ...)
+path_datasets <- function(param = NULL, ...) {
+  path_catalog("dataset", param = NULL, ...)
 }
 
-path_publishers <- function(param, ...) {
+path_dataset_id <- function(id, param = NULL, ...) {
+  paste0(path_datasets(param, ...), "/", id)
+}
+
+path_publishers <- function(param = NULL, ...) {
   path_catalog("publisher", param, ...)
 }
 
 
-# Once you develop a new path above
-# just add it below following the same guideline
-grab_path <- function(path, param = NULL, ...) {
-  switch(path,
-         'datasets' = path_datasets(param, ...),
-         'publishers' = path_publishers(param, ...))
-}
-
+"l01080193-numero-total-de-edificios-con-viviendas-segun-numero-de-plantas"
 
 ## Get the total number of pages
 # for a given path
@@ -129,7 +126,9 @@ data_list_correct <- function(data_list) {
 
   # Because the URL slot is in the distribution
   # and all data_lists must follow the same structure
-  no_distribution_slot <- 'distribution' %in% names(data_list)
+  no_distribution_slot <- !'distribution' %in% names(data_list)
+  no_description_slot <- !'description' %in% names(data_list)
+
 
   if (wrong_length | no_names | no_distribution_slot) {
     return(FALSE)
@@ -190,6 +189,19 @@ extract_url <- function(data_list) {
 
   access_url <- data_list$distribution$accessURL
   access_url
+}
+
+extract_language <- function(data_list) {
+  if (!data_list_correct(data_list)) {
+    return(character())
+  }
+
+  if (!'_lang' %in% names(data_list)) {
+    "No language available"
+  }
+
+  language <- data_list$description
+  language
 }
 
 # This is wrong on purpose. Still waiting
