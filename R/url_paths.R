@@ -60,6 +60,6 @@ path_distribution <- function(param = NULL, ...) {
 # ID here is the id of the dataset
 # like 'l01080193-numero-total-de-edificios-con-viviendas-segun-numero-de-plantas'
 path_dataset_id <- function(id, param = NULL, ...) {
-  httr::modify_url(paste0(path_datasets(), id), query = param, ...)
+  httr::modify_url(paste0(path_datasets(), "/", id), query = param, ...)
 }
 
