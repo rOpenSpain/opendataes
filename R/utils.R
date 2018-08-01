@@ -71,6 +71,10 @@ path_datasets <- function(...) {
   path_catalog("dataset", ...)
 }
 
+path_publishers <- function(...) {
+  path_catalog("publisher", ...)
+}
+
 
 
 
@@ -86,6 +90,10 @@ path_datasets <- function(...) {
 
 ### Here's a set of functions to extract elements from
 ### a slot with data information
+
+## Checks data_list is correct
+## As we find further requiremenrs that a data_list
+## must have, we add it here
 data_list_correct <- function(data_list) {
   wrong_length <- length(data_list) == 0
   no_names <- is.null(attr(data_list, 'names'))
@@ -96,6 +104,17 @@ data_list_correct <- function(data_list) {
 
   TRUE
 }
+
+
+## Extract elements from that data_list
+## For now I think we should concentrate on
+# Keywords
+# Title
+# Access URL
+# Language
+# Format
+# Publisher
+
 
 extract_keywords <- function(data_list) {
 
@@ -125,7 +144,10 @@ extract_title <- function(data_list) {
   title
 }
 
+publisher <- "http://datos.gob.es/recurso/sector-publico/org/Organismo/EA0010987"
 
+
+content(get_resp(path_publishers()))
 
 # Example:
 # url <- make_url(query_path = "theme/sector-publico", param = list('_pageSize' = 50, '_page' = 1))
