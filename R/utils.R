@@ -73,6 +73,18 @@ get_resp <- function(url, attempts_left = 5, ...) {
 
 }
 
+
+#' Translate publisher code to publisher name
+#'
+#' @param code A publisher code
+translate_publisher <- function(code) {
+  all_publishers <- datos_publisher()
+  index <- which(all_publishers$publisher_code == code)
+  if (length(index) == 0) return("Publisher not available")
+  all_publishers$publisher[index]
+}
+
+
 #' Function to get datasets related to specified topic
 #'
 #' @param topic Related topic
@@ -81,7 +93,6 @@ get_resp <- function(url, attempts_left = 5, ...) {
 #' @export
 #'
 #' @examples
-
 # This function is a draft and it could be generalized. Instead of topic we could use it for retrieve the
 # datasets by id, title, format, keyword, etc
 # We also have to deal with pagination (see "Pagination" on https://cran.r-project.org/web/packages/httr/vignettes/api-packages.html).
