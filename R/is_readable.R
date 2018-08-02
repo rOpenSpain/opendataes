@@ -13,7 +13,7 @@ is_readable <- function(data_list) {
   if (any(!is.na(match(file_format, allowed_format)))) {
     file_format <- file_format[order(match(file_format, allowed_format))][[1]]
   } else {
-    file_format
+    file_format <- character(0)
     }
 
   file_format
