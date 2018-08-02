@@ -57,7 +57,6 @@ extract_metadata <- function(data_list) {
   final_df
 }
 
-
 # Some of the extract_components return vectors of length > 1
 # that refers to many languages. Like the description
 # comes in three langauges. We want those vectors to be turned
@@ -239,6 +238,8 @@ extract_publisher <- function(data_list) {
     "No publisher available"
   }
 
-  publisher <- data_list$publisher
-  publisher
+  publisher_code <- sub(".*\\/", "", data_list$publisher)
+  publisher_name <- translate_publisher(publisher_code)
+
+  publisher_name
 }
