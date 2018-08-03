@@ -171,8 +171,12 @@ extract_access_url <- function(data_list) {
     "No URL available"
   }
 
+  if (is.null(getElement(data_list$distribution, "accessURL"))) {
   access_url <- vapply(data_list$distribution, function(x) x$accessURL,
                        FUN.VALUE = character(1))
+  } else {
+    access_url <- data_list$distribution$accessURL
+  }
   access_url
 }
 
