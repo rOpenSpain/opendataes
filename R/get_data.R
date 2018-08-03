@@ -30,7 +30,7 @@ get_data <- function(data_list) {
       as_tibble()
   } else {
     output_data <- extract_access_url(data_list) %>%
-      as_tibble(colnames="URL") %>%
+      as_tibble %>%
       `colnames<-`(c("URL"))
   }
 
