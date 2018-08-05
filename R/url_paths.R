@@ -66,6 +66,20 @@ path_distribution <- function(param = NULL, ...) {
 }
 
 
+#' Build a url with a complete begin-end date/ prefix URL
+#'
+#' @param start_date Start date
+#' @param end_date End date
+#' @param param Extra parameters to add to the url. For this function, this is
+#' useless because there's not further paths to the distribution end point. Keeping
+#' the argument for consistency
+#' @param ... Extra arguments passed to \code{\link[httr]{build_url}}
+path_begin_end_date <- function(start_date, end_date, param = NULL, ...) {
+  httr::modify_url(paste0(path_datasets(), "/modified/begin/", start_date, "/end/", end_date))
+}
+
+
+
 #' Build a url with an ID of a dataset
 #'
 #' @param id dataset id from datos.gob.es such as 'l01080193-numero-total-de-edificios-con-viviendas-segun-numero-de-plantas'
@@ -74,4 +88,6 @@ path_distribution <- function(param = NULL, ...) {
 path_dataset_id <- function(id, param = NULL, ...) {
   httr::modify_url(paste0(path_datasets(), "/", id), query = param, ...)
 }
+
+
 
