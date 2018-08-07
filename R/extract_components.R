@@ -1,12 +1,16 @@
 
 ## Two examples to test the functions below
 
-id <- 'l01080193-numero-total-de-edificios-con-viviendas-segun-numero-de-plantas'
-resp <- httr::content(get_resp(path_dataset_id(id)))
-data_list <- resp$result$items[[1]]
+## EX 1
+# id <- 'l01080193-numero-total-de-edificios-con-viviendas-segun-numero-de-plantas'
+# resp <- httr::content(get_resp(path_dataset_id(id)))
+# data_list <- resp$result$items[[1]]
 
+## EX 2
 # resp <- httr::content(get_resp(path_datasets()))
 # data_list <- resp$result$items[[2]]
+
+
 
 #' Extract all metadata from a data_list
 #'

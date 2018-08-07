@@ -49,6 +49,7 @@ get_resp_paginated <- function(url, num_pages = 1, page = 0, ...) {
 #'
 #' @param url A url, preferably from the \code{path_*} functions
 #' @param attempts_left Number of attempts of trying to request from the website
+#' @param ... Arguments passed to \code{\link[httr]{GET}}
 get_resp <- function(url, attempts_left = 5, ...) {
 
   stopifnot(attempts_left > 0)
@@ -63,10 +64,10 @@ get_resp <- function(url, attempts_left = 5, ...) {
   if (httr::status_code(resp) == 200) {
     httr::content(resp)
   } else if (attempts_left == 1) { # When attempts run out, stop with an error
-    stop_for_status(resp) # Return appropiate error message
+    httr::stop_for_status(resp) # Return appropiate error message
   } else { # Otherwise, sleep a second and try again
     Sys.sleep(1)
-    get_resp_GET(url, attempts_left - 1)
+    get_resp(url, attempts_left - 1)
   }
 
 }

@@ -5,7 +5,7 @@
 #'
 #' @examples
 #'
-#' datos_publiser()
+#' datos_publisher()
 #'
 datos_publisher <- function() {
   # Specify random huge number just to avoid running out of pages
