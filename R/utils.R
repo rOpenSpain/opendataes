@@ -1,4 +1,4 @@
-#' Make GET requests over several pages of a URL
+#' Make GET requests over several pages of an API
 #'
 #' @param url URL to request from, preferably from the \code{path_*} functions
 #' @param num_pages Number of pages to request
@@ -8,7 +8,7 @@
 #' @return the parsed JSON object as a list but inside the items
 #' slots it contains all data lists obtained from the pages specified
 #' in \code{num_pages}
-parse_paginated_resp <- function(url, num_pages = 1, page = 0, ...) {
+get_resp_paginated <- function(url, num_pages = 1, page = 0, ...) {
 
   # For the parsed items data_list
   data_list <- NULL
@@ -22,9 +22,7 @@ parse_paginated_resp <- function(url, num_pages = 1, page = 0, ...) {
     # function rather than in the URL
     url <- httr::modify_url(url, query = list("_pageSize" = 50, "_page" = page))
 
-    req <- get_resp(url)
-
-    parsed_response <- httr::content(req)
+    parsed_response <- get_resp(url)
 
     data_list <- parsed_response$result$items
     data_lists <- c(data_list, data_lists)
@@ -61,9 +59,9 @@ get_resp <- function(url, attempts_left = 5, ...) {
   if (httr::http_type(resp) != "application/json") {
     stop("API did not return json", call. = FALSE)
   }
-  # On a successful GET, return the response
+  # On a successful GET, return the response's content
   if (httr::status_code(resp) == 200) {
-    resp
+    httr::content(resp)
   } else if (attempts_left == 1) { # When attempts run out, stop with an error
     stop_for_status(resp) # Return appropiate error message
   } else { # Otherwise, sleep a second and try again
