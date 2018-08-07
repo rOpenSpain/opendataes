@@ -3,11 +3,11 @@
 
 ## EX 1
 # id <- 'l01080193-numero-total-de-edificios-con-viviendas-segun-numero-de-plantas'
-# resp <- httr::content(get_resp(path_dataset_id(id)))
+# resp <- get_resp(path_dataset_id(id))
 # data_list <- resp$result$items[[1]]
 
 ## EX 2
-# resp <- httr::content(get_resp(path_datasets()))
+# resp <- get_resp(path_datasets())
 # data_list <- resp$result$items[[2]]
 
 
@@ -107,8 +107,9 @@ extract_description <- function(data_list) {
     return("No description available")
   }
 
-  descriptions <- vapply(data_list$description, function(x) unlist(x)['_value'],
-                         FUN.VALUE = character(1))
+  desc <- unlist(data_list$description)
+  descriptions <- unname(desc[names(desc) == "_value"])
+
   descriptions
 }
 
@@ -141,8 +142,10 @@ extract_access_url <- function(data_list) {
     "No URL available"
   }
 
-  access_url <- vapply(data_list$distribution, function(x) x$accessURL,
-                       FUN.VALUE = character(1))
+  distr <- unlist(data_list['distribution'])
+
+  access_url <- distr[names(distr) == 'distribution.accessURL']
+
   access_url
 }
 
@@ -167,8 +170,10 @@ extract_language <- function(data_list) {
     return("No language available")
   }
 
-  languages <- vapply(data_list$description, function(x) unlist(x)['_lang'],
-                      FUN.VALUE = character(1))
+  desc <- unlist(data_list$description)
+
+  languages <- unname(desc[names(desc) == "_lang"])
+
   languages
 }
 
