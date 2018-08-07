@@ -57,43 +57,9 @@ extract_metadata <- function(data_list) {
   final_df
 }
 
-# Some of the extract_components return vectors of length > 1
-# that refers to many languages. Like the description
-# comes in three langauges. We want those vectors to be turned
-# into columns with the language prefix in the column names
-vector_to_df_columnwise <- function(vec, column_names) {
-  semi_df <- dplyr::as_tibble(matrix(vec, ncol = length(vec)))
-  names(semi_df) <- column_names
-  semi_df
-}
-
-#' Check data_list is in correct formats
-#'
-#' When new checks come up, add them in
-#' the same format: logical tests first
-#' and then add them to the if statement
-#'
-#' @inheritParams data_list_correct
-data_list_correct <- function(data_list) {
-  wrong_length <- length(data_list) == 0
-  no_names <- is.null(attr(data_list, 'names'))
-
-  # Because the URL slot is in the distribution
-  # and all data_lists must follow the same structure
-  no_distribution_slot <- !'distribution' %in% names(data_list)
-  no_description_slot <- !'description' %in% names(data_list)
-
-
-  if (wrong_length | no_names | no_distribution_slot | no_description_slot) {
-    return(FALSE)
-  }
-
-  TRUE
-}
-
 #' Extract keywords from data_list
 #'
-#' @inheritParams data_list_correct
+#' @inheritParams extract_metadata
 extract_keywords <- function(data_list) {
 
   if (!data_list_correct(data_list)) {
@@ -110,7 +76,7 @@ extract_keywords <- function(data_list) {
 
 #' Extract title from data_list
 #'
-#' @inheritParams data_list_correct
+#' @inheritParams extract_metadata
 extract_title <- function(data_list) {
 
   if (!data_list_correct(data_list)) {
@@ -127,7 +93,7 @@ extract_title <- function(data_list) {
 
 #' Extract description from data_list
 #'
-#' @inheritParams data_list_correct
+#' @inheritParams extract_metadata
 extract_description <- function(data_list) {
   if (!data_list_correct(data_list)) {
     return(character())
@@ -144,7 +110,7 @@ extract_description <- function(data_list) {
 
 #' Extract URL from datos.gob.es from data_list
 #'
-#' @inheritParams data_list_correct
+#' @inheritParams extract_metadata
 extract_url <- function(data_list) {
 
   if (!data_list_correct(data_list)) {
@@ -161,7 +127,7 @@ extract_url <- function(data_list) {
 
 #' Extract access URL to the actual data from data_list
 #'
-#' @inheritParams data_list_correct
+#' @inheritParams extract_metadata
 extract_access_url <- function(data_list) {
   if (!data_list_correct(data_list)) {
     return(character())
@@ -179,7 +145,7 @@ extract_access_url <- function(data_list) {
 #' Extract the format of the dataset from data_list
 #'
 #' For example, csv or xml
-#' @inheritParams data_list_correct
+#' @inheritParams extract_metadata
 extract_url_format <- function(data_list) {
   urls <- extract_access_url(data_list)
   sub('.*\\.', '', urls)
@@ -187,7 +153,7 @@ extract_url_format <- function(data_list) {
 
 #' Extract access languages available from data_list
 #'
-#' @inheritParams data_list_correct
+#' @inheritParams extract_metadata
 extract_language <- function(data_list) {
   if (!data_list_correct(data_list)) {
     return(character())
@@ -206,7 +172,7 @@ extract_language <- function(data_list) {
 #'
 #' The date is currently exported as a string but
 #' should be turned into a a date class
-#' @inheritParams data_list_correct
+#' @inheritParams extract_metadata
 extract_date <- function(data_list) {
   if (!data_list_correct(data_list)) {
     return(character())
@@ -223,12 +189,7 @@ extract_date <- function(data_list) {
 
 #' Extract the publisher of the dataset from data_list
 #'
-#' This is wrong on purpose. Still waiting
-#' to create the function to extract
-#' the publishers automatically
-#' to call this and match the publisher ID
-#' to the actual name.
-#' @inheritParams data_list_correct
+#' @inheritParams extract_metadata
 extract_publisher <- function(data_list) {
   if (!data_list_correct(data_list)) {
     return(character())
@@ -242,4 +203,38 @@ extract_publisher <- function(data_list) {
   publisher_name <- translate_publisher(publisher_code)
 
   publisher_name
+}
+
+#' Check data_list is in correct formats
+#'
+#' When new checks come up, add them in
+#' the same format: logical tests first
+#' and then add them to the if statement
+#'
+#' @inheritParams extract_metadata
+data_list_correct <- function(data_list) {
+  wrong_length <- length(data_list) == 0
+  no_names <- is.null(attr(data_list, 'names'))
+
+  # Because the URL slot is in the distribution
+  # and all data_lists must follow the same structure
+  no_distribution_slot <- !'distribution' %in% names(data_list)
+  no_description_slot <- !'description' %in% names(data_list)
+
+
+  if (wrong_length | no_names | no_distribution_slot | no_description_slot) {
+    return(FALSE)
+  }
+
+  TRUE
+}
+
+# Some of the extract_components return vectors of length > 1
+# that refers to many languages. Like the description
+# comes in three langauges. We want those vectors to be turned
+# into columns with the language prefix in the column names
+vector_to_df_columnwise <- function(vec, column_names) {
+  semi_df <- dplyr::as_tibble(matrix(vec, ncol = length(vec)))
+  names(semi_df) <- column_names
+  semi_df
 }
