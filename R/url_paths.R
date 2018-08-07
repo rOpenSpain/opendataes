@@ -68,13 +68,27 @@ path_distribution <- function(param = NULL, ...) {
 
 #' Build a url with a complete begin-end date/ prefix URL
 #'
-#' @param start_date Start date
-#' @param end_date End date
+#' @param start_date Start date in YYYYMMDD format
+#' @param end_date End date in YYYYMMDD format
 #' @param param Extra parameters to add to the url. For this function, this is
 #' useless because there's not further paths to the distribution end point. Keeping
 #' the argument for consistency
 #' @param ... Extra arguments passed to \code{\link[httr]{build_url}}
 path_begin_end_date <- function(start_date, end_date, param = NULL, ...) {
+
+  # First approach: working always with strings. I've not worked so much with dates in R (lubridate maybe?)
+  # This function must(!) be reviewed
+  year_start <- substr(start_date, 1, 4)
+  year_end <- substr(end_date, 1, 4)
+  month_start <- substr(start_date, 5, 6)
+  month_end <- substr(end_date, 5, 6)
+  day_start <- substr(start_date, 7, 8)
+  day_end <- substr(end_date, 7, 8)
+
+  start_date <- paste0(year_start, "-", month_start, "-", day_start, "T00:00Z")
+  end_date <- paste0(year_end, "-", month_end, "-", day_end, "T00:00Z")
+
+  #httr::modify_url(paste0(path_datasets(), "/modified/begin/", start_date, "/end/", end_date))
   httr::modify_url(paste0(path_datasets(), "/modified/begin/", start_date, "/end/", end_date))
 }
 
