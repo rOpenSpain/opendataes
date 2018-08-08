@@ -1,12 +1,16 @@
 
 ## Two examples to test the functions below
 
-id <- 'l01080193-numero-total-de-edificios-con-viviendas-segun-numero-de-plantas'
-resp <- httr::content(get_resp(path_dataset_id(id)))
-data_list <- resp$result$items[[1]]
+## EX 1
+# id <- 'l01080193-numero-total-de-edificios-con-viviendas-segun-numero-de-plantas'
+# resp <- get_resp(path_dataset_id(id))
+# data_list <- resp$result$items[[1]]
 
-# resp <- httr::content(get_resp(path_datasets()))
+## EX 2
+# resp <- get_resp(path_datasets())
 # data_list <- resp$result$items[[2]]
+
+
 
 #' Extract all metadata from a data_list
 #'
@@ -57,14 +61,166 @@ extract_metadata <- function(data_list) {
   final_df
 }
 
-# Some of the extract_components return vectors of length > 1
-# that refers to many languages. Like the description
-# comes in three langauges. We want those vectors to be turned
-# into columns with the language prefix in the column names
-vector_to_df_columnwise <- function(vec, column_names) {
-  semi_df <- dplyr::as_tibble(matrix(vec, ncol = length(vec)))
-  names(semi_df) <- column_names
-  semi_df
+#' Extract keywords from data_list
+#'
+#' @inheritParams extract_metadata
+extract_keywords <- function(data_list) {
+
+  if (!data_list_correct(data_list)) {
+    return(character())
+  }
+
+  if (!'keyword' %in% names(data_list)) {
+    "No keywords available"
+  }
+
+  keywords <- paste0(unlist(data_list$keyword), collapse = "; ")
+  keywords
+}
+
+#' Extract title from data_list
+#'
+#' @inheritParams extract_metadata
+extract_title <- function(data_list) {
+
+  if (!data_list_correct(data_list)) {
+    return(character())
+  }
+
+  if (!'title' %in% names(data_list)) {
+    "No title available"
+  }
+
+  title <- unlist(data_list$title)
+  title
+}
+
+#' Extract description from data_list
+#'
+#' @inheritParams extract_metadata
+extract_description <- function(data_list) {
+  if (!data_list_correct(data_list)) {
+    return(character())
+  }
+
+  if (!'_value' %in% names(unlist(data_list$description))) {
+    return("No description available")
+  }
+
+  desc <- unlist(data_list$description)
+  descriptions <- unname(desc[names(desc) == "_value"])
+
+  descriptions
+}
+
+#' Extract URL from datos.gob.es from data_list
+#'
+#' @inheritParams extract_metadata
+extract_url <- function(data_list) {
+
+  if (!data_list_correct(data_list)) {
+    return(character())
+  }
+
+  if (!'_about' %in% names(data_list)) {
+    "No URL available"
+  }
+
+  info_url <- data_list$`_about`
+  info_url
+}
+
+#' Extract access URL to the actual data from data_list
+#'
+#' @inheritParams extract_metadata
+extract_access_url <- function(data_list) {
+  if (!data_list_correct(data_list)) {
+    return(character())
+  }
+
+  if (!'accessURL' %in% names(unlist(data_list$distribution))) {
+    "No URL available"
+  }
+
+<<<<<<< HEAD
+  if (is.null(getElement(data_list$distribution, "accessURL"))) {
+  access_url <- vapply(data_list$distribution, function(x) x$accessURL,
+                       FUN.VALUE = character(1))
+  } else {
+    access_url <- data_list$distribution$accessURL
+  }
+=======
+  distr <- unlist(data_list['distribution'])
+
+  access_url <- distr[names(distr) == 'distribution.accessURL']
+
+>>>>>>> b98a41f28811edb746b1eea99ecd0ac42c60b7f3
+  access_url
+}
+
+#' Extract the format of the dataset from data_list
+#'
+#' For example, csv or xml
+#' @inheritParams extract_metadata
+extract_url_format <- function(data_list) {
+  urls <- extract_access_url(data_list)
+  sub('.*\\.', '', urls)
+}
+
+#' Extract access languages available from data_list
+#'
+#' @inheritParams extract_metadata
+extract_language <- function(data_list) {
+  if (!data_list_correct(data_list)) {
+    return(character())
+  }
+
+  if (!'_lang' %in% names(unlist(data_list$description))) {
+    return("No language available")
+  }
+
+  desc <- unlist(data_list$description)
+
+  languages <- unname(desc[names(desc) == "_lang"])
+
+  languages
+}
+
+#' Extract the date at which the data was submitted from data_list
+#'
+#' The date is currently exported as a string but
+#' should be turned into a a date class
+#' @inheritParams extract_metadata
+extract_date <- function(data_list) {
+  if (!data_list_correct(data_list)) {
+    return(character())
+  }
+
+  if (!'issued' %in% names(data_list)) {
+    return("No date available")
+  }
+
+  # For now, but this should be converted
+  # to date time
+  data_list$issued
+}
+
+#' Extract the publisher of the dataset from data_list
+#'
+#' @inheritParams extract_metadata
+extract_publisher <- function(data_list) {
+  if (!data_list_correct(data_list)) {
+    return(character())
+  }
+
+  if (!'publisher' %in% names(data_list)) {
+    "No publisher available"
+  }
+
+  publisher_code <- sub(".*\\/", "", data_list$publisher)
+  publisher_name <- translate_publisher(publisher_code)
+
+  publisher_name
 }
 
 #' Check data_list is in correct formats
@@ -73,7 +229,7 @@ vector_to_df_columnwise <- function(vec, column_names) {
 #' the same format: logical tests first
 #' and then add them to the if statement
 #'
-#' @inheritParams data_list_correct
+#' @inheritParams extract_metadata
 data_list_correct <- function(data_list) {
   wrong_length <- length(data_list) == 0
   no_names <- is.null(attr(data_list, 'names'))
@@ -91,159 +247,12 @@ data_list_correct <- function(data_list) {
   TRUE
 }
 
-#' Extract keywords from data_list
-#'
-#' @inheritParams data_list_correct
-extract_keywords <- function(data_list) {
-
-  if (!data_list_correct(data_list)) {
-    return(character())
-  }
-
-  if (!'keyword' %in% names(data_list)) {
-    "No keywords available"
-  }
-
-  keywords <- paste0(unlist(data_list$keyword), collapse = "; ")
-  keywords
-}
-
-#' Extract title from data_list
-#'
-#' @inheritParams data_list_correct
-extract_title <- function(data_list) {
-
-  if (!data_list_correct(data_list)) {
-    return(character())
-  }
-
-  if (!'title' %in% names(data_list)) {
-    "No title available"
-  }
-
-  title <- unlist(data_list$title)
-  title
-}
-
-#' Extract description from data_list
-#'
-#' @inheritParams data_list_correct
-extract_description <- function(data_list) {
-  if (!data_list_correct(data_list)) {
-    return(character())
-  }
-
-  if (!'_value' %in% names(unlist(data_list$description))) {
-    return("No description available")
-  }
-
-  descriptions <- vapply(data_list$description, function(x) unlist(x)['_value'],
-                         FUN.VALUE = character(1))
-  descriptions
-}
-
-#' Extract URL from datos.gob.es from data_list
-#'
-#' @inheritParams data_list_correct
-extract_url <- function(data_list) {
-
-  if (!data_list_correct(data_list)) {
-    return(character())
-  }
-
-  if (!'_about' %in% names(data_list)) {
-    "No URL available"
-  }
-
-  info_url <- data_list$`_about`
-  info_url
-}
-
-#' Extract access URL to the actual data from data_list
-#'
-#' @inheritParams data_list_correct
-extract_access_url <- function(data_list) {
-  if (!data_list_correct(data_list)) {
-    return(character())
-  }
-
-  if (!'accessURL' %in% names(unlist(data_list$distribution))) {
-    "No URL available"
-  }
-
-  if (is.null(getElement(data_list$distribution, "accessURL"))) {
-  access_url <- vapply(data_list$distribution, function(x) x$accessURL,
-                       FUN.VALUE = character(1))
-  } else {
-    access_url <- data_list$distribution$accessURL
-  }
-  access_url
-}
-
-#' Extract the format of the dataset from data_list
-#'
-#' For example, csv or xml
-#' @inheritParams data_list_correct
-extract_url_format <- function(data_list) {
-  urls <- extract_access_url(data_list)
-  sub('.*\\.', '', urls)
-}
-
-#' Extract access languages available from data_list
-#'
-#' @inheritParams data_list_correct
-extract_language <- function(data_list) {
-  if (!data_list_correct(data_list)) {
-    return(character())
-  }
-
-  if (!'_lang' %in% names(unlist(data_list$description))) {
-    return("No language available")
-  }
-
-  languages <- vapply(data_list$description, function(x) unlist(x)['_lang'],
-                      FUN.VALUE = character(1))
-  languages
-}
-
-#' Extract the date at which the data was submitted from data_list
-#'
-#' The date is currently exported as a string but
-#' should be turned into a a date class
-#' @inheritParams data_list_correct
-extract_date <- function(data_list) {
-  if (!data_list_correct(data_list)) {
-    return(character())
-  }
-
-  if (!'issued' %in% names(data_list)) {
-    return("No date available")
-  }
-
-  # For now, but this should be converted
-  # to date time
-  data_list$issued
-}
-
-#' Extract the publisher of the dataset from data_list
-#'
-#' This is wrong on purpose. Still waiting
-#' to create the function to extract
-#' the publishers automatically
-#' to call this and match the publisher ID
-#' to the actual name.
-#' @inheritParams data_list_correct
-extract_publisher <- function(data_list) {
-  if (!data_list_correct(data_list)) {
-    return(character())
-  }
-
-  if (!'publisher' %in% names(data_list)) {
-    "No publisher available"
-  }
-
-  publisher_code <- sub(".*\\/", "", data_list$publisher)
-  publisher_name <- translate_publisher(publisher_code)
-
-  publisher_name
+# Some of the extract_components return vectors of length > 1
+# that refers to many languages. Like the description
+# comes in three langauges. We want those vectors to be turned
+# into columns with the language prefix in the column names
+vector_to_df_columnwise <- function(vec, column_names) {
+  semi_df <- dplyr::as_tibble(matrix(vec, ncol = length(vec)))
+  names(semi_df) <- column_names
+  semi_df
 }

@@ -1,7 +1,6 @@
 #' Get prefered method to download data (if possible)
 #'
 #' @param data_list A data_list similar to resp$result$items[[1]] that contains information on a dataset
-
 is_readable <- function(data_list) {
 
   # URL formats
@@ -14,9 +13,8 @@ is_readable <- function(data_list) {
     file_format <- file_format[order(match(file_format, allowed_format))][[1]]
   } else {
     file_format <- character(0)
-    }
+  }
 
   file_format
-
 }
 
