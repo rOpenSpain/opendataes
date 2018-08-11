@@ -4,3 +4,9 @@
 - Reorder files to group similar functions into separate R scripts
 - Think of prefix for the function to download data. I thought datos_* but brainstorm is needed
 - ONLY when we have the definitive name of the pkg and the GH repo is named after it then add the handle to the GET requests.
+- TRY MANY DIFFERENT DATASETS TO CHECK WHETHER WE HAVE A WORKING PACKAGE
+- Whenever we find datasets that are wrong, let's provide two or three
+in the examples section of extract_datos to highlkight that some data might be wrong
+and it's not the package's fault.
+
+- Make sure extract_date returns a date object in ISO format
