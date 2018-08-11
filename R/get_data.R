@@ -1,6 +1,6 @@
 #install.packages("rio")
-library("rio")
-library("dplyr")
+# library("rio")
+# library("dplyr")
 
 
 #' Function for getting data from the website.
@@ -9,11 +9,11 @@ library("dplyr")
 
 
 # Examples
-id <- 'l01080193-numero-total-de-edificios-con-viviendas-segun-numero-de-plantas'
-id <- 'a02002834-numero-de-centros-segun-ancho-de-banda-de-la-conexion-a-internet-que-tiene-el-centro5'
-id <- 'l02000012-centros-culturales'
-resp <- httr::content(get_resp(path_dataset_id(id)))
-data_list <- resp$result$items[[1]]
+# id <- 'l01080193-numero-total-de-edificios-con-viviendas-segun-numero-de-plantas'
+# id <- 'a02002834-numero-de-centros-segun-ancho-de-banda-de-la-conexion-a-internet-que-tiene-el-centro5'
+# id <- 'l02000012-centros-culturales'
+# resp <- get_resp(path_dataset_id(id))
+# data_list <- resp$result$items[[1]]
 
 
 
