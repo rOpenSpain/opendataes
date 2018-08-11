@@ -12,5 +12,6 @@ LazyData: true
 ByteCompile: true
 Imports: 
     httr,
-    dplyr
+    dplyr,
+    rio
 RoxygenNote: 6.0.1
