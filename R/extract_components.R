@@ -142,19 +142,10 @@ extract_access_url <- function(data_list) {
     "No URL available"
   }
 
-<<<<<<< HEAD
-  if (is.null(getElement(data_list$distribution, "accessURL"))) {
-  access_url <- vapply(data_list$distribution, function(x) x$accessURL,
-                       FUN.VALUE = character(1))
-  } else {
-    access_url <- data_list$distribution$accessURL
-  }
-=======
   distr <- unlist(data_list['distribution'])
 
   access_url <- distr[names(distr) == 'distribution.accessURL']
 
->>>>>>> b98a41f28811edb746b1eea99ecd0ac42c60b7f3
   access_url
 }
 
