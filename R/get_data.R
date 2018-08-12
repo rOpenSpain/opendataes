@@ -20,8 +20,6 @@
 # resp <- get_resp(path_dataset_id(id))
 # data_list <- resp$result$items[[1]]
 
-
-
 get_data <- function(data_list) {
 
   # Check if the data_list is readable
@@ -41,8 +39,19 @@ get_data <- function(data_list) {
                              access_urls,
                              value = TRUE)
 
-    output_data <- dplyr::as_tibble(rio::import(exact_access_url,
-                                                encoding = "Latin-1"))
+    args_rio <-
+      list(file = exact_access_url,
+           setclass = "tibble")
+
+    # The encoding argument is only available for the formats below, so
+    # it should be added only when that format is the one being read.
+    # I use is_file_readable and the data forms without the . because
+    # it's easier to match than data_format which has two slashes
+    if (is_file_readable %in% c("csv", "html", "xml")) {
+      args_rio <- c(args_rio, "encoding" = "UTF-8")
+    }
+
+    output_data <- do.call(rio::import, args_rio)
   } else {
     output_data <- dplyr::as_tibble(extract_access_url(data_list))
     names(output_data) <- "URL"
