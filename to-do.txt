@@ -32,3 +32,45 @@ BUT if it fails (error), shouldn't we continue to read the .xml? Currently we on
 
 - Some files are for example .csv but do not end with .csv. For example: http://datos.gob.es/catalogo/l02000011-casas-consistoriales has that the .csv link is https://apirtod.dipucadiz.es/api/datos/casas_consistoriales.csv&rnd=1853307443
 but if you remove the end part and the link is https://apirtod.dipucadiz.es/api/datos/casas_consistoriales.csv you can read it easily.
+
+Other examples for JSON: http://martos.es/index.php?option=com_obrss&task=feed&id=13:pleno-municipal-orden-del-dia-video-y-acta&format=json&Itemid=1411
+
+Other examples for JSON: http://wservice.viabicing.cat/v2/stations from http://datos.gob.es/catalogo/l01080193-estaciones-de-bicing-mecanicas-y-electricas
+
+
+Possible workaround:
+
+Right now we extract the file extension of each of the access URL. As shown above, some access URL's don't have the extension clearly at the end of the file. The safest approach is to just grab the format 'application/xml' or 'aplication/json'. This is in fact the safest way. However, sometimes this format string has weird formats such as 'application/vnd.ms-excel' which simply means 'xls' or 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' which means 'xlsx'. So, we need to parse all the formats we support and check that this format is the same (that is, that 'xls' is always 'application/vnd.ms-excel'). This would streamline the whole 'defining' the format much less error prone.
+
+To sum up:
+
+- We extract the format from the 'application/json' or 'application/vnd.ms-excel'. and translate it to 'json' and 'xls' or whatever.
+
+- Given that rio::import determines the type based on the file extension (and we know that some files don't have the file extension), we provide the file format from the previous step in 'format' argument from rio and it will assume the file will be read withy that format regardless of the file extension of the URL.
+
+
+
+- We have a problem w/ json files. The thing is that depending on the format of the json (which varies between ayuntamientos), the result from import::rio can be a data frame, a list, among other things.
+
+For example, http://datos.gob.es/catalogo/l01230601-asociaciones throws an error because
+the returned object from rio is not a df but a list that contains dfs. For other cases, rio might return a data frame
+and this is not a safe behaviour.
+
+However, this JSON url: fromJSON("https://datosabiertos.ayto-arganda.es/dataset/2710a060-7b20-4786-b068-5df1f8be36b4/resource/2d34a895-26ef-49ae-9cfa-7b707d435334/download/arqu-religiosa.json") from http://datos.gob.es/catalogo/l01280148-patrimonio-cultural-arquitectura-religiosa1 returns the correct dataframe.
+
+Perhaps allowing json is not such a good idea.
+
+Also, html seems to have some problems too. Most htmls do not end with .html but rather redirect to a website that has an html inside. The issues is that the package can only read files in which the accessURL ends WITH .html so it's basically doing nothing.
+
+- The encoding 'Latin-1' works well for some datasets but doesn't for others. For example, this .csv from http://datos.gob.es/catalogo/l01350167-apartamentos does not read it well. But using 'encoding' = 'UTF-8' works well. We should perhaps find a way to combined both. readr has a nice feature to detect encodings. ORRR, we can allow the user to provide the encoding and they can iteratively check which one works best. I think this might fix this.
+
+
+- We should add the Frequency at which the data is uploaded and place it in the metadata tibble.
+
+
+
+- What do we do when there are several files representing different things such as: http://datos.gob.es/es/catalogo/a16003011-estadistica-de-personal-al-servicio-de-la-administracion-de-la-comunidad-autonoma-de-euskadi-2017
+
+There are multiple .csv files but all represent different things. Do we read all of them? Do we read one? Do we avoid reading anything?
+
+I think it might not be a terrible idea to read all of them and then report that there are multiple files in the metadata and whether they were all read or not.
