@@ -214,6 +214,25 @@ extract_publisher <- function(data_list) {
   publisher_name
 }
 
+#' Extract the end path of the dataset that directs to datos.gob.es from a data_list
+#'
+#' @inheritParams extract_metadata
+extract_endpath <- function(data_list) {
+  if (!data_list_correct(data_list)) {
+    return(character())
+  }
+
+  if (!'_about' %in% names(data_list)) {
+    "No link to the data in datos.gob.es"
+  }
+
+  end_path <- sub(".*\\/", "", data_list[["_about"]])
+
+  end_path
+}
+
+
+
 #' Check data_list is in correct formats
 #'
 #' When new checks come up, add them in
