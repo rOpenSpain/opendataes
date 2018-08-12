@@ -10,3 +10,8 @@ in the examples section of extract_datos to highlkight that some data might be w
 and it's not the package's fault.
 
 - Make sure extract_date returns a date object in ISO format
+- In the documentation of extract_datos list all fields of the metadata tibble
+together with their definition.
+
+- Add the definition of the printed metadata of the obejct. For example, what does Readable mean? The user
+doesn't know.
