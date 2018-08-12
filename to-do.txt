@@ -15,3 +15,20 @@ together with their definition.
 
 - Add the definition of the printed metadata of the obejct. For example, what does Readable mean? The user
 doesn't know.
+
+- Specify in docs that languages doesn't mean that the data is in different languages. It means that the
+metadata is in different languages. The data could be in the regions language or in spanish.
+
+
+two possible additions:
+- if the end path is a zip file, do we unzip and check for file end paths such as .csv, .xml, ...?
+It's not a terrible idea and easy to do.
+
+- If we have that a URL has .csv and .xml end paths, shouldn't we tried to read the .csv first
+BUT if it fails (error), shouldn't we continue to read the .xml? Currently we only try to read the first file.
+
+- Should we change the 'API did not return JSON' error message to something more explicit?
+
+
+- Some files are for example .csv but do not end with .csv. For example: http://datos.gob.es/catalogo/l02000011-casas-consistoriales has that the .csv link is https://apirtod.dipucadiz.es/api/datos/casas_consistoriales.csv&rnd=1853307443
+but if you remove the end part and the link is https://apirtod.dipucadiz.es/api/datos/casas_consistoriales.csv you can read it easily.

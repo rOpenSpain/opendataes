@@ -29,9 +29,9 @@ get_data <- function(data_list) {
   # If not, get tibble with URL
   if (length(is_file_readable) != 0) {
 
-    # Add regex end of string to avoid matching the path by change somewhere
-    # in the string
-    data_format <- paste0("\\.", is_file_readable)
+    # Add regex end of string to avoid matching the end path somewhere
+    # in the middle of the string
+    data_format <- paste0("\\.", is_file_readable, "$")
 
     access_urls <-  extract_access_url(data_list)
 
