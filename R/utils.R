@@ -55,6 +55,8 @@ get_resp <- function(url, attempts_left = 5, ...) {
   stopifnot(attempts_left > 0)
 
   resp <- httr::GET(url, ...)
+  # To avoid making too many quick requests
+  Sys.sleep(1)
 
   # Ensure that returned response is application/json
   if (httr::http_type(resp) != "application/json") {
