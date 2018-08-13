@@ -24,6 +24,8 @@ two possible additions:
 - if the end path is a zip file, do we unzip and check for file end paths such as .csv, .xml, ...?
 It's not a terrible idea and easy to do.
 
+rio::import already takes care of this! If we read the arguments, import unzips and we can provide a format so that import reads that format inside the zip file. Test if first.
+
 - If we have that a URL has .csv and .xml end paths, shouldn't we tried to read the .csv first
 BUT if it fails (error), shouldn't we continue to read the .xml? Currently we only try to read the first file.
 
