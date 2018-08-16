@@ -74,3 +74,5 @@ Also, html seems to have some problems too. Most htmls do not end with .html but
 There are multiple .csv files but all represent different things. Do we read all of them? Do we read one? Do we avoid reading anything?
 
 I think it might not be a terrible idea to read all of them and then report that there are multiple files in the metadata and whether they were all read or not.
+
+- When description is too long for the metadata printout add '...' based on the width of the console.
