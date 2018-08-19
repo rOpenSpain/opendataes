@@ -50,7 +50,7 @@ get_data <- function(data_list) {
     # Try reading the data
     output_data <- try(do.call(rio::import, args_rio), silent = TRUE)
 
-    # If there's any error, move tot he empty tibble
+    # If there's any error, return an empty tibble
     if (is(output_data, "try-error")) {
       output_data <- dplyr::tibble(extract_url_format(data_list),
                                    extract_access_url(data_list))
