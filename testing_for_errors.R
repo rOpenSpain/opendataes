@@ -19,3 +19,33 @@ pt <- extract_datos(id)
 
 id <- 'l01080193-numero-total-de-edificios-con-viviendas-segun-numero-de-plantas'
 pt <- extract_datos(id)
+
+path_id <- 'l01080193-estaciones-de-bicing-mecanicas-y-electricas'
+pt <- extract_datos(id)
+
+
+
+id <- "ea0001304-empresas-prestatarias-de-servicios-portuarios1"
+resp <- get_resp(path_dataset_id(id))
+data_list <- resp$result$items[[1]]
+is_readable(data_list)
+# Correct ordering of the urls
+
+id <- "l01280148-contratos-mayores-4-trimestre-20141"
+resp <- get_resp(path_dataset_id(id))
+data_list <- resp$result$items[[1]]
+is_readable(data_list)
+
+
+id <- "a16003011-toponimia-de-la-comunidad-autonoma-vasca-nombres-oficiales-y-nombres-normativizados"
+resp <- get_resp(path_dataset_id(id))
+data_list <- resp$result$items[[1]]
+is_readable(data_list)
+# Even when a format is not availabel it doesn't return that format. Only format availables
+
+
+id <- 'l01280148-deuda-municipal-2015-20161'
+resp <- get_resp(path_dataset_id(id))
+data_list <- resp$result$items[[1]]
+is_readable(data_list)
+# When no format is available, it returns an empty vector, as expected
