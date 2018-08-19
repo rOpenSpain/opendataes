@@ -93,8 +93,14 @@ print.datos_gob_es <- function(x) {
   has_url_col <- ncol(x$data) == 2 & all(names(x$data) %in% c('format', "URL"))
   was_read  <- if (has_url_col) FALSE else TRUE
 
+  # This width allows the text to cut at the specified width of the console
+  # automatically
+  width_print <- getOption("width") - 15
+  # Add ellipsis if it's equalk or higher than the width
+  ellipsis <- if (nchar(metadata$description) < width_print) "" else "..."
+
   cat("<datos.gob.es API>",
-      paste0("   Description: ", metadata$description),
+      paste0("   Description: ", strtrim(metadata$description, width_print), ellipsis),
       paste0("   Publisher: ", metadata$publisher),
       paste0("   Languages: ", paste0(x$metadata$language, collapse = ", ")),
       paste0("   Date of release: ", metadata$date),
