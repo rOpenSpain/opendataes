@@ -90,7 +90,7 @@ print.datos_gob_es <- function(x) {
     metadata <- x$metadata[1, ]
   }
 
-  has_url_col <- ncol(x$data) == 1 & all(names(x$data) == "URL")
+  has_url_col <- ncol(x$data) == 2 & all(names(x$data) %in% c('format', "URL"))
   was_read  <- if (has_url_col) FALSE else TRUE
 
   cat("<datos.gob.es API>",

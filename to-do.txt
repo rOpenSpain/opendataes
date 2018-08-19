@@ -32,26 +32,6 @@ BUT if it fails (error), shouldn't we continue to read the .xml? Currently we on
 - Should we change the 'API did not return JSON' error message to something more explicit?
 
 
-- Some files are for example .csv but do not end with .csv. For example: http://datos.gob.es/catalogo/l02000011-casas-consistoriales has that the .csv link is https://apirtod.dipucadiz.es/api/datos/casas_consistoriales.csv&rnd=1853307443
-but if you remove the end part and the link is https://apirtod.dipucadiz.es/api/datos/casas_consistoriales.csv you can read it easily.
-
-Other examples for JSON: http://martos.es/index.php?option=com_obrss&task=feed&id=13:pleno-municipal-orden-del-dia-video-y-acta&format=json&Itemid=1411
-
-Other examples for JSON: http://wservice.viabicing.cat/v2/stations from http://datos.gob.es/catalogo/l01080193-estaciones-de-bicing-mecanicas-y-electricas
-
-
-Possible workaround:
-
-Right now we extract the file extension of each of the access URL. As shown above, some access URL's don't have the extension clearly at the end of the file. The safest approach is to just grab the format 'application/xml' or 'aplication/json'. This is in fact the safest way. However, sometimes this format string has weird formats such as 'application/vnd.ms-excel' which simply means 'xls' or 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' which means 'xlsx'. So, we need to parse all the formats we support and check that this format is the same (that is, that 'xls' is always 'application/vnd.ms-excel'). This would streamline the whole 'defining' the format much less error prone.
-
-To sum up:
-
-- We extract the format from the 'application/json' or 'application/vnd.ms-excel'. and translate it to 'json' and 'xls' or whatever.
-
-- Given that rio::import determines the type based on the file extension (and we know that some files don't have the file extension), we provide the file format from the previous step in 'format' argument from rio and it will assume the file will be read withy that format regardless of the file extension of the URL.
-
-
-
 - We have a problem w/ json files. The thing is that depending on the format of the json (which varies between ayuntamientos), the result from import::rio can be a data frame, a list, among other things.
 
 For example, http://datos.gob.es/catalogo/l01230601-asociaciones throws an error because
