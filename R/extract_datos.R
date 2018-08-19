@@ -60,9 +60,6 @@ extract_datos <- function(path_id) {
 
   datalist <- raw_json$result$items[[1]]
 
-  metadata <- extract_metadata(datalist)
-  data <- get_data(datalist)
-
   returned_list <-
     structure(
       list(
