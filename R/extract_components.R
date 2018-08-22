@@ -161,8 +161,22 @@ extract_access_url <- function(data_list) {
 #' For example, csv or xml
 #' @inheritParams extract_metadata
 extract_url_format <- function(data_list) {
-  urls <- extract_access_url(data_list)
-  sub('.*\\.', '', urls)
+
+  if (!data_list_correct(data_list)) {
+    return(character())
+  }
+
+  if (!'format.value' %in% names(unlist(data_list$distribution))) {
+    "No format available"
+  }
+
+  distr <- unlist(data_list['distribution'])
+  raw_formats <- unname(distr[names(distr) == 'distribution.format.value'])
+  # mimemap is a vector in R/utils.R containing all formats. For more info
+  # go to utils.R
+  correct_formats <- names(mimemap)[match(raw_formats, mimemap, nomatch = numeric())]
+
+  correct_formats
 }
 
 #' Extract access languages available from data_list
@@ -220,6 +234,25 @@ extract_publisher <- function(data_list) {
 
   publisher_name
 }
+
+#' Extract the end path of the dataset that directs to datos.gob.es from a data_list
+#'
+#' @inheritParams extract_metadata
+extract_endpath <- function(data_list) {
+  if (!data_list_correct(data_list)) {
+    return(character())
+  }
+
+  if (!'_about' %in% names(data_list)) {
+    "No link to the data in datos.gob.es"
+  }
+
+  end_path <- sub(".*\\/", "", data_list[["_about"]])
+
+  end_path
+}
+
+
 
 #' Check data_list is in correct formats
 #'

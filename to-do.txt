@@ -4,3 +4,66 @@
 - Reorder files to group similar functions into separate R scripts
 - Think of prefix for the function to download data. I thought datos_* but brainstorm is needed
 - ONLY when we have the definitive name of the pkg and the GH repo is named after it then add the handle to the GET requests.
+- TRY MANY DIFFERENT DATASETS TO CHECK WHETHER WE HAVE A WORKING PACKAGE
+- Whenever we find datasets that are wrong, let's provide two or three
+in the examples section of extract_datos to highlkight that some data might be wrong
+and it's not the package's fault.
+
+- Make sure extract_date returns a date object in ISO format
+- In the documentation of extract_datos list all fields of the metadata tibble
+together with their definition.
+
+- Add the definition of the printed metadata of the obejct. For example, what does Readable mean? The user
+doesn't know.
+
+- Specify in docs that languages doesn't mean that the data is in different languages. It means that the
+metadata is in different languages. The data could be in the regions language or in spanish.
+
+
+The title in the metadata is not always in the same order as the language and the description. The description I think is **always** in the same order as the language as in they comin in the same nested lsit inside data_list. The title, however, is a separate vector inside the list. For example, for this example:
+
+id <- 'a16003011-indicadores-del-mercado-laboral-del-ano-2005-al-2014'
+pt <- extract_datos(id)
+pt$metadata
+
+language and description are alright but the title is wrong between languages. I think it's safe to exclude title because everything that the title has is present in the description but it might also be handy just to leave the title and give a warning in the documentation about this type of error. Also, if we icnlude it now, it's more difficult to remove in future releases as it might break backwards dependency. But if we exclude it, we can always include it in future releases. Additionally, we can create a helper function to extract titles that can be exporte for users. This gives control to the languages and doesn't ruin the metadata order.
+
+
+two possible additions:
+- if the end path is a zip file, do we unzip and check for file end paths such as .csv, .xml, ...?
+It's not a terrible idea and easy to do.
+
+rio::import already takes care of this! If we read the arguments, import unzips and we can provide a format so that import reads that format inside the zip file. Test if first.
+
+- If we have that a URL has .csv and .xml end paths, shouldn't we tried to read the .csv first
+BUT if it fails (error), shouldn't we continue to read the .xml? Currently we only try to read the first file.
+
+- Should we change the 'API did not return JSON' error message to something more explicit?
+
+
+- We have a problem w/ json files. The thing is that depending on the format of the json (which varies between ayuntamientos), the result from import::rio can be a data frame, a list, among other things.
+
+For example, http://datos.gob.es/catalogo/l01230601-asociaciones throws an error because
+the returned object from rio is not a df but a list that contains dfs. For other cases, rio might return a data frame
+and this is not a safe behaviour.
+
+However, this JSON url: fromJSON("https://datosabiertos.ayto-arganda.es/dataset/2710a060-7b20-4786-b068-5df1f8be36b4/resource/2d34a895-26ef-49ae-9cfa-7b707d435334/download/arqu-religiosa.json") from http://datos.gob.es/catalogo/l01280148-patrimonio-cultural-arquitectura-religiosa1 returns the correct dataframe.
+
+Perhaps allowing json is not such a good idea.
+
+Also, html seems to have some problems too. Most htmls do not end with .html but rather redirect to a website that has an html inside. The issues is that the package can only read files in which the accessURL ends WITH .html so it's basically doing nothing.
+
+- The encoding 'Latin-1' works well for some datasets but doesn't for others. For example, this .csv from http://datos.gob.es/catalogo/l01350167-apartamentos does not read it well. But using 'encoding' = 'UTF-8' works well. We should perhaps find a way to combined both. readr has a nice feature to detect encodings. ORRR, we can allow the user to provide the encoding and they can iteratively check which one works best. I think this might fix this.
+
+
+- We should add the Frequency at which the data is uploaded and place it in the metadata tibble.
+
+
+
+- What do we do when there are several files representing different things such as: http://datos.gob.es/es/catalogo/a16003011-estadistica-de-personal-al-servicio-de-la-administracion-de-la-comunidad-autonoma-de-euskadi-2017
+
+There are multiple .csv files but all represent different things. Do we read all of them? Do we read one? Do we avoid reading anything?
+
+I think it might not be a terrible idea to read all of them and then report that there are multiple files in the metadata and whether they were all read or not.
+
+- When description is too long for the metadata printout add '...' based on the width of the console.
