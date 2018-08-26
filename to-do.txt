@@ -37,6 +37,7 @@ rio::import already takes care of this! If we read the arguments, import unzips 
 
 - If we have that a URL has .csv and .xml end paths, shouldn't we tried to read the .csv first
 BUT if it fails (error), shouldn't we continue to read the .xml? Currently we only try to read the first file.
+get_data function has been updated in order to solve this issue
 
 - Should we change the 'API did not return JSON' error message to something more explicit?
 
