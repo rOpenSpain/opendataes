@@ -45,7 +45,7 @@ extract_metadata <- function(data_list) {
   first_df$url <- url_path
 
   # Do not change this to tibble because
-  # all_dfs is a df and it will throw an error.
+  # first_df is a df and it will throw an error.
   # data.frame in this case allows to pass a data frrame
   # and bins the columns together
   data_df <-
