@@ -68,3 +68,13 @@ There are multiple .csv files but all represent different things. Do we read all
 I think it might not be a terrible idea to read all of them and then report that there are multiple files in the metadata and whether they were all read or not.
 
 - When description is too long for the metadata printout add '...' based on the width of the console.
+
+- XML files aren't being read because the url format in most cases is "text/xml" instead of
+"application/xml" (mimemap vector in utils.R doesn't catch this format).
+
+- I've been checking if we could avoid Rio and actually we can but I wouldn't suggest it:
+    * Rio has a lot of intermediate checks that save us a lot of work
+    * Rio has a default way to read some files but it allows to read through other functions
+      (for ex: csv has fread as default way to be read but under some conditions it's read
+      with read.csv). In summary, Rio authors have done an exhaustive previous work we can benefit
+      and, in addition, provide us a more confident package
