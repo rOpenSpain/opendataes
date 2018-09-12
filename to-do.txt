@@ -68,3 +68,19 @@ There are multiple .csv files but all represent different things. Do we read all
 I think it might not be a terrible idea to read all of them and then report that there are multiple files in the metadata and whether they were all read or not.
 
 - When description is too long for the metadata printout add '...' based on the width of the console.
+
+
+- One idea: what if we allow the user to provide an optional function to try to read the file? That is, we always attempt to read the file, but if the user supplies an optional argument that specifies a function, we try to read it with this function. This would take the burden of some datasets being read wrongly by rio and the user can then refine it with their own function.
+
+This is not easy to implement because the user does not know which format we are reading (remember that we read
+one format, then continue to the next, etc). For this to work we would need to give the user all available formats
+or at least the format we are currently reading the file with. Hm... we need to discuss this because I think that in theory
+it is a good idea but in practice it might not be.
+
+- Assume that the pkg reads a dataset from an excel file but reads it incorrectly. That is, it confuses headers with rows
+and adds some empty rows because of the excel format. Let's also assume that this can be fixed with some simple
+arguments passed to the reading function. The user should be able to pass these, as we discussed but I also think that
+in the metadata we should provide all the direct links to each type of format in case the user wants to read the data directly.
+
+This eliminates us from the loop because they stop using the package but it allows the user to fully customize how
+they read the data. We need to discuss this.
