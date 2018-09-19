@@ -1,8 +1,8 @@
 - Add unit tests but on the high levl functions once we have everything readr
-- Delete folder tmp_files when we don't want to use eda.R or first_try.R anymore. Por mi (Jorge C.) lo borramos.
-- Play around with the spatial and begin/end date end points to see what they do.
-- Reorder files to group similar functions into separate R scripts
-- Think of prefix for the function to download data. I thought datos_* but brainstorm is needed
+- Delete folder tmp_files when we don't want to use eda.R or first_try.R anymore. Por mi (Jorge C.) lo borramos. LO BORRAMOS.
+- Play around with the spatial and begin/end date end points to see what they do. PROXIMAS VERSIONES DE PCK
+- Reorder files to group similar functions into separate R scripts 
+- Think of prefix for the function to download data. I thought datos_* but brainstorm is needed 
 - ONLY when we have the definitive name of the pkg and the GH repo is named after it then add the handle to the GET requests.
 - TRY MANY DIFFERENT DATASETS TO CHECK WHETHER WE HAVE A WORKING PACKAGE
 - Whenever we find datasets that are wrong, let's provide two or three
