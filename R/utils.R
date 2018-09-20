@@ -52,9 +52,12 @@ get_resp_paginated <- function(url, num_pages = 1, page = 0, ...) {
 #' @param ... Arguments passed to \code{\link[httr]{GET}}
 get_resp <- function(url, attempts_left = 5, ...) {
 
+  # Handle so that the API knows who's downloading the data
+  ua <- httr::user_agent("https://github.com/cimentadaj/opendataes")
+
   stopifnot(attempts_left > 0)
 
-  resp <- httr::GET(url, ...)
+  resp <- httr::GET(url, ua, ...)
   # To avoid making too many quick requests
   Sys.sleep(1)
 
