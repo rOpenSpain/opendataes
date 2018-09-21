@@ -29,7 +29,7 @@ get_data <- function(data_list) {
   output_data <- dplyr::tibble()
   class(output_data) <- "try-error"
 
-  while (methods::is(output_data, "try-error")) {
+  while (inherits(output_data, "try-error")) {
 
     if (length(is_file_readable) != 0) {
       # Get the first format.
