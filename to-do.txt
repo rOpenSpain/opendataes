@@ -61,6 +61,7 @@ Also, html seems to have some problems too. Most htmls do not end with .html but
 - The encoding 'Latin-1' works well for some datasets but doesn't for others. For example, this .csv from http://datos.gob.es/catalogo/l01350167-apartamentos does not read it well. But using 'encoding' = 'UTF-8' works well. We should perhaps find a way to combined both. readr has a nice feature to detect encodings. ORRR, we can allow the user to provide the encoding and they can iteratively check which one works best. I think this might be the best approach.
 
 
+
 - We should add the Frequency at which the data is uploaded and place it in the metadata tibble. I think this is in the returned list of the API.
 
 
