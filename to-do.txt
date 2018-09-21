@@ -4,12 +4,12 @@
 
 - TRY MANY DIFFERENT DATASETS TO CHECK WHETHER WE HAVE A WORKING PACKAGE
 - Whenever we find datasets that are wrong, let's provide two or three
-in the examples section of extract_datos to highlkight that some data might be wrong
+in the examples section of cargar_datos to highlkight that some data might be wrong
 and it's not the package's fault.
 
 - Make sure extract_date returns a date object in ISO format -- Jorge Lopez
 
-- In the documentation of extract_datos list all fields of the metadata tibble
+- In the documentation of cargar_datos list all fields of the metadata tibble
 together with their definition -- Jorge Cimentada
 
 - Add the definition of the printed metadata of the object. For example, what does Readable mean? The user
@@ -22,7 +22,7 @@ metadata is in different languages. The data could be in the regions language or
 The title in the metadata is not always in the same order as the language and the description. The description I think is **always** in the same order as the language as in they comin in the same nested lsit inside data_list. The title, however, is a separate vector inside the list. For example, for this example:
 
 id <- 'a16003011-indicadores-del-mercado-laboral-del-ano-2005-al-2014'
-pt <- extract_datos(id)
+pt <- cargar_datos(id)
 pt$metadata
 
 language and description are alright but the title is wrong between languages. I think it's safe to exclude title because everything that the title has is present in the description but it might also be handy just to leave the title and give a warning in the documentation about this type of error. Also, if we icnlude it now, it's more difficult to remove in future releases as it might break backwards dependency. But if we exclude it, we can always include it in future releases. Additionally, we can create a helper function to extract titles that can be exporte for users. This gives control to the languages and doesn't ruin the metadata order.

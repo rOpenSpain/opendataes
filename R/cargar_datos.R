@@ -5,23 +5,23 @@
 #' Must be a character string of length 1.
 #'
 #' @details The API of \url{https://datos.gob.es/} is not completely homogenous because it is an aggregator
-#' of many different API's from different cities and provinces of Spain. Currently, \code{extract_datos}
+#' of many different API's from different cities and provinces of Spain. Currently, \code{cargar_datos}
 #' can read csv, xls, xlsx, json, html and xml files in that specific order of preference.
 #'
-#' However, in order for \code{extract_datos} to read these files the access URL of the data needs to
+#' However, in order for \code{cargar_datos} to read these files the access URL of the data needs to
 #' end with any of these paths. Note that the access URL is not the same as the URL from
 #' \url{https://datos.gob.es/}. It is the URL from the publisher of the dataset.
 #'
 #' For example, this URL: \url{http://datos.gob.es/es/catalogo/a02002834-numero-de-centros-segun-ancho-de-banda-de-la-conexion-a-internet-que-tiene-el-centro6}
 #' says that it hosts an XML file but once you click on the 'download' XML, it redirects to a JavaScript based
 #' webste that has the table in XML hosted on the website. This URL does not end with .xml and so it is unreadble to
-#' the package to \code{extract_datos}.
+#' the package to \code{cargar_datos}.
 #'
-#' Fortunately, \code{extract_datos} will attempt to read the data and if it can't read it, it will return
+#' Fortunately, \code{cargar_datos} will attempt to read the data and if it can't read it, it will return
 #' the same \code{\link[tibble]{tibble}} but with a column named URL with all available URL's. The user can then
 #' access the data manually.
 #'
-#' \code{extract_datos} attempts to extract all the metadata of the dataset but sometimes this metadata might be wrong.
+#' \code{cargar_datos} attempts to extract all the metadata of the dataset but sometimes this metadata might be wrong.
 #' For example, there are cases when there are several languages available and the order of the different titles
 #' are not in the same order of the languages. If you find any of these errors, try raising the issue directly to
 #' \url{https://datos.gob.es/} as the package attempts to extract all metadata in the same order as it is.
@@ -41,7 +41,7 @@
 #' @examples
 #'
 #' id <- 'l01080193-numero-total-de-edificios-con-viviendas-segun-numero-de-plantas'
-#' some_data <- extract_datos(id)
+#' some_data <- cargar_datos(id)
 #'
 #' # Print the file to get some useful information
 #' some_data
@@ -52,7 +52,7 @@
 #' # Access the data
 #' some_data$data
 #'
-extract_datos <- function(path_id) {
+cargar_datos <- function(path_id) {
   raw_json <- get_resp(path_dataset_id(path_id))
 
   if (!"items" %in% names(raw_json$result)) return(list())
