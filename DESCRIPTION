@@ -1,4 +1,4 @@
-Package: opendatoses
+Package: opendatases
 Version: 0.0.0.9000
 Title: Interact with the datos.gob.es API to download public data from all of Spain
 Description: Easily interact with the API from http://datos.gob.es to download data over 19,000 files from all different provinces of Spain. 
