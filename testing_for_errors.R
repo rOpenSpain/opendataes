@@ -11,8 +11,40 @@ pt <- cargar_datos(id)
 path_id <- 'l02000011-casas-consistoriales'
 pt <- cargar_datos(path_id)
 
+id <- 'ea0001304-atraques-de-cruceros'
+pt <- cargar_datos(id)
 
 id <- 'a16003011-ganancia-media-y-brecha-salarial-por-hora-entre-mujeres-y-hombres-seguntipo-de-contrato-cae-y-espana-2002-y-20061'
+pt <- cargar_datos(id)
+
+id <- 'ea0010587-flujo-de-inmigracion-procedente-del-extranjero-por-ano-sexo-y-edad-anual-estadistica-de-migraciones-identificador-api-24282'
+pt <- cargar_datos(id)
+
+id <- 'ea0010587-viviviendas-con-ejecucion-hipotecaria-iniciada-segun-titular-de-la-vivienda-por-provincia-anual-estadistica-sobre-ejecuciones-hipotecarias-identificador-api-10745'
+pt <- cargar_datos(id)
+
+id <- 'l01080193-listado-de-direcciones-de-edificios-de-la-ciudad-de-barcelona'
+pt <- cargar_datos(id)
+
+id <- 'l01080193-viviendas-principales-segun-anos-de-construccion'
+pt <- cargar_datos(id)
+
+id <- 'l01280796-oficinas-de-registro'
+pt <- cargar_datos(id)
+
+id <- 'l01280796-accidentes-de-trafico-2009-a-2014-seguridad-vial'
+pt <- cargar_datos(id)
+
+id <- 'l01280796-bici-ciclocarriles'
+pt <- cargar_datos(id)
+
+id <- 'l01080193-elecciones-al-parlamento-europeo-sobre-electores'
+pt <- cargar_datos(id)
+
+id <- 'l01080193-relacion-de-tramos-de-la-via-publica'
+pt <- cargar_datos(id)
+
+id <- 'l01080193-definicion-de-itinerarios-y-especificacion-de-los-tramos-que-lo-componen'
 pt <- cargar_datos(id)
 
 ## By changing the index we can try all diferent datasets
