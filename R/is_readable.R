@@ -8,7 +8,7 @@ is_readable <- function(data_list) {
   names(file_format) <- extract_access_url(data_list)
 
   # Allowed formats, in preference order
-  allowed_format <- c("csv", "xls", "xlsx", "json", "html", "xml")
+  allowed_format <- c("csv")
 
   available_formats <- allowed_format %in% file_format
 

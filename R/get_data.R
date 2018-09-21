@@ -3,7 +3,7 @@
 #' @param data_list A data_list similar to resp$result$items[[1]] that contains information on a dataset
 #'
 #' @details \code{get_data} will accept the end path of a data base and it will search for the access url.
-#' If the access url has an end path of either csv, xls, xlsx, json, html and xml, then it will
+#' If the dataset is either a csv, xls, xlsx or xml, then it will
 #' attempt to read it. If it succeeds, it will return the data frame. If not, it will return
 #' the data frame with only one column containing all available access URL's.
 #'
@@ -43,7 +43,7 @@ get_data <- function(data_list) {
       # it should be added only when that format is the one being read.
       # I use is_file_readable and the data forms without the . because
       # it's easier to match than data_format which has two slashes
-      if (format_to_read %in% c("csv", "html", "xml")) {
+      if (format_to_read %in% c("csv")) {
         args_rio <- c(args_rio, "encoding" = "UTF-8")
       }
       # This encoding does not work perfectly. Sometimes

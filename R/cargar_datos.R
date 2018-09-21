@@ -6,7 +6,7 @@
 #'
 #' @details The API of \url{https://datos.gob.es/} is not completely homogenous because it is an aggregator
 #' of many different API's from different cities and provinces of Spain. Currently, \code{cargar_datos}
-#' can read csv, xls, xlsx, json, html and xml files in that specific order of preference.
+#' can read csv.
 #'
 #' However, in order for \code{cargar_datos} to read these files the access URL of the data needs to
 #' end with any of these paths. Note that the access URL is not the same as the URL from
