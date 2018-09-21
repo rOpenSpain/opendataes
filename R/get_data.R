@@ -29,9 +29,9 @@ get_data <- function(data_list) {
   output_data <- dplyr::tibble()
   class(output_data) <- "try-error"
 
-  while(is(output_data, "try-error")) {
+  while (methods::is(output_data, "try-error")) {
 
-    if(length(is_file_readable) != 0) {
+    if (length(is_file_readable) != 0) {
       # Get the first format.
       format_to_read <- is_file_readable[1]
       args_rio <-
@@ -54,9 +54,13 @@ get_data <- function(data_list) {
       output_data <- try(do.call(rio::import, args_rio), silent = TRUE)
       is_file_readable <- is_file_readable[-1]
     } else {
-      output_data <- dplyr::tibble(extract_url_format(data_list),
-                                   extract_access_url(data_list))
-      names(output_data) <- c("format", "URL")
+    # If there's any error, this means that none of the formats
+    # could be read. So we return the the tibble with the url
+    # formats and the access urls
+    output_data <- dplyr::tibble(extract_url_format(data_list),
+                               extract_access_url(data_list))
+
+    names(output_data) <- c("format", "URL")
     }
   }
 

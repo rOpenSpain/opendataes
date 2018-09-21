@@ -1,9 +1,10 @@
-- Add unit tests but on the high levl functions once we have everything readr
+- Add unit tests but on the high levl functions once we have everything ready
 - Delete folder tmp_files when we don't want to use eda.R or first_try.R anymore. Por mi (Jorge C.) lo borramos.
 - Play around with the spatial and begin/end date end points to see what they do.
 - Reorder files to group similar functions into separate R scripts
-- Think of prefix for the function to download data. I thought datos_* but brainstorm is needed
-- ONLY when we have the definitive name of the pkg and the GH repo is named after it then add the handle to the GET requests.
+- Possible prefixes: es_*, openes_*, openspain_*, oes_*
+- We need to change the name of the repo in github
+
 - TRY MANY DIFFERENT DATASETS TO CHECK WHETHER WE HAVE A WORKING PACKAGE
 - Whenever we find datasets that are wrong, let's provide two or three
 in the examples section of extract_datos to highlkight that some data might be wrong
@@ -13,8 +14,8 @@ and it's not the package's fault.
 - In the documentation of extract_datos list all fields of the metadata tibble
 together with their definition.
 
-- Add the definition of the printed metadata of the obejct. For example, what does Readable mean? The user
-doesn't know.
+- Add the definition of the printed metadata of the object. For example, what does Readable mean? The user
+doesn't know. This should be included in the documentation of the function
 
 - Specify in docs that languages doesn't mean that the data is in different languages. It means that the
 metadata is in different languages. The data could be in the regions language or in spanish.
@@ -50,15 +51,17 @@ and this is not a safe behaviour.
 
 However, this JSON url: fromJSON("https://datosabiertos.ayto-arganda.es/dataset/2710a060-7b20-4786-b068-5df1f8be36b4/resource/2d34a895-26ef-49ae-9cfa-7b707d435334/download/arqu-religiosa.json") from http://datos.gob.es/catalogo/l01280148-patrimonio-cultural-arquitectura-religiosa1 returns the correct dataframe.
 
-Perhaps allowing json is not such a good idea.
+I think perhaps the best iddea right now is to accept CSV, XML, XLSX and json. The first three return
+data frames and JSON returns a list. However, this is also a bit unsafe because the user does not know ahead
+what he/she will get. That is, it could be a data frame or a list to them (because they cannot choose
+the format in which they read). The more I think about it, we should only work with CSV, XML and XLSX for now.
 
 Also, html seems to have some problems too. Most htmls do not end with .html but rather redirect to a website that has an html inside. The issues is that the package can only read files in which the accessURL ends WITH .html so it's basically doing nothing.
 
-- The encoding 'Latin-1' works well for some datasets but doesn't for others. For example, this .csv from http://datos.gob.es/catalogo/l01350167-apartamentos does not read it well. But using 'encoding' = 'UTF-8' works well. We should perhaps find a way to combined both. readr has a nice feature to detect encodings. ORRR, we can allow the user to provide the encoding and they can iteratively check which one works best. I think this might fix this.
+- The encoding 'Latin-1' works well for some datasets but doesn't for others. For example, this .csv from http://datos.gob.es/catalogo/l01350167-apartamentos does not read it well. But using 'encoding' = 'UTF-8' works well. We should perhaps find a way to combined both. readr has a nice feature to detect encodings. ORRR, we can allow the user to provide the encoding and they can iteratively check which one works best. I think this might be the best approach.
 
 
-- We should add the Frequency at which the data is uploaded and place it in the metadata tibble.
-
+- We should add the Frequency at which the data is uploaded and place it in the metadata tibble. I think this is in the returned list of the API.
 
 
 - What do we do when there are several files representing different things such as: http://datos.gob.es/es/catalogo/a16003011-estadistica-de-personal-al-servicio-de-la-administracion-de-la-comunidad-autonoma-de-euskadi-2017
@@ -69,12 +72,18 @@ I think it might not be a terrible idea to read all of them and then report that
 
 - When description is too long for the metadata printout add '...' based on the width of the console.
 
-- XML files aren't being read because the url format in most cases is "text/xml" instead of
-"application/xml" (mimemap vector in utils.R doesn't catch this format).
 
-- I've been checking if we could avoid Rio and actually we can but I wouldn't suggest it:
-    * Rio has a lot of intermediate checks that save us a lot of work
-    * Rio has a default way to read some files but it allows to read through other functions
-      (for ex: csv has fread as default way to be read but under some conditions it's read
-      with read.csv). In summary, Rio authors have done an exhaustive previous work we can benefit
-      and, in addition, provide us a more confident package
+- One idea: what if we allow the user to provide an optional function to try to read the file? That is, we always attempt to read the file, but if the user supplies an optional argument that specifies a function, we try to read it with this function. This would take the burden of some datasets being read wrongly by rio and the user can then refine it with their own function.
+
+This is not easy to implement because the user does not know which format we are reading (remember that we read
+one format, then continue to the next, etc). For this to work we would need to give the user all available formats
+or at least the format we are currently reading the file with. Hm... we need to discuss this because I think that in theory
+it is a good idea but in practice it might not be.
+
+- Assume that the pkg reads a dataset from an excel file but reads it incorrectly. That is, it confuses headers with rows
+and adds some empty rows because of the excel format. Let's also assume that this can be fixed with some simple
+arguments passed to the reading function. The user should be able to pass these, as we discussed but I also think that
+in the metadata we should provide all the direct links to each type of format in case the user wants to read the data directly.
+
+This eliminates us from the loop because they stop using the package but it allows the user to fully customize how
+they read the data. We need to discuss this.
