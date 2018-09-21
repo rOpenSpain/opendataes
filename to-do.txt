@@ -1,9 +1,6 @@
 - Add unit tests but on the high levl functions once we have everything ready
-- Delete folder tmp_files when we don't want to use eda.R or first_try.R anymore. Por mi (Jorge C.) lo borramos.
 - Play around with the spatial and begin/end date end points to see what they do.
 - Reorder files to group similar functions into separate R scripts
-- Possible prefixes: es_*, openes_*, openspain_*, oes_*
-- We need to change the name of the repo in github
 
 - TRY MANY DIFFERENT DATASETS TO CHECK WHETHER WE HAVE A WORKING PACKAGE
 - Whenever we find datasets that are wrong, let's provide two or three
