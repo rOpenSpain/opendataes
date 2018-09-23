@@ -20,7 +20,7 @@
 # resp <- get_resp(path_dataset_id(id))
 # data_list <- resp$result$items[[1]]
 
-get_data <- function(data_list, ...) {
+get_data <- function(data_list, encoding, ...) {
 
   # Check if publisher is available
   if(!is_publisher_available(data_list)) {

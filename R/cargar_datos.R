@@ -67,7 +67,7 @@ cargar_datos <- function(path_id, encoding = 'UTF-8', ...) {
     structure(
       list(
         metadata = extract_metadata(datalist),
-        data = get_data(datalist, ...)
+        data = get_data(datalist, encoding, ...)
       ),
       class = "datos_gob_es"
     )
