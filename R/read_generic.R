@@ -39,6 +39,8 @@ csv_delim <- function(file, guess_max = 1000, threshold_rows = 0.9,
 
   all_chars <- unlist(table_names)
 
+  all_chars <- all_chars[all_chars %in% delim]
+
   prop_repetition <- table(all_chars) / rows_read
   if (one_true(prop_repetition == 1) %in% c('one true', '> one true')) {
     repeated_names <- names(which(prop_repetition == 1))
@@ -55,8 +57,6 @@ csv_delim <- function(file, guess_max = 1000, threshold_rows = 0.9,
   })
 
   unique_repetitions <- setNames(unique_repetitions, repeated_names)
-
-  unique_repetitions <- unique_repetitions[names(unique_repetitions) %in% delim]
 
   if (length(unique_repetitions) == 0) return(NA_character_)
 
