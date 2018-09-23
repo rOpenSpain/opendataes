@@ -61,13 +61,13 @@ cargar_datos <- function(path_id, encoding = 'UTF-8', ...) {
   if (!"items" %in% names(raw_json$result)) return(list())
   if (length(raw_json$result$items) == 0) return(list())
 
-  datalist <- raw_json$result$items[[1]]
+  data_list <- raw_json$result$items[[1]]
 
   returned_list <-
     structure(
       list(
-        metadata = extract_metadata(datalist),
-        data = get_data(datalist, encoding, ...)
+        metadata = extract_metadata(data_list),
+        data = get_data(data_list, encoding, ...)
       ),
       class = "datos_gob_es"
     )
