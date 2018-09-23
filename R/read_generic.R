@@ -23,7 +23,11 @@ determine_read_generic <- function(file) {
 csv_delim <- function(file, guess_max = 1000, threshold_rows = 0.9,
                       delim = c(',', '\t', ';', ' ', ':')) {
 
-  data <- readr::read_lines(file, n_max = guess_max)
+  data <-
+    tryCatch(
+      readr::read_lines(file, n_max = guess_max),
+      error = function(e) NA_character_
+    )
 
   data <- strsplit(data, "\n")
 

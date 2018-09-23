@@ -30,43 +30,56 @@ get_data <- function(data_list, encoding, ...) {
   # Check if the data_list is readable
   is_file_readable <- is_readable(data_list)
 
-  # Initialize while-loop
-  output_data <- dplyr::tibble()
-  class(output_data) <- "try-error"
+  if (length(is_file_readable) != 0) {
 
-  while (inherits(output_data, "try-error")) {
+    output_data <- vector("list", length(is_file_readable))
 
-    if (length(is_file_readable) != 0) {
-      # Get the first format.
-      format_to_read <- is_file_readable[1]
+    # Loop over each chosen file
+    for (index in seq_along(is_file_readable)) {
 
-      # names(is_file_readable) contains the URL of the CSV file
-      data_url <- names(is_file_readable)
-
+      data_url <- names(is_file_readable)[index]
+      # Determine the delimited of the file
       read_generic <- determine_read_generic(data_url)
 
       custom_locale <- readr::locale("es", encoding = encoding)
 
-      # Try reading the data
-      output_data <-
+      # Try reading the data and saving it in **that** data frame's slot
+      output_data[[index]] <-
         try(read_generic(file = data_url,
                          locale = custom_locale,
                          ...),
             silent = TRUE)
 
-      is_file_readable <- is_file_readable[-1]
-    } else {
-    # If there's any error, this means that none of the formats
-    # could be read. So we return the the tibble with the url
-    # formats and the access urls
-    output_data <- dplyr::tibble(extract_url_format(data_list),
-                               extract_access_url(data_list))
-
-    names(output_data) <- c("format", "URL")
+      # If the data that was read raised an error, return
+      # the format and URL as we would have done if there are no
+      # files to read at all from this data_list
+      if (inherits(output_data[[index]], "try-error")) {
+        output_data[[index]] <-
+          dplyr::tibble(format = is_file_readable[index],
+                        URL = names(is_file_readable[index]))
+      }
     }
+
+  } else {
+    # If no file to read, return all urls and formats
+    output_data <- return_metadata(data_list)
   }
 
-  # Output
-  output_data
-
+  # If only one data frame, return a tibble
+  # otherwise return list
+  if (length(output_data) == 1) output_data[[1]] else output_data
 }
+
+
+return_metadata <- function(data_list) {
+  # If there's any error, this means that none of the formats
+  # could be read. So we return the the tibble with the url
+  # formats and the access urls
+  output_data <- dplyr::tibble(extract_url_format(data_list),
+                               extract_access_url(data_list))
+
+  names(output_data) <- c("format", "URL")
+
+  output_data
+}
+

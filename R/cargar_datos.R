@@ -90,12 +90,22 @@ print.datos_gob_es <- function(x) {
     metadata <- x$metadata[1, ]
   }
 
-  has_url_col <- ncol(x$data) == 2 & all(names(x$data) %in% c('format', "URL"))
-  was_read  <- if (has_url_col) FALSE else TRUE
+  check_read <- function(data) ncol(data) > 2 & !all(names(data) %in% c('format', "URL"))
+
+
+  # We ned to check whether data is a data frame (1 data read)
+  # or a list with many dfs. If it's a df we turn it into a list
+  # with the df inside because below (vapply) we check whether the data
+  # was read by if x[[2]] is a dataframe then it is going to loop
+  # through the columns and we need to loop over dataframes
+  if (is.data.frame(x$data)) x[2] <- list(x[2])
+
+  has_url_col <- vapply(x[[2]], check_read, logical(1))
+  number_of_reads  <- paste0(sum(has_url_col), " out of ", length(has_url_col))
 
   # This width allows the text to cut at the specified width of the console
   # automatically
-  width_print <- getOption("width") - 15
+  width_print <- getOption("width") - 18
   # Add ellipsis if it's equalk or higher than the width
   ellipsis <- if (nchar(metadata$description) < width_print) "" else "..."
 
@@ -104,6 +114,6 @@ print.datos_gob_es <- function(x) {
       paste0("   Publisher: ", metadata$publisher),
       paste0("   Languages: ", paste0(x$metadata$language, collapse = ", ")),
       paste0("   Date of release: ", metadata$date),
-      paste0("   Readable: ", was_read),
+      paste0("   # of files read: ", number_of_reads),
       sep = "\n")
 }
