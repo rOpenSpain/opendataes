@@ -4,12 +4,17 @@
 \alias{cargar_datos}
 \title{Extract data and metadata from an end path of \url{https://datos.gob.es/}}
 \usage{
-cargar_datos(path_id)
+cargar_datos(path_id, encoding = "UTF-8", ...)
 }
 \arguments{
 \item{path_id}{The end path of a dataset such as 'l01280148-seguridad-ciudadana-actuaciones-de-seccion-del-menor-en-educacion-vial-20141'
 from \url{https://datos.gob.es/es/catalogo/l01280148-seguridad-ciudadana-actuaciones-de-seccion-del-menor-en-educacion-vial-20141}.
 Must be a character string of length 1.}
+
+\item{encoding}{The encoding passed to read the csv. Most cases should be resolved with either
+'UTF-8' or 'latin1'. However, the user can try any encoding available at}
+
+\item{...}{arguments passed to \code{\link[readr]{read_csv}}}
 }
 \value{
 a list with two slots: metadata and data. metadata is a \code{\link[tibble]{tibble}} that contains the
@@ -22,7 +27,7 @@ Extract data and metadata from an end path of \url{https://datos.gob.es/}
 \details{
 The API of \url{https://datos.gob.es/} is not completely homogenous because it is an aggregator
 of many different API's from different cities and provinces of Spain. Currently, \code{cargar_datos}
-can read csv, xls, xlsx, json, html and xml files in that specific order of preference.
+can read csv.
 
 However, in order for \code{cargar_datos} to read these files the access URL of the data needs to
 end with any of these paths. Note that the access URL is not the same as the URL from

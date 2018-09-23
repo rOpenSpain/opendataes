@@ -4,7 +4,7 @@
 \alias{get_data}
 \title{Function for getting data from the website.}
 \usage{
-get_data(data_list)
+get_data(data_list, ...)
 }
 \arguments{
 \item{data_list}{A data_list similar to resp$result$items[[1]] that contains information on a dataset}
@@ -14,7 +14,7 @@ Function for getting data from the website.
 }
 \details{
 \code{get_data} will accept the end path of a data base and it will search for the access url.
-If the access url has an end path of either csv, xls, xlsx, json, html and xml, then it will
+If the dataset is either a csv, xls, xlsx or xml, then it will
 attempt to read it. If it succeeds, it will return the data frame. If not, it will return
 the data frame with only one column containing all available access URL's.
 
