@@ -20,7 +20,7 @@
 # resp <- get_resp(path_dataset_id(id))
 # data_list <- resp$result$items[[1]]
 
-get_data <- function(data_list) {
+get_data <- function(data_list, ...) {
 
   # Check if publisher is available
   if(!is_publisher_available(data_list)) {
@@ -39,24 +39,14 @@ get_data <- function(data_list) {
     if (length(is_file_readable) != 0) {
       # Get the first format.
       format_to_read <- is_file_readable[1]
-      args_rio <-
-        list(file = names(format_to_read),
-             format = format_to_read,
-             setclass = "tibble")
 
-      # The encoding argument is only available for the formats below, so
-      # it should be added only when that format is the one being read.
-      # I use is_file_readable and the data forms without the . because
-      # it's easier to match than data_format which has two slashes
-      if (format_to_read %in% c("csv")) {
-        args_rio <- c(args_rio, "encoding" = "UTF-8")
-      }
-      # This encoding does not work perfectly. Sometimes
-      # it does't work and UTF-8 captures spanish accents but
-      # other times it doesn't.
+      # names(is_file_readable) contains the URL of the CSV file
+      data_url <- names(is_file_readable)
+
+      read_generic <- determine_read_generic(data_url)
 
       # Try reading the data
-      output_data <- try(do.call(rio::import, args_rio), silent = TRUE)
+      output_data <- try(read_generic(file = data_url, ...), silent = TRUE)
       is_file_readable <- is_file_readable[-1]
     } else {
     # If there's any error, this means that none of the formats

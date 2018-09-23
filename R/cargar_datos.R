@@ -3,6 +3,9 @@
 #' @param path_id The end path of a dataset such as 'l01280148-seguridad-ciudadana-actuaciones-de-seccion-del-menor-en-educacion-vial-20141'
 #' from \url{https://datos.gob.es/es/catalogo/l01280148-seguridad-ciudadana-actuaciones-de-seccion-del-menor-en-educacion-vial-20141}.
 #' Must be a character string of length 1.
+#' @param encoding The encoding passed to read the csv. Most cases should be resolved with either
+#' 'UTF-8' or 'latin1'. However, the user can try any encoding available at
+#' @param ... arguments passed to \code{\link[readr]{read_csv}}
 #'
 #' @details The API of \url{https://datos.gob.es/} is not completely homogenous because it is an aggregator
 #' of many different API's from different cities and provinces of Spain. Currently, \code{cargar_datos}
@@ -52,7 +55,7 @@
 #' # Access the data
 #' some_data$data
 #'
-cargar_datos <- function(path_id) {
+cargar_datos <- function(path_id, encoding = 'UTF-8', ...) {
   raw_json <- get_resp(path_dataset_id(path_id))
 
   if (!"items" %in% names(raw_json$result)) return(list())
@@ -64,7 +67,7 @@ cargar_datos <- function(path_id) {
     structure(
       list(
         metadata = extract_metadata(datalist),
-        data = get_data(datalist)
+        data = get_data(datalist, ...)
       ),
       class = "datos_gob_es"
     )

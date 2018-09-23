@@ -13,5 +13,5 @@ ByteCompile: true
 Imports: 
     httr,
     dplyr,
-    rio
+    readr
 RoxygenNote: 6.0.1
