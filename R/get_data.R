@@ -45,8 +45,15 @@ get_data <- function(data_list, ...) {
 
       read_generic <- determine_read_generic(data_url)
 
+      custom_locale <- readr::locale("es", encoding = encoding)
+
       # Try reading the data
-      output_data <- try(read_generic(file = data_url, ...), silent = TRUE)
+      output_data <-
+        try(read_generic(file = data_url,
+                         locale = custom_locale,
+                         ...),
+            silent = TRUE)
+
       is_file_readable <- is_file_readable[-1]
     } else {
     # If there's any error, this means that none of the formats
