@@ -39,8 +39,8 @@ is_readable <- function(data_list) {
 
 #' Check if publisher is available in opendataes
 #'
-#' @param data_list
+#' @param data_list A data_list similar to resp$result$items[[1]] that contains information on a dataset
 is_publisher_available <- function(data_list) {
-  publisher_code <- extract_publisher_code(data_list)
-  ifelse(publisher_code %in% publishers_available$id, TRUE, FALSE)
+  publisher_code <- tolower(extract_publisher_code(data_list))
+  ifelse(publisher_code %in% tolower(publishers_available$id), TRUE, FALSE)
 }

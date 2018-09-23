@@ -24,7 +24,7 @@ extract_metadata <- function(data_list) {
   url_path <- extract_url(data_list)
   url_formats <- extract_url_format(data_list)
   date_data <- extract_date(data_list)
-  publisher <- extract_publisher(data_list)
+  publisher <- extract_publisher_name(data_list)
 
 
   # Title, description, languages and url_path
