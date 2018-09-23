@@ -109,3 +109,8 @@ Jorge Lopez
 
 - We should add a link to the url of the info of the dataset in the ayuntamiento because we do not know what each column means. This is helpful because they can go toi the website and figureout what they all mean.
 - Jorge Cimentada
+
+
+- When there several files to read such as http://datos.gob.es/catalogo/l01080193-elecciones-al-parlamento-europeo-sobre-electores, we can currently read these files and return a list
+but we should also name each slot with the name of the data set so that
+users can identify which dataset is which one from the website

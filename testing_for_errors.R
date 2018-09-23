@@ -31,6 +31,12 @@ pt <- cargar_datos(id)
 id <- 'l01280796-oficinas-de-registro'
 pt <- cargar_datos(id)
 
+id <- 'l01080193-base-de-datos-del-presupuesto-ingresos'
+pt <- cargar_datos(id)
+
+id <- 'l01080193-domicilios-segun-nacionalidad'
+pt <- cargar_datos(id)
+
 id <- 'l01280796-accidentes-de-trafico-2009-a-2014-seguridad-vial'
 pt <- cargar_datos(id)
 
