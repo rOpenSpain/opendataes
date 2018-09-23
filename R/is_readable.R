@@ -34,3 +34,13 @@ is_readable <- function(data_list) {
   file_format
 }
 
+
+
+
+#' Check if publisher is available in opendataes
+#'
+#' @param data_list
+is_publisher_available <- function(data_list) {
+  publisher_code <- extract_publisher_code(data_list)
+  ifelse(publisher_code %in% publishers_available$id, TRUE, FALSE)
+}

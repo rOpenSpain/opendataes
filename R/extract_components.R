@@ -217,10 +217,27 @@ extract_date <- function(data_list) {
   data_list$issued
 }
 
-#' Extract the publisher of the dataset from data_list
+#' Extract the publisher code of the dataset from data_list
 #'
 #' @inheritParams extract_metadata
-extract_publisher <- function(data_list) {
+extract_publisher_code <- function(data_list) {
+  if (!data_list_correct(data_list)) {
+    return(character())
+  }
+
+  if (!'publisher' %in% names(data_list)) {
+    "No publisher available"
+  }
+
+  publisher_code <- sub(".*\\/", "", data_list$publisher)
+
+  publisher_code
+}
+
+#' Extract the publisher name of the dataset from data_list
+#'
+#' @inheritParams extract_metadata
+extract_publisher_name <- function(data_list) {
   if (!data_list_correct(data_list)) {
     return(character())
   }
@@ -234,6 +251,7 @@ extract_publisher <- function(data_list) {
 
   publisher_name
 }
+
 
 #' Extract the end path of the dataset that directs to datos.gob.es from a data_list
 #'

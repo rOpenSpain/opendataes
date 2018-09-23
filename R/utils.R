@@ -631,3 +631,10 @@ mimemap <- c(
     sisx = "x-epoc/x-sisx-app",
     vrm = "x-world/x-vrml"
   )
+
+
+# Vector with available publishers
+publishers_available = dplyr::tibble(
+  name = c("Ayuntamiento de Barcelona"),
+  id = c("l01080193")
+)
