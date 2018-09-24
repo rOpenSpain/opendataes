@@ -143,8 +143,8 @@ extract_access_url <- function(data_list) {
   }
 
   if (is.null(getElement(data_list$distribution, "accessURL"))) {
-  access_url <- vapply(data_list$distribution, function(x) x$accessURL,
-                       FUN.VALUE = character(1))
+    access_url <- vapply(data_list$distribution, function(x) x$accessURL,
+                         FUN.VALUE = character(1))
   } else {
     access_url <- data_list$distribution$accessURL
   }
@@ -212,9 +212,14 @@ extract_date <- function(data_list) {
     return("No date available")
   }
 
+  # data_list$issued <- readr::parse_datetime(substr(data_list$issued,6,25), format = "%d %b %Y %H:%M:%S", locale = readr::locale("es"))
+
+  data_list$issued <- as.POSIXct(substr(data_list$issued,6,25), format = "%d %b %Y %H:%M:%S", tz = "GMT")
+
   # For now, but this should be converted
   # to date time
   data_list$issued
+
 }
 
 #' Extract the publisher code of the dataset from data_list
