@@ -31,6 +31,12 @@ pt <- cargar_datos(id)
 id <- 'l01280796-oficinas-de-registro'
 pt <- cargar_datos(id)
 
+id <- 'l01080193-base-de-datos-del-presupuesto-ingresos'
+pt <- cargar_datos(id)
+
+id <- 'l01080193-domicilios-segun-nacionalidad'
+pt <- cargar_datos(id)
+
 id <- 'l01280796-accidentes-de-trafico-2009-a-2014-seguridad-vial'
 pt <- cargar_datos(id)
 
@@ -97,3 +103,45 @@ data_list <- resp$result$items[[1]]
 is_readable(data_list)
 pt <- cargar_datos(id)
 # When no format is available, it returns an empty vector, as expected
+
+
+## tests for csv_delim
+
+# this is ;
+determine_read_generic("https://datosabiertos.ayto-arganda.es/dataset/4e2b6867-0c88-4b2e-a290-bad625a9b3ac/resource/740d3e9c-735a-4145-9149-7af8eb9e8405/download/registro-de-entrada.-4-trimestre-2017.-oficinas-de-registro.csv")
+
+# this is ,
+determine_read_generic("https://datosabiertos.ayto-arganda.es/dataset/3b9e2138-a3c9-45da-8086-7eba0abce047/resource/e9c0b4a3-8955-46b4-a63b-ad619609588d/download/escuela-infantilalumnos.csv")
+
+# this is ,
+determine_read_generic('http://datos.apc.es/wcm/connect/42a6fc93-d6d7-4f4e-971b-046adf9578ed/ATRAQUES_CRUCEROS.CSV?MOD=AJPERES&CONVERT_TO=url&CACHEID=ROOTWORKSPACE-42a6fc93-d6d7-4f4e-971b-046adf9578ed-miMIved')
+
+# this is ,
+determine_read_generic('https://apirtod.dipucadiz.es/api/datos/casas_consistoriales.csv&rnd=1725731944')
+
+# this is ,
+determine_read_generic('https://datosabiertos.ayto-arganda.es/dataset/bb8079e5-1425-467c-ab87-860e3d1aba6d/resource/d3dfeb5b-fc76-4bf0-9577-0975a0342479/download/sectorpublicodocumentacionnotarialhistoricototalmunicipio20102014.csv')
+
+# this is ,
+determine_read_generic("1,2,3\n4,5,6")
+
+determine_read_generic("a,b\n\n\n1,2")
+
+determine_read_generic("a,b\n1,2\n\n\n2,3\n")
+
+determine_read_generic("a,b\n1,2\n\n\n")
+
+# Fails because the , is not repeated in over 90% of rows
+determine_read_generic("v1,v2\n#foo\n1,2\n#bar\n3,4")
+
+determine_read_generic("x1,x2,x3\nA2,B2,C2\nA3#,B2,C2\nA4,A5,A6")
+
+determine_read_generic("http://www.ine.es/jaxiT3/files/t/es/csv/24282.csv?nocab=1")
+
+determine_read_generic("https://datosabiertos.ayto-arganda.es/dataset/3fa98747-316d-4782-aab6-a7a42b8b00b8/resource/63c7c0ab-691c-4c75-929d-ae521bd67926/download/precipitacion.csv")
+
+
+determine_read_generic("https://data.cityofnewyork.us/api/views/kku6-nxdu/rows.csv?accessType=DOWNLOAD")
+
+determine_read_generic("https://chronicdata.cdc.gov/views/g4ie-h725/rows.csv?accessType=DOWNLOAD")
+

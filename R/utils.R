@@ -638,3 +638,5 @@ publishers_available = dplyr::tibble(
   name = c("Ayuntamiento de Barcelona"),
   id = c("l01080193")
 )
+
+suppress_all <- function(x) suppressMessages(suppressWarnings(x))

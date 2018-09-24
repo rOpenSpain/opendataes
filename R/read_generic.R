@@ -23,7 +23,11 @@ determine_read_generic <- function(file) {
 csv_delim <- function(file, guess_max = 1000, threshold_rows = 0.9,
                       delim = c(',', '\t', ';', ' ', ':')) {
 
-  data <- readr::read_lines(file, n_max = guess_max)
+  data <-
+    tryCatch(
+      readr::read_lines(file, n_max = guess_max),
+      error = function(e) NA_character_
+    )
 
   data <- strsplit(data, "\n")
 
@@ -38,6 +42,8 @@ csv_delim <- function(file, guess_max = 1000, threshold_rows = 0.9,
   table_names <- lapply(res, names)
 
   all_chars <- unlist(table_names)
+
+  all_chars <- all_chars[all_chars %in% delim]
 
   prop_repetition <- table(all_chars) / rows_read
   if (one_true(prop_repetition == 1) %in% c('one true', '> one true')) {
@@ -55,8 +61,6 @@ csv_delim <- function(file, guess_max = 1000, threshold_rows = 0.9,
   })
 
   unique_repetitions <- setNames(unique_repetitions, repeated_names)
-
-  unique_repetitions <- unique_repetitions[names(unique_repetitions) %in% delim]
 
   if (length(unique_repetitions) == 0) return(NA_character_)
 
