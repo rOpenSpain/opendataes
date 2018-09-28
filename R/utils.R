@@ -63,7 +63,7 @@ get_resp <- function(url, attempts_left = 5, ...) {
 
   # Ensure that returned response is application/json
   if (httr::http_type(resp) != "application/json") {
-    stop("API did not return json", call. = FALSE)
+    stop("The datos.gob.es API returned an unusual format and not a JSON", call. = FALSE)
   }
   # On a successful GET, return the response's content
   if (httr::status_code(resp) == 200) {
