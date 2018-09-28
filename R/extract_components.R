@@ -37,8 +37,7 @@ extract_metadata <- function(data_list) {
   first_df <-
     dplyr::tibble(
       language = languages,
-      title = title,
-      description = description,
+      description = description
     )
 
   first_df$url <- url_path
