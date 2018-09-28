@@ -28,9 +28,13 @@ get_data <- function(data_list, encoding, ...) {
   }
 
   # Check if the data_list is readable
-  is_file_readable <- is_readable(data_list)
+  is_file_readable <- determine_dataset_url(data_list)
 
   if (length(is_file_readable) != 0) {
+
+    names_datasets <- determine_dataset_name(data_list)
+
+    if (!all(names_datasets == is_file_readable)) stop('Data is cannot be read because it is not in correct order')
 
     output_data <- vector("list", length(is_file_readable))
 
@@ -59,6 +63,9 @@ get_data <- function(data_list, encoding, ...) {
                         URL = names(is_file_readable[index]))
       }
     }
+
+    # Assign the the same name of ech dataset to each slot
+    names(output_data) <- names(names_datasets)
 
   } else {
     # If no file to read, return all urls and formats

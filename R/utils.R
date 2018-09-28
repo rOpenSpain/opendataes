@@ -633,10 +633,53 @@ mimemap <- c(
   )
 
 
+# This is a function factory that produces the same function
+# but changes only one function.
+determine_valid_urls <- function(.fun) {
+  function(data_list, allowed_formats = permitted_formats) {
+
+    # URL formats
+    url_formats <- extract_url_format(data_list)
+    # This is the only thing that changes
+    names(url_formats) <- .fun(data_list)
+
+    available_formats <- allowed_formats %in% url_formats
+
+    if (any(available_formats)) {
+      # We turn to factor in order to sort according to the allowed formats.
+      # This way when we subset we keep the order of preference of files.
+      sorted_formats <- sort(factor(url_formats, levels = allowed_formats))
+
+      names_urls <- names(sorted_formats)
+      formats <- as.character(sorted_formats)
+
+      index_formats <- formats %in% allowed_formats
+      url_formats <- formats[index_formats]
+
+      # We return the file format together with
+      # the chosen unit for this particular function so that
+      # we automatically subset the url without calling
+      # extract_access_url again.
+      names(url_formats) <- names_urls[index_formats]
+    } else {
+      url_formats <- character(0)
+    }
+
+    url_formats
+  }
+}
+
+# This is equivalent to the previous is_readable but now
+# is more modular
+determine_dataset_name <- determine_valid_urls(extract_dataset_name)
+determine_dataset_url <- determine_valid_urls(extract_access_url)
+
 # Vector with available publishers
 publishers_available = dplyr::tibble(
   name = c("Ayuntamiento de Barcelona"),
   id = c("l01080193")
 )
+
+permitted_formats <- c("csv")
 
 suppress_all <- function(x) suppressMessages(suppressWarnings(x))
