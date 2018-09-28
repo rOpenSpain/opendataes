@@ -231,14 +231,12 @@ extract_release_date <- function(data_list) {
     return("No release date available")
   }
 
-  # data_list$issued <- readr::parse_datetime(substr(data_list$issued,6,25), format = "%d %b %Y %H:%M:%S", locale = readr::locale("es"))
-
-  data_list$issued <- as.POSIXct(substr(data_list$issued, 6, 25),
-                                 format = "%d %b %Y %H:%M:%S", tz = "GMT")
+  issued <- as.POSIXct(substr(data_list$issued, 6, 25),
+                       format = "%d %b %Y %H:%M:%S", tz = "GMT")
 
   # For now, but this should be converted
   # to date time
-  data_list$issued
+  issued
 
 }
 
