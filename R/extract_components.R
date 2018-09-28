@@ -21,7 +21,7 @@ extract_metadata <- function(data_list) {
   languages <- extract_language(data_list)
   url_path <- extract_url(data_list)
   url_formats <- extract_url_format(data_list)
-  date_data <- extract_date(data_list)
+  date_data <- extract_release_date(data_list)
   publisher <- extract_publisher_name(data_list)
   publisher_data_url <- extract_publisher_data_url(data_list)
 
@@ -222,18 +222,19 @@ extract_language <- function(data_list) {
 #' The date is currently exported as a string but
 #' should be turned into a a date class
 #' @inheritParams extract_metadata
-extract_date <- function(data_list) {
+extract_release_date <- function(data_list) {
   if (!data_list_correct(data_list)) {
     return(character())
   }
 
   if (!'issued' %in% names(data_list)) {
-    return("No date available")
+    return("No release date available")
   }
 
   # data_list$issued <- readr::parse_datetime(substr(data_list$issued,6,25), format = "%d %b %Y %H:%M:%S", locale = readr::locale("es"))
 
-  data_list$issued <- as.POSIXct(substr(data_list$issued,6,25), format = "%d %b %Y %H:%M:%S", tz = "GMT")
+  data_list$issued <- as.POSIXct(substr(data_list$issued, 6, 25),
+                                 format = "%d %b %Y %H:%M:%S", tz = "GMT")
 
   # For now, but this should be converted
   # to date time
