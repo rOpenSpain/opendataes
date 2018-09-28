@@ -31,7 +31,7 @@ get_data <- function(data_list, encoding, ...) {
   is_file_readable <- determine_dataset_url(data_list)
 
   if (length(is_file_readable) != 0) {
-
+    # Grab the dataset names from the actual names from datos.gob.es
     names_datasets <- determine_dataset_name(data_list)
 
     if (!all(names_datasets == is_file_readable)) stop('Data is cannot be read because it is not in correct order')

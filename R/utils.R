@@ -88,6 +88,9 @@ translate_publisher <- function(code) {
   all_publishers$publisher[index]
 }
 
+
+permitted_formats <- c("csv")
+
 # Mime map of equivalents of different mime formats
 # Taken from https://github.com/yihui/mime/blob/master/R/mimemap.R
 # Keep adding as you need it
@@ -679,7 +682,5 @@ publishers_available = dplyr::tibble(
   name = c("Ayuntamiento de Barcelona"),
   id = c("l01080193")
 )
-
-permitted_formats <- c("csv")
 
 suppress_all <- function(x) suppressMessages(suppressWarnings(x))
