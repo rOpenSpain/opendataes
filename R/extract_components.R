@@ -22,6 +22,7 @@ extract_metadata <- function(data_list) {
   url_path <- extract_url(data_list)
   url_formats <- extract_url_format(data_list)
   date_data <- extract_release_date(data_list)
+  modified_data <- extract_modified_date(data_list)
   publisher <- extract_publisher_name(data_list)
   publisher_data_url <- extract_publisher_data_url(data_list)
 
@@ -50,7 +51,8 @@ extract_metadata <- function(data_list) {
     data.frame(
       keywords = keywords,
       first_df,
-      date = date_data,
+      date_issued = date_data,
+      date_modified = modified_data,
       publisher = publisher,
       publisher_data_url = publisher_data_url,
       stringsAsFactors = FALSE
@@ -237,7 +239,28 @@ extract_release_date <- function(data_list) {
   # For now, but this should be converted
   # to date time
   issued
+}
 
+#' Extract the date at which the data was modified from data_list
+#'
+#' The date is currently exported as a string but
+#' should be turned into a a date class
+#' @inheritParams extract_metadata
+extract_modified_date <- function(data_list) {
+  if (!data_list_correct(data_list)) {
+    return(character())
+  }
+
+  if (!'modified' %in% names(data_list)) {
+    return("No modification date available")
+  }
+
+  modified <- as.POSIXct(substr(data_list$modified, 6, 25),
+                         format = "%d %b %Y %H:%M:%S", tz = "GMT")
+
+  # For now, but this should be converted
+  # to date time
+  modified
 }
 
 #' Extract the publisher code of the dataset from data_list

@@ -113,7 +113,7 @@ print.datos_gob_es <- function(x) {
       paste0("   Description: ", strtrim(metadata$description, width_print), ellipsis),
       paste0("   Publisher: ", metadata$publisher),
       paste0("   Languages: ", paste0(x$metadata$language, collapse = ", ")),
-      paste0("   Date of release: ", metadata$date),
+      paste0("   Date of release: ", metadata$date_issued),
       paste0("   # of files read: ", number_of_reads),
       sep = "\n")
 }
