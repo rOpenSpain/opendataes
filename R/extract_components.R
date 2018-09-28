@@ -18,7 +18,6 @@
 extract_metadata <- function(data_list) {
 
   keywords <- extract_keywords(data_list)
-  title <- extract_title(data_list)
   description <- extract_description(data_list)
   languages <- extract_language(data_list)
   url_path <- extract_url(data_list)
@@ -76,23 +75,6 @@ extract_keywords <- function(data_list) {
 
   keywords <- paste0(unlist(data_list$keyword), collapse = "; ")
   keywords
-}
-
-#' Extract title from data_list
-#'
-#' @inheritParams extract_metadata
-extract_title <- function(data_list) {
-
-  if (!data_list_correct(data_list)) {
-    return(character())
-  }
-
-  if (!'title' %in% names(data_list)) {
-    "No title available"
-  }
-
-  title <- unlist(data_list$title)
-  title
 }
 
 #' Extract description from data_list
