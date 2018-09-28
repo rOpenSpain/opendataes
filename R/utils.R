@@ -637,7 +637,10 @@ mimemap <- c(
 
 
 # This is a function factory that produces the same function
-# but changes only one function.
+# but changes only one function. This function extracts
+# the url format and assigns either that dataset's url
+# or that dataset's name depending on the function passed to
+# .fun. See the two functions below this function.
 determine_valid_urls <- function(.fun) {
   function(data_list, allowed_formats = permitted_formats) {
 
