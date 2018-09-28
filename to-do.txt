@@ -16,6 +16,8 @@
 
 ## TO-DO's:
 
+- Harmonize function names
+
 - Add unit tests but on the high levl functions once we have everything ready
 
 - Reorder files to group similar functions into separate R scripts
@@ -35,8 +37,6 @@ which can be found at data_list$modified. Should we add this to the printed
 metadata? Jorge Lopez.
 
 - Assume that the pkg reads a dataset from an excel file but reads it incorrectly. That is, it confuses headers with rows and adds some empty rows because of the excel format. I think that in the metadata we should provide all the direct links to each type of format in case the user wants to read the data directly. This eliminates us from the loop because they stop using the package but it allows the user to fully customize how they read the data. Jorge Lopez
-
-- We should add a link to the url of the info of the dataset in the ayuntamiento because we do not know what each column means. This is helpful because they can go toi the website and figureout what they all mean. Jorge Cimentada
 
 ##
 

@@ -1,4 +1,3 @@
-
 ## Two examples to test the functions below
 
 ## EX 1
@@ -24,6 +23,7 @@ extract_metadata <- function(data_list) {
   url_formats <- extract_url_format(data_list)
   date_data <- extract_date(data_list)
   publisher <- extract_publisher_name(data_list)
+  publisher_data_url <- extract_publisher_data_url(data_list)
 
 
   # Title, description, languages and url_path
@@ -52,6 +52,7 @@ extract_metadata <- function(data_list) {
       first_df,
       date = date_data,
       publisher = publisher,
+      publisher_data_url = publisher_data_url,
       stringsAsFactors = FALSE
     )
 
@@ -74,6 +75,18 @@ extract_keywords <- function(data_list) {
 
   keywords <- paste0(unlist(data_list$keyword), collapse = "; ")
   keywords
+}
+
+extract_publisher_data_url <- function(data_list) {
+  if (!data_list_correct(data_list)) {
+    return(character())
+  }
+
+  if (!'identifier' %in% names(data_list)) {
+    "No identifier available"
+  }
+
+  data_list$identifier
 }
 
 #' Extract description from data_list
@@ -169,7 +182,7 @@ extract_dataset_name <- function(data_list) {
   # the dataset. In practice, they're always the same but I
   # search for the word title to just check that at least one is there.
   if (!any(grepl("title", names(unlist(data_list$distribution))))) {
-    "No format available"
+    "No dataset name available"
   }
   # The name of the data, in principle, is according to the language.
   # That is, if there's english, catalan and spanish, there will be
