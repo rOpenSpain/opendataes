@@ -70,7 +70,7 @@ extract_keywords <- function(data_list) {
   }
 
   if (!'keyword' %in% names(data_list)) {
-    "No keywords available"
+    return("No keywords available")
   }
 
   keywords <- paste0(unlist(data_list$keyword), collapse = "; ")
@@ -83,7 +83,7 @@ extract_publisher_data_url <- function(data_list) {
   }
 
   if (!'identifier' %in% names(data_list)) {
-    "No identifier available"
+    return("No identifier available")
   }
 
   data_list$identifier
@@ -117,7 +117,7 @@ extract_url <- function(data_list) {
   }
 
   if (!'_about' %in% names(data_list)) {
-    "No URL available"
+    return("No URL available")
   }
 
   info_url <- data_list$`_about`
@@ -133,7 +133,7 @@ extract_access_url <- function(data_list) {
   }
 
   if (!'accessURL' %in% names(unlist(data_list$distribution))) {
-    "No URL available"
+    return("No access URL available")
   }
 
   if (is.null(getElement(data_list$distribution, "accessURL"))) {
@@ -161,7 +161,7 @@ extract_url_format <- function(data_list) {
   }
 
   if (!'format.value' %in% names(unlist(data_list$distribution))) {
-    "No format available"
+    return("No format available")
   }
 
   distr <- unlist(data_list['distribution'])
@@ -182,7 +182,7 @@ extract_dataset_name <- function(data_list) {
   # the dataset. In practice, they're always the same but I
   # search for the word title to just check that at least one is there.
   if (!any(grepl("title", names(unlist(data_list$distribution))))) {
-    "No dataset name available"
+    return("No dataset name available")
   }
   # The name of the data, in principle, is according to the language.
   # That is, if there's english, catalan and spanish, there will be
@@ -250,7 +250,7 @@ extract_publisher_code <- function(data_list) {
   }
 
   if (!'publisher' %in% names(data_list)) {
-    "No publisher available"
+    return("No publisher available")
   }
 
   publisher_code <- sub(".*\\/", "", data_list$publisher)
@@ -267,7 +267,7 @@ extract_publisher_name <- function(data_list) {
   }
 
   if (!'publisher' %in% names(data_list)) {
-    "No publisher available"
+    return("No publisher available")
   }
 
   publisher_code <- sub(".*\\/", "", data_list$publisher)
@@ -286,7 +286,7 @@ extract_endpath <- function(data_list) {
   }
 
   if (!'_about' %in% names(data_list)) {
-    "No link to the data in datos.gob.es"
+    return("No link to the data in datos.gob.es")
   }
 
   end_path <- sub(".*\\/", "", data_list[["_about"]])
