@@ -155,13 +155,13 @@ extract_url_format <- function(data_list) {
 }
 
 extract_dataset_name <- function(data_list) {
-
   # There are as many dataset names as there are languages for
   # the dataset. In practice, they're always the same but I
   # search for the word title to just check that at least one is there.
   if (!any(grepl("title", names(unlist(data_list$distribution))))) {
     return("No dataset name available")
   }
+
   # The name of the data, in principle, is according to the language.
   # That is, if there's english, catalan and spanish, there will be
   # three dataset names such as votos_politica.csv, votos_politica.csv, etc..
@@ -169,8 +169,15 @@ extract_dataset_name <- function(data_list) {
   # But to avoid creating a complex chain of which names to pick, I
   # always pick the first language, assuming that there's at least one
   # because the previous check makes sure there is at least one
+
+  if ("title" %in% names(data_list[['distribution']])) {
+    distribution <- data_list['distribution']
+  }  else {
+    distribution <- data_list[['distribution']]
+  }
+
   data_set_names <-
-    vapply(data_list$distribution,
+    vapply(distribution,
            function(x) x$title[[1]], FUN.VALUE = character(1))
 
   data_set_names
@@ -288,6 +295,8 @@ data_list_correct <- function(raw_json) {
   no_items <- !"items" %in% names(raw_json$result)
   no_datasets <- length(raw_json$result$items) == 0
 
+  if (no_items || no_datasets) return(FALSE)
+
   data_list <- raw_json$result$items[[1]]
 
   wrong_length <- length(data_list) == 0
@@ -298,8 +307,6 @@ data_list_correct <- function(raw_json) {
   no_description_slot <- !'description' %in% names(data_list)
 
   failure_tests <- c(
-    no_items,
-    no_datasets,
     wrong_length,
     no_names,
     no_distribution_slot,
