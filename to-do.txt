@@ -16,6 +16,11 @@
 
 ## TO-DO's:
 
+- Fix this:
+
+id <- 'l01080193-descripcion-de-la-causalidad-de-los-accidentes-gestionados-por-la-guardia-urbana-en-la-ciudad-de-barcelona'
+pl <- cargar_datos(id)
+
 - Harmonize function names
 
 - Add exploring functions so that the user doesn't have to enter the website.
