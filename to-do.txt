@@ -16,8 +16,6 @@
 
 ## TO-DO's:
 
-- In cargar_datos we check for two instances where the raw json has the correct format. If it doesn't, we shouldn't return a list but rather an error. The more I think about it, we should create a function to check for the whole format of the data_list and just pass that as the first check. Maybe we can refactor the data_list_correct function.
-
 - Harmonize function names
 
 - Add exploring functions so that the user doesn't have to enter the website.

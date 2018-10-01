@@ -58,8 +58,7 @@
 cargar_datos <- function(path_id, encoding = 'UTF-8', ...) {
   raw_json <- get_resp(path_dataset_id(path_id))
 
-  if (!"items" %in% names(raw_json$result)) return(list())
-  if (length(raw_json$result$items) == 0) return(list())
+  if (!data_list_correct(raw_json)) return(list())
 
   data_list <- raw_json$result$items[[1]]
 

@@ -67,10 +67,6 @@ extract_metadata <- function(data_list) {
 #' @inheritParams extract_metadata
 extract_keywords <- function(data_list) {
 
-  if (!data_list_correct(data_list)) {
-    return(character())
-  }
-
   if (!'keyword' %in% names(data_list)) {
     return("No keywords available")
   }
@@ -80,9 +76,6 @@ extract_keywords <- function(data_list) {
 }
 
 extract_publisher_data_url <- function(data_list) {
-  if (!data_list_correct(data_list)) {
-    return(character())
-  }
 
   if (!'identifier' %in% names(data_list)) {
     return("No identifier available")
@@ -95,9 +88,6 @@ extract_publisher_data_url <- function(data_list) {
 #'
 #' @inheritParams extract_metadata
 extract_description <- function(data_list) {
-  if (!data_list_correct(data_list)) {
-    return(character())
-  }
 
   if (!'_value' %in% names(unlist(data_list$description))) {
     return("No description available")
@@ -114,10 +104,6 @@ extract_description <- function(data_list) {
 #' @inheritParams extract_metadata
 extract_url <- function(data_list) {
 
-  if (!data_list_correct(data_list)) {
-    return(character())
-  }
-
   if (!'_about' %in% names(data_list)) {
     return("No URL available")
   }
@@ -130,9 +116,6 @@ extract_url <- function(data_list) {
 #'
 #' @inheritParams extract_metadata
 extract_access_url <- function(data_list) {
-  if (!data_list_correct(data_list)) {
-    return(character())
-  }
 
   if (!'accessURL' %in% names(unlist(data_list$distribution))) {
     return("No access URL available")
@@ -158,10 +141,6 @@ extract_access_url <- function(data_list) {
 #' @inheritParams extract_metadata
 extract_url_format <- function(data_list) {
 
-  if (!data_list_correct(data_list)) {
-    return(character())
-  }
-
   if (!'format.value' %in% names(unlist(data_list$distribution))) {
     return("No format available")
   }
@@ -176,9 +155,6 @@ extract_url_format <- function(data_list) {
 }
 
 extract_dataset_name <- function(data_list) {
-  if (!data_list_correct(data_list)) {
-    return(character())
-  }
 
   # There are as many dataset names as there are languages for
   # the dataset. In practice, they're always the same but I
@@ -204,9 +180,6 @@ extract_dataset_name <- function(data_list) {
 #'
 #' @inheritParams extract_metadata
 extract_language <- function(data_list) {
-  if (!data_list_correct(data_list)) {
-    return(character())
-  }
 
   if (!'_lang' %in% names(unlist(data_list$description))) {
     return("No language available")
@@ -225,9 +198,6 @@ extract_language <- function(data_list) {
 #' should be turned into a a date class
 #' @inheritParams extract_metadata
 extract_release_date <- function(data_list) {
-  if (!data_list_correct(data_list)) {
-    return(character())
-  }
 
   if (!'issued' %in% names(data_list)) {
     return("No release date available")
@@ -247,9 +217,6 @@ extract_release_date <- function(data_list) {
 #' should be turned into a a date class
 #' @inheritParams extract_metadata
 extract_modified_date <- function(data_list) {
-  if (!data_list_correct(data_list)) {
-    return(character())
-  }
 
   if (!'modified' %in% names(data_list)) {
     return("No modification date available")
@@ -267,9 +234,6 @@ extract_modified_date <- function(data_list) {
 #'
 #' @inheritParams extract_metadata
 extract_publisher_code <- function(data_list) {
-  if (!data_list_correct(data_list)) {
-    return(character())
-  }
 
   if (!'publisher' %in% names(data_list)) {
     return("No publisher available")
@@ -284,9 +248,6 @@ extract_publisher_code <- function(data_list) {
 #'
 #' @inheritParams extract_metadata
 extract_publisher_name <- function(data_list) {
-  if (!data_list_correct(data_list)) {
-    return(character())
-  }
 
   if (!'publisher' %in% names(data_list)) {
     return("No publisher available")
@@ -303,9 +264,6 @@ extract_publisher_name <- function(data_list) {
 #'
 #' @inheritParams extract_metadata
 extract_endpath <- function(data_list) {
-  if (!data_list_correct(data_list)) {
-    return(character())
-  }
 
   if (!'_about' %in% names(data_list)) {
     return("No link to the data in datos.gob.es")
@@ -325,17 +283,30 @@ extract_endpath <- function(data_list) {
 #' and then add them to the if statement
 #'
 #' @inheritParams extract_metadata
-data_list_correct <- function(data_list) {
+data_list_correct <- function(raw_json) {
+
+  no_items <- !"items" %in% names(raw_json$result)
+  no_datasets <- length(raw_json$result$items) == 0
+
+  data_list <- raw_json$result$items[[1]]
+
   wrong_length <- length(data_list) == 0
   no_names <- is.null(attr(data_list, 'names'))
-
   # Because the URL slot is in the distribution
   # and all data_lists must follow the same structure
   no_distribution_slot <- !'distribution' %in% names(data_list)
   no_description_slot <- !'description' %in% names(data_list)
 
+  failure_tests <- c(
+    no_items,
+    no_datasets,
+    wrong_length,
+    no_names,
+    no_distribution_slot,
+    no_description_slot
+  )
 
-  if (wrong_length | no_names | no_distribution_slot | no_description_slot) {
+  if (any(failure_tests)) {
     return(FALSE)
   }
 
