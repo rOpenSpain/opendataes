@@ -72,9 +72,8 @@ get_data <- function(data_list, encoding, ...) {
     output_data <- return_metadata(data_list)
   }
 
-  # If only one data frame, return a tibble
-  # otherwise return list
-  if (length(output_data) == 1) output_data[[1]] else output_data
+
+  output_data
 }
 
 
