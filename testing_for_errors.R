@@ -4,6 +4,15 @@
 # errors from the function and fix them as we go.
 
 
+
+# Examples
+# id <- 'l01080193-numero-total-de-edificios-con-viviendas-segun-numero-de-plantas'
+# id <- 'a02002834-numero-de-centros-segun-ancho-de-banda-de-la-conexion-a-internet-que-tiene-el-centro6'
+# id <- 'l02000012-centros-culturales'
+# resp <- get_resp(path_dataset_id(id))
+# data_list <- resp$result$items[[1]]
+
+
 id <- 'a16003011-indicadores-del-mercado-laboral-del-ano-2005-al-2014'
 pl <- cargar_datos(id)
 
@@ -28,13 +37,16 @@ pl <- cargar_datos(id)
 id <- 'l01080193-viviendas-principales-segun-anos-de-construccion'
 pl <- cargar_datos(id)
 
+id <- 'l01080193-puntos-wifi'
+pl <- cargar_datos(id)
+
+id <- 'l01080193-descripcion-de-la-causalidad-de-los-accidentes-gestionados-por-la-guardia-urbana-en-la-ciudad-de-barcelona'
+pl <- cargar_datos(id, 'ASCII')
+
 id <- 'l01280796-oficinas-de-registro'
 pl <- cargar_datos(id)
 
 id <- 'l01080193-base-de-datos-del-presupuesto-ingresos'
-pl <- cargar_datos(id)
-
-id <- 'l01080193-domicilios-segun-nacionalidad'
 pl <- cargar_datos(id)
 
 id <- 'l01280796-accidentes-de-trafico-2009-a-2014-seguridad-vial'
