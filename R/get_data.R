@@ -1,6 +1,8 @@
 #' Function for getting data from the website.
 #'
 #' @param data_list A data_list similar to resp$result$items[[1]] that contains information on a dataset
+#' @param encoding A valid encoding string passed to \code{\link[readr]{read_csv}}
+#' @param ... Arguments passed to \code{\link[readr]{read_csv}} and all other \code{read_*} functions.
 #'
 #' @details \code{get_data} will accept the end path of a data base and it will search for the access url.
 #' If the dataset is either a csv, xls, xlsx or xml, then it will
@@ -10,16 +12,6 @@
 #' For example, this URL: http://datos.gob.es/es/catalogo/a02002834-numero-de-centros-segun-ancho-de-banda-de-la-conexion-a-internet-que-tiene-el-centro6
 #' says that it has a XML file but once you click on the 'download' XML, it redirects to a JavaScript based
 #' webste that has the table. This file unfortunately is unreadble to the package.
-#'
-
-
-# Examples
-# id <- 'l01080193-numero-total-de-edificios-con-viviendas-segun-numero-de-plantas'
-# id <- 'a02002834-numero-de-centros-segun-ancho-de-banda-de-la-conexion-a-internet-que-tiene-el-centro6'
-# id <- 'l02000012-centros-culturales'
-# resp <- get_resp(path_dataset_id(id))
-# data_list <- resp$result$items[[1]]
-
 get_data <- function(data_list, encoding, ...) {
 
   # Check if publisher is available

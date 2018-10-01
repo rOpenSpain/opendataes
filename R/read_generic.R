@@ -60,7 +60,7 @@ csv_delim <- function(file, guess_max = 1000, threshold_rows = 0.9,
     unique_vals[!is.na(unique_vals)]
   })
 
-  unique_repetitions <- setNames(unique_repetitions, repeated_names)
+  unique_repetitions <- stats::setNames(unique_repetitions, repeated_names)
 
   if (length(unique_repetitions) == 0) return(NA_character_)
 

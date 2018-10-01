@@ -4,7 +4,7 @@
 #' from \url{https://datos.gob.es/es/catalogo/l01280148-seguridad-ciudadana-actuaciones-de-seccion-del-menor-en-educacion-vial-20141}.
 #' Must be a character string of length 1.
 #' @param encoding The encoding passed to read the csv. Most cases should be resolved with either
-#' 'UTF-8' or 'latin1'. However, the user can try any encoding available at
+#' 'UTF-8' or 'latin1'. However, the user can try any encoding available for \code{\link[readr]{read_csv}}
 #' @param ... arguments passed to \code{\link[readr]{read_csv}}
 #'
 #' @details The API of \url{https://datos.gob.es/} is not completely homogenous because it is an aggregator

@@ -4,10 +4,14 @@
 \alias{get_data}
 \title{Function for getting data from the website.}
 \usage{
-get_data(data_list, ...)
+get_data(data_list, encoding, ...)
 }
 \arguments{
 \item{data_list}{A data_list similar to resp$result$items[[1]] that contains information on a dataset}
+
+\item{encoding}{A valid encoding string passed to \code{\link[readr]{read_csv}}}
+
+\item{...}{Arguments passed to \code{\link[readr]{read_csv}} and all other \code{read_*} functions.}
 }
 \description{
 Function for getting data from the website.

@@ -289,7 +289,7 @@ extract_endpath <- function(data_list) {
 #' the same format: logical tests first
 #' and then add them to the if statement
 #'
-#' @inheritParams extract_metadata
+#' @param raw_json Raw JSON response from datos.gob.es
 data_list_correct <- function(raw_json) {
 
   no_items <- !"items" %in% names(raw_json$result)

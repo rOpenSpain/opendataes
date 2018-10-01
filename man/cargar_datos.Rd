@@ -12,7 +12,7 @@ from \url{https://datos.gob.es/es/catalogo/l01280148-seguridad-ciudadana-actuaci
 Must be a character string of length 1.}
 
 \item{encoding}{The encoding passed to read the csv. Most cases should be resolved with either
-'UTF-8' or 'latin1'. However, the user can try any encoding available at}
+'UTF-8' or 'latin1'. However, the user can try any encoding available for \code{\link[readr]{read_csv}}}
 
 \item{...}{arguments passed to \code{\link[readr]{read_csv}}}
 }

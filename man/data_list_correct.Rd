@@ -4,10 +4,10 @@
 \alias{data_list_correct}
 \title{Check data_list is in correct formats}
 \usage{
-data_list_correct(data_list)
+data_list_correct(raw_json)
 }
 \arguments{
-\item{data_list}{A data_list similar to resp$result$items[[1]] that contains information on a dataset}
+\item{raw_json}{Raw JSON response from datos.gob.es}
 }
 \description{
 When new checks come up, add them in
