@@ -10,7 +10,7 @@ test_that("cargar_datos for ONE dataset returns correct format", {
   expect_s3_class(res, "datos_gob_es")
   expect_is(unclass(res), "list")
   expect_is(res$metadata, "data.frame")
-  expect_is(res$data[[1]], "data.frame")
+  expect_true(all(vapply(res$data, is.data.frame, FUN.VALUE = logical(1))))
 
   # Check structure
   expect_named(unclass(res))
@@ -31,7 +31,7 @@ test_that("cargar_datos for SEVERAL dataset returns correct format", {
   expect_s3_class(res, "datos_gob_es")
   expect_is(unclass(res), "list")
   expect_is(res$metadata, "data.frame")
-  expect_is(res$data[[1]], "data.frame")
+  expect_true(all(vapply(res$data, is.data.frame, FUN.VALUE = logical(1))))
 
   # Check structure
   expect_named(unclass(res))
