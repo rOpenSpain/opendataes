@@ -77,30 +77,6 @@ get_resp <- function(url, attempts_left = 5, ...) {
 
 }
 
-
-#' Translate publisher code to publisher name
-#'
-#' @param code A publisher code
-translate_publisher <- function(code) {
-  all_publishers <- datos_publisher()
-  index <- which(all_publishers$publisher_code == code)
-  if (length(index) == 0) return("Publisher not available")
-  all_publishers$publisher[index]
-}
-
-#' Check if publisher is available in opendataes
-#'
-#' @param data_list A data_list similar to resp$result$items[[1]] that contains information on a dataset
-is_publisher_available <- function(data_list) {
-  publisher_code <- tolower(extract_publisher_code(data_list))
-  res <- ifelse(publisher_code %in% tolower(publishers_available$id),
-                TRUE, FALSE)
-
-  res
-}
-
-
-
 permitted_formats <- c("csv")
 
 # Mime map of equivalents of different mime formats
@@ -687,15 +663,7 @@ determine_valid_urls <- function(.fun) {
   }
 }
 
-# This is equivalent to the previous is_readable but now
-# is more modular
 determine_dataset_name <- determine_valid_urls(extract_dataset_name)
 determine_dataset_url <- determine_valid_urls(extract_access_url)
-
-# Vector with available publishers
-publishers_available = dplyr::tibble(
-  name = c("Ayuntamiento de Barcelona"),
-  id = c("l01080193")
-)
 
 suppress_all <- function(x) suppressMessages(suppressWarnings(x))
