@@ -19,10 +19,19 @@ datos_publisher <- function() {
   publisher_df
 }
 
-# Vector with available publishers
-publishers_available = dplyr::tibble(
-  name = c("Ayuntamiento de Barcelona"),
-  id = c("l01080193")
+#' Available publishers that `opendataes` can read
+#'
+#' @return a \code{\link[tibble]{tibble}} with two columns: publishers and publisher_code
+#'
+#' @seealso \code{\link[opendataes]{datos_publishers}}
+#' @export
+#'
+#' @examples
+#'
+#' publishers_available
+publishers_available <- dplyr::tibble(
+  publishers = c("Ayuntamiento de Barcelona"),
+  publisher_code = c("l01080193")
 )
 
 #' Translate publisher code to publisher name
@@ -40,7 +49,7 @@ translate_publisher <- function(code) {
 #' @param data_list A data_list similar to resp$result$items[[1]] that contains information on a dataset
 is_publisher_available <- function(data_list) {
   publisher_code <- tolower(extract_publisher_code(data_list))
-  res <- ifelse(publisher_code %in% tolower(publishers_available$id),
+  res <- ifelse(publisher_code %in% tolower(publishers_available$publisher_code),
                 TRUE, FALSE)
 
   res
