@@ -5,7 +5,7 @@ test_that("datos_publisher returns correct format", {
 
   expect_is(publisher, "data.frame")
   expect_equal(ncol(publisher), 2)
-  expect_gte(nrow(publishers), 50)
+  expect_gte(nrow(publisher), 50)
   expect_true(all(vapply(publisher, is.character, FUN.VALUE = logical(1))))
 })
 

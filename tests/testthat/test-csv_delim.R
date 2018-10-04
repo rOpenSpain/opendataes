@@ -1,16 +1,6 @@
 context("test-csv_delim.R")
 
-test_that("multiplication works", {
-  expect_equal(2 * 2, 4)
-})
-
 out1 <- csv_delim("a,b\n1,2,3\n")
-expect_warning(out2 <- read_csv("a,b\n1,2,3", col_types = "ii", progress = FALSE))
-expect_warning(out3 <- read_csv("1,2,3\n", c("a", "b"), progress = FALSE))
-expect_warning(out4 <- read_csv("1,2,3\n", c("a", "b"), "ii", progress = FALSE))
-
-
-# this is ,
 
 test_that("csv_delim can comma separated", {
   # Two rows correctly formatted
