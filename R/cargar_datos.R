@@ -3,15 +3,18 @@
 #' @param path_id The end path of a dataset such as 'l01280148-seguridad-ciudadana-actuaciones-de-seccion-del-menor-en-educacion-vial-20141'
 #' from \url{https://datos.gob.es/es/catalogo/l01280148-seguridad-ciudadana-actuaciones-de-seccion-del-menor-en-educacion-vial-20141}.
 #' Must be a character string of length 1.
-#' @param encoding The encoding passed to read the csv. Most cases should be resolved with either
-#' 'UTF-8' or 'latin1'. However, the user can try any encoding available for \code{\link[readr]{read_csv}}
-#' @param ... arguments passed to \code{\link[readr]{read_csv}}
+#'
+#' @param encoding The encoding passed to read (all) the csv(s). Most cases should be resolved with either
+#' 'UTF-8', latin1' or 'ASCII'. There are edge cases such as when printing any of the dataframes in the
+#' data slot results in an error 'input string 1 is invalid UTF-8'. When that happens, use
+#' \code{\link[readr]{guess_encoding}} to determine the encoding and try reading the dataset with the
+#' new encoding.
 #'
 #' @details The API of \url{https://datos.gob.es/} is not completely homogenous because it is an aggregator
 #' of many different API's from different cities and provinces of Spain. Currently, \code{cargar_datos}
-#' can read csv.
+#' can only read limited file formats. See
 #'
-#' However, in order for \code{cargar_datos} to read these files the access URL of the data needs to
+#' In order for \code{cargar_datos} to provide the safestread these files the access URL of the data needs to
 #' end with any of these paths. Note that the access URL is not the same as the URL from
 #' \url{https://datos.gob.es/}. It is the URL from the publisher of the dataset.
 #'
@@ -92,7 +95,7 @@ print.datos_gob_es <- function(x) {
     metadata <- x$metadata[1, ]
   }
 
-  check_read <- function(data) ncol(data) > 2 & !all(names(data) %in% c('format', "URL"))
+  check_read <- function(data) ncol(data) > 3 & !all(names(data) %in% c('name', 'format', "URL"))
 
 
   # We ned to check whether data is a data frame (1 data read)

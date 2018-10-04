@@ -61,7 +61,8 @@ get_data <- function(data_list, encoding, ...) {
 
   } else {
     # If no file to read, return all urls and formats
-    output_data <- return_metadata(data_list)
+    output_data <- list(return_metadata(data_list))
+    names(output_data) <- 'unavailable_formats'
   }
 
 
@@ -73,10 +74,11 @@ return_metadata <- function(data_list) {
   # If there's any error, this means that none of the formats
   # could be read. So we return the the tibble with the url
   # formats and the access urls
-  output_data <- dplyr::tibble(extract_url_format(data_list),
+  output_data <- dplyr::tibble(extract_dataset_name(data_list),
+                               extract_url_format(data_list),
                                extract_access_url(data_list))
 
-  names(output_data) <- c("format", "URL")
+  names(output_data) <- c("name", "format", "URL")
 
   output_data
 }
