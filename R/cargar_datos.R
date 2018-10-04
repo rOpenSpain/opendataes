@@ -1,4 +1,4 @@
-#' Extract data and metadata from an end path of \url{https://datos.gob.es/}
+#' Extract data and metadata from \url{https://datos.gob.es/}
 #'
 #' @param path_id The end path of a dataset such as 'l01280148-seguridad-ciudadana-actuaciones-de-seccion-del-menor-en-educacion-vial-20141'
 #' from \url{https://datos.gob.es/es/catalogo/l01280148-seguridad-ciudadana-actuaciones-de-seccion-del-menor-en-educacion-vial-20141}.
@@ -56,6 +56,9 @@
 #' some_data$data
 #'
 cargar_datos <- function(path_id, encoding = 'UTF-8', ...) {
+
+  if (!is.character(path_id) || length(path_id) > 1) stop("`path_id` must be a character of length 1")
+
   raw_json <- get_resp(path_dataset_id(path_id))
 
   if (!data_list_correct(raw_json)) return(list())
