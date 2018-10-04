@@ -1,11 +1,6 @@
 context("test-cargardatos.R")
 
-test_that("cargar_datos for ONE dataset returns correct format", {
-  skip_on_cran()
-
-  example_id <- 'l01080193-fecundidad-madres-de-15-a-19-anos-quinquenal-2003-2014'
-  res <- cargar_datos(example_id)
-
+standard_check <- function(res) {
   # Check classes
   expect_s3_class(res, "datos_gob_es")
   expect_is(unclass(res), "list")
@@ -19,6 +14,15 @@ test_that("cargar_datos for ONE dataset returns correct format", {
   expect_true(all(vapply(res$data,
                          function(x) nrow(x) >= 1, FUN.VALUE = logical(1))))
   expect_gte(nrow(res$metadata), 1)
+}
+
+test_that("cargar_datos for ONE dataset returns correct format", {
+  skip_on_cran()
+
+  example_id <- 'l01080193-fecundidad-madres-de-15-a-19-anos-quinquenal-2003-2014'
+  res <- cargar_datos(example_id)
+
+  standard_check(res)
 })
 
 test_that("cargar_datos for SEVERAL dataset returns correct format", {
@@ -27,19 +31,7 @@ test_that("cargar_datos for SEVERAL dataset returns correct format", {
   example_id <- 'l01080193-domicilios-segun-nacionalidad'
   res <- cargar_datos(example_id)
 
-  # Check classes
-  expect_s3_class(res, "datos_gob_es")
-  expect_is(unclass(res), "list")
-  expect_is(res$metadata, "data.frame")
-  expect_true(all(vapply(res$data, is.data.frame, FUN.VALUE = logical(1))))
-
-  # Check structure
-  expect_named(unclass(res))
-  expect_named(res$data)
-  expect_length(res, 2)
-  expect_true(all(vapply(res$data,
-                         function(x) nrow(x) >= 1, FUN.VALUE = logical(1))))
-  expect_gte(nrow(res$metadata), 1)
+  standard_check(res)
 })
 
 
@@ -50,4 +42,19 @@ test_that("cargar_datos for inexistent dataset returns empty list", {
   # Check classes
   expect_is(res, "list")
   expect_length(res, 0)
+})
+
+test_that("cargar_datos for more than one end path", {
+  example_id <- c('l01080193-domicilios-segun-nacionalidad',
+                  'l01080193-fecundidad-madres-de-15-a-19-anos-quinquenal-2003-2014')
+
+  expect_error(cargar_datos(example_id), "length(url) == 1 is not TRUE", fixed = TRUE)
+})
+
+
+test_that("cargar_datos reads factor url correctly", {
+  example_id <- factor('l01080193-fecundidad-madres-de-15-a-19-anos-quinquenal-2003-2014')
+  res <- cargar_datos(example_id)
+
+  standard_check(res)
 })
