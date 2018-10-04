@@ -21,13 +21,9 @@
 id <- 'l01080193-descripcion-de-la-causalidad-de-los-accidentes-gestionados-por-la-guardia-urbana-en-la-ciudad-de-barcelona'
 pl <- cargar_datos(id)
 
-- Harmonize function names
-
 - Add exploring functions so that the user doesn't have to enter the website.
 
 - Add unit tests but on the high levl functions once we have everything ready
-
-- Reorder files to group similar functions into separate R scripts
 
 - TRY MANY DIFFERENT DATASETS TO CHECK WHETHER WE HAVE A WORKING PACKAGE
 

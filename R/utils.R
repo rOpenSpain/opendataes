@@ -77,6 +77,13 @@ get_resp <- function(url, attempts_left = 5, ...) {
 
 }
 
+#' Current readable formats from datos.gob.es
+#'
+#' @export
+#'
+#' @format NULL
+#' @examples
+#' permitted_formats
 permitted_formats <- c("csv")
 
 # Mime map of equivalents of different mime formats
