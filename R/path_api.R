@@ -75,6 +75,8 @@ path_distribution <- function(param = NULL, ...) {
 #' the argument for consistency
 #' @param ... Extra arguments passed to \code{\link[httr]{build_url}}
 path_begin_end_date <- function(start_date, end_date, param = NULL, ...) {
+  #### NOTE ######
+  # Function NOT READY for use.
 
   # First approach: working always with strings. I've not worked so much with dates in R (lubridate maybe?)
   # This function must(!) be reviewed

@@ -1,3 +1,6 @@
+# This function receives a file, tries to determine the
+# delimiter and dispatches based on the separator of the file
+# to a read_* function from readr
 determine_read_generic <- function(file) {
   delimiter <- csv_delim(file)
 
@@ -96,7 +99,6 @@ csv_delim <- function(file, guess_max = 1000, threshold_rows = 0.9,
 }
 
 
-# internal fun
 one_true <- function(x) {
   table_trues <- table(x)
 
@@ -114,6 +116,9 @@ one_true <- function(x) {
   "no true"
 }
 
+
+# Matches the `match` in `pool_matches` and brings
+# according to the order in `pool_matches`
 pick_preference <- function(match, pool_matches) {
   available_delims <- match %in% pool_matches
 
