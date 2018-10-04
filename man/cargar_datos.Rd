@@ -2,7 +2,7 @@
 % Please edit documentation in R/cargar_datos.R
 \name{cargar_datos}
 \alias{cargar_datos}
-\title{Extract data and metadata from an end path of \url{https://datos.gob.es/}}
+\title{Extract data and metadata from \url{https://datos.gob.es/}}
 \usage{
 cargar_datos(path_id, encoding = "UTF-8", ...)
 }
@@ -11,10 +11,16 @@ cargar_datos(path_id, encoding = "UTF-8", ...)
 from \url{https://datos.gob.es/es/catalogo/l01280148-seguridad-ciudadana-actuaciones-de-seccion-del-menor-en-educacion-vial-20141}.
 Must be a character string of length 1.}
 
-\item{encoding}{The encoding passed to read the csv. Most cases should be resolved with either
-'UTF-8' or 'latin1'. However, the user can try any encoding available for \code{\link[readr]{read_csv}}}
+\item{encoding}{The encoding passed to read (all) the csv(s). Most cases should be resolved with either
+'UTF-8', latin1' or 'ASCII'. There are edge cases such as when printing any of the dataframes in the
+data slot results in the error 'input string 1 is invalid UTF-8'. When that happens, use
+\code{\link[readr]{guess_encoding}} to determine the encoding and try reading the dataset with the
+new encoding.}
 
-\item{...}{arguments passed to \code{\link[readr]{read_csv}}}
+\item{...}{Arguments passed to \code{\link[readr]{read_csv}} and the other related \code{read_*} functions.
+Internally, \code{cargar_datos} determins the delimiter of the file being read but the arguments
+for each of these functions are practically the same, so it doesn't matter how \code{cargar_datos}
+determines the delimiter, any of the arguments will work on all \code{read_*} functions.}
 }
 \value{
 a list with two slots: metadata and data. metadata is a \code{\link[tibble]{tibble}} that contains the
@@ -22,15 +28,19 @@ metadata of the file. data is also a \code{\link[tibble]{tibble}} and contains t
 See the details section for some caveats.
 }
 \description{
-Extract data and metadata from an end path of \url{https://datos.gob.es/}
+Extract data and metadata from \url{https://datos.gob.es/}
 }
 \details{
 The API of \url{https://datos.gob.es/} is not completely homogenous because it is an aggregator
 of many different API's from different cities and provinces of Spain. Currently, \code{cargar_datos}
-can read csv.
+can only read limited file formats. See
 
-However, in order for \code{cargar_datos} to read these files the access URL of the data needs to
-end with any of these paths. Note that the access URL is not the same as the URL from
+In order for \code{cargar_datos} to provide the safest behaviour, it is very conservative in what it can read.
+\code{cargar_datos} currently reads files from selected publishers because they offer standardized datasets
+which makes it safer to read. See the publishers that the function can read with \code{publishers_available}. You can also check
+the formats available to read with \code{permitted_formats}.
+
+Note that the access URL is not the same as the URL from
 \url{https://datos.gob.es/}. It is the URL from the publisher of the dataset.
 
 For example, this URL: \url{http://datos.gob.es/es/catalogo/a02002834-numero-de-centros-segun-ancho-de-banda-de-la-conexion-a-internet-que-tiene-el-centro6}

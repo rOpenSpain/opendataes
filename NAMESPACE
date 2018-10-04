@@ -2,3 +2,5 @@
 
 export(cargar_datos)
 export(datos_publisher)
+export(permitted_formats)
+export(publishers_available)

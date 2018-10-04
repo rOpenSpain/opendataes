@@ -23,7 +23,7 @@ datos_publisher <- function() {
 #'
 #' @return a \code{\link[tibble]{tibble}} with two columns: publishers and publisher_code
 #'
-#' @seealso \code{\link[opendataes]{datos_publishers}}
+#' @seealso \code{\link{datos_publisher}}
 #' @export
 #'
 #' @examples

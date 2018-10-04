@@ -6,16 +6,25 @@
 #'
 #' @param encoding The encoding passed to read (all) the csv(s). Most cases should be resolved with either
 #' 'UTF-8', latin1' or 'ASCII'. There are edge cases such as when printing any of the dataframes in the
-#' data slot results in an error 'input string 1 is invalid UTF-8'. When that happens, use
+#' data slot results in the error 'input string 1 is invalid UTF-8'. When that happens, use
 #' \code{\link[readr]{guess_encoding}} to determine the encoding and try reading the dataset with the
 #' new encoding.
+#'
+#' @param ... Arguments passed to \code{\link[readr]{read_csv}} and the other related \code{read_*} functions.
+#' Internally, \code{cargar_datos} determins the delimiter of the file being read but the arguments
+#' for each of these functions are practically the same, so it doesn't matter how \code{cargar_datos}
+#' determines the delimiter, any of the arguments will work on all \code{read_*} functions.
 #'
 #' @details The API of \url{https://datos.gob.es/} is not completely homogenous because it is an aggregator
 #' of many different API's from different cities and provinces of Spain. Currently, \code{cargar_datos}
 #' can only read limited file formats. See
 #'
-#' In order for \code{cargar_datos} to provide the safestread these files the access URL of the data needs to
-#' end with any of these paths. Note that the access URL is not the same as the URL from
+#' In order for \code{cargar_datos} to provide the safest behaviour, it is very conservative in what it can read.
+#' \code{cargar_datos} currently reads files from selected publishers because they offer standardized datasets
+#' which makes it safer to read. See the publishers that the function can read with \code{publishers_available}. You can also check
+#' the formats available to read with \code{permitted_formats}.
+#'
+#' Note that the access URL is not the same as the URL from
 #' \url{https://datos.gob.es/}. It is the URL from the publisher of the dataset.
 #'
 #' For example, this URL: \url{http://datos.gob.es/es/catalogo/a02002834-numero-de-centros-segun-ancho-de-banda-de-la-conexion-a-internet-que-tiene-el-centro6}
