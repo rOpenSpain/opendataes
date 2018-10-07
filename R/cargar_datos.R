@@ -11,18 +11,55 @@
 #' new encoding.
 #'
 #' @param ... Arguments passed to \code{\link[readr]{read_csv}} and the other related \code{read_*} functions.
-#' Internally, \code{cargar_datos} determins the delimiter of the file being read but the arguments
+#' Internally, \code{cargar_datos} determines the delimiter of the file being read but the arguments
 #' for each of these functions are practically the same, so it doesn't matter how \code{cargar_datos}
 #' determines the delimiter, any of the arguments will work on all \code{read_*} functions.
 #'
 #' @details The API of \url{https://datos.gob.es/} is not completely homogenous because it is an aggregator
-#' of many different API's from different cities and provinces of Spain. Currently, \code{cargar_datos}
-#' can only read limited file formats. See
+#' of many different API's from different cities and provinces of Spain. \code{cargar_datos} can only read
+#' a limited number of file formats but will keep increasing as the package evolves. You can check the available file formats
+#' in \code{permitted_formats}. If the file format of the requested \code{path_id} is not readable, \code{cargar_datos}
+#' will return a data frame with all available formats with their respective data URL so that users can read the manually.
 #'
-#' In order for \code{cargar_datos} to provide the safest behaviour, it is very conservative in what it can read.
-#' \code{cargar_datos} currently reads files from selected publishers because they offer standardized datasets
-#' which makes it safer to read. See the publishers that the function can read with \code{publishers_available}. You can also check
-#' the formats available to read with \code{permitted_formats}.
+#' In a similar line, in order for \code{cargar_datos} to provide the safest behaviour, it is very conservative in which
+#' publisher it can read from \url{https://datos.gob.es/}. Because some publishers do not have standardized datasets
+#' reading many different publishers can become very messy. \code{cargar_datos} currently reads files from selected
+#' publishers because they offer standardized datasets which makes it safer to read. See the publishers that the
+#' package can read with \code{publishers_available}.
+#'
+#' \code{cargar_datos} can return two possible outcomes: either an empty list or a list with a slot called metadata
+#' and another slot called data. Whenever the \code{path_id} argument is an invalid path, it will return an empty list.
+#' When the \code{path_id} is a valid dataset path, \code{cargar_datos} will return an a list with the two slots described above.
+#'
+#' For the metadata slot, \code{cargar_datos} attempts to extract all the metadata of the dataset. The columns are:
+#'
+#' \itemize{
+#' \item keywords: the available keywords from the dataset in \url{https://datos.gob.es/}.
+#' \item language: the available languages of the dataset metadata. Note that that this does not mean that the dataset
+#' is in different languages but only the meta data.
+#' \item description: a short description of the data being read/
+#' \item url: the url of the dataset in \url{https://datos.gob.es/}. Note that this dataset is not the access URL to the dataset
+#' but to the dataset homepage in \url{https://datos.gob.es/}.
+#' \item date_issued: the date at which the dataset was uploaded.
+#' \item date_modified: the date at which the last dataset was uploaded. If the dataset has only been uploaded once, this
+#' will return \code{'No modification date available'}.
+#' \item publisher: the entity that publishes the dataset. See \code{datos_publisher} for all available publishers.
+#' \item publisher_data_url: the homepage of the dataset in the website of the publisher. This is helpful to look
+#' at the definitions of the columns in the dataset.
+#' }
+#'
+#' The metadata of the API can sometimes be in an incorrect order. For example, there are cases when there are several
+#' languages available and the order of the different descriptions are not in the same order of the languages. If you
+#' find any of these errors, try raising the issue directly to \url{https://datos.gob.es/} as the package extracts all
+#' metadata in the same order as it is.
+#'
+#' Whenever the metadata is in different languages, the resulting \code{\link[tibble]{tibble}} will have
+#' the same numer of rows as there are languages containing the different texts in different languages and
+#' repeating the same information whenever it's similar across languages (such as the dates, which are language agnostic).
+#'
+#' In case the API returns empty requests, both data and metadata will be empty \code{\link[tibble]{tibble}}'s
+#' with the same column names.
+#'
 #'
 #' Note that the access URL is not the same as the URL from
 #' \url{https://datos.gob.es/}. It is the URL from the publisher of the dataset.
@@ -35,18 +72,6 @@
 #' Fortunately, \code{cargar_datos} will attempt to read the data and if it can't read it, it will return
 #' the same \code{\link[tibble]{tibble}} but with a column named URL with all available URL's. The user can then
 #' access the data manually.
-#'
-#' \code{cargar_datos} attempts to extract all the metadata of the dataset but sometimes this metadata might be wrong.
-#' For example, there are cases when there are several languages available and the order of the different titles
-#' are not in the same order of the languages. If you find any of these errors, try raising the issue directly to
-#' \url{https://datos.gob.es/} as the package attempts to extract all metadata in the same order as it is.
-#'
-#' Whenever the metadata is in different languages, the resulting \code{\link[tibble]{tibble}} will have
-#' the same numer of rows as there are languages containing the different texts in different languages and
-#' repeating the same information whenever it's similar across languages (such as the dates, which are language agnostic).
-#'
-#' In case the API returns empty requests, both data and metadata will be empty \code{\link[tibble]{tibble}}'s
-#' with the same column names.
 #'
 #' @return a list with two slots: metadata and data. metadata is a \code{\link[tibble]{tibble}} that contains the
 #' metadata of the file. data is also a \code{\link[tibble]{tibble}} and contains the actual data requested.
