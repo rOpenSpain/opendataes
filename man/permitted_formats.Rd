@@ -3,12 +3,12 @@
 \docType{data}
 \name{permitted_formats}
 \alias{permitted_formats}
-\title{Current readable formats from datos.gob.es}
+\title{Current readable formats from \url{https://datos.gob.es/}}
 \usage{
 permitted_formats
 }
 \description{
-Current readable formats from datos.gob.es
+Current readable formats from \url{https://datos.gob.es/}
 }
 \examples{
 permitted_formats

@@ -77,7 +77,7 @@ get_resp <- function(url, attempts_left = 5, ...) {
 
 }
 
-#' Current readable formats from datos.gob.es
+#' Current readable formats from \url{https://datos.gob.es/}
 #'
 #' @export
 #'

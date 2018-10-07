@@ -5,9 +5,9 @@
 #'
 #' @examples
 #'
-#' datos_publisher()
+#' cargar_publishers()
 #'
-datos_publisher <- function() {
+cargar_publishers <- function() {
   # Specify random huge number just to avoid running out of pages
   # in the future.
   resp <- get_resp_paginated(path_publishers(), 1000)
@@ -23,7 +23,7 @@ datos_publisher <- function() {
 #'
 #' @return a \code{\link[tibble]{tibble}} with two columns: publishers and publisher_code
 #'
-#' @seealso \code{\link{datos_publisher}}
+#' @seealso \code{\link{cargar_publishers}}
 #' @export
 #'
 #' @examples
@@ -38,7 +38,7 @@ publishers_available <- dplyr::tibble(
 #'
 #' @param code A publisher code
 translate_publisher <- function(code) {
-  all_publishers <- datos_publisher()
+  all_publishers <- cargar_publishers()
   index <- which(all_publishers$publisher_code == code)
   if (length(index) == 0) return("Publisher not available")
   all_publishers$publisher[index]

@@ -73,6 +73,8 @@ test_that("cargar_datos doesn't read if it's not a charachter of length 1", {
 
 
 test_that("cargar_datos returns links when format is not readable", {
+  skip_on_cran()
+
   not_readable <- cargar_datos("l01080193-estaciones-de-bicing-mecanicas-y-electricas")
   standard_check(not_readable)
 })

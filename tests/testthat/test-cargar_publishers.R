@@ -1,7 +1,7 @@
-context("test-datos_publisher.R")
+context("test-cargar_publishers.R")
 
-test_that("datos_publisher returns correct format", {
-  publisher <- datos_publisher()
+test_that("cargar_publishers returns correct format", {
+  publisher <- cargar_publishers()
 
   expect_is(publisher, "data.frame")
   expect_equal(ncol(publisher), 2)

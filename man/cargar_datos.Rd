@@ -48,7 +48,7 @@ but to the dataset's homepage in \url{https://datos.gob.es/}.
 \item date_issued: the date at which the dataset was uploaded.
 \item date_modified: the date at which the last dataset was uploaded. If the dataset has only been uploaded once, this
 will return \code{'No modification date available'}.
-\item publisher: the entity that publishes the dataset. See \code{datos_publisher} for all available publishers.
+\item publisher: the entity that publishes the dataset. See \code{\link{cargar_publishers}} for all available publishers.
 \item publisher_data_url: the homepage of the dataset in the website of the publisher. This is helpful to look
 at the definitions of the columns in the dataset.
 }
@@ -66,7 +66,7 @@ In case the API returns empty requests, both data and metadata will be empty \co
 with the same column names.
 
 For the data slot, \code{cargar_datos} returns a list containing at least one \code{\link[tibble]{tibble}}.
-If the dataset being request has file formats that \code{cargar_datos} can read (see \code{permitted_formats})
+If the dataset being request has file formats that \code{cargar_datos} can read (see \code{\link{permitted_formats}})
 it will read those files. If that dataset has several files, then it will return a list of the same length
 as there are datasets where each slot in that list is a \code{\link[tibble]{tibble}} with the data. If for
 some reason any of the datasets being read cannot be read, \code{cargar_datos} has a fall back mechanism
@@ -83,7 +83,7 @@ when the same dataset is repeated across time and we want to figure out which da
 The API of \url{https://datos.gob.es/} is not completely homogenous because it is an aggregator
 of many different API's from different cities and provinces of Spain. \code{cargar_datos} can only read
 a limited number of file formats but will keep increasing as the package evolves. You can check the available file formats
-in \code{permitted_formats}. If the file format of the requested \code{path_id} is not readable, \code{cargar_datos}
+in \code{\link{permitted_formats}}. If the file format of the requested \code{path_id} is not readable, \code{cargar_datos}
 will return a list with only one \code{\link[tibble]{tibble}} with all available formats with their respective data URL
 inside the data slot so that users can read the manually.
 
@@ -98,7 +98,7 @@ package can read in \code{publishers_available}.
 
 # For a dataset with only one file to read
 example_id <- 'l01080193-fecundidad-madres-de-15-a-19-anos-quinquenal-2003-2014'
-res <- cargar_datos(example_id)
+some_data <- cargar_datos(example_id)
 
 # Print the file to get some useful information
 some_data
@@ -150,8 +150,6 @@ Error in nchar(x[is_na], type = "width") :
 library(readr)
 guess_encoding(pl$data[[1]])
 
-
-id <- 'l01080193-descripcion-de-la-causalidad-de-los-accidentes-gestionados-por-la-guardia-urbana-en-la-ciudad-de-barcelona'
 pl <- cargar_datos(id, 'ASCII')
 
 # Success
