@@ -16,4 +16,5 @@ Imports:
     readr
 RoxygenNote: 6.1.0
 Suggests: 
-    testthat
+    testthat,
+    covr

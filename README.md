@@ -1,6 +1,6 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-[![Travis build status](https://travis-ci.org/cimentadaj/opendataes.svg?branch=master)](https://travis-ci.org/cimentadaj/opendataes)
+[![Travis build status](https://travis-ci.org/cimentadaj/opendataes.svg?branch=master)](https://travis-ci.org/cimentadaj/opendataes) [![Coverage status](https://codecov.io/gh/cimentadaj/opendataes/branch/master/graph/badge.svg)](https://codecov.io/github/cimentadaj/opendataes?branch=master)
 
 opendataes
 ==========
