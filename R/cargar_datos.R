@@ -1,16 +1,16 @@
-#' Extract data and metadata from \url{https://datos.gob.es/}
+#' Extract data and metadata from a given data set of \url{https://datos.gob.es/}
 #'
 #' @param path_id The end path of a dataset such as 'l01280148-seguridad-ciudadana-actuaciones-de-seccion-del-menor-en-educacion-vial-20141'
 #' from \url{https://datos.gob.es/es/catalogo/l01280148-seguridad-ciudadana-actuaciones-de-seccion-del-menor-en-educacion-vial-20141}.
 #' Must be a character string of length 1.
 #'
-#' @param encoding The encoding passed to read (all) the csv(s). Most cases should be resolved with either
+#' @param encoding The encoding passed to read (all) the csv ('s). Most cases should be resolved with either
 #' 'UTF-8', latin1' or 'ASCII'. There are edge cases such as when printing any of the dataframes in the
 #' data slot results in the error 'input string 1 is invalid UTF-8'. When that happens, use
 #' \code{\link[readr]{guess_encoding}} to determine the encoding and try reading the dataset with the
 #' new encoding.
 #'
-#' @param ... Arguments passed to \code{\link[readr]{read_csv}} and the other related \code{read_*} functions.
+#' @param ... Arguments passed to \code{\link[readr]{read_csv}} and the other related \code{read_*} functions from \\code{\link[readr]{readr}}.
 #' Internally, \code{cargar_datos} determines the delimiter of the file being read but the arguments
 #' for each of these functions are practically the same, so it doesn't matter how \code{cargar_datos}
 #' determines the delimiter, any of the arguments will work on all \code{read_*} functions.
@@ -26,7 +26,7 @@
 #' \itemize{
 #' \item keywords: the available keywords from the dataset in the homepage of the dataset.
 #' \item language: the available languages of the dataset's metadata. Note that that this does not mean that the dataset
-#' is in different languages but only the meta data.
+#' is in different languages but only the metadata.
 #' \item description: a short description of the data being read.
 #' \item url: the url of the dataset in \url{https://datos.gob.es/}. Note that this URL is not the access URL to the dataset
 #' but to the dataset's homepage in \url{https://datos.gob.es/}.
@@ -53,26 +53,28 @@
 #' For the data slot, \code{cargar_datos} returns a list containing at least one \code{\link[tibble]{tibble}}.
 #' If the dataset being request has file formats that \code{cargar_datos} can read (see \code{permitted_formats})
 #' it will read those files. If that dataset has several files, then it will return a list of the same length
-#' as there are datasets where each one is a \code{\link[tibble]{tibble}}. If for some reason any of the datasets
-#' being read cannot be read, \code{cargar_datos} has a fall back mechanism that returns the format that attempted
-#' to read together with the URL so that the user can try to read the dataset directly.
-#'
+#' as there are datasets where each slot in that list is a \code{\link[tibble]{tibble}} with the data. If for
+#' some reason any of the datasets being read cannot be read, \code{cargar_datos} has a fall back mechanism
+#' that returns the format that attempted to read together with the URL so that the user can try to read the
+#' dataset directly. In any case, the result will always be a list with \code{\link[tibble]{tibble}}'s
+#' where each one could be the requested dataset (success) or a dataset with the format and url that attempted
+#' to read but failed (failure).
 #'
 #' The API of \url{https://datos.gob.es/} is not completely homogenous because it is an aggregator
 #' of many different API's from different cities and provinces of Spain. \code{cargar_datos} can only read
 #' a limited number of file formats but will keep increasing as the package evolves. You can check the available file formats
 #' in \code{permitted_formats}. If the file format of the requested \code{path_id} is not readable, \code{cargar_datos}
-#' will return a data frame with all available formats with their respective data URL so that users can read the manually.
+#' will return only one data frame with all available formats with their respective data URL inside the data slot
+#' so that users can read the manually.
 #'
 #' In a similar line, in order for \code{cargar_datos} to provide the safest behaviour, it is very conservative in which
 #' publisher it can read from \url{https://datos.gob.es/}. Because some publishers do not have standardized datasets
 #' reading many different publishers can become very messy. \code{cargar_datos} currently reads files from selected
 #' publishers because they offer standardized datasets which makes it safer to read. See the publishers that the
-#' package can read with \code{publishers_available}.
+#' package can read in \code{publishers_available}.
 #'
-#' @return a list with two slots: metadata and data. metadata is a \code{\link[tibble]{tibble}} that contains the
-#' metadata of the file. data is also a \code{\link[tibble]{tibble}} and contains the actual data requested.
-#' See the details section for some caveats.
+#' @return if \code{path_id} is a valid dataset path, a list with two slots: metadata and data. If \code{path_id}
+#' is not a valid dataset path, it returns an empty list. See the details section for some caveats.
 #' @export
 #'
 #' @examples
