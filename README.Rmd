@@ -1,0 +1,48 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+[![Travis build status](https://travis-ci.org/cimentadaj/opendataes.svg?branch=master)](https://travis-ci.org/cimentadaj/opendataes)
+
+# opendataes
+
+The goal of `opendataes` is to interact and download with the API of [https://datos.gob.es](https://datos.gob.es)
+
+## Installation
+
+You can install the development version of opendataes from [Github](https://github.com) with:
+
+``` r
+remotes::install_github("cimentadaj/opendataes")
+```
+
+## Example
+
+This is a basic example which shows you how to solve a common problem:
+
+```{r example}
+library(opendataes)
+
+example_id <- 'l01080193-fecundidad-madres-de-15-a-19-anos-quinquenal-2003-2014'
+res <- cargar_datos(example_id)
+```
+
+You can access the metadata by subsetting the `metadata` slot.
+```{r}
+res$metadata
+```
+
+And the full data in the `data` slot.
+```{r}
+res$data
+```
