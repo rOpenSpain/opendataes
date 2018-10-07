@@ -76,3 +76,4 @@ test_that("cargar_datos returns links when format is not readable", {
   not_readable <- cargar_datos("l01080193-estaciones-de-bicing-mecanicas-y-electricas")
   standard_check(not_readable)
 })
+

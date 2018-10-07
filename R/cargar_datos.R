@@ -60,27 +60,35 @@
 #' where each one could be the requested dataset (success) or a dataset with the format and url that attempted
 #' to read but failed (failure).
 #'
+#' Inside the data slot, each list slot containing \code{\link[tibble]{tibble}}'s will be named according
+#' to the dataset that was read. When there is more than one dataset, the user can then enter the website
+#' in the \code{url} column in the metadata slot to see all names of the datasets. This is handy, for example,
+#' when the same dataset is repeated across time and we want to figure out which data is which from the slot.
+#'
 #' The API of \url{https://datos.gob.es/} is not completely homogenous because it is an aggregator
 #' of many different API's from different cities and provinces of Spain. \code{cargar_datos} can only read
 #' a limited number of file formats but will keep increasing as the package evolves. You can check the available file formats
 #' in \code{permitted_formats}. If the file format of the requested \code{path_id} is not readable, \code{cargar_datos}
-#' will return only one data frame with all available formats with their respective data URL inside the data slot
-#' so that users can read the manually.
+#' will return a list with only one \code{\link[tibble]{tibble}} with all available formats with their respective data URL
+#' inside the data slot so that users can read the manually.
 #'
 #' In a similar line, in order for \code{cargar_datos} to provide the safest behaviour, it is very conservative in which
 #' publisher it can read from \url{https://datos.gob.es/}. Because some publishers do not have standardized datasets
 #' reading many different publishers can become very messy. \code{cargar_datos} currently reads files from selected
-#' publishers because they offer standardized datasets which makes it safer to read. See the publishers that the
+#' publishers because they offer standardized datasets which makes it safer to read. As the package evolves and the
+#' data quality improves between publishers, the package will include more publishers. See the publishers that the
 #' package can read in \code{publishers_available}.
 #'
-#' @return if \code{path_id} is a valid dataset path, a list with two slots: metadata and data. If \code{path_id}
+#' @return if \code{path_id} is a valid dataset path, a list with two slots: metadata and data. Each slot
+#' contains \code{\link[tibble]{tibble}}'s that contain either metadata or the data itself. If \code{path_id}
 #' is not a valid dataset path, it returns an empty list. See the details section for some caveats.
 #' @export
 #'
 #' @examples
 #'
-#' id <- 'l01080193-numero-total-de-edificios-con-viviendas-segun-numero-de-plantas'
-#' some_data <- cargar_datos(id)
+#' # For a dataset with only one file to read
+#' example_id <- 'l01080193-fecundidad-madres-de-15-a-19-anos-quinquenal-2003-2014'
+#' res <- cargar_datos(example_id)
 #'
 #' # Print the file to get some useful information
 #' some_data
@@ -88,8 +96,57 @@
 #' # Access the metadata
 #' some_data$metadata
 #'
-#' # Access the data
+#' # Access the data. Note that the name of the dataset is in the list slot. Whenever
+#' # there are different files being read, you might want to enter to website of the dataset
+#' # you can either enter the website for some_data$metadata$url or some_data$metadata$publisher_data_url
 #' some_data$data
+#'
+#' # For a dataset with many files
+#'
+#' \dontrun{
+#' example_id <- 'l01080193-domicilios-segun-nacionalidad'
+#' res <- cargar_datos(example_id)
+#'
+#' # Note that you can see how many files were read in '# of files read'
+#' res
+#'
+#' # See how all datasets were read but we're not sure what each one means.
+#' # Check the metadata and read the description. If that doesn't do it,
+#' # go to the URL of the dataset from the metadata.
+#' res$data
+#'
+#' # Also note that some of the datasets were not read uniformly correct. For example,
+#' # some of these datasets were read with more columns or more rows. This is left
+#' # to the user to fix. We could've added new arguments to the `...` but that would
+#' # apply to ALL datasets and it then becomes too complicated.
+#'
+#'
+#' # Encoding problems
+#'
+#'
+#' id <- 'l01080193-descripcion-de-la-causalidad-de-los-accidentes-gestionados-por-la-guardia-urbana-en-la-ciudad-de-barcelona'
+#' pl <- cargar_datos(id)
+#'
+#' # The dataset is read successfully but once we print them, there's an error
+#' pl$data
+#' $`2011_ACCIDENTS_CAUSES_GU_BCN_.csv`
+#' Error in nchar(x[is_na], type = "width") :
+#'   invalid multibyte string, element 1
+#'
+#' # This error is due to an encoding problem.
+#' # We can use readr::guess_encoding to determine the encoding and reread
+#'
+#' # This suggests an ASCII encoding
+#' library(readr)
+#' guess_encoding(pl$data[[1]])
+#'
+#'
+#' id <- 'l01080193-descripcion-de-la-causalidad-de-los-accidentes-gestionados-por-la-guardia-urbana-en-la-ciudad-de-barcelona'
+#' pl <- cargar_datos(id, 'ASCII')
+#'
+#' # Success
+#' pl$data
+#' }
 #'
 cargar_datos <- function(path_id, encoding = 'UTF-8', ...) {
 
