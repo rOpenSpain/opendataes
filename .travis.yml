@@ -6,7 +6,7 @@ cache: packages
 addons:
   apt:
     packages:
-      - libssl1.0.0
+      - libcurl4-openssl-dev
 after_success:
     - Rscript -e 'covr::codecov()'
 
