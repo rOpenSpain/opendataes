@@ -5,7 +5,7 @@
 opendataes
 ==========
 
-The goal of `opendataes` is to interact and download with the API of <https://datos.gob.es>
+The goal of `opendataes` is to interact and download data with the API of <https://datos.gob.es>
 
 Installation
 ------------
