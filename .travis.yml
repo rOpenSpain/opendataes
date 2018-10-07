@@ -3,5 +3,10 @@
 language: R
 sudo: false
 cache: packages
+addons:
+  apt:
+    packages:
+      - libssl1.0.0
 after_success:
     - Rscript -e 'covr::codecov()'
+
