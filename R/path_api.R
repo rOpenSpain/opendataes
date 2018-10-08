@@ -6,6 +6,11 @@
 #'
 make_url <- function(path, param, ...) {
   hostname <- "datos.gob.es/apidata"
+
+  # datos.gob.es has some problems authenticating the SSL
+  # certificate. With this line we ignore SSL. Note that
+  # this is more important that it seems as it allows
+  # the travis checks to pass.
   httr::set_config(httr::config(ssl_verifypeer = 0L))
 
   # We could simply just paste together the URL

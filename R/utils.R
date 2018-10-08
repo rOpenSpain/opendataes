@@ -675,11 +675,6 @@ determine_dataset_url <- determine_valid_urls(extract_access_url)
 
 suppress_all <- function(x) suppressMessages(suppressWarnings(x))
 
-# Remove accents
-remove_accents <- function(string) {
-  chartr('áéíóúñ', 'aeioun', tolower(string))
-}
-
 # Substitute any punctuation sign by "-"
 set_hyphen <- function(string) {
   gsub('([[:punct:]])|\\s+', '-', string)

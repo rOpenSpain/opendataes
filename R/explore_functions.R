@@ -9,7 +9,7 @@ path_catalog_dataset <- function(path, param = NULL, ...) {
 
 # Building path for getting datasets by keyword
 path_explore_keyword <- function(keyword) {
-  keyword  <- remove_accents(string = keyword)
+  keyword  <- iconv(keyword, to='ASCII//TRANSLIT')
   path_catalog_dataset(paste0("keyword/", keyword))
 }
 
@@ -56,7 +56,7 @@ explorar_keywords <- function(keyword, publisher) {
   url_datasets <- names(determine_dataset_url(data_list[[index_publisher]]))
 
 
-  data_explored <- tibble::tibble(Descripcion_fichero = desc_datasets,
+  data_explored <- dplyr::tibble(Descripcion_fichero = desc_datasets,
                                   Publicador = name_publisher,
                                   Es_legible = is_format_readable,
                                   ID_lectura = id_datasets,

@@ -31,6 +31,8 @@ pl <- cargar_datos(id)
 
 - Fix travis
 
+- Test new explore functions with edge cases (empty strings, numbers, lists)
+
 - Make publishers to lower in low level function - Jorge Lopez
 
 - Increase code coverage

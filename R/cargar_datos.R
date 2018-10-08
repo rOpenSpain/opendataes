@@ -98,7 +98,8 @@
 #'
 #' # Access the data. Note that the name of the dataset is in the list slot. Whenever
 #' # there are different files being read, you might want to enter to website of the dataset
-#' # you can either enter the website for some_data$metadata$url or some_data$metadata$publisher_data_url
+#' # you can either enter the website for some_data$metadata$url or
+#' # some_data$metadata$publisher_data_url
 #' some_data$data
 #'
 #' # For a dataset with many files
@@ -123,8 +124,10 @@
 #'
 #' # Encoding problems
 #'
+#' long <- "l01080193-descripcion-de-la-causalidad-de-los-accidentes"
+#' string <- "-gestionados-por-la-guardia-urbana-en-la-ciudad-de-barcelona"
 #'
-#' id <- 'l01080193-descripcion-de-la-causalidad-de-los-accidentes-gestionados-por-la-guardia-urbana-en-la-ciudad-de-barcelona'
+#' id <- paste0(long, string)
 #' pl <- cargar_datos(id)
 #'
 #' # The dataset is read successfully but once we print them, there's an error
