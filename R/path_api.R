@@ -6,6 +6,7 @@
 #'
 make_url <- function(path, param, ...) {
   hostname <- "datos.gob.es/apidata"
+  httr::set_config(httr::config(ssl_verifypeer = 0L))
 
   # We could simply just paste together the URL
   # but `httr` has better handling for
@@ -15,7 +16,7 @@ make_url <- function(path, param, ...) {
   semi_url <-
     structure(
       list(
-        scheme = "http",
+        scheme = "https",
         hostname = hostname,
         path = path,
         query = param,
