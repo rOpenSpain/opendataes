@@ -15,7 +15,7 @@ make_url <- function(path, param, ...) {
   semi_url <-
     structure(
       list(
-        scheme = "https",
+        scheme = "http",
         hostname = hostname,
         path = path,
         query = param,
