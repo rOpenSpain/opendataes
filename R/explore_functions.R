@@ -30,9 +30,9 @@ explorar_keywords <- function(keyword, publisher) {
 
 
   # If any of them match with the available pubilshers code, get the index of them
+  if(!any(all_publishers_code %in% publishers_available$publisher_code))
+    stop("There is no dataset for publishers available. Please check publishers_available() to get the available ones.")
   index_publisher <- which(all_publishers_code %in% publishers_available$publisher_code)
-  # index_publisher <- NULL
-  # code_publisher <- NA_character_
 
 
   # Are these files (already filtered by publisher) readable?
@@ -41,7 +41,6 @@ explorar_keywords <- function(keyword, publisher) {
 
 
   # Build the final dataframe
-
   # If description is in Spanish, take Spanish, else, take the first one
   if(any(extract_language(data_list[[index_publisher]]) == "es")) {
     desc_datasets <- extract_description(data_list[[index_publisher]])
