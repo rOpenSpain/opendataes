@@ -4,20 +4,20 @@
 \alias{cargar_datos}
 \title{Extract data and metadata from a given data set of \url{https://datos.gob.es/}}
 \usage{
-cargar_datos(path_id, encoding = "UTF-8", ...)
+cargar_datos(x, encoding = "UTF-8", ...)
 }
 \arguments{
-\item{path_id}{The end path of a dataset such as 'l01280148-seguridad-ciudadana-actuaciones-de-seccion-del-menor-en-educacion-vial-20141'
-from \url{https://datos.gob.es/es/catalogo/l01280148-seguridad-ciudadana-actuaciones-de-seccion-del-menor-en-educacion-vial-20141}.
-Must be a character string of length 1.}
+\item{x}{A \code{\link[tibble]{tibble}} given by \code{\link{explorar_keywords}} only containing one dataset (1 row) or
+the end path of a dataset such as 'l01280148-seguridad-ciudadana-actuaciones-de-seccion-del-menor-en-educacion-vial-20141'
+from \url{https://datos.gob.es/es/catalogo/l01280148-seguridad-ciudadana-actuaciones-de-seccion-del-menor-en-educacion-vial-20141}.}
 
 \item{encoding}{The encoding passed to read (all) the csv ('s). Most cases should be resolved with either
-'UTF-8', latin1' or 'ASCII'. There are edge cases such as when printing any of the dataframes in the
+'UTF-8', 'latin1' or 'ASCII'. There are edge cases such as when printing any of the data frames in the
 data slot results in the error 'input string 1 is invalid UTF-8'. When that happens, use
 \code{\link[readr]{guess_encoding}} to determine the encoding and try reading the dataset with the
 new encoding.}
 
-\item{...}{Arguments passed to \code{\link[readr]{read_csv}} and the other related \code{read_*} functions from \\code{\link[readr]{readr}}.
+\item{...}{Arguments passed to \code{\link[readr]{read_csv}} and the other related \code{read_*} functions from \code{\link[readr]{readr}}.
 Internally, \code{cargar_datos} determines the delimiter of the file being read but the arguments
 for each of these functions are practically the same, so it doesn't matter how \code{cargar_datos}
 determines the delimiter, any of the arguments will work on all \code{read_*} functions.}
@@ -43,7 +43,7 @@ The columns are:
 \item language: the available languages of the dataset's metadata. Note that that this does not mean that the dataset
 is in different languages but only the metadata.
 \item description: a short description of the data being read.
-\item url: the url of the dataset in \url{https://datos.gob.es/}. Note that this URL is not the access URL to the dataset
+\item url: the complet url of the dataset in \url{https://datos.gob.es/}. Note that this URL is not the access URL to the dataset
 but to the dataset's homepage in \url{https://datos.gob.es/}.
 \item date_issued: the date at which the dataset was uploaded.
 \item date_modified: the date at which the last dataset was uploaded. If the dataset has only been uploaded once, this
@@ -88,7 +88,7 @@ will return a list with only one \code{\link[tibble]{tibble}} with all available
 inside the data slot so that users can read the manually.
 
 In a similar line, in order for \code{cargar_datos} to provide the safest behaviour, it is very conservative in which
-publisher it can read from \url{https://datos.gob.es/}. Because some publishers do not have standardized datasets
+publisher it can read from \url{https://datos.gob.es/}. Because some publishers do not have standardized datasets,
 reading many different publishers can become very messy. \code{cargar_datos} currently reads files from selected
 publishers because they offer standardized datasets which makes it safer to read. As the package evolves and the
 data quality improves between publishers, the package will include more publishers. See the publishers that the
@@ -157,6 +157,23 @@ pl <- cargar_datos(id, 'ASCII')
 
 # Success
 pl$data
+
+
+# For exploring datasets with explorar_keywords and piping to cargar_datos
+library(dplyr)
+
+kw <- explorar_keywords("turismo", "l01080193") # Ayuntamiento de Barcelona#'
+kw
+
+dts <-
+ kw \%>\%
+ filter(is_readable == TRUE,
+        grepl("Tipos de propietarios", description)) \%>\% # Narrow it down to only 1 dataset
+ cargar_datos()
+
+dts$metadata
+
+dts$data
 }
 
 }

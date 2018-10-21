@@ -2,5 +2,6 @@
 
 export(cargar_datos)
 export(cargar_publishers)
+export(explorar_keywords)
 export(permitted_formats)
 export(publishers_available)

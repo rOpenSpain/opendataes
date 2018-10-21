@@ -1,16 +1,16 @@
 #' Extract data and metadata from a given data set of \url{https://datos.gob.es/}
 #'
-#' @param x A \code{\link[tibble]{tibble}} given by \code{\link{explorar_keywords}} only containing one dataset (1 row) or t
-#' he end path of a dataset such as 'l01280148-seguridad-ciudadana-actuaciones-de-seccion-del-menor-en-educacion-vial-20141'
+#' @param x A \code{\link[tibble]{tibble}} given by \code{\link{explorar_keywords}} only containing one dataset (1 row) or
+#' the end path of a dataset such as 'l01280148-seguridad-ciudadana-actuaciones-de-seccion-del-menor-en-educacion-vial-20141'
 #' from \url{https://datos.gob.es/es/catalogo/l01280148-seguridad-ciudadana-actuaciones-de-seccion-del-menor-en-educacion-vial-20141}.
 #'
 #' @param encoding The encoding passed to read (all) the csv ('s). Most cases should be resolved with either
-#' 'UTF-8', latin1' or 'ASCII'. There are edge cases such as when printing any of the dataframes in the
+#' 'UTF-8', 'latin1' or 'ASCII'. There are edge cases such as when printing any of the data frames in the
 #' data slot results in the error 'input string 1 is invalid UTF-8'. When that happens, use
 #' \code{\link[readr]{guess_encoding}} to determine the encoding and try reading the dataset with the
 #' new encoding.
 #'
-#' @param ... Arguments passed to \code{\link[readr]{read_csv}} and the other related \code{read_*} functions from \\code{\link[readr]{readr}}.
+#' @param ... Arguments passed to \code{\link[readr]{read_csv}} and the other related \code{read_*} functions from \code{\link[readr]{readr}}.
 #' Internally, \code{cargar_datos} determines the delimiter of the file being read but the arguments
 #' for each of these functions are practically the same, so it doesn't matter how \code{cargar_datos}
 #' determines the delimiter, any of the arguments will work on all \code{read_*} functions.
@@ -28,7 +28,7 @@
 #' \item language: the available languages of the dataset's metadata. Note that that this does not mean that the dataset
 #' is in different languages but only the metadata.
 #' \item description: a short description of the data being read.
-#' \item url: the url of the dataset in \url{https://datos.gob.es/}. Note that this URL is not the access URL to the dataset
+#' \item url: the complet url of the dataset in \url{https://datos.gob.es/}. Note that this URL is not the access URL to the dataset
 #' but to the dataset's homepage in \url{https://datos.gob.es/}.
 #' \item date_issued: the date at which the dataset was uploaded.
 #' \item date_modified: the date at which the last dataset was uploaded. If the dataset has only been uploaded once, this
@@ -73,7 +73,7 @@
 #' inside the data slot so that users can read the manually.
 #'
 #' In a similar line, in order for \code{cargar_datos} to provide the safest behaviour, it is very conservative in which
-#' publisher it can read from \url{https://datos.gob.es/}. Because some publishers do not have standardized datasets
+#' publisher it can read from \url{https://datos.gob.es/}. Because some publishers do not have standardized datasets,
 #' reading many different publishers can become very messy. \code{cargar_datos} currently reads files from selected
 #' publishers because they offer standardized datasets which makes it safer to read. As the package evolves and the
 #' data quality improves between publishers, the package will include more publishers. See the publishers that the
@@ -147,21 +147,36 @@
 #'
 #' # Success
 #' pl$data
+#'
+#'
+#' # For exploring datasets with explorar_keywords and piping to cargar_datos
+#' library(dplyr)
+#'
+#' kw <- explorar_keywords("turismo", "l01080193") # Ayuntamiento de Barcelona#'
+#' kw
+#'
+#' dts <-
+#'  kw %>%
+#'  filter(is_readable == TRUE,
+#'         grepl("Tipos de propietarios", description)) %>% # Narrow it down to only 1 dataset
+#'  cargar_datos()
+#'
+#' dts$metadata
+#'
+#' dts$data
 #' }
 #'
-cargar_datos <- function(x, ...) {
+cargar_datos <- function(x, encoding = 'UTF-8', ...) {
 
   x <- if (is.data.frame(x)) check_keywords_df(x) else x
 
   UseMethod("cargar_datos", x)
 }
 
-# Method for keywords dataframe
-cargar_datos.datos_gob_es_keywords <- function(df, ...) {
-  cargar_datos(df$path_id, ...)
+cargar_datos.datos_gob_es_keywords <- function(df, encoding = 'UTF-8', ...) {
+  cargar_datos(df$path_id, encoding, ...)
 }
 
-# Method for character string
 cargar_datos.character <- function(path_id, encoding = 'UTF-8', ...) {
 
   if (!is.character(path_id) || length(path_id) > 1) stop("`path_id` must be a character of length 1")
@@ -183,24 +198,6 @@ cargar_datos.character <- function(path_id, encoding = 'UTF-8', ...) {
 
 
   returned_list
-}
-
-
-# Assign class so that cargar_datos knows what to do when encounters a dataframe
-# like this one, namely read the path_id
-check_keywords_df <- function(df) {
-  if (nrow(df) > 1) stop("The data frame resulted from explorar_keywords must have only 1 dataset (1 row). Make sure you filter down to only one dataset")
-  if (!isTRUE(df$is_readable)) stop('The chosen dataset from the keywords data frame is not readable')
-
-  columns <- c("description", "publisher", "is_readable", "path_id", "url")
-  if (!all(columns == colnames(df))) {
-    stop("The keywords data frame must contain and have this order of columns: ", paste0(columns, collapse = ", "))
-  }
-
-  if (!is.character(df$path_id)) stop("Column `path_id` from the keywords data frame must be a character vector")
-
-  class(df) <- c("datos_gob_es_keywords", class(df))
-  df
 }
 
 
@@ -244,4 +241,22 @@ print.datos_gob_es <- function(x) {
       paste0("   Date of release: ", metadata$date_issued),
       paste0("   # of files read: ", number_of_reads),
       sep = "\n")
+}
+
+
+# Assign class so that cargar_datos knows what to do when encounters a dataframe
+# like this one, namely read the path_id
+check_keywords_df <- function(df) {
+  if (nrow(df) > 1) stop("The data frame resulted from explorar_keywords must have only 1 dataset (1 row). Make sure you filter down to only one dataset")
+  if (!isTRUE(df$is_readable)) stop('The chosen dataset from the keywords data frame is not readable')
+
+  columns <- c("description", "publisher", "is_readable", "path_id", "url")
+  if (!all(columns == colnames(df))) {
+    stop("The keywords data frame must contain and have this order of columns: ", paste0(columns, collapse = ", "))
+  }
+
+  if (!is.character(df$path_id)) stop("Column `path_id` from the keywords data frame must be a character vector")
+
+  class(df) <- c("datos_gob_es_keywords", class(df))
+  df
 }

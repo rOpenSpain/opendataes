@@ -8,23 +8,23 @@
 #' 'viviendas' for the Ayuntamiento of Barcelona. If there are no matches for a keyword-publisher combination,
 #' \code{explorar_keywords} will raise an error stating that there are no matches.
 #'
-#' \code{explorar_keywords} returns a data frame with these columns:
+#' \code{explorar_keywords} returns a data frame with the following columns:
 #'
 #' \itemize{
 #' \item description: a short description of each of the matched datasets in Spanish
-#'  (Spanish is set as default if available, if not, then the first non-matching language is chosen).
+#'  (Spanish is set as default if available, if not, then the first non-spanish language is chosen).
 #' \item publisher: the entity that publishes the dataset. See \code{\link{cargar_publishers}} for all available publishers.
 #' \item is_readable: whether that dataset is currently readable by \code{\link{cargar_datos}}.
 #' See \code{\link{permitted formats}} for currently available formats
 #' \item path_id: the end path that identifies that dataset in the \url{https://datos.gob.es/} API.
-#' \item url: the url of the dataset in \url{https://datos.gob.es/}. Note that this URL is not the access URL to the dataset
+#' \item url: the complete url of the dataset in \url{https://datos.gob.es/}. Note that this URL is not the access URL to the dataset
 #' but to the dataset's homepage in \url{https://datos.gob.es/}.
 #' }
 #'
 #' In most cases the user will need to narrow down their search because the result of \code{explorar_keywords}
-#' will have too many datasets. Beware that for passing this function to \code{\link{cargar_datos}} the dataset
-#' needs to be narrowed done to only one dataset (that is, 1 row) and the structure needs to be the same
-#' as from the original output of \code{explorar_keywords} (same column names, in the same order).
+#' will have too many datasets. Beware that for passing the result of this function to \code{\link{cargar_datos}} the final
+#' data frame needs to be narrowed down to only one dataset (that is, 1 row) and the structure needs to be the same
+#' as from the original output of \code{explorar_keywords} (same column names, in the same order). See examples below.
 #'
 #'
 #' @seealso \code{\link{cargar_datos}}
@@ -45,7 +45,7 @@
 #' # Notice how we narrow down to only 1 dataset
 #' dts <-
 #'  kw %>%
-#'  filter(grepl("Precios", description)) %>%
+#'  filter(grepl("Precios", description)) %>% # Narrow it down to only 1 dataset
 #'  cargar_datos('ASCII')
 #'
 #' # Notice that we had to specify the encoding because printing the dataset returns an error.
