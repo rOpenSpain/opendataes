@@ -249,7 +249,7 @@ print.datos_gob_es <- function(x) {
 # Assign class so that cargar_datos knows what to do when encounters a dataframe
 # like this one, namely read the path_id
 check_keywords_df <- function(df) {
-  if (nrow(df) > 1) stop("The data frame resulted from explorar_keywords must have only 1 dataset (1 row). Make sure you filter down to only one dataset")
+  if (nrow(df) != 1) stop("The data frame resulted from explorar_keywords must have only 1 dataset (1 row). Make sure you filter down to only one dataset")
   if (!isTRUE(df$is_readable)) stop('The chosen dataset from the keywords data frame is not readable')
 
   columns <- c("description", "publisher", "is_readable", "path_id", "url")

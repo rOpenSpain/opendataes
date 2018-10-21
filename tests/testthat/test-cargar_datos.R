@@ -16,6 +16,7 @@ standard_check <- function(res) {
   expect_gte(nrow(res$metadata), 1)
 }
 
+
 test_that("cargar_datos for ONE dataset returns correct format", {
   skip_on_cran()
 
@@ -24,6 +25,7 @@ test_that("cargar_datos for ONE dataset returns correct format", {
 
   standard_check(res)
 })
+
 
 test_that("cargar_datos for SEVERAL dataset returns correct format", {
   skip_on_cran()
@@ -44,12 +46,14 @@ test_that("cargar_datos for inexistent dataset returns empty list", {
   expect_length(res, 0)
 })
 
+
 test_that("cargar_datos for more than one end path", {
   example_id <- c('l01080193-domicilios-segun-nacionalidad',
                   'l01080193-fecundidad-madres-de-15-a-19-anos-quinquenal-2003-2014')
 
   expect_error(cargar_datos(example_id), "`x` must be a character of length 1", fixed = TRUE)
 })
+
 
 
 test_that("cargar_datos doesn't read if it's not a character of length 1", {
@@ -66,7 +70,11 @@ test_that("cargar_datos doesn't read if it's not a character of length 1", {
   expect_error(cargar_datos.character(example_id), "`x` must be a character of length 1")
 })
 
+
+
 test_that("cargar_datos uses encoding and readr arguments to read only 5 rows", {
+  skip_on_cran()
+
   tst <-
     cargar_datos('l01080193-elecciones-al-parlamento-europeo-sobre-electores',
                  'latin1',
@@ -76,6 +84,8 @@ test_that("cargar_datos uses encoding and readr arguments to read only 5 rows", 
 })
 
 
+
+
 test_that("cargar_datos returns links when format is not readable", {
   skip_on_cran()
 
@@ -83,12 +93,16 @@ test_that("cargar_datos returns links when format is not readable", {
   standard_check(not_readable)
 })
 
+
+
 # No need to check for the keyword's format and content because if this passes
 # it means it has the same structure as the character tests
 test_that("cargar_datos's character and keyword results match exactly", {
+  skip_on_cran()
+
   character_method <- cargar_datos('l01080193-elecciones-al-parlamento-europeo-sobre-electores', 'latin1', n_max = 5)
 
-  kw <- explorar_keywords("la Prosperitat", publishers_available$publisher_code)
+  kw <- explorar_keywords("la Prosperitat", "l01080193")
 
   intm <- kw[grepl("Elecciones al Parlamento Europeo. % sobre electores", kw$description), ]
   keyword_method <- cargar_datos(intm, 'latin1', n_max = 5)
@@ -96,31 +110,36 @@ test_that("cargar_datos's character and keyword results match exactly", {
   expect_identical(character_method, keyword_method)
 })
 
-test_that("cargar_datos throws errors when the keyword data frame is not in expected formed", {
-  kw <- explorar_keywords("la Prosperitat", publishers_available$publisher_code)
-  cp <- kw
 
-  expect_error(cargar_datos(kw),
-               "The data frame resulted from explorar_keywords must have only 1 dataset (1 row). Make sure you filter down to only one dataset",
-               fixed = TRUE)
 
-  cp <- cp[grepl("Elecciones al Parlamento Europeo. % sobre electores", cp$description), ]
-  cp$path_id <- factor(path_id)
+test_that("cargar_datos throws errors when the keyword data frame is not in expected format", {
+  skip_on_cran()
+
+  cp <- explorar_keywords("la Prosperitat", "l01080193")
 
   expect_error(cargar_datos(cp),
                "The data frame resulted from explorar_keywords must have only 1 dataset (1 row). Make sure you filter down to only one dataset",
                fixed = TRUE)
 
+  expect_error(cargar_datos(data.frame()),
+               "The data frame resulted from explorar_keywords must have only 1 dataset (1 row). Make sure you filter down to only one dataset",
+               fixed = TRUE)
 
-  expect_identical(character_method, keyword_method)
-})
 
-test_that("cargar_datos for empty df throws error", {
-  kw <- explorar_keywords("la Prosperitat", publishers_available$publisher_code)
+  cp <- cp[grepl("Elecciones al Parlamento Europeo. % sobre electores", cp$description), ]
+  cp$path_id <- factor(cp$path_id)
 
-  intm <- kw[grepl("Elecciones al Parlamento Europeo. % sobre electores", kw$description), ]
-  keyword_method <- cargar_datos(intm, 'latin1', n_max = 5)
+  expect_error(cargar_datos(cp),
+               "Column `path_id` from the keywords data frame must be a character vector",
+               fixed = TRUE)
 
-  expect_identical(character_method, keyword_method)
+  kw <- explorar_keywords("Barcino", "l01080193")
+  expect_error(cargar_datos(kw),
+               "The chosen dataset from the keywords data frame is not readable")
+
+  colnames(cp)[1] <- 'test'
+  expect_error(cargar_datos(cp),
+               "The keywords data frame must contain and have this order of columns: description, publisher, is_readable, path_id, url",
+               fixed = TRUE)
 })
 
