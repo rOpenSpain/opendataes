@@ -173,15 +173,17 @@ cargar_datos <- function(x, encoding = 'UTF-8', ...) {
   UseMethod("cargar_datos", x)
 }
 
-cargar_datos.datos_gob_es_keywords <- function(df, encoding = 'UTF-8', ...) {
-  cargar_datos(df$path_id, encoding, ...)
+#' @export
+cargar_datos.datos_gob_es_keywords <- function(x, encoding = 'UTF-8', ...) {
+  cargar_datos(x$path_id, encoding, ...)
 }
 
-cargar_datos.character <- function(path_id, encoding = 'UTF-8', ...) {
+#' @export
+cargar_datos.character <- function(x, encoding = 'UTF-8', ...) {
 
-  if (!is.character(path_id) || length(path_id) > 1) stop("`path_id` must be a character of length 1")
+  if (!is.character(x) || length(x) > 1) stop("`x` must be a character of length 1")
 
-  raw_json <- get_resp(path_dataset_id(path_id))
+  raw_json <- get_resp(path_dataset_id(x))
 
   if (!data_list_correct(raw_json)) return(list())
 

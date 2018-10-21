@@ -21,7 +21,7 @@
 id <- 'l01080193-descripcion-de-la-causalidad-de-los-accidentes-gestionados-por-la-guardia-urbana-en-la-ciudad-de-barcelona'
 pl <- cargar_datos(id)
 
-- Add exploring functions so that the user doesn't have to enter the website.
+- Add tests for using readr arguments
 
 - TRY MANY DIFFERENT DATASETS TO CHECK WHETHER WE HAVE A WORKING PACKAGE
 
@@ -29,13 +29,13 @@ pl <- cargar_datos(id)
 
 - Create and develop vignette of functionality
 
-- Fix travis
-
 - Test new explore functions with edge cases (empty strings, numbers, lists)
 
 - Make publishers to lower in low level function - Jorge Lopez
 
 - Increase code coverage
+
+- Remove dplyr dependency.
 
 - Add tests for exploratory of data functions
 

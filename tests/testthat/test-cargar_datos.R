@@ -48,27 +48,22 @@ test_that("cargar_datos for more than one end path", {
   example_id <- c('l01080193-domicilios-segun-nacionalidad',
                   'l01080193-fecundidad-madres-de-15-a-19-anos-quinquenal-2003-2014')
 
-  expect_error(cargar_datos(example_id), "`path_id` must be a character of length 1", fixed = TRUE)
+  expect_error(cargar_datos(example_id), "`x` must be a character of length 1", fixed = TRUE)
 })
 
 
-test_that("cargar_datos doesn't read if it's not a charachter of length 1", {
-
-  # vectors of length 2
-  example_id <- c('l01080193-domicilios-segun-nacionalidad',
-                  'l01080193-fecundidad-madres-de-15-a-19-anos-quinquenal-2003-2014')
-  expect_error(cargar_datos(example_id), "`path_id` must be a character of length 1", fixed = TRUE)
+test_that("cargar_datos doesn't read if it's not a character of length 1", {
 
   # Factors
   example_id <- factor('l01080193-fecundidad-madres-de-15-a-19-anos-quinquenal-2003-2014')
-  expect_error(cargar_datos(example_id), "`path_id` must be a character of length 1")
+  expect_error(cargar_datos.character(example_id), "`x` must be a character of length 1")
 
   # Numerics
-  expect_error(cargar_datos(1), "`path_id` must be a character of length 1")
+  expect_error(cargar_datos.character(1), "`x` must be a character of length 1")
 
 
   example_id <- list('l01080193-domicilios-segun-nacionalidad')
-  expect_error(cargar_datos(example_id), "`path_id` must be a character of length 1")
+  expect_error(cargar_datos.character(example_id), "`x` must be a character of length 1")
 })
 
 
