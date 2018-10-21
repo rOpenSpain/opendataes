@@ -83,9 +83,5 @@ explorar_keywords <- function(keyword, publisher) {
   # Becasue we only accept one publisher, we need to run this only once at the end
   final_dt$publisher <- translate_publisher(code = toupper(publisher))
 
-  # Assign class so that cargar_datos knows what to do when encounters a dataframe
-  # like this one, namely read the path_id
-  class(final_dt) <- c(class(final_dt), "datos_gob_es_keywords")
-
   final_dt[c('description', 'publisher', 'is_readable', 'path_id', 'complete_url')]
 }

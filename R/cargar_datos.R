@@ -150,15 +150,14 @@
 #' }
 #'
 cargar_datos <- function(x, ...) {
-  UseMethod("cargar_datos")
+
+  x <- if (is.data.frame(x)) check_keywords_df(x) else x
+
+  UseMethod("cargar_datos", x)
 }
 
 # Method for keywords dataframe
 cargar_datos.datos_gob_es_keywords <- function(df, ...) {
-  if (nrow(df) > 1) stop("The data frame resulted from explorar_keywords must have only 1 dataset (1 row). Make sure you filter down to only one dataset")
-
-  if (!isTRUE(df$is_readable)) stop('The chosen dataset from the keywords data frame is not readable')
-
   cargar_datos(df$path_id, ...)
 }
 
@@ -185,6 +184,25 @@ cargar_datos.character <- function(path_id, encoding = 'UTF-8', ...) {
 
   returned_list
 }
+
+
+# Assign class so that cargar_datos knows what to do when encounters a dataframe
+# like this one, namely read the path_id
+check_keywords_df <- function(df) {
+  if (nrow(df) > 1) stop("The data frame resulted from explorar_keywords must have only 1 dataset (1 row). Make sure you filter down to only one dataset")
+  if (!isTRUE(df$is_readable)) stop('The chosen dataset from the keywords data frame is not readable')
+
+  columns <- c("description", "publisher", "is_readable", "path_id", "complete_url")
+  if (!all(columns == colnames(df))) {
+    stop("The keywords data frame must contain and have this order of columns: ", paste0(columns, collapse = ", "))
+  }
+
+  if (!is.character(df$path_id)) stop("Column `path_id` from the keywords data frame must be a character vector")
+
+  class(df) <- c("datos_gob_es_keywords", class(df))
+  df
+}
+
 
 # Print method for the datos_gob_es
 print.datos_gob_es <- function(x) {
