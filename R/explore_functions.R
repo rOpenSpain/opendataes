@@ -18,50 +18,74 @@ path_explore_keyword <- function(keyword) {
 # Function to explore the keywords by publisher (documentation pending)
 explorar_keywords <- function(keyword, publisher) {
 
-  if(!any(tolower(publisher) %in% tolower(publishers_available$publisher_code)))
-    stop("Publisher not available. Please check publishers_available() to get the available ones.")
+  stopifnot(length(publisher) == 1,
+            length(keyword) == 1,
+            is.character(publisher),
+            is.character(keyword))
+
+  lower_pub <- tolower(publisher)
+
+  if (!(lower_pub %in% tolower(publishers_available$publisher_code)))
+    stop("Publisher `", publisher,"`` not available. Please check publishers_available() to get the available ones.")
 
   path_keyword <- path_explore_keyword(keyword)
-  resp <- get_resp_paginated(path_keyword, num_pages = 100) # num_pages to determinate
+  resp <- get_resp_paginated(path_keyword, num_pages = 1000) # num_pages to determinate
   data_list <- resp$result$items
 
-  # Get all publishers based on the searched keyword
+  # Get publishers based on the searched keyword
   all_publishers_code <- lapply(data_list, function(x) tolower(extract_publisher_code(data_list = x)))
 
+  # Match the publishers code from the keyword to the requested publisher. This works
+  # because we already checked that this publisher is available.
+  matched_publisher <- all_publishers_code %in% lower_pub
 
   # If any of them match with the available pubilshers code, get the index of them
-  if(!any(all_publishers_code %in% publishers_available$publisher_code))
-    stop("There is no dataset for publishers available. Please check publishers_available() to get the available ones.")
-  index_publisher <- which(all_publishers_code %in% publishers_available$publisher_code)
+  if (!any(matched_publisher))
+    stop("There are not datasets matching the keyword `", keyword, "` and publisher `", publisher, "`")
 
-
-  # Are these files (already filtered by publisher) readable?
-  all_are_readable <- lapply(data_list[index_publisher], function(x) determine_dataset_url(data_list = x))
-  is_format_readable <- ifelse(length(all_are_readable) != 0, TRUE, FALSE)
-
+  index_publisher <- which(matched_publisher)
 
   # Build the final dataframe
   # If description is in Spanish, take Spanish, else, take the first one
-  if(any(extract_language(data_list[[index_publisher]]) == "es")) {
-    desc_datasets <- extract_description(data_list[[index_publisher]])
-    desc_datasets <- desc_datasets[extract_language(data_list[[index_publisher]]) == "es"]
-  } else {
-    desc_datasets <- extract_description(data_list[[index_publisher]])[1]
-  }
+  selected_dl <- data_list[index_publisher]
 
-  # Get name, id and URL
-  name_publisher <- translate_publisher(code = toupper(publisher))
-  id_datasets <- extract_endpath(data_list[[index_publisher]])
-  url_datasets <- names(determine_dataset_url(data_list[[index_publisher]]))
+  data_explored <- lapply(selected_dl, function(x) {
+    es_lang <- extract_language(x) == "es"
+
+    # Always has preerence for spanish because I think all
+    # datasets must have Spanish.
+    if (any(es_lang)) {
+      desc_datasets <- extract_description(x)[es_lang]
+    } else {
+      desc_datasets <- extract_description(x)[1]
+    }
+
+    # Get name, id and URL
+    id_datasets <- extract_endpath(x)
+    url_datasets <- extract_url(x)
+
+    # Is this file (already filtered by publisher) readable?
+    formats_read <- determine_dataset_url(x)
+
+    # Check whether the match is readable.
+    is_format_readable <- ifelse(length(formats_read) != 0, TRUE, FALSE)
 
 
-  data_explored <- dplyr::tibble(Descripcion_fichero = desc_datasets,
-                                  Publicador = name_publisher,
-                                  Es_legible = is_format_readable,
-                                  ID_lectura = id_datasets,
-                                  URL = url_datasets)
+    data_explored <- dplyr::tibble(description = desc_datasets,
+                                   is_readable = is_format_readable,
+                                   path_id = id_datasets,
+                                   complete_url = url_datasets)
+    data_explored
+  })
 
+  final_dt <- Reduce(rbind, data_explored)
 
-  data_explored
+  # Becasue we only accept one publisher, we need to run this only once at the end
+  final_dt$publisher <- translate_publisher(code = toupper(publisher))
 
+  # Assign class so that cargar_datos knows what to do when encounters a dataframe
+  # like this one, namely read the path_id
+  class(final_dt) <- c(class(final_dt), "datos_gob_es_keywords")
+
+  final_dt[c('description', 'publisher', 'is_readable', 'path_id', 'complete_url')]
 }
