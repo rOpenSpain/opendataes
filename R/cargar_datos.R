@@ -1,8 +1,8 @@
 #' Extract data and metadata from a given data set of \url{https://datos.gob.es/}
 #'
-#' @param path_id The end path of a dataset such as 'l01280148-seguridad-ciudadana-actuaciones-de-seccion-del-menor-en-educacion-vial-20141'
+#' @param x A \code{\link[tibble]{tibble}} given by \code{\link{explorar_keywords}} only containing one dataset (1 row) or t
+#' he end path of a dataset such as 'l01280148-seguridad-ciudadana-actuaciones-de-seccion-del-menor-en-educacion-vial-20141'
 #' from \url{https://datos.gob.es/es/catalogo/l01280148-seguridad-ciudadana-actuaciones-de-seccion-del-menor-en-educacion-vial-20141}.
-#' Must be a character string of length 1.
 #'
 #' @param encoding The encoding passed to read (all) the csv ('s). Most cases should be resolved with either
 #' 'UTF-8', latin1' or 'ASCII'. There are edge cases such as when printing any of the dataframes in the
@@ -149,7 +149,21 @@
 #' pl$data
 #' }
 #'
-cargar_datos <- function(path_id, encoding = 'UTF-8', ...) {
+cargar_datos <- function(x, ...) {
+  UseMethod("cargar_datos")
+}
+
+# Method for keywords dataframe
+cargar_datos.datos_gob_es_keywords <- function(df, ...) {
+  if (nrow(df) > 1) stop("The data frame resulted from explorar_keywords must have only 1 dataset (1 row). Make sure you filter down to only one dataset")
+
+  if (!isTRUE(df$is_readable)) stop('The chosen dataset from the keywords data frame is not readable')
+
+  cargar_datos(df$path_id, ...)
+}
+
+# Method for character string
+cargar_datos.character <- function(path_id, encoding = 'UTF-8', ...) {
 
   if (!is.character(path_id) || length(path_id) > 1) stop("`path_id` must be a character of length 1")
 
