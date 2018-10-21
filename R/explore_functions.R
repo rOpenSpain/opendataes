@@ -1,21 +1,62 @@
-# [NOT FULLY TESTED SCRIPT]
-
-# Exploring datos.gob.es
-# The origin of these set of functions is path_datasets(), since it creates the root path (/catalog/dataset/)
-# shared by all of them.
-path_catalog_dataset <- function(path, param = NULL, ...) {
-  make_url(paste0("catalog/dataset/", path), param = param)
-}
-
-# Building path for getting datasets by keyword
-path_explore_keyword <- function(keyword) {
-  keyword  <- iconv(keyword, to='ASCII//TRANSLIT')
-  path_catalog_dataset(paste0("keyword/", keyword))
-}
-
-
-
-# Function to explore the keywords by publisher (documentation pending)
+#' Explore datasets by keywords and publishers in \url{https://datos.gob.es/}
+#'
+#' @param keyword A character string specifying a keyword to identify a data set. For example, 'vivienda'.
+#' @param publisher A character string with the \strong{publisher code}. Should be only one publisher code.
+#' See \code{\link{publishers_available}} for the permitted publisher codes.
+#'
+#' @details \code{explorar_keywords} works only for searching for one keyword for a given publisher. For example,
+#' 'viviendas' for the Ayuntamiento of Barcelona. If there are no matches for a keyword-publisher combination,
+#' \code{explorar_keywords} will raise an error stating that there are no matches.
+#'
+#' \code{explorar_keywords} returns a data frame with these columns:
+#'
+#' \itemize{
+#' \item description: a short description of each of the matched datasets in Spanish
+#'  (Spanish is set as default if available, if not, then the first non-matching language is chosen).
+#' \item publisher: the entity that publishes the dataset. See \code{\link{cargar_publishers}} for all available publishers.
+#' \item is_readable: whether that dataset is currently readable by \code{\link{cargar_datos}}.
+#' See \code{\link{permitted formats}} for currently available formats
+#' \item path_id: the end path that identifies that dataset in the \url{https://datos.gob.es/} API.
+#' \item url: the url of the dataset in \url{https://datos.gob.es/}. Note that this URL is not the access URL to the dataset
+#' but to the dataset's homepage in \url{https://datos.gob.es/}.
+#' }
+#'
+#' In most cases the user will need to narrow down their search because the result of \code{explorar_keywords}
+#' will have too many datasets. Beware that for passing this function to \code{\link{cargar_datos}} the dataset
+#' needs to be narrowed done to only one dataset (that is, 1 row) and the structure needs to be the same
+#' as from the original output of \code{explorar_keywords} (same column names, in the same order).
+#'
+#'
+#' @seealso \code{\link{cargar_datos}}
+#'
+#' @return A \code{\link[tibble]{tibble}} containing the matched datasets.
+#' @export
+#'
+#' @examples
+#'
+#' \dontrun{
+#'
+#' library(dplyr)
+#'
+#' kw <- explorar_keywords("vivienda", "l01080193") # Ayuntamiento de Barcelona
+#'
+#' kw
+#'
+#' # Notice how we narrow down to only 1 dataset
+#' dts <-
+#'  kw %>%
+#'  filter(grepl("Precios", description)) %>%
+#'  cargar_datos('ASCII')
+#'
+#' # Notice that we had to specify the encoding because printing the dataset returns an error.
+#' # If that happens to you, try figuring out the encoding with readr::guess_encoding(dts$data[[1]])
+#' # and specify the most likely encoding in `cargar_datos`
+#'
+#' dts$metadata
+#'
+#' dts$data
+#' }
+#'
 explorar_keywords <- function(keyword, publisher) {
 
   stopifnot(length(publisher) == 1,
@@ -74,7 +115,7 @@ explorar_keywords <- function(keyword, publisher) {
     data_explored <- dplyr::tibble(description = desc_datasets,
                                    is_readable = is_format_readable,
                                    path_id = id_datasets,
-                                   complete_url = url_datasets)
+                                   url = url_datasets)
     data_explored
   })
 
@@ -83,5 +124,18 @@ explorar_keywords <- function(keyword, publisher) {
   # Becasue we only accept one publisher, we need to run this only once at the end
   final_dt$publisher <- translate_publisher(code = toupper(publisher))
 
-  final_dt[c('description', 'publisher', 'is_readable', 'path_id', 'complete_url')]
+  final_dt[c('description', 'publisher', 'is_readable', 'path_id', 'url')]
+}
+
+# The origin of these set of functions is path_datasets(), since it creates the root path (/catalog/dataset/)
+# shared by all of them.
+path_catalog_dataset <- function(path, param = NULL, ...) {
+  make_url(paste0("catalog/dataset/", path), param = param)
+}
+
+# Building path for getting datasets by keyword
+path_explore_keyword <- function(keyword) {
+  # Remove accents and other spanish words
+  keyword  <- iconv(keyword, to='ASCII//TRANSLIT')
+  path_catalog_dataset(paste0("keyword/", keyword))
 }

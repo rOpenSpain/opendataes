@@ -192,7 +192,7 @@ check_keywords_df <- function(df) {
   if (nrow(df) > 1) stop("The data frame resulted from explorar_keywords must have only 1 dataset (1 row). Make sure you filter down to only one dataset")
   if (!isTRUE(df$is_readable)) stop('The chosen dataset from the keywords data frame is not readable')
 
-  columns <- c("description", "publisher", "is_readable", "path_id", "complete_url")
+  columns <- c("description", "publisher", "is_readable", "path_id", "url")
   if (!all(columns == colnames(df))) {
     stop("The keywords data frame must contain and have this order of columns: ", paste0(columns, collapse = ", "))
   }
