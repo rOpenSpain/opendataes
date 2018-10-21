@@ -61,12 +61,13 @@ get_resp <- function(url, attempts_left = 5, ...) {
   # To avoid making too many quick requests
   Sys.sleep(1)
 
-  # Ensure that returned response is application/json
-  if (httr::http_type(resp) != "application/json") {
-    stop("The datos.gob.es API returned an unusual format and not a JSON", call. = FALSE)
-  }
   # On a successful GET, return the response's content
   if (httr::status_code(resp) == 200) {
+    # Ensure that returned response is application/json
+    if (httr::http_type(resp) != "application/json") {
+      stop("The datos.gob.es API returned an unusual format and not a JSON", call. = FALSE)
+    }
+
     httr::content(resp)
   } else if (attempts_left == 1) { # When attempts run out, stop with an error
     httr::stop_for_status(resp) # Return appropiate error message
