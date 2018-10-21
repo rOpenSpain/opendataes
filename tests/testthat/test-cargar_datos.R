@@ -71,17 +71,17 @@ test_that("cargar_datos doesn't read if it's not a character of length 1", {
 })
 
 
-
-test_that("cargar_datos uses encoding and readr arguments to read only 5 rows", {
-  skip_on_cran()
-
-  tst <-
-    cargar_datos('l01080193-elecciones-al-parlamento-europeo-sobre-electores',
-                 'latin1',
-                 n_max = 5)
-
-  expect_true(all(vapply(tst$data, nrow, FUN.VALUE = numeric(1)) == 5))
-})
+#
+# test_that("cargar_datos uses encoding and readr arguments to read only 5 rows", {
+#   skip_on_cran()
+#
+#   tst <-
+#     cargar_datos('l01080193-elecciones-al-parlamento-europeo-sobre-electores',
+#                  'latin1',
+#                  n_max = 5)
+#
+#   expect_true(all(vapply(tst$data, nrow, FUN.VALUE = numeric(1)) == 5))
+# })
 
 
 
