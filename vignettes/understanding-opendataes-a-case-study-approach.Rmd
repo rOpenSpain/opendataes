@@ -1,0 +1,127 @@
+---
+title: "Vignette Title"
+author: "Vignette Author"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Understanding opendataes
+
+The idea behind `opendataes` is to allow users to read datasets as soon as possible while providing a stable and predictable behaviour. This is a bit tricky given that [https://datos.gob.es](https://datos.gob.es) aggregates from many different API's which don't have a unified standardized behavior. That is, each entity does not conform to a centralized guideline to their data format. In this vignette we'll explore how we can read data using `cargar_datos` but diving into some of the pitfalls of having such an unstandardized API.
+
+First, let's read through a messy dataset, or in other words, a real-world dataset. An interesting data is one from the city hall of Barcelona which details the causes of car accidents in the city of Barcelona. We could do this in two ways: either searching for the direct end path of the URL in [https://datos.gob.es](https://datos.gob.es) or we could search for the data interactivaley through keywords.
+
+To search for keywords we need to know in advanced which publisher published the data that we're looking for. Because only very few (as of October 2018) publishers have standardized datasets across their datasets, `opendataes` will aggregate new publishers slowly as they can show to provide stableness. We can check out which publishers are available with `publishers_available`.
+
+```{r}
+library(opendataes)
+
+publishers_available
+```
+
+Let's subset the code of 'Ayuntamiento de Barcelona' and search for the keyword 'accidentes' which means accidents.
+
+```{r, error = TRUE}
+pub_code <- publishers_available$publisher_code[publishers_available$publishers == 'Ayuntamiento de Barcelona']
+kw <- explorar_keywords('accidentes', pub_code)
+```
+
+Alright, so we need to be more creative
+
+```{r, error = TRUE}
+kw <- explorar_keywords('causas accidentes', pub_code)
+```
+
+When this happens, it's just better to search on the website at [https://datos.gob.es](https://datos.gob.es). Results there show that some of the keywords are 'Accidentalidad', 'Guardia Urbana' or 'Causas' ( [see here](http://datos.gob.es/es/catalogo/l01080193-descripcion-de-la-causalidad-de-los-accidentes-gestionados-por-la-guardia-urbana-en-la-ciudad-de-barcelona)). To showcase how the R-based search works, we'll continue using the new key words.
+
+Side note: Why should we do the keyword-based search if we can directly to the website? Because you can use more generic keywords to look for similar datasets. For example, if we searched for 'elecciones' (elections) we would get many different datasets related to elections which could be streamlined to `cargar_datos` for easy reading.
+
+Moving on to the keyword search, we type in the new keyword.
+
+```{r}
+kw <- explorar_keywords('Accidentalidad', pub_code)
+kw
+```
+
+Looking at the description column, we can see the dataset that we're looking for which is states 'Listado de los tipos de accidentes gestionados por la Guardia Urbana en la ciudad de Barcelona.'. Let's filter down only to that dataset and pass it to `cargar_datos`. Note that cargar_datos will throw an error if you ever pass this dataset with more than one row. It will only read one dataset and that implies a dataset with only one row.
+
+```{r}
+kw <- kw[grepl('Listado de los tipos de accidentes gestionados por la Guardia Urbana en la ciudad de Barcelona.', kw$description), ]
+accidents <- cargar_datos(kw)
+
+accidents
+```
+
+We can look at the preliminary metadata which is just a summary of the metadata:
+
+```{r}
+accidents$metadata
+```
+
+and the data slot:
+
+```{r, error = TRUE}
+accidents$data
+```
+
+Oopss, that's a weird error. This is one problem that can happen quite often because Spain shares many languages inside it's territory and some datasets might have different encodings. We can figure out the encoding with `readr` and just pass it to `cargar_datos`. 
+
+```{r}
+# Figure out the encoding using only the first dataset which suggests it's ASCII
+readr::guess_encoding(accidents$data[[1]])
+
+accidents <- cargar_datos(kw, encoding = 'ASCII')
+```
+
+The result in the data slot is always a list that will contain data frames either with the data (if it was successful in reading it) or with the URL to the dataset (if it failed reading it for some reason).
+
+```{r}
+accidents$data
+```
+
+
+
+As can you see, `cargar_datos` read a list of data frames for this dataset but what do these dataset mean?
+
+Before we continue, let's look at the available datasets and their formats:
+
+<img src="datos_formats.png" align="center" />
+
+<br/>
+<br/>
+
+As you can see, there are datasets for years 2010, 2011, etc.. where each year is in three different formats (CSV, XLSX and XML as of October 2018). How does `cargar_datos` handle this? Well, to avoid problems between some datasets having slightly different structures between formats, it always aims for the simpler formats in an ordern of preference. You can check which formats are available with `permitted_formats` although the user should never have to worry about this because the functions take care of this. However, if you try to read a dataset which only has formats that are not in `permitted_formats`, `cargar_datos` will return the same data structure as if there were a dataset, but the `data` slot will contain a `tibble` with the format URL's of the non-available formats so that the user can read this directly (for example, try reading this `cargar_datos('l01080193-carta-arqueologica-de-barcelona')`).
+
+
+Coming back to the accidents data, this explains why many datasets were read. We can compare the name of each dataset to figure out what they mean.
+
+```{r}
+names(accidents$data)
+```
+
+They're the causes of accidents for different years. Let's sort them according to the year and check whether all were read.
+
+```{r}
+accidents$data <- accidents$data[sort(names(accidents$data))]
+accidents$data
+```
+
+As one can see the data for 2016 and 2017 were not read correctly but `cargar_datos` returns the link it attempted to read but failed. For now we'll exclude these two but the user can read them manually. For a simple check, printing the returned object of `cargar_datos` will tell you how many files were read.
+
+You can also access the metadata in the metadata slot which contains most of the metadata related to that given dataset. For example..
+```{r}
+accidents$metadata
+```
+
+For a detailed description of what each column means, check the documentation of `cargar_datos` with `?cargar_datos`.
