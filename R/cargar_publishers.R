@@ -1,4 +1,4 @@
-#' Request all available publishers from datos.gob.es
+#' Request all available publishers from \url{https://datos.gob.es/}
 #'
 #' @return a \code{\link[tibble]{tibble}} with two columns: publisher_code and publishers
 #' @export
