@@ -77,7 +77,7 @@
 #' reading many different publishers can become very messy. \code{cargar_datos} currently reads files from selected
 #' publishers because they offer standardized datasets which makes it safer to read. As the package evolves and the
 #' data quality improves between publishers, the package will include more publishers. See the publishers that the
-#' package can read in \code{publishers_available}.
+#' package can read in \code{\link{publishers_available}}.
 #'
 #' @return if \code{path_id} is a valid dataset path, a list with two slots: metadata and data. Each slot
 #' contains \code{\link[tibble]{tibble}}'s that contain either metadata or the data itself. If \code{path_id}
