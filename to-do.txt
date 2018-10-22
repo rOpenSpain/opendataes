@@ -27,8 +27,6 @@ pl <- cargar_datos(id)
 
 - Increase code coverage
 
-- Remove dplyr dependency.
-
 - Assume that the pkg reads a dataset from an excel file but reads it incorrectly. That is, it confuses headers with rows and adds some empty rows because of the excel format. I think that in the metadata we should provide all the direct links to each type of format in case the user wants to read the data directly. This eliminates us from the loop because they stop using the package but it allows the user to fully customize how they read the data. Jorge Lopez
 
 ##
