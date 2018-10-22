@@ -1,23 +1,26 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-[![Travis build status](https://travis-ci.org/cimentadaj/opendataes.svg?branch=master)](https://travis-ci.org/cimentadaj/opendataes) [![Coverage status](https://codecov.io/gh/cimentadaj/opendataes/branch/master/graph/badge.svg)](https://codecov.io/github/cimentadaj/opendataes?branch=master)
 
-opendataes
-==========
+[![Travis build
+status](https://travis-ci.org/cimentadaj/opendataes.svg?branch=master)](https://travis-ci.org/cimentadaj/opendataes)
+[![Coverage
+status](https://codecov.io/gh/cimentadaj/opendataes/branch/master/graph/badge.svg)](https://codecov.io/github/cimentadaj/opendataes?branch=master)
 
-The goal of `opendataes` is to interact and download data with the API of <https://datos.gob.es>
+# opendataes
 
-Installation
-------------
+The goal of `opendataes` is to interact and download data with the API
+of <https://datos.gob.es>
 
-You can install the development version of opendataes from [Github](https://github.com) with:
+## Installation
+
+You can install the development version of opendataes from
+[Github](https://github.com) with:
 
 ``` r
 remotes::install_github("cimentadaj/opendataes")
 ```
 
-Example
--------
+## Example
 
 This is a basic example which shows you how to solve a common problem:
 
