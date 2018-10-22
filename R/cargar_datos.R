@@ -203,7 +203,7 @@ cargar_datos.character <- function(x, encoding = 'UTF-8', ...) {
 }
 
 
-# Print method for the datos_gob_es
+#' @export
 print.datos_gob_es <- function(x) {
 
   # If spanish is available, return metadata in spanish. If not
