@@ -111,7 +111,7 @@ explorar_keywords <- function(keyword, publisher) {
     is_format_readable <- ifelse(length(formats_read) != 0, TRUE, FALSE)
 
 
-    data_explored <- dplyr::tibble(description = desc_datasets,
+    data_explored <- tibble::tibble(description = desc_datasets,
                                    is_readable = is_format_readable,
                                    path_id = id_datasets,
                                    url = url_datasets)

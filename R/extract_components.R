@@ -23,7 +23,7 @@ extract_metadata <- function(data_list) {
   # is in long format
 
   first_df <-
-    dplyr::tibble(
+    tibble::tibble(
       language = languages,
       description = description
     )
@@ -45,7 +45,7 @@ extract_metadata <- function(data_list) {
       stringsAsFactors = FALSE
     )
 
-  final_df <- dplyr::as_tibble(data_df)
+  final_df <- tibble::as_tibble(data_df)
   final_df
 }
 
@@ -312,7 +312,7 @@ data_list_correct <- function(raw_json) {
 # comes in three langauges. We want those vectors to be turned
 # into columns with the language prefix in the column names
 vector_to_df_columnwise <- function(vec, column_names) {
-  semi_df <- dplyr::as_tibble(matrix(vec, ncol = length(vec)))
+  semi_df <- tibble::as_tibble(matrix(vec, ncol = length(vec)))
   names(semi_df) <- column_names
   semi_df
 }

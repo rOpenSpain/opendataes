@@ -107,7 +107,7 @@ some_data
 some_data$metadata
 
 # Access the data. Note that the name of the dataset is in the list slot. Whenever
-# there are different files being read, you might want to enter to homepage 
+# there are different files being read, you might want to enter to homepage
 # of the dataset in datos.gob.es with some_data$metadata$url or directly
 # to the homepage of dataset at the publisher's website
 # some_data$metadata$publisher_data_url

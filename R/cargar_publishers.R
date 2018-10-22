@@ -13,8 +13,8 @@ cargar_publishers <- function() {
   resp <- get_resp_paginated(path_publishers(), 1000)
   # Delete the publisher URL because they ALL lead to the same
   # URL which is this one http://datos.gob.es/recurso/sector-publico/org/Organismo#data
-  list_tibbles <- lapply(resp$result$items, function(x) dplyr::as_tibble(x[-1]))
-  publisher_df <- dplyr::bind_rows(list_tibbles)
+  list_tibbles <- lapply(resp$result$items, function(x) tibble::as_tibble(x[-1]))
+  publisher_df <- Reduce(rbind, list_tibbles)
   names(publisher_df) <- c('publisher_code', 'publisher')
   publisher_df
 }
@@ -29,7 +29,7 @@ cargar_publishers <- function() {
 #' @examples
 #'
 #' publishers_available
-publishers_available <- dplyr::tibble(
+publishers_available <- tibble::tibble(
   publishers = c("Ayuntamiento de Barcelona"),
   publisher_code = c("l01080193")
 )

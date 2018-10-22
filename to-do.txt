@@ -21,23 +21,13 @@
 id <- 'l01080193-descripcion-de-la-causalidad-de-los-accidentes-gestionados-por-la-guardia-urbana-en-la-ciudad-de-barcelona'
 pl <- cargar_datos(id)
 
-- Add tests for using readr arguments
-
 - TRY MANY DIFFERENT DATASETS TO CHECK WHETHER WE HAVE A WORKING PACKAGE
 
-- Extend vignette
-
 - Create and develop vignette of functionality
-
-- Test new explore functions with edge cases (empty strings, numbers, lists)
-
-- Make publishers to lower in low level function - Jorge Lopez
 
 - Increase code coverage
 
 - Remove dplyr dependency.
-
-- Add tests for exploratory of data functions
 
 - Assume that the pkg reads a dataset from an excel file but reads it incorrectly. That is, it confuses headers with rows and adds some empty rows because of the excel format. I think that in the metadata we should provide all the direct links to each type of format in case the user wants to read the data directly. This eliminates us from the loop because they stop using the package but it allows the user to fully customize how they read the data. Jorge Lopez
 

@@ -12,9 +12,10 @@ LazyData: true
 ByteCompile: true
 Imports: 
     httr,
-    dplyr,
-    readr
+    readr,
+    tibble
 RoxygenNote: 6.1.0
 Suggests: 
     testthat,
-    covr
+    covr,
+    dplyr

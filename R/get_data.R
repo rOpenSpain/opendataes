@@ -51,7 +51,7 @@ get_data <- function(data_list, encoding, ...) {
       # files to read at all from this data_list
       if (inherits(output_data[[index]], "try-error")) {
         output_data[[index]] <-
-          dplyr::tibble(format = is_file_readable[index],
+          tibble::tibble(format = is_file_readable[index],
                         URL = names(is_file_readable[index]))
       }
     }
@@ -74,7 +74,7 @@ return_metadata <- function(data_list) {
   # If there's any error, this means that none of the formats
   # could be read. So we return the the tibble with the url
   # formats and the access urls
-  output_data <- dplyr::tibble(extract_dataset_name(data_list),
+  output_data <- tibble::tibble(extract_dataset_name(data_list),
                                extract_url_format(data_list),
                                extract_access_url(data_list))
 
