@@ -2,7 +2,7 @@
 % Please edit documentation in R/cargar_publishers.R
 \name{cargar_publishers}
 \alias{cargar_publishers}
-\title{Request all available publishers from datos.gob.es}
+\title{Request all available publishers from \url{https://datos.gob.es/}}
 \usage{
 cargar_publishers()
 }
@@ -10,7 +10,7 @@ cargar_publishers()
 a \code{\link[tibble]{tibble}} with two columns: publisher_code and publishers
 }
 \description{
-Request all available publishers from datos.gob.es
+Request all available publishers from \url{https://datos.gob.es/}
 }
 \examples{
 

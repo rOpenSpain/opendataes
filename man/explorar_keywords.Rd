@@ -30,7 +30,7 @@ Explore datasets by keywords and publishers in \url{https://datos.gob.es/}
  (Spanish is set as default if available, if not, then the first non-spanish language is chosen).
 \item publisher: the entity that publishes the dataset. See \code{\link{cargar_publishers}} for all available publishers.
 \item is_readable: whether that dataset is currently readable by \code{\link{cargar_datos}}.
-See \code{\link{permitted_formats}} for currently available formats
+See \code{\link{permitted_formats}} for currently available formats.
 \item path_id: the end path that identifies that dataset in the \url{https://datos.gob.es/} API.
 \item url: the complete url of the dataset in \url{https://datos.gob.es/}. Note that this URL is not the access URL to the dataset
 but to the dataset's homepage in \url{https://datos.gob.es/}.

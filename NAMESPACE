@@ -2,6 +2,7 @@
 
 S3method(cargar_datos,character)
 S3method(cargar_datos,datos_gob_es_keywords)
+S3method(print,datos_gob_es)
 export(cargar_datos)
 export(cargar_publishers)
 export(explorar_keywords)
