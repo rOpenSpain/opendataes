@@ -5,6 +5,8 @@
 
 [![Travis build
 status](https://travis-ci.org/cimentadaj/opendataes.svg?branch=master)](https://travis-ci.org/cimentadaj/opendataes)
+[![AppVeyor build
+status](https://ci.appveyor.com/api/projects/status/github/cimentadaj/opendataes?branch=master&svg=true)](https://ci.appveyor.com/project/cimentadaj/opendataes)
 [![Coverage
 status](https://codecov.io/gh/cimentadaj/opendataes/branch/master/graph/badge.svg)](https://codecov.io/github/cimentadaj/opendataes?branch=master)
 
@@ -108,12 +110,21 @@ And then we search for a given key keyword
 ``` r
 kw <- explorar_keywords('elecciones', pb_code)
 kw
-#> # A tibble: 3 x 5
-#>   description       publisher    is_readable path_id        url           
-#>   <chr>             <chr>        <lgl>       <chr>          <chr>         
-#> 1 Elecciones Local~ Ayuntamient~ TRUE        l01080193-ele~ http://datos.~
-#> 2 Elecciones Local~ Ayuntamient~ TRUE        l01080193-ele~ http://datos.~
-#> 3 Elecciones al Pa~ Ayuntamient~ TRUE        l01080193-ele~ http://datos.~
+#> # A tibble: 12 x 5
+#>    description         publisher   is_readable path_id       url          
+#>    <chr>               <chr>       <lgl>       <chr>         <chr>        
+#>  1 Elecciones al Parl~ Ayuntamien~ TRUE        l01080193-el~ http://datos~
+#>  2 Elecciones al Parl~ Ayuntamien~ TRUE        l01080193-el~ http://datos~
+#>  3 Elecciones al Parl~ Ayuntamien~ TRUE        l01080193-el~ http://datos~
+#>  4 Elecciones General~ Ayuntamien~ TRUE        l01080193-el~ http://datos~
+#>  5 Elecciones General~ Ayuntamien~ TRUE        l01080193-el~ http://datos~
+#>  6 Elecciones al Parl~ Ayuntamien~ TRUE        l01080193-el~ http://datos~
+#>  7 Elecciones Locales~ Ayuntamien~ TRUE        l01080193-el~ http://datos~
+#>  8 Elecciones al Parl~ Ayuntamien~ TRUE        l01080193-el~ http://datos~
+#>  9 Elecciones General~ Ayuntamien~ TRUE        l01080193-el~ http://datos~
+#> 10 Elecciones Locales~ Ayuntamien~ TRUE        l01080193-el~ http://datos~
+#> 11 Elecciones Locales~ Ayuntamien~ TRUE        l01080193-el~ http://datos~
+#> 12 Elecciones al Parl~ Ayuntamien~ TRUE        l01080193-el~ http://datos~
 ```
 
 Once we have that, `cargar_datos` only requires that we pass this exact

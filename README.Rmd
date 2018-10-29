@@ -15,6 +15,7 @@ knitr::opts_chunk$set(
 # opendataes
 
 [![Travis build status](https://travis-ci.org/cimentadaj/opendataes.svg?branch=master)](https://travis-ci.org/cimentadaj/opendataes)
+[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/cimentadaj/opendataes?branch=master&svg=true)](https://ci.appveyor.com/project/cimentadaj/opendataes)
 [![Coverage status](https://codecov.io/gh/cimentadaj/opendataes/branch/master/graph/badge.svg)](https://codecov.io/github/cimentadaj/opendataes?branch=master)
 
 ## Description
@@ -83,7 +84,7 @@ pb_code <- publishers_available$publisher_code[publishers_available$publishers =
 
 And then we search for a given key keyword
 
-```{r}
+```{r,}
 kw <- explorar_keywords('elecciones', pb_code)
 kw
 ```
