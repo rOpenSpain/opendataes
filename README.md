@@ -9,6 +9,8 @@ status](https://travis-ci.org/cimentadaj/opendataes.svg?branch=master)](https://
 status](https://ci.appveyor.com/api/projects/status/github/cimentadaj/opendataes?branch=master&svg=true)](https://ci.appveyor.com/project/cimentadaj/opendataes)
 [![Coverage
 status](https://codecov.io/gh/cimentadaj/opendataes/branch/master/graph/badge.svg)](https://codecov.io/github/cimentadaj/opendataes?branch=master)
+[![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 
 ## Description
 
