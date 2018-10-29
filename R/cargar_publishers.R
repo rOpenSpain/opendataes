@@ -16,7 +16,7 @@ cargar_publishers <- function() {
   list_tibbles <- lapply(resp$result$items, function(x) tibble::as_tibble(x[-1]))
   publisher_df <- Reduce(rbind, list_tibbles)
   names(publisher_df) <- c('publisher_code', 'publisher')
-  publisher_df
+  publisher_df[!duplicated(publisher_df$publisher_code), ]
 }
 
 #' Available publishers that `opendataes` can read
@@ -39,6 +39,7 @@ publishers_available <- tibble::tibble(
 #' @param code A publisher code
 translate_publisher <- function(code) {
   all_publishers <- cargar_publishers()
+  all_publishers
   index <- which(all_publishers$publisher_code == code)
   if (length(index) == 0) return("Publisher not available")
   all_publishers$publisher[index]

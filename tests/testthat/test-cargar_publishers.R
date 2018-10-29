@@ -7,6 +7,7 @@ test_that("cargar_publishers returns correct format", {
   expect_equal(ncol(publisher), 2)
   expect_gte(nrow(publisher), 50)
   expect_true(all(vapply(publisher, is.character, FUN.VALUE = logical(1))))
+  expect_true(all(!duplicated(publisher$publisher_code)))
 })
 
 
