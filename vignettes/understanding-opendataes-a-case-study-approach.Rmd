@@ -117,7 +117,7 @@ accidents$data <- accidents$data[sort(names(accidents$data))]
 accidents$data
 ```
 
-As one can see the data for 2016 and 2017 were not read correctly but `cargar_datos` returns the link it attempted to read but failed. For now we'll exclude these two but the user can read them manually. For a simple check, printing the returned object of `cargar_datos` will tell you how many files were read.
+As one can see the data for 2016 and 2017 were not read correctly (as of 2018/10/30) but `cargar_datos` returns the link it attempted to read but failed. For now we'll exclude these two but the user can read them manually. For a simple check, printing the returned object of `cargar_datos` will tell you how many files were read.
 
 You can also access the metadata in the metadata slot which contains most of the metadata related to that given dataset. For example..
 ```{r}
