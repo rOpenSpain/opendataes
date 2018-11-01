@@ -12,54 +12,63 @@ vignette: >
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  fig.align="center"
 )
 ```
 
-Vignettes are long form documentation commonly included in packages. Because they are part of the distribution of the package, they need to be as compact as possible. The `html_vignette` output type provides a custom style sheet (and tweaks some options) to ensure that the resulting html is as small as possible. The `html_vignette` format:
+`opendataes` is package that was ultimately though of to be maintained by the R community. The package is extremely useful in automating some tasks but also limited in some aspects. This vignette is aimed at describing in detail how the package works so that new users can understand the inner workings of `opendataes` and contribute more easily.
 
-- Never uses retina figures
-- Has a smaller default figure size
-- Uses a custom CSS stylesheet instead of the default Twitter Bootstrap style
+## How does this work anyway?
 
-## Vignette Info
+<img src="opendataes_diagram.jpeg" width="1200" height="900">
 
-Note the various macros within the `vignette` section of the metadata block above. These are required in order to instruct R how to build the vignette. Note that you should change the `title` field and the `\VignetteIndexEntry` to match the title of your vignette.
+<br>
 
-## Styles
+Woah, that's a lot of information. We'll go step by step and tear it apart. First, let's look at the legend of each box
 
-The `html_vignette` template includes a basic CSS theme. To override this theme you can specify your own CSS in the document metadata as follows:
+<br>
 
-    output: 
-      rmarkdown::html_vignette:
-        css: mystyles.css
+<img src="opendataes_diagram_legend.jpeg" width="800" height="200">
 
-## Figures
+I'll explain it further just to make it clearer. The red boxes are information boxes. That is, they don't document a function call in the process, so just take it as an explanation of the process. The blue boxes are the most important because they document the function calls. That is, each of the blue boxes represent a function being called that represents an important step in the process of reading the data. Finally, the green boxes represent where the function in the blue box is at in the package structure. This is handy when you want to read through the source code of the function without much hassle.
 
-The figure sizes have been customised so that you can easily put two images side-by-side. 
+That said, let's explore the first step in the process. Here's the outline:
 
-```{r, fig.show='hold'}
-plot(1:10)
-plot(10:1)
+
+<img src="opendataes_diagram_step1.jpg" width="1000" height="200">
+
+First step we begin with `cargar_datos` which is the main function. It accepts the typical `path_id` of the dataset as string. For example:
+
+```{r}
+library(opendataes)
 ```
 
-You can enable figure captions by `fig_caption: yes` in YAML:
+```{r, eval = FALSE}
+library(opendataes)
 
-    output:
-      rmarkdown::html_vignette:
-        fig_caption: yes
-
-Then you can use the chunk option `fig.cap = "Your figure caption."` in **knitr**.
-
-## More Examples
-
-You can write math expressions, e.g. $Y = X\beta + \epsilon$, footnotes^[A footnote here.], and tables, e.g. using `knitr::kable()`.
-
-```{r, echo=FALSE, results='asis'}
-knitr::kable(head(mtcars, 10))
+path_id <- 'l01080193-elecciones-al-parlamento-europeo-sobre-electores'
+cargar_datos(path_id)
 ```
 
-Also a quote using `>`:
+However, it also has a method for a data frame. This method is aimed at data frames returned by `explorar_keywords` so it is very strict about what it accepts.
 
-> "He who gives up [code] safety for [code] speed deserves neither."
-([via](https://twitter.com/hadleywickham/status/504368538874703872))
+```{r}
+cargar_datos
+```
+
+The function redirects to `check_keywords_df`, an internal function, that checks whether the data frame has the `path_id` column, among other checks. Finally, it assigns the data frame a class `datos_gob_es_keywords` and passes it to the method. The method for this class is merely calling the `path_id` column to get the string to read as we can see:
+
+```{r}
+opendataes:::cargar_datos.datos_gob_es_keywords
+```
+
+So we end up with the same call as if we would've called the main argument with a string containing the `path_id`. As the diagram suggests, you can find these functions in the R script `R/cargar_datos.R` in the Github repository. Once `cargar_datos` passes the string as the main argument it constructs the whole path for the API using a family of functions found in `R/path.R`. More concretely, it defines the complete path using `path_dataset_id(path_id)` which returns the direct path of the API to query the data set. If interested in looking at how this and the other path functions work, they are all located and documented at `R/path.R` in the Github repo.
+
+At the end of this preprocessing step, `cargar_datos` passes this complete path to `get_resp` which simply sends a GET request to the API. For interacting with the API we're using the `httr` package which is very intuitive. The function `get_resp` returns a list with the response from the API. Interally, we've defined the output of `get_resp` as a `data_list`. You will find this name in several places in the package. The `data_list` is just a list that contains the metadata of the dataset and the links to the data from the original publisher (so the direct links to the data from the Ayuntamiento de Madrid or Malaga). Before we extract the metadata and data, `cargar_datos` checks that the `data_list` is in the correct format that we would expect, because otherwise none of the functions we will use would work. If the `data_list` is not in the correct format this returns an empty list.
+
+`opendataes` really pushes for consistent outputs. That is, it usually returns a list with two slots containing the metadata and data and if the data poses some sort of problem, we should return the same list with two slots but without the data itself. However, if the `data_list` is not in the correct format it means that the API is returning something odd in the first place. This is regardless of the quality or format of the dataset. In this scenario we prefer to return an empty list but this is open to debate. This is an area where new pull requests would be needed.
+
+
+
+
