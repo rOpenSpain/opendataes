@@ -190,6 +190,11 @@ cargar_datos.character <- function(x, encoding = 'UTF-8', ...) {
 
   data_list <- raw_json$result$items[[1]]
 
+  # Check if publisher is available
+  if(!is_publisher_available(data_list)) {
+    stop("Publisher not available. Please check publishers_available() to get the available ones.")
+  }
+
   returned_list <-
     structure(
       list(

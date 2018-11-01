@@ -14,11 +14,6 @@
 #' webste that has the table. This file unfortunately is unreadble to the package.
 extract_data <- function(data_list, encoding, ...) {
 
-  # Check if publisher is available
-  if(!is_publisher_available(data_list)) {
-    stop("Publisher not available. Please check publishers_available() to get the available ones.")
-  }
-
   # Check if the data_list is readable
   is_file_readable <- determine_dataset_url(data_list)
 
