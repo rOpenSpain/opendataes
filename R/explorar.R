@@ -125,16 +125,3 @@ explorar_keywords <- function(keyword, publisher) {
 
   final_dt[c('description', 'publisher', 'is_readable', 'path_id', 'url')]
 }
-
-# The origin of these set of functions is path_datasets(), since it creates the root path (/catalog/dataset/)
-# shared by all of them.
-path_catalog_dataset <- function(path, param = NULL, ...) {
-  make_url(paste0("catalog/dataset/", path), param = param)
-}
-
-# Building path for getting datasets by keyword
-path_explore_keyword <- function(keyword) {
-  # Remove accents and other spanish words
-  keyword  <- iconv(keyword, to='ASCII//TRANSLIT')
-  path_catalog_dataset(paste0("keyword/", keyword))
-}

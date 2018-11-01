@@ -14,7 +14,7 @@ determine_read_generic <- function(file) {
          function() stop())
   # If cannot find delimiter, return an error that will be called
   # when the function is used. Because this read generic will be called
-  # under try in get_data, the error will suggest that the date cannot be read
+  # under try in extract_data, the error will suggest that the data cannot be read
   # and just return the meta data
   read_generic
 }

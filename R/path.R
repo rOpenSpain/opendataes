@@ -9,7 +9,7 @@ make_url <- function(path, param, ...) {
 
   # datos.gob.es has some problems authenticating the SSL
   # certificate. With this line we ignore SSL. Note that
-  # this is more important that it seems as it allows
+  # this is more important than it seems as it allows
   # the travis checks to pass.
   httr::set_config(httr::config(ssl_verifypeer = 0L))
 
@@ -40,6 +40,12 @@ path_catalog <- function(path, param = NULL, ...) {
   make_url(paste0("catalog/", path), param = param, ...)
 }
 
+#' Build a url with a complete catalog/dataset prefix URL
+#'
+#' @inheritParams make_url
+path_catalog_dataset <- function(path, param = NULL, ...) {
+  make_url(paste0("catalog/dataset/", path), param = param)
+}
 
 #' Build a url with a complete datasets/ prefix URL
 #'
@@ -101,7 +107,6 @@ path_begin_end_date <- function(start_date, end_date, param = NULL, ...) {
 }
 
 
-
 #' Build a url with an ID of a dataset
 #'
 #' @param id dataset id from datos.gob.es such as 'l01080193-numero-total-de-edificios-con-viviendas-segun-numero-de-plantas'
@@ -112,4 +117,12 @@ path_dataset_id <- function(id, param = NULL, ...) {
 }
 
 
-
+#' Build a url to search for a given keyword in the datos.gob.es API
+#'
+#' @param keyword A string with the keyword to build the path with.
+#'
+path_explore_keyword <- function(keyword) {
+  # Remove accents and other spanish words
+  keyword  <- iconv(keyword, to='ASCII//TRANSLIT')
+  path_catalog_dataset(paste0("keyword/", keyword))
+}

@@ -1,6 +1,6 @@
 ---
-title: "Vignette Title"
-author: "Vignette Author"
+title: "Understanding opendataes: a case study approach"
+author: "Jorge Cimentada and Jorge Lopez"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
