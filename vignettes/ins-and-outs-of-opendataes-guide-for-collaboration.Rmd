@@ -86,9 +86,9 @@ data_list <- opendataes:::get_resp(opendataes:::path_dataset_id(path_id))
 data_list
 ```
 
-Before we extract the metadata and data, `cargar_datos` checks that the `data_list` is in the format that the package expects, because otherwise none of the functions in the package would work. If the `data_list` is not in the correct format this returns an empty list.
+Before we extract the metadata and data, `cargar_datos` checks that the `data_list` is in the format that the package expects, because otherwise none of the functions in the package would work. If the `data_list` is not in the correct format, `cargar_datos` returns an empty list.
 
-`opendataes` really pushes for consistent outputs. That is, it usually returns a list with two slots containing the metadata and data and if the data poses some sort of problem, we should return the same list with two slots but without the data itself. However, if the `data_list` is not in the correct format it means that the API is returning something odd in the first place. This is regardless of the quality or format of the dataset. In this scenario we prefer to return an empty list but this is open to debate. This is an area where new pull requests would be needed.
+`opendataes` really pushes for consistent outputs. That is, it usually returns a list with two slots containing the metadata and data and if the data poses some sort of problem, `cargar_datos` should return the same list with two slots but without the data itself. However, if the `data_list` is not in the correct format it means that the API is returning something odd in the first place. This is regardless of the quality, standardization or format of the dataset. In this scenario `cargar_datos` returns an empty list but this is open to debate. This is an area for improvements for new comers.
 
 As you can see, the `data_list` is long, messy and not very intuitive. This is when we move to the second step of the diagram.
 
@@ -96,7 +96,7 @@ As you can see, the `data_list` is long, messy and not very intuitive. This is w
 
 <img src="opendataes_diagram_step2.jpg" width="800" height="200">
 
-This is actually the easiest part of all. The metadata is scattered around the `data_list` but it keeps consistent names so we built all the `extract_*` functions that are present in the diagram. We combine all of these helper functions into `extract_metadata` to provide a general `tibble` of metadata. But all of the high level results of the `data_list` are actually details of the request and `datos.gob.es`. In the example below, we dig deeper where the data is.
+The metadata is scattered around the `data_list` but it keeps consistent names so `opendataes` provides several `extract_*` functions that are present in the diagram. We combine all of these 'helper' functions into `extract_metadata` to provide a general `tibble` of metadata. In the example below, we need to dig deeper into the list structure to get to where the data is.
 
 For example..
 
@@ -119,21 +119,35 @@ languages <- extract_language(data_list)
 url_path <- extract_url(data_list)
 ```
 
-Once that's done, the metadata is ready. Each of these functions is located in the `R/extract.R` path. Now we move on to the trickiest step: extracting the data.
+Once that's done, the metadata is ready. For more detailed readings of the source code, each of these functions is located in the `R/extract.R` path. Now we move on to the trickiest step: extracting the data.
 
 ## Extracting the data
 
 <img src="opendataes_diagram_step3.jpg" width="1200" height="600">
 
-The first step is passing the `data_list` to `extract_data` which can be located at the path `R/extract.R`. The difficult part of reading the data is due to the fact that different publishers keep datasets with different formats. For example, the Ayuntamiento of Madrid might have a csv file with only one excel sheet in a very organized tabular format but the Ayuntamiento de Arganda del Rey might have several sheets with several tables inside each sheet. There's really nothing that can be done about that if the aim of the package is to scale data reading across several cities, provinces and autonomous communities. The chosen solution, we believe, is the most conservative: limit the publishers and formats that we can read.
+The first step is passing the `data_list` from above to `extract_data` which can be located at the path `R/extract.R`. The difficult part of reading the data is due to the fact that different publishers keep datasets with different formats. For example, the Ayuntamiento of Madrid might have a csv file with only one excel sheet in an organized tabular format but the Ayuntamiento de Arganda del Rey might have several sheets with several tables inside each sheet. There's really nothing that can be done about that if the aim of the package is to scale the data reading process across several publishers. The chosen solution, we believe, is the most conservative: limit the publishers and formats that `opendataes` can read and increase these two as their standardization practices grow.
 
-The first step that `cargar_datos` takes before calling the `extract_*` functions is to check whether the data comes from our permitted publishers. If the datasets is not from an available publisher, it raises an error. The criteria we think it's best to include new publishers is to check by brute force whether they have patterns of standardization. For example, the first publisher we accepted as reliable was 'Ayuntamiento of Barcelona' because we repeatedly found ourselves reading datasets from the same format which were very consistent and easier to read. For the list of available publishers that `opendataes` can read, see `opendataes::publishers_available`. This is one of the main areas were we need support. We are always welcoming pull requests that would allow us to read new publishers as long as we can have some sort of proof of consistency in their datasets.
+The first step that `cargar_datos` takes before calling the `extract_*` functions is to check whether the data comes from our permitted publishers. If the datasets is not from an available publisher, it raises an error. This is done via `opendataes:::is_publisher_available` which extracts the publishers from the `data_list` and matches it with our list of available publishers.
 
-The second problem, and very related to the previous, is the formats that we can read. Because standardization across formats is one of our main concerns, we are interested in reading formats which are very consistent and are predictable for reading. Fortunately for our selves, around 70% of all datasets in `datos.gob.es` are `csv` files, a very standard format. For that reason, it is the first format that we give preference for reading. You can check the permitted formats with `opendataes::permitted_formats`. This is one are where we are actively looking for new pull requests as we are interested in broadening our scope of formats as much as possible.
+The criteria we think best to include new publishers is to check by brute force whether they have patterns of standardization. For example, the first publisher we accepted as reliable was 'Ayuntamiento of Barcelona' because we repeatedly found ourselves reading datasets from the same format which were very consistent and easy to read. For the list of available publishers that `opendataes` can read, we can look at `opendataes::publishers_available`.
+
+```{r}
+publishers_available
+```
+
+This is one of the main areas were `opendataes` needs support. We are always welcoming pull requests that would allow us to read new publishers as long as we can have some sort of proof of consistency in their datasets.
+
+The second problem, and very related to the previous, is the formats that `opendataes` can read. Because standardization across datasets is one of our main concerns, we are interested in reading formats which are consistent and predictable for reading purposes. Fortunately for our selves, around 70% of all datasets in `datos.gob.es` are `csv` files, a very standard format. For that reason, it is the first format that we give preference for reading. You can check the permitted formats with `opendataes::permitted_formats`.
+
+```{r}
+permitted_formats
+```
+
+This is one are where we are actively looking for new pull requests as we are interested in broadening the scope of formats that `opendataes` can read.
 
 From the package's perspective there are two things that can be done to further increase the number of publishers and formats: push each of our publishers for greater standardization and check whether we can read a reasonable number of file formats from a given publisher. 
 
-Having said that, the first thing that `extract_data` does is to check whether the selected dataset has any of the formats that `opendataes` can read. If it doesn't, then it doesn't attempt to read anything but merely returns the dataset's URL's in all the formats available. For example..
+Having said that, the first thing that `extract_data` does is to check whether the selected dataset has any of the formats that `opendataes` can read. If it doesn't, then it doesn't attempt to read anything but merely returns the dataset's URL's in all the formats available. For example it returns a tibble like this one..
 
 ```{r}
 # $`unavailable_formats`
@@ -155,18 +169,64 @@ Having said that, the first thing that `extract_data` does is to check whether t
 # 13 2017_1T_CARRIL_BICI_CONS.~ zip    http://opendata-ajuntament.barcelona.cat/data/dataset/edee68e3-5ff1-43d0-b556~
 ```
 
-where the user would get each file name with their format and direct URL in case they want to read it manually. In case the dataset has at least **one** of the permitted formats, then the process is different. `extract_data` lists all URLS of the permitted format. For example, if the dataset has all of it's data in csv format then it will extract all of the dataset's in csv format. For example, any given dataset could have only one data set or several datasets as can be seen in the image below:
+where the user would get each file name with it's format and direct URL, in case they want to read it manually. In case the dataset has at least **one** of the permitted formats, then the process is different. `extract_data` extracts all URL's of the permitted format. For example, if the dataset has all of it's data in csv and xls format then `extract_data` will choose `csv` and extract all of the URL's for that format. As a more ilustrative example, any given dataset could have only one data file or several files as can be seen in the image below:
 
 <img src="datos_formats.png" width="1200" height="600">
 
-Here we can see that a given `path_id` could have several datasets in different formats. For example, the above image has the accidents in the city of Barcelona for years 2010, 2011, etc.. where each of these datasets is in csv, xlsx and xml formats. What `extract_data` does is pick the permitted format in the order of preference of `opendataes::permitted_formats` and extract all of the URL's in that format.
+Here we can see that a given `path_id` could have several datasets in different formats. The above image shows the accidents in the city of Barcelona for years 2010, 2011, etc.. where each of these datasets is in csv, xlsx and xml formats. What `extract_data` does is pick the permitted format in the order of preference of `opendataes::permitted_formats` and extract all of the URL's for that format.
 
 Once those URL's are extracted, a loop begins for each of the URL's where each URL is passed to `read_generic`, located at `R/read_generic.R`, to 
-determine the function to use based on the format and the URL is attempted to read. If for any reason the function raises an error, inside the same loop, `extract_datos` merely records the format and URL and returns a data frame with the info that it attempted to read. This is done to preserve the structure of the results and to give the user the option to try to read it manually. If the reading process was successful, then it simply returns the data as a `tibble`.
+determine the function to read the data based on the format. Once the function is determined, `read_generic` attempts to read the URL. If for any reason reading the data raises an error, inside the same loop, `extract_datos` merely records the format and URL and returns a data frame with the info that it attempted to read. This is done to preserve the structure of the results and to give the user the option to try to read it manually. If the reading process was successful, then it simply returns the data as a `tibble`.
 
-The process explained above is very messy because of the main problem discussed above: not all datasets are standardized. For example, in one of the csv files from above there could've been a starting blank line where in the second there was no such line. In practice, this is easy to handle by just providing an argument such as `skip` to skip the first line but once we scale it it becomes very messy. Providing specific arguments to each dataset would be too difficult considering that the user never knows the order at which each of the datasets are being read. Moreover, in order for the user to know which arguments should be passed to each dataset, the user would've had to read the data manually in the first place which really dismisses the whole point of streamlining the process of reading the data automatically.
+As an example, this is what happens behind the scenes with commented code:
 
-What we have provided is the `...` in `cargar_datos` to allow the user to pass generic arguments to all datasets. In a similar line, we allow for the `encoding` argument which is passed to the `read_generic` function when it is appropriate. Once this process is over, `extract_data` will always return a list with `tibble`'s inside where each tibble could be the data itself or a `tibble` with the link and format that `read_generic` attempted to read but failed for some reason.
+```{r, eval = FALSE}
+## IF there is any format to read continue, otherwise return
+## A dataset with all formats and their respective URL
+if (length(is_file_readable) != 0) {
+  
+  # Determine the NAME of the datasets
+  names_datasets <- determine_dataset_name(data_list)
+  
+  # Make sure the URL's and dataset names are in the same order.
+  if (!all(names_datasets == is_file_readable)) stop("Data cannot be read because it is not in correct order")
+  
+  # Create empty list to fill it with the data
+  output_data <- vector("list", length(is_file_readable))
+  
+  # Loop over the index of each URL
+  for (index in seq_along(is_file_readable)) {
+    # Grab the URL
+    data_url <- names(is_file_readable)[index]
+    # Determine the read_ function to be used from the format of the URL
+    read_generic <- determine_read_generic(data_url)
+    # Because there are different languages in Spain, set the encoding
+    # to be used when reading the dataset. This is where the encoding argument
+    # is passed to
+    custom_locale <- readr::locale("es", encoding = encoding)
+    
+    # Try reading the data and saving it in that dataset's slot
+    # in the list
+    output_data[[index]] <- try(read_generic(file = data_url, locale = custom_locale, ...), silent = TRUE)
+    
+    # If there was an error reading the dataset, fill the same slot
+    # with the format and URL that it attempted to read.
+    if (inherits(output_data[[index]], "try-error")) {
+      output_data[[index]] <- tibble::tibble(format = is_file_readable[index], 
+                                             URL = names(is_file_readable[index]))
+    }
+  }
+  # Assign the names of each data slot so that users can identify which
+  # name belongs to which dataset.
+  names(output_data) <- names(names_datasets)
+}
+```
+
+The process explained above is very messy because of the main problem discussed above: not all datasets are standardized. For example, in one of the csv files from above there could've been a starting blank line whereas in the second dataset there was no such line. Manually, this is easy to handle by just providing an argument such as `skip` to skip the first line. However, once we scale it to different datasets which don't have a standardized structure, it becomes very messy.
+
+Providing specific arguments to each dataset being read would be too difficult considering that the user never knows the order at which each of the datasets are being read. Moreover, in order for the user to know which arguments should be passed to each dataset, the user would have had to read the data manually in the first place which really misses the whole point of streamlining the process of reading the data automatically.
+
+As a partial solution, `opendataes` provides the `...` argument in `cargar_datos` to allow the user to pass generic arguments to all datasets. In a similar line, `cargar_datos` allows the user to pass the `encoding` argument which is passed to the `read_generic` function when it is appropriate. Of course, any argument passed to `...` or `encoding` will be applied to all datasets being read. Once this process is over, `extract_data` will always return a list with `tibble`'s where each tibble could be the data itself or a `tibble` with the link and format that `read_generic` attempted to read but failed for some reason.
 
 The final step is merely joining both the `metadata` and `data` into a list as the below image shows:
 
