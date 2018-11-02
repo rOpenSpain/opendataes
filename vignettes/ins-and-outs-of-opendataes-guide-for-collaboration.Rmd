@@ -37,11 +37,11 @@ That said, let's explore the first step in the process.
 
 ## Preparing and calling the API
 
-<img src="opendataes_diagram_step1.jpg" width="1000" height="200">
+<img src="opendataes_diagram_step1.jpg" width="1100" height="200">
 
 The first step begins with `cargar_datos`, which is the main function. It accepts the typical `path_id` of the dataset as a string. For example:
 
-```{r}
+```{r, echo = FALSE}
 library(opendataes)
 path_id <- 'l01080193-elecciones-al-parlamento-europeo-sobre-electores'
 ```
@@ -53,13 +53,13 @@ path_id <- 'l01080193-elecciones-al-parlamento-europeo-sobre-electores'
 cargar_datos(path_id)
 ```
 
-However, it also has a method for a data frame, as the graph suggests. This method is strictly aimed at data frames returned by `explorar_keywords` so it checks the format of the data frame before hand.
+However, it also has a method for a dataframe, as the graph suggests. This method is strictly aimed at dataframes returned by `explorar_keywords` so it checks the format of the dataframe before hand.
 
 ```{r}
 cargar_datos
 ```
 
-`cargar_datos` redirects to `check_keywords_df`, an internal function that checks whether the data frame has the `path_id` column, among other checks. Finally, once the checks succeed, it assigns the data frame a class `datos_gob_es_keywords` and passes it to the method dispatch `UseMethod`. The method for the class `datos_gob_es_keywords` merely subsets the `path_id` column to get the string and read it using the character method:
+`cargar_datos` redirects to `check_keywords_df`, an internal function that checks whether the dataframe has the `path_id` column, among other checks. Finally, once the check succeeds, it assigns the dataframe a class `datos_gob_es_keywords` and passes it to the method dispatch `UseMethod`. The method for the class `datos_gob_es_keywords` merely subsets the `path_id` column to get the string and read it using the character method of `cargar_datos`:
 
 ```{r}
 opendataes:::cargar_datos.datos_gob_es_keywords
@@ -67,15 +67,16 @@ opendataes:::cargar_datos.datos_gob_es_keywords
 
 So we end up with the same call as if we would've called the main argument with a string containing the `path_id`. As the diagram suggests, you can find these functions in the R script `R/cargar_datos.R` in the [Github repository](https://github.com/cimentadaj/opendataes). Once `cargar_datos` passes the string as the main argument it constructs the whole path for the API using a family of functions found in `R/path.R`. More concretely, it defines the complete path using `path_dataset_id(path_id)` which returns the direct path of the API to query the data set. 
 
-If interested in looking at how this and the other path functions work, they are all located and documented at `R/path.R` in the Github repo.
-
-At the end of this preprocessing step, `cargar_datos` passes this complete path to `get_resp` which simply sends a GET request to the API. For interacting with the API we're using the `httr` package which is very intuitive. The function `get_resp` returns a list with the response from the API. Internally, we've defined the output of `get_resp` as a `data_list`. You will find this name in several places in the package. The `data_list` is just a list that contains the metadata of the dataset and the links to the data from the original publisher (so the direct links to the data from the Ayuntamiento de Madrid or Málaga).
+At the end of this preprocessing step, `cargar_datos` passes this complete path to `get_resp` which simply sends a GET request to the API.
 
 We can see the whole process in the character method of `cargar_datos`:
 
 ```{r}
 opendataes:::cargar_datos.character
 ```
+
+The function `get_resp` returns a list with the response from the API, which we've interally called a `data_list`. You will encounter this name in several places in the package as argument names or in the internal documentation. The `data_list` is just a list that contains the metadata of the dataset and the links to the data from the original publisher (so the direct links to the data from the Ayuntamiento de Madrid or Málaga) along with some information from the GET request.
+
 
 To visualize a real example of a `data_list` we can call it directly using the previous `path_id`:
 
@@ -86,17 +87,17 @@ data_list <- opendataes:::get_resp(opendataes:::path_dataset_id(path_id))
 data_list
 ```
 
-Before we extract the metadata and data, `cargar_datos` checks that the `data_list` is in the format that the package expects, because otherwise none of the functions in the package would work. If the `data_list` is not in the correct format, `cargar_datos` returns an empty list.
+Before we extract the metadata and data, `cargar_datos` checks that the `data_list` is in the expected format, because otherwise none of the functions in the package would work. If the `data_list` is not in the correct format, `cargar_datos` returns an empty list.
 
-`opendataes` really pushes for consistent outputs. That is, it usually returns a list with two slots containing the metadata and data and if the data poses some sort of problem, `cargar_datos` should return the same list with two slots but without the data itself. However, if the `data_list` is not in the correct format it means that the API is returning something odd in the first place. This is regardless of the quality, standardization or format of the dataset. In this scenario `cargar_datos` returns an empty list but this is open to debate. This is an area for improvements for new comers.
+**Note**: `opendataes` really pushes for consistent outputs. That is, it usually returns a list with two slots containing the metadata and data and if the data poses some sort of problem, `cargar_datos` should return the same list with two slots but without the data itself. However, if the `data_list` is not in the correct format it means that the API is returning something odd in the first place. This is regardless of the quality, standardization or format of the dataset. In this scenario `cargar_datos` returns an empty list but this is open to debate. This is an area for improvements for new comers.
 
-As you can see, the `data_list` is long, messy and not very intuitive. This is when we move to the second step of the diagram.
+Getting back to the `data_list`, it is messy and not very intuitive. This is when we move to the second step of the diagram.
 
 ## Extracting the metadata
 
-<img src="opendataes_diagram_step2.jpg" width="800" height="200">
+<img src="opendataes_diagram_step2.jpg" width="900" height="300">
 
-The metadata is scattered around the `data_list` but it keeps consistent names so `opendataes` provides several `extract_*` functions that are present in the diagram. We combine all of these 'helper' functions into `extract_metadata` to provide a general `tibble` of metadata. In the example below, we need to dig deeper into the list structure to get to where the data is.
+The metadata is scattered around the `data_list` but it keeps consistent names so `opendataes` provides several `extract_*` functions that are present in the diagram. We combine all of these 'helper' functions into `extract_metadata` to provide a general `tibble` of metadata. In the example below, we need to dig deeper into the list structure of `data_list` to get to where the data actually is.
 
 For example..
 
@@ -119,15 +120,15 @@ languages <- extract_language(data_list)
 url_path <- extract_url(data_list)
 ```
 
-Once that's done, the metadata is ready. For more detailed readings of the source code, each of these functions is located in the `R/extract.R` path. Now we move on to the trickiest step: extracting the data.
+Once that's done, the metadata is ready. For more detailed readings of the source code, each of these functions are located in the `R/extract.R` path. Now we move on to the trickiest step: extracting the data.
 
 ## Extracting the data
 
-<img src="opendataes_diagram_step3.jpg" width="1200" height="600">
+<img src="opendataes_diagram_step3.jpg" width="1300" height="600">
 
-The first step is passing the `data_list` from above to `extract_data` which can be located at the path `R/extract.R`. The difficult part of reading the data is due to the fact that different publishers keep datasets with different formats. For example, the Ayuntamiento of Madrid might have a csv file with only one excel sheet in an organized tabular format but the Ayuntamiento de Arganda del Rey might have several sheets with several tables inside each sheet. There's really nothing that can be done about that if the aim of the package is to scale the data reading process across several publishers. The chosen solution, we believe, is the most conservative: limit the publishers and formats that `opendataes` can read and increase these two as their standardization practices grow.
+The first step is passing the `data_list` from above to `extract_data` which can be located at the path `R/extract.R`. The difficult part of reading the data is due to the fact that different publishers keep datasets with different formats. For example, the Ayuntamiento de Madrid might have a `csv` file with only one excel sheet in an organized tabular format but the Ayuntamiento de Arganda del Rey might have several sheets with several tables inside each sheet. There's really nothing that can be done about that if the aim of the package is to scale the data reading process across several publishers. The chosen solution, we believe, is the most conservative: limit the publishers and formats that `opendataes` can read and increase these two as their standardization practices grow.
 
-The first step that `cargar_datos` takes before calling the `extract_*` functions is to check whether the data comes from our permitted publishers. If the datasets is not from an available publisher, it raises an error. This is done via `opendataes:::is_publisher_available` which extracts the publishers from the `data_list` and matches it with our list of available publishers.
+The first step that `cargar_datos` takes before calling `extract_data` functions is to check whether the data comes from our permitted publishers. If the dataset is not from an available publisher, it raises an error. This is done via `opendataes:::is_publisher_available` which extracts the publisher from the `data_list` and matches it with our list of available publishers.
 
 The criteria we think best to include new publishers is to check by brute force whether they have patterns of standardization. For example, the first publisher we accepted as reliable was 'Ayuntamiento of Barcelona' because we repeatedly found ourselves reading datasets from the same format which were very consistent and easy to read. For the list of available publishers that `opendataes` can read, we can look at `opendataes::publishers_available`.
 
@@ -137,7 +138,7 @@ publishers_available
 
 This is one of the main areas were `opendataes` needs support. We are always welcoming pull requests that would allow us to read new publishers as long as we can have some sort of proof of consistency in their datasets.
 
-The second problem, and very related to the previous, is the formats that `opendataes` can read. Because standardization across datasets is one of our main concerns, we are interested in reading formats which are consistent and predictable for reading purposes. Fortunately for our selves, around 70% of all datasets in `datos.gob.es` are `csv` files, a very standard format. For that reason, it is the first format that we give preference for reading. You can check the permitted formats with `opendataes::permitted_formats`.
+The second problem, and very related to the previous, is the formats that `opendataes` can read. Because standardization across datasets is one of our main concerns, we are interested in reading formats which are consistent and predictable for reading purposes. Fortunately, around 70% of all datasets in `datos.gob.es` are `csv` files, a very standard format. For that reason, it is the first format that we give preference for reading. You can check the permitted formats with `opendataes::permitted_formats`.
 
 ```{r}
 permitted_formats
@@ -169,23 +170,26 @@ Having said that, the first thing that `extract_data` does is to check whether t
 # 13 2017_1T_CARRIL_BICI_CONS.~ zip    http://opendata-ajuntament.barcelona.cat/data/dataset/edee68e3-5ff1-43d0-b556~
 ```
 
-where the user would get each file name with it's format and direct URL, in case they want to read it manually. In case the dataset has at least **one** of the permitted formats, then the process is different. `extract_data` extracts all URL's of the permitted format. For example, if the dataset has all of it's data in csv and xls format then `extract_data` will choose `csv` and extract all of the URL's for that format. As a more ilustrative example, any given dataset could have only one data file or several files as can be seen in the image below:
+where the user would get each file name with it's format and direct URL, in case they want to read it manually. In case the dataset has at least **one** of the permitted formats, then the process is different: `extract_data` extracts all URL's of the permitted format. For example, if the dataset has all of it's data in `csv` and `xls` formats then `extract_data` will choose `csv` and extract all of the URL's for that format. As a more ilustrative example, a dataset could have several files as can be seen in the image below:
 
 <img src="datos_formats.png" width="1200" height="600">
 
-Here we can see that a given `path_id` could have several datasets in different formats. The above image shows the accidents in the city of Barcelona for years 2010, 2011, etc.. where each of these datasets is in csv, xlsx and xml formats. What `extract_data` does is pick the permitted format in the order of preference of `opendataes::permitted_formats` and extract all of the URL's for that format.
+The above image shows the accidents in the city of Barcelona for years 2010, 2011, etc.. where each of these datasets is in `csv`, `xlsx` and `xml` formats. What `extract_data` does is pick the permitted format in the order of preference of `opendataes::permitted_formats` and extract all of the URL's for that format. In this case, it would extract all of the URL's for the accidents in `csv` for the year 2010, 2011, etc..
 
 Once those URL's are extracted, a loop begins for each of the URL's where each URL is passed to `read_generic`, located at `R/read_generic.R`, to 
-determine the function to read the data based on the format. Once the function is determined, `read_generic` attempts to read the URL. If for any reason reading the data raises an error, inside the same loop, `extract_datos` merely records the format and URL and returns a data frame with the info that it attempted to read. This is done to preserve the structure of the results and to give the user the option to try to read it manually. If the reading process was successful, then it simply returns the data as a `tibble`.
+determine the function to read the data based on the format. Once the function is determined, `read_generic` attempts to read the URL. If for any reason reading the data raises an error, inside the same loop, `extract_datos` merely records the format and URL and returns a dataframe with the info that it attempted to read. This is done to preserve the structure of the results and to give the user the option to try to read it manually. If the reading process was successful, then it simply returns the data as a `tibble`.
 
 As an example, this is what happens behind the scenes with commented code:
 
 ```{r, eval = FALSE}
-## IF there is any format to read continue, otherwise return
-## A dataset with all formats and their respective URL
+# If there is any format to read continue, otherwise return
+# A dataset with all formats and their respective URL
+
+# is_file_readable here contains the formats that matched between
+# the data_list and the permitted_formats
 if (length(is_file_readable) != 0) {
   
-  # Determine the NAME of the datasets
+  # Determine the NAME of the datafiles
   names_datasets <- determine_dataset_name(data_list)
   
   # Make sure the URL's and dataset names are in the same order.
@@ -222,7 +226,7 @@ if (length(is_file_readable) != 0) {
 }
 ```
 
-The process explained above is very messy because of the main problem discussed above: not all datasets are standardized. For example, in one of the csv files from above there could've been a starting blank line whereas in the second dataset there was no such line. Manually, this is easy to handle by just providing an argument such as `skip` to skip the first line. However, once we scale it to different datasets which don't have a standardized structure, it becomes very messy.
+The process explained above is very messy because of the main problem discussed above: not all datasets are standardized. For example, in one of the `csv` files from above there could've been a starting blank line whereas in the second dataset there was no such line. Manually, this is easy to handle by just providing an argument such as `skip` to skip the first line. However, once we scale it to different datasets which don't have a standardized structure, it becomes very messy.
 
 Providing specific arguments to each dataset being read would be too difficult considering that the user never knows the order at which each of the datasets are being read. Moreover, in order for the user to know which arguments should be passed to each dataset, the user would have had to read the data manually in the first place which really misses the whole point of streamlining the process of reading the data automatically.
 
@@ -235,4 +239,4 @@ The final step is merely joining both the `metadata` and `data` into a list as t
 <img src="opendataes_diagram_step4.jpg" width="300" height="200">
 </p>
 
-The package is accepting pull requests and it is open to new features so feel free to file an issue to discuss new ideas at the Github repository [here](https://github.com/cimentadaj/opendataes)
+This vignette was written as the package became public and the structure might get outdated as time passes by. We aim for package to become maintained by the community and hopefully grow as time passes by. The package will always accept pull requests and it is open to new features so feel free to file an issue to discuss new ideas at the Github repository [here](https://github.com/cimentadaj/opendataes)
