@@ -21,7 +21,9 @@ knitr::opts_chunk$set(
 
 ## How does this work anyway?
 
-<img src="opendataes_diagram.jpeg" width="1200" height="900">
+```{r, out.width = "1200", out.height = "900", echo = FALSE}
+knitr::include_graphics("opendataes_diagram.jpeg")
+```
 
 <br>
 
@@ -29,7 +31,9 @@ Woah, that's a lot of information. We'll go step by step and tear it apart. Firs
 
 <br>
 
-<img src="opendataes_diagram_legend.jpeg" width="800" height="200">
+```{r, out.width = "800", out.height = "200", echo = FALSE}
+knitr::include_graphics("opendataes_diagram_legend.jpeg")
+```
 
 I'll explain it further just to make it clearer. The red boxes are information boxes. That is, they don't document a function call in the process, so just take it as an explanation of the process. The blue boxes are the most important because they document the function calls. That is, each of the blue boxes represent a function being called that represents an important step in the process of reading the data. Finally, the green boxes represent where the function in the blue box is at in the package structure. This is handy when you want to read through the source code of the function without much hassle.
 
@@ -37,7 +41,9 @@ That said, let's explore the first step in the process.
 
 ## Preparing and calling the API
 
-<img src="opendataes_diagram_step1.jpg" width="1100" height="200">
+```{r, out.width = "1100", out.height = "200", echo = FALSE}
+knitr::include_graphics("opendataes_diagram_step1.jpg")
+```
 
 The first step begins with `cargar_datos`, which is the main function. It accepts the typical `path_id` of the dataset as a string. For example:
 
@@ -95,7 +101,9 @@ Getting back to the `data_list`, it is messy and not very intuitive. This is whe
 
 ## Extracting the metadata
 
-<img src="opendataes_diagram_step2.jpg" width="900" height="300">
+```{r, out.width = "900", out.height = "300", echo = FALSE}
+knitr::include_graphics("opendataes_diagram_step2.jpg")
+```
 
 The metadata is scattered around the `data_list` but it keeps consistent names so `opendataes` provides several `extract_*` functions that are present in the diagram. We combine all of these 'helper' functions into `extract_metadata` to provide a general `tibble` of metadata. In the example below, we need to dig deeper into the list structure of `data_list` to get to where the data actually is.
 
@@ -124,7 +132,9 @@ Once that's done, the metadata is ready. For more detailed readings of the sourc
 
 ## Extracting the data
 
-<img src="opendataes_diagram_step3.jpg" width="1300" height="600">
+```{r, out.width = "1300", out.height = "600", echo = FALSE}
+knitr::include_graphics("opendataes_diagram_step3.jpg")
+```
 
 The first step is passing the `data_list` from above to `extract_data` which can be located at the path `R/extract.R`. The difficult part of reading the data is due to the fact that different publishers keep datasets with different formats. For example, the Ayuntamiento de Madrid might have a `csv` file with only one excel sheet in an organized tabular format but the Ayuntamiento de Arganda del Rey might have several sheets with several tables inside each sheet. There's really nothing that can be done about that if the aim of the package is to scale the data reading process across several publishers. The chosen solution, we believe, is the most conservative: limit the publishers and formats that `opendataes` can read and increase these two as their standardization practices grow.
 
@@ -172,7 +182,9 @@ Having said that, the first thing that `extract_data` does is to check whether t
 
 where the user would get each file name with it's format and direct URL, in case they want to read it manually. In case the dataset has at least **one** of the permitted formats, then the process is different: `extract_data` extracts all URL's of the permitted format. For example, if the dataset has all of it's data in `csv` and `xls` formats then `extract_data` will choose `csv` and extract all of the URL's for that format. As a more ilustrative example, a dataset could have several files as can be seen in the image below:
 
-<img src="datos_formats.png" width="1200" height="600">
+```{r, out.width = "1200", out.height = "600", echo = FALSE}
+knitr::include_graphics("datos_formats.png")
+```
 
 The above image shows the accidents in the city of Barcelona for years 2010, 2011, etc.. where each of these datasets is in `csv`, `xlsx` and `xml` formats. What `extract_data` does is pick the permitted format in the order of preference of `opendataes::permitted_formats` and extract all of the URL's for that format. In this case, it would extract all of the URL's for the accidents in `csv` for the year 2010, 2011, etc..
 
@@ -234,9 +246,8 @@ As a partial solution, `opendataes` provides the `...` argument in `cargar_datos
 
 The final step is merely joining both the `metadata` and `data` into a list as the below image shows:
 
-<br>
-<p align='center'>
-<img src="opendataes_diagram_step4.jpg" width="300" height="200">
-</p>
+```{r, out.width = "300", out.height = "200", fig.align = 'center', echo = FALSE}
+knitr::include_graphics("opendataes_diagram_step4.jpg")
+```
 
 This vignette was written as the package became public and the structure might get outdated as time passes by. We aim for package to become maintained by the community and hopefully grow as time passes by. The package will always accept pull requests and it is open to new features so feel free to file an issue to discuss new ideas at the Github repository [here](https://github.com/cimentadaj/opendataes)
