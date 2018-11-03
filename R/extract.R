@@ -279,7 +279,7 @@ extract_release_date <- function(data_list) {
 
   # So that we can read abbriated months
   # such as ene, mar
-  spanish_locale <- if (.Platform$OS.type == "windows") "Spanish" else "es_ES"
+  spanish_locale <- if (.Platform$OS.type == "windows") "Spanish" else "es_ES.UTF-8"
   # So that we can read abbriated months
   # such as ene, mar
   orig_locale <- Sys.getlocale("LC_TIME")
@@ -305,7 +305,7 @@ extract_modified_date <- function(data_list) {
     return("No modification date available")
   }
 
-  spanish_locale <- if (.Platform$OS.type == "windows") "Spanish" else "es_ES"
+  spanish_locale <- if (.Platform$OS.type == "windows") "Spanish" else "es_ES.UTF-8"
   # So that we can read abbriated months
   # such as ene, mar
   orig_locale <- Sys.getlocale("LC_TIME")
