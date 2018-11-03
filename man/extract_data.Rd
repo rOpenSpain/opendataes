@@ -24,5 +24,5 @@ the data frame with only one column containing all available access URL's.
 
 For example, this URL: http://datos.gob.es/es/catalogo/a02002834-numero-de-centros-segun-ancho-de-banda-de-la-conexion-a-internet-que-tiene-el-centro6
 says that it has a XML file but once you click on the 'download' XML, it redirects to a JavaScript based
-webste that has the table. This file unfortunately is unreadble to the package.
+website that has the table. This file unfortunately is unreadable to the package.
 }

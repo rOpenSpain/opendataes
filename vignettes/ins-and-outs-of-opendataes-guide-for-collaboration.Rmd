@@ -2,7 +2,9 @@
 title: "Ins and outs  of opendataes: a guide for collaboration"
 author: "Jorge Cimentada and Jorge Lopez"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output: 
+  html_document:
+    theme: spacelab
 vignette: >
   %\VignetteIndexEntry{Vignette Title}
   %\VignetteEngine{knitr::rmarkdown}
@@ -27,7 +29,14 @@ knitr::include_graphics("opendataes_diagram.jpeg")
 
 <br>
 
-Woah, that's a lot of information. We'll go step by step and tear it apart. First, let's look at the legend of each box
+
+Woah, that's a lot of information. The package has three steps:
+
+1) Preparing the path and requesting data from the API
+2) Extracting the metadata
+3) Extracting the data
+
+In the image above, the first step is the horizontal diagram at the top while the last two steps are the horizontal diagrams at the bottom. We'll go step by step and tear it apart. First, let's look at the legend of each box
 
 <br>
 
@@ -45,7 +54,7 @@ That said, let's explore the first step in the process.
 knitr::include_graphics("opendataes_diagram_step1.jpg")
 ```
 
-The first step begins with `cargar_datos`, which is the main function. It accepts the typical `path_id` of the dataset as a string. For example:
+The first step begins with `cargar_datos`, which is the main function. It accepts the typical `path_id` of the dataset as a string (read the README or other vignette for some simpler cases). For example:
 
 ```{r, echo = FALSE}
 library(opendataes)
@@ -73,7 +82,7 @@ opendataes:::cargar_datos.datos_gob_es_keywords
 
 So we end up with the same call as if we would've called the main argument with a string containing the `path_id`. As the diagram suggests, you can find these functions in the R script `R/cargar_datos.R` in the [Github repository](https://github.com/cimentadaj/opendataes). Once `cargar_datos` passes the string as the main argument it constructs the whole path for the API using a family of functions found in `R/path.R`. More concretely, it defines the complete path using `path_dataset_id(path_id)` which returns the direct path of the API to query the data set. 
 
-At the end of this preprocessing step, `cargar_datos` passes this complete path to `get_resp` which simply sends a GET request to the API.
+At the end of this preprocessing step, `cargar_datos` passes this complete path to `get_resp` which sends a GET request to the API.
 
 We can see the whole process in the character method of `cargar_datos`:
 
@@ -81,7 +90,7 @@ We can see the whole process in the character method of `cargar_datos`:
 opendataes:::cargar_datos.character
 ```
 
-The function `get_resp` returns a list with the response from the API, which we've interally called a `data_list`. You will encounter this name in several places in the package as argument names or in the internal documentation. The `data_list` is just a list that contains the metadata of the dataset and the links to the data from the original publisher (so the direct links to the data from the Ayuntamiento de Madrid or Málaga) along with some information from the GET request.
+The function `get_resp` returns a list with the response from the API, which we've interally called a `data_list`. You will encounter this name in several places in the package as argument names or in the internal documentation. The `data_list` is just a list that contains the metadata of the dataset and the links to the data from the original publisher (for example, the direct links to the data from the Ayuntamiento de Madrid or Málaga) along with some information from the GET request.
 
 
 To visualize a real example of a `data_list` we can call it directly using the previous `path_id`:
@@ -138,7 +147,7 @@ knitr::include_graphics("opendataes_diagram_step3.jpg")
 
 The first step is passing the `data_list` from above to `extract_data` which can be located at the path `R/extract.R`. The difficult part of reading the data is due to the fact that different publishers keep datasets with different formats. For example, the Ayuntamiento de Madrid might have a `csv` file with only one excel sheet in an organized tabular format but the Ayuntamiento de Arganda del Rey might have several sheets with several tables inside each sheet. There's really nothing that can be done about that if the aim of the package is to scale the data reading process across several publishers. The chosen solution, we believe, is the most conservative: limit the publishers and formats that `opendataes` can read and increase these two as their standardization practices grow.
 
-The first step that `cargar_datos` takes before calling `extract_data` functions is to check whether the data comes from our permitted publishers. If the dataset is not from an available publisher, it raises an error. This is done via `opendataes:::is_publisher_available` which extracts the publisher from the `data_list` and matches it with our list of available publishers.
+The first step that `cargar_datos` takes **before calling** `extract_data` functions is to check whether the data comes from our permitted publishers. If the dataset is not from an available publisher, it raises an error. This is done via `opendataes:::is_publisher_available` which extracts the publisher from the `data_list` and matches it with our list of available publishers.
 
 The criteria we think best to include new publishers is to check by brute force whether they have patterns of standardization. For example, the first publisher we accepted as reliable was 'Ayuntamiento of Barcelona' because we repeatedly found ourselves reading datasets from the same format which were very consistent and easy to read. For the list of available publishers that `opendataes` can read, we can look at `opendataes::publishers_available`.
 
@@ -180,7 +189,7 @@ Having said that, the first thing that `extract_data` does is to check whether t
 # 13 2017_1T_CARRIL_BICI_CONS.~ zip    http://opendata-ajuntament.barcelona.cat/data/dataset/edee68e3-5ff1-43d0-b556~
 ```
 
-where the user would get each file name with it's format and direct URL, in case they want to read it manually. In case the dataset has at least **one** of the permitted formats, then the process is different: `extract_data` extracts all URL's of the permitted format. For example, if the dataset has all of it's data in `csv` and `xls` formats then `extract_data` will choose `csv` and extract all of the URL's for that format. As a more ilustrative example, a dataset could have several files as can be seen in the image below:
+where the user would get each file name with it's format and direct URL, in case they want to read it manually. In case the dataset has at least **one** of the permitted formats, then the process is different: `extract_data` extracts all URL's of the permitted format. As an ilustrative example, a dataset could have several files as can be seen in the image below:
 
 ```{r, out.width = "1200", out.height = "600", echo = FALSE}
 knitr::include_graphics("datos_formats.png")
@@ -191,7 +200,7 @@ The above image shows the accidents in the city of Barcelona for years 2010, 201
 Once those URL's are extracted, a loop begins for each of the URL's where each URL is passed to `read_generic`, located at `R/read_generic.R`, to 
 determine the function to read the data based on the format. Once the function is determined, `read_generic` attempts to read the URL. If for any reason reading the data raises an error, inside the same loop, `extract_datos` merely records the format and URL and returns a dataframe with the info that it attempted to read. This is done to preserve the structure of the results and to give the user the option to try to read it manually. If the reading process was successful, then it simply returns the data as a `tibble`.
 
-As an example, this is what happens behind the scenes with commented code:
+This is what really happens behind the scenes with commented code:
 
 ```{r, eval = FALSE}
 # If there is any format to read continue, otherwise return
@@ -242,7 +251,7 @@ The process explained above is very messy because of the main problem discussed 
 
 Providing specific arguments to each dataset being read would be too difficult considering that the user never knows the order at which each of the datasets are being read. Moreover, in order for the user to know which arguments should be passed to each dataset, the user would have had to read the data manually in the first place which really misses the whole point of streamlining the process of reading the data automatically.
 
-As a partial solution, `opendataes` provides the `...` argument in `cargar_datos` to allow the user to pass generic arguments to all datasets. In a similar line, `cargar_datos` allows the user to pass the `encoding` argument which is passed to the `read_generic` function when it is appropriate. Of course, any argument passed to `...` or `encoding` will be applied to all datasets being read. Once this process is over, `extract_data` will always return a list with `tibble`'s where each tibble could be the data itself or a `tibble` with the link and format that `read_generic` attempted to read but failed for some reason.
+As a partial solution, `opendataes` provides the `...` argument in `cargar_datos` to allow the user to pass generic arguments to all datasets. In a similar line, `cargar_datos` allows the user to pass the `encoding` argument which is passed to the `read_generic` function when it is appropriate. Of course, any argument passed to `...` or `encoding` will be applied to all datasets being read. Once this process is over, `extract_data` will always return a list with `tibble`'s where each `tibble` could be the data itself or a `tibble` with the link and format that `read_generic` attempted to read but failed for some reason.
 
 The final step is merely joining both the `metadata` and `data` into a list as the below image shows:
 
@@ -250,4 +259,4 @@ The final step is merely joining both the `metadata` and `data` into a list as t
 knitr::include_graphics("opendataes_diagram_step4.jpg")
 ```
 
-This vignette was written as the package became public and the structure might get outdated as time passes by. We aim for package to become maintained by the community and hopefully grow as time passes by. The package will always accept pull requests and it is open to new features so feel free to file an issue to discuss new ideas at the Github repository [here](https://github.com/cimentadaj/opendataes)
+This vignette was written as the package became public and the structure might get outdated as time passes by. We aim for the package to grow through new contributors. The package is accepting pull requests and it is open to new features so feel free to file an issue to discuss new ideas at the Github repository [here](https://github.com/cimentadaj/opendataes)

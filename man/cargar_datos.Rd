@@ -43,7 +43,7 @@ The columns are:
 \item language: the available languages of the dataset's metadata. Note that that this does not mean that the dataset
 is in different languages but only the metadata.
 \item description: a short description of the data being read.
-\item url: the complet url of the dataset in \url{https://datos.gob.es/}. Note that this URL is not the access URL to the dataset
+\item url: the complete url of the dataset in \url{https://datos.gob.es/}. Note that this URL is not the access URL to the dataset
 but to the dataset's homepage in \url{https://datos.gob.es/}.
 \item date_issued: the date at which the dataset was uploaded.
 \item date_modified: the date at which the last dataset was uploaded. If the dataset has only been uploaded once, this
@@ -87,7 +87,7 @@ in \code{\link{permitted_formats}}. If the file format of the requested \code{pa
 will return a list with only one \code{\link[tibble]{tibble}} with all available formats with their respective data URL
 inside the data slot so that users can read the manually.
 
-In a similar line, in order for \code{cargar_datos} to provide the safest behaviour, it is very conservative in which
+In a similar line, in order for \code{cargar_datos} to provide the safest behavior, it is very conservative in which
 publisher it can read from \url{https://datos.gob.es/}. Because some publishers do not have standardized datasets,
 reading many different publishers can become very messy. \code{cargar_datos} currently reads files from selected
 publishers because they offer standardized datasets which makes it safer to read. As the package evolves and the
