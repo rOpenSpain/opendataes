@@ -279,8 +279,11 @@ extract_release_date <- function(data_list) {
 
   # So that we can read abbriated months
   # such as ene, mar
+  spanish_locale <- if (.Platform$OS.type == "windows") "Spanish" else "es_ES"
+  # So that we can read abbriated months
+  # such as ene, mar
   orig_locale <- Sys.getlocale("LC_TIME")
-  Sys.setlocale("LC_TIME", 'Spanish')
+  Sys.setlocale("LC_TIME", spanish_locale)
   on.exit(Sys.setlocale("LC_TIME", orig_locale))
 
   issued <- as.POSIXct(substr(data_list$issued, 6, 25),
@@ -302,10 +305,11 @@ extract_modified_date <- function(data_list) {
     return("No modification date available")
   }
 
+  spanish_locale <- if (.Platform$OS.type == "windows") "Spanish" else "es_ES"
   # So that we can read abbriated months
   # such as ene, mar
   orig_locale <- Sys.getlocale("LC_TIME")
-  Sys.setlocale("LC_TIME", 'Spanish')
+  Sys.setlocale("LC_TIME", spanish_locale)
   on.exit(Sys.setlocale("LC_TIME", orig_locale))
 
   modified <- as.POSIXct(substr(data_list$modified, 6, 25),
