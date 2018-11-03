@@ -277,6 +277,12 @@ extract_release_date <- function(data_list) {
     return("No release date available")
   }
 
+  # So that we can read abbriated months
+  # such as ene, mar
+  orig_locale <- Sys.getlocale("LC_TIME")
+  Sys.setlocale("LC_TIME", 'Spanish')
+  on.exit(Sys.setlocale("LC_TIME", orig_locale))
+
   issued <- as.POSIXct(substr(data_list$issued, 6, 25),
                        format = "%d %b %Y %H:%M:%S", tz = "GMT")
 
@@ -295,6 +301,12 @@ extract_modified_date <- function(data_list) {
   if (!'modified' %in% names(data_list)) {
     return("No modification date available")
   }
+
+  # So that we can read abbriated months
+  # such as ene, mar
+  orig_locale <- Sys.getlocale("LC_TIME")
+  Sys.setlocale("LC_TIME", 'Spanish')
+  on.exit(Sys.setlocale("LC_TIME", orig_locale))
 
   modified <- as.POSIXct(substr(data_list$modified, 6, 25),
                          format = "%d %b %Y %H:%M:%S", tz = "GMT")

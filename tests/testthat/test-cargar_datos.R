@@ -5,6 +5,8 @@ standard_check <- function(res) {
   expect_s3_class(res, "datos_gob_es")
   expect_is(unclass(res), "list")
   expect_is(res$metadata, "data.frame")
+  expect_true(all(!is.na(res$metadata$date_issued))) # all dates should not be missing
+  expect_true(all(!is.na(res$metadata$date_modified)))
   expect_true(all(vapply(res$data, is.data.frame, FUN.VALUE = logical(1))))
 
   # Check structure
@@ -32,6 +34,18 @@ test_that("cargar_datos for SEVERAL dataset returns correct format", {
 
   example_id <- 'l01080193-domicilios-segun-nacionalidad'
   res <- cargar_datos(example_id)
+
+  standard_check(res)
+})
+
+test_that("cargar_datos can read dates successfully while changing locale", {
+
+  # This dataset has a date of release in the month of 'dic' in Spanish.
+  # Here we test that `extract_modified_date` and `extract_issued_date`
+  # is not missing inside STANDARD CHECK. This test was included
+  # because we were not changing the locale to Spanish before
+  # and months such as ene (enero) or dic (diciembre) were throwing NA's.
+  res <- cargar_datos('l01080193-carta-arqueologica-de-barcelona')
 
   standard_check(res)
 })
