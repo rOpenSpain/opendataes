@@ -86,7 +86,7 @@ path_distribution <- function(param = NULL, ...) {
 #' useless because there's not further paths to the distribution end point. Keeping
 #' the argument for consistency
 #' @param ... Extra arguments passed to \code{\link[httr]{build_url}}
-path_begin_end_date <- function(start_date, end_date, param = NULL, ...) {
+path_begin_end_date <- function(start_date, end_date, param = NULL, ...) { # nocov start
   #### NOTE ######
   # Function NOT READY for use.
 
@@ -104,7 +104,7 @@ path_begin_end_date <- function(start_date, end_date, param = NULL, ...) {
 
   #httr::modify_url(paste0(path_datasets(), "/modified/begin/", start_date, "/end/", end_date))
   httr::modify_url(paste0(path_datasets(), "/modified/begin/", start_date, "/end/", end_date))
-}
+} # nocov end
 
 
 #' Build a url with an ID of a dataset

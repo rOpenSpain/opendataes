@@ -18,3 +18,7 @@ test_that("publishers_available returns correct format", {
   expect_equal(ncol(publisher), 2)
   expect_true(all(vapply(publisher, is.character, FUN.VALUE = logical(1))))
 })
+
+test_that("translate_publisher doesn't return publisher when not available", {
+  expect_identical(translate_publisher(21311), "Publisher not available")
+})

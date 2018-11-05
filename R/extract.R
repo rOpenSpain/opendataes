@@ -407,8 +407,8 @@ data_list_correct <- function(raw_json) {
 # that refers to many languages. Like the description
 # comes in three langauges. We want those vectors to be turned
 # into columns with the language prefix in the column names
-vector_to_df_columnwise <- function(vec, column_names) {
+vector_to_df_columnwise <- function(vec, column_names) { # nocov start
   semi_df <- tibble::as_tibble(matrix(vec, ncol = length(vec)))
   names(semi_df) <- column_names
   semi_df
-}
+} # nocov end

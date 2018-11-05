@@ -210,7 +210,7 @@ cargar_datos.character <- function(x, encoding = 'UTF-8', ...) {
 
 
 #' @export
-print.datos_gob_es <- function(x, ...) {
+print.datos_gob_es <- function(x, ...) {# nocov start
 
   # If spanish is available, return metadata in spanish. If not
   # then choose the first language. Spanish is preferable because
@@ -267,4 +267,4 @@ check_keywords_df <- function(df) {
 
   class(df) <- c("datos_gob_es_keywords", class(df))
   df
-}
+}# nocov end

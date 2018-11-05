@@ -99,7 +99,6 @@ test_that("cargar_datos doesn't read if it's not a character of length 1", {
 
 
 
-
 test_that("cargar_datos returns links when format is not readable", {
   skip_on_cran()
 
@@ -107,6 +106,22 @@ test_that("cargar_datos returns links when format is not readable", {
   standard_check(not_readable)
 })
 
+test_that("cargar_datos fails for publisher not permitted", {
+  skip_on_cran()
+
+  expect_error(cargar_datos("ea0008369-guias-para-la-gestion-publica-de-la-diversidad-religiosa-observatorio-del-pluralismo-religioso-en-espana"),
+               "Publisher not available. Please check publishers_available() to get the available ones.",
+                fixed = TRUE)
+})
+
+test_that("cargar_datos returns tibbles with URL's when it cannot read the file", {
+  skip_on_cran()
+
+  id <- 'l01080193-descripcion-de-la-causalidad-de-los-accidentes-gestionados-por-la-guardia-urbana-en-la-ciudad-de-barcelona'
+  pl <- cargar_datos(id)
+
+  standard_check(pl)
+})
 
 
 # No need to check for the keyword's format and content because if this passes
@@ -119,7 +134,7 @@ test_that("cargar_datos's character and keyword results match exactly", {
   kw <- explorar_keywords("la Prosperitat", "l01080193")
 
   intm <- kw[grepl("Elecciones al Parlamento Europeo. % sobre electores", kw$description), ]
-  keyword_method <- cargar_datos(intm, 'latin1', n_max = 5)
+  keyword_method <- cargar_datos.datos_gob_es_keywords(intm, 'latin1', n_max = 5)
 
   expect_identical(character_method, keyword_method)
 })
