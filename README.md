@@ -56,7 +56,7 @@ remotes::install_github("cimentadaj/opendataes")
 ## Example
 
 The package has one main function that allows to read data from the API:
-`cargar_datos`. However, that function can by used in two different
+`cargar_datos`. However, that function can be used in two different
 ways.
 
 ### Web-based search
@@ -215,6 +215,6 @@ elections$data
 #> # ... with 64 more rows
 ```
 
-For a a deeper explanation of what the columns of the metadata mean and
+For a deeper explanation of what the columns of the metadata mean and
 some important caveats of what the package can and cannot do, please
 read the package’s vignettes.
