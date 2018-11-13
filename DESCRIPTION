@@ -1,5 +1,5 @@
 Package: opendataes
-Version: 0.0.0.9000
+Version: 0.0.1
 Title: Interact with the datos.gob.es API to download public data from all of Spain
 Description: Easily interact with the API from http://datos.gob.es to download data over 19,000 files from all different provinces of Spain. 
 Authors@R: c(
@@ -10,6 +10,8 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 ByteCompile: true
+BugReports: https://github.com/cimentadaj/opendataes/issues
+URL: https://github.com/cimentadj/opendataes, https://cimentadaj.github.io/opendataes/
 Imports: 
     httr,
     readr,
