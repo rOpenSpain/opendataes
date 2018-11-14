@@ -15,8 +15,12 @@ cache:
 
 # Adapt as necessary starting from here
 
- matrix:
-  - R_VERSION: 3.5.1
+environment:
+  global:
+    WARNINGS_ARE_ERRORS: 1
+    
+  matrix:
+  - R_VERSION: 3.4.4
     R_ARCH: x64
     GCC_PATH: mingw_64
 
