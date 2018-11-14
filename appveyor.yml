@@ -15,7 +15,7 @@ cache:
 
 # Adapt as necessary starting from here
 
-  matrix:
+ matrix:
   - R_VERSION: 3.5.1
     R_ARCH: x64
     GCC_PATH: mingw_64
