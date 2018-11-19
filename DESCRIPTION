@@ -10,8 +10,8 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 ByteCompile: true
-BugReports: https://github.com/cimentadaj/opendataes/issues
-URL: https://github.com/cimentadj/opendataes, https://cimentadaj.github.io/opendataes/
+BugReports: https://github.com/ropenspain/opendataes/issues
+URL: https://github.com/ropenspain/opendataes, https://ropenspain.github.io/opendataes/
 Imports: 
     httr,
     readr,

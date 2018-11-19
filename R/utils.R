@@ -53,7 +53,7 @@ get_resp_paginated <- function(url, num_pages = 1, page = 0, ...) {
 get_resp <- function(url, attempts_left = 5, ...) {
 
   # Handle so that the API knows who's downloading the data
-  ua <- httr::user_agent("https://github.com/cimentadaj/opendataes")
+  ua <- httr::user_agent("https://github.com/ropenspain/opendataes")
 
   stopifnot(attempts_left > 0)
 

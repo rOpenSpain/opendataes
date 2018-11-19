@@ -4,11 +4,11 @@
 # opendataes
 
 [![Travis build
-status](https://travis-ci.org/cimentadaj/opendataes.svg?branch=master)](https://travis-ci.org/cimentadaj/opendataes)
+status](https://travis-ci.org/ropenspain/opendataes.svg?branch=master)](https://travis-ci.org/ropenspain/opendataes)
 [![AppVeyor build
-status](https://ci.appveyor.com/api/projects/status/github/cimentadaj/opendataes?branch=master&svg=true)](https://ci.appveyor.com/project/cimentadaj/opendataes)
+status](https://ci.appveyor.com/api/projects/status/github/ropenspain/opendataes?branch=master&svg=true)](https://ci.appveyor.com/project/ropenspain/opendataes)
 [![Coverage
-status](https://codecov.io/gh/cimentadaj/opendataes/branch/master/graph/badge.svg)](https://codecov.io/github/cimentadaj/opendataes?branch=master)
+status](https://codecov.io/gh/ropenspain/opendataes/branch/master/graph/badge.svg)](https://codecov.io/github/ropenspain/opendataes?branch=master)
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 
@@ -50,7 +50,7 @@ can install the development version from [Github](https://github.com)
 with:
 
 ``` r
-remotes::install_github("cimentadaj/opendataes")
+remotes::install_github("ropenspain/opendataes")
 ```
 
 ## Example
@@ -118,15 +118,15 @@ kw
 #>  1 Elecciones al Parl~ Ayuntamien~ TRUE        l01080193-el~ http://datos~
 #>  2 Elecciones al Parl~ Ayuntamien~ TRUE        l01080193-el~ http://datos~
 #>  3 Elecciones al Parl~ Ayuntamien~ TRUE        l01080193-el~ http://datos~
-#>  4 Elecciones General~ Ayuntamien~ TRUE        l01080193-el~ http://datos~
+#>  4 Elecciones al Parl~ Ayuntamien~ TRUE        l01080193-el~ http://datos~
 #>  5 Elecciones General~ Ayuntamien~ TRUE        l01080193-el~ http://datos~
-#>  6 Elecciones al Parl~ Ayuntamien~ TRUE        l01080193-el~ http://datos~
-#>  7 Elecciones Locales~ Ayuntamien~ TRUE        l01080193-el~ http://datos~
-#>  8 Elecciones al Parl~ Ayuntamien~ TRUE        l01080193-el~ http://datos~
-#>  9 Elecciones General~ Ayuntamien~ TRUE        l01080193-el~ http://datos~
-#> 10 Elecciones Locales~ Ayuntamien~ TRUE        l01080193-el~ http://datos~
+#>  6 Elecciones General~ Ayuntamien~ TRUE        l01080193-el~ http://datos~
+#>  7 Elecciones al Parl~ Ayuntamien~ TRUE        l01080193-el~ http://datos~
+#>  8 Elecciones Locales~ Ayuntamien~ TRUE        l01080193-el~ http://datos~
+#>  9 Elecciones al Parl~ Ayuntamien~ TRUE        l01080193-el~ http://datos~
+#> 10 Elecciones General~ Ayuntamien~ TRUE        l01080193-el~ http://datos~
 #> 11 Elecciones Locales~ Ayuntamien~ TRUE        l01080193-el~ http://datos~
-#> 12 Elecciones al Parl~ Ayuntamien~ TRUE        l01080193-el~ http://datos~
+#> 12 Elecciones Locales~ Ayuntamien~ TRUE        l01080193-el~ http://datos~
 ```
 
 Once we have that, `cargar_datos` only requires that we pass this exact

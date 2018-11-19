@@ -80,7 +80,7 @@ cargar_datos
 opendataes:::cargar_datos.datos_gob_es_keywords
 ```
 
-So we end up with the same call as if we would've called the main argument with a string containing the `path_id`. As the diagram suggests, you can find these functions in the R script `R/cargar_datos.R` in the [Github repository](https://github.com/cimentadaj/opendataes). Once `cargar_datos` passes the string as the main argument it constructs the whole path for the API using a family of functions found in `R/path.R`. More concretely, it defines the complete path using `path_dataset_id(path_id)` which returns the direct path of the API to query the data set. 
+So we end up with the same call as if we would've called the main argument with a string containing the `path_id`. As the diagram suggests, you can find these functions in the R script `R/cargar_datos.R` in the [Github repository](https://github.com/ropenspain/opendataes). Once `cargar_datos` passes the string as the main argument it constructs the whole path for the API using a family of functions found in `R/path.R`. More concretely, it defines the complete path using `path_dataset_id(path_id)` which returns the direct path of the API to query the data set. 
 
 At the end of this preprocessing step, `cargar_datos` passes this complete path to `get_resp` which sends a GET request to the API.
 
