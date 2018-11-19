@@ -62,7 +62,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/cimentadj/opendataes">
+  <a href="https://github.com/ropenspain/opendataes">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -82,9 +82,9 @@
       <h1>Understanding opendataes: a case study approach</h1>
                         <h4 class="author">Jorge Cimentada and Jorge Lopez</h4>
             
-            <h4 class="date">2018-11-13</h4>
+            <h4 class="date">2018-11-19</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/cimentadj/opendataes/blob/master/vignettes/understanding-opendataes-a-case-study-approach.Rmd"><code>vignettes/understanding-opendataes-a-case-study-approach.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/ropenspain/opendataes/blob/master/vignettes/understanding-opendataes-a-case-study-approach.Rmd"><code>vignettes/understanding-opendataes-a-case-study-approach.Rmd</code></a></small>
       <div class="hidden name"><code>understanding-opendataes-a-case-study-approach.Rmd</code></div>
 
     </div>
@@ -148,7 +148,7 @@
 <a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">#&gt; Error in nchar(x[is_na], type = "width"): invalid multibyte string, element 1</span></a></code></pre></div>
 <p>Oopss, that’s a weird error. This is one problem that can happen quite often because Spain shares many languages inside it’s territory and some datasets might have different encodings. We can figure out the encoding with <code>readr</code> and just pass it to <code>cargar_datos</code>.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="co"># Figure out the encoding using only the first dataset which suggests it's ASCII</span></a>
-<a class="sourceLine" id="cb8-2" data-line-number="2">readr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/readr/topics/encoding">guess_encoding</a></span>(accidents<span class="op">$</span>data[[<span class="dv">1</span>]])</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">readr<span class="op">::</span><span class="kw"><a href="https://readr.tidyverse.org/reference/encoding.html">guess_encoding</a></span>(accidents<span class="op">$</span>data[[<span class="dv">1</span>]])</a>
 <a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt; Warning in if (stringi::stri_enc_isascii(lines)) {: the condition has</span></a>
 <a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt; length &gt; 1 and only the first element will be used</span></a>
 <a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt; # A tibble: 1 x 2</span></a>

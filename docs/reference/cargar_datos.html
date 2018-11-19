@@ -95,7 +95,7 @@
       
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/cimentadj/opendataes">
+  <a href="https://github.com/ropenspain/opendataes">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -113,7 +113,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Extract data and metadata from a given data set of <a href='https://datos.gob.es/'>https://datos.gob.es/</a></h1>
-    <small class="dont-index">Source: <a href='https://github.com/cimentadj/opendataes/blob/master/R/cargar_datos.R'><code>R/cargar_datos.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/ropenspain/opendataes/blob/master/R/cargar_datos.R'><code>R/cargar_datos.R</code></a></small>
     <div class="hidden name"><code>cargar_datos.Rd</code></div>
     </div>
 
@@ -139,12 +139,12 @@ from <a href='https://datos.gob.es/es/catalogo/l01280148-seguridad-ciudadana-act
       <td><p>The encoding passed to read (all) the csv ('s). Most cases should be resolved with either
 'UTF-8', 'latin1' or 'ASCII'. There are edge cases such as when printing any of the data frames in the
 data slot results in the error 'input string 1 is invalid UTF-8'. When that happens, use
-<code><a href='http://www.rdocumentation.org/packages/readr/topics/encoding'>guess_encoding</a></code> to determine the encoding and try reading the dataset with the
+<code><a href='https://readr.tidyverse.org/reference/encoding.html'>guess_encoding</a></code> to determine the encoding and try reading the dataset with the
 new encoding.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Arguments passed to <code><a href='http://www.rdocumentation.org/packages/readr/topics/read_delim'>read_csv</a></code> and the other related <code>read_*</code> functions from <code><a href='http://www.rdocumentation.org/packages/readr/topics/readr-package'>readr</a></code>.
+      <td><p>Arguments passed to <code><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></code> and the other related <code>read_*</code> functions from <code><a href='https://readr.tidyverse.org/reference/readr-package.html'>readr</a></code>.
 Internally, <code>cargar_datos</code> determines the delimiter of the file being read but the arguments
 for each of these functions are practically the same, so it doesn't matter how <code>cargar_datos</code>
 determines the delimiter, any of the arguments will work on all <code>read_*</code> functions.</p></td>

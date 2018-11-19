@@ -62,7 +62,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/cimentadj/opendataes">
+  <a href="https://github.com/ropenspain/opendataes">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -82,9 +82,9 @@
       <h1>Ins and outs of opendataes: a guide for collaboration</h1>
                         <h4 class="author">Jorge Cimentada and Jorge Lopez</h4>
             
-            <h4 class="date">2018-11-13</h4>
+            <h4 class="date">2018-11-19</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/cimentadj/opendataes/blob/master/vignettes/ins-and-outs-of-opendataes-guide-for-collaboration.Rmd"><code>vignettes/ins-and-outs-of-opendataes-guide-for-collaboration.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/ropenspain/opendataes/blob/master/vignettes/ins-and-outs-of-opendataes-guide-for-collaboration.Rmd"><code>vignettes/ins-and-outs-of-opendataes-guide-for-collaboration.Rmd</code></a></small>
       <div class="hidden name"><code>ins-and-outs-of-opendataes-guide-for-collaboration.Rmd</code></div>
 
     </div>
@@ -127,7 +127,7 @@
 <a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt;     else x</span></a>
 <a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt;     UseMethod("cargar_datos", x)</span></a>
 <a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt; }</span></a>
-<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt; &lt;bytecode: 0x000000001e666a58&gt;</span></a>
+<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt; &lt;bytecode: 0x000000001efa9c78&gt;</span></a>
 <a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt; &lt;environment: namespace:opendataes&gt;</span></a></code></pre></div>
 <p><code>cargar_datos</code> redirects to <code>check_keywords_df</code>, an internal function that checks whether the dataframe has the <code>path_id</code> column, among other checks. Finally, once the check succeeds, it assigns the dataframe a class <code>datos_gob_es_keywords</code> and passes it to the method dispatch <code>UseMethod</code>. The method for the class <code>datos_gob_es_keywords</code> merely subsets the <code>path_id</code> column to get the string and read it using the character method of <code>cargar_datos</code>:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">opendataes<span class="op">:::</span>cargar_datos.datos_gob_es_keywords</a>
@@ -135,9 +135,9 @@
 <a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt; {</span></a>
 <a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt;     cargar_datos(x$path_id, encoding, ...)</span></a>
 <a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; }</span></a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; &lt;bytecode: 0x000000001eab2c90&gt;</span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; &lt;bytecode: 0x000000001f3f9178&gt;</span></a>
 <a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; &lt;environment: namespace:opendataes&gt;</span></a></code></pre></div>
-<p>So we end up with the same call as if we would’ve called the main argument with a string containing the <code>path_id</code>. As the diagram suggests, you can find these functions in the R script <code>R/cargar_datos.R</code> in the <a href="https://github.com/cimentadaj/opendataes">Github repository</a>. Once <code>cargar_datos</code> passes the string as the main argument it constructs the whole path for the API using a family of functions found in <code>R/path.R</code>. More concretely, it defines the complete path using <code><a href="../reference/path_dataset_id.html">path_dataset_id(path_id)</a></code> which returns the direct path of the API to query the data set.</p>
+<p>So we end up with the same call as if we would’ve called the main argument with a string containing the <code>path_id</code>. As the diagram suggests, you can find these functions in the R script <code>R/cargar_datos.R</code> in the <a href="https://github.com/ropenspain/opendataes">Github repository</a>. Once <code>cargar_datos</code> passes the string as the main argument it constructs the whole path for the API using a family of functions found in <code>R/path.R</code>. More concretely, it defines the complete path using <code><a href="../reference/path_dataset_id.html">path_dataset_id(path_id)</a></code> which returns the direct path of the API to query the data set.</p>
 <p>At the end of this preprocessing step, <code>cargar_datos</code> passes this complete path to <code>get_resp</code> which sends a GET request to the API.</p>
 <p>We can see the whole process in the character method of <code>cargar_datos</code>:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">opendataes<span class="op">:::</span>cargar_datos.character</a>
@@ -157,7 +157,7 @@
 <a class="sourceLine" id="cb4-15" data-line-number="15"><span class="co">#&gt;             ...))), class = "datos_gob_es")</span></a>
 <a class="sourceLine" id="cb4-16" data-line-number="16"><span class="co">#&gt;     returned_list</span></a>
 <a class="sourceLine" id="cb4-17" data-line-number="17"><span class="co">#&gt; }</span></a>
-<a class="sourceLine" id="cb4-18" data-line-number="18"><span class="co">#&gt; &lt;bytecode: 0x000000001ec437e8&gt;</span></a>
+<a class="sourceLine" id="cb4-18" data-line-number="18"><span class="co">#&gt; &lt;bytecode: 0x000000001f580c98&gt;</span></a>
 <a class="sourceLine" id="cb4-19" data-line-number="19"><span class="co">#&gt; &lt;environment: namespace:opendataes&gt;</span></a></code></pre></div>
 <p>The function <code>get_resp</code> returns a list with the response from the API, which we’ve interally called a <code>data_list</code>. You will encounter this name in several places in the package as argument names or in the internal documentation. The <code>data_list</code> is just a list that contains the metadata of the dataset and the links to the data from the original publisher (for example, the direct links to the data from the Ayuntamiento de Madrid or Málaga) along with some information from the GET request.</p>
 <p>To visualize a real example of a <code>data_list</code> we can call it directly using the previous <code>path_id</code>:</p>
@@ -769,7 +769,7 @@
 <a class="sourceLine" id="cb11-23" data-line-number="23">    <span class="co"># Because there are different languages in Spain, set the encoding</span></a>
 <a class="sourceLine" id="cb11-24" data-line-number="24">    <span class="co"># to be used when reading the dataset. This is where the encoding argument</span></a>
 <a class="sourceLine" id="cb11-25" data-line-number="25">    <span class="co"># is passed to</span></a>
-<a class="sourceLine" id="cb11-26" data-line-number="26">    custom_locale &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/readr/topics/locale">locale</a></span>(<span class="st">"es"</span>, <span class="dt">encoding =</span> encoding)</a>
+<a class="sourceLine" id="cb11-26" data-line-number="26">    custom_locale &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw"><a href="https://readr.tidyverse.org/reference/locale.html">locale</a></span>(<span class="st">"es"</span>, <span class="dt">encoding =</span> encoding)</a>
 <a class="sourceLine" id="cb11-27" data-line-number="27">    </a>
 <a class="sourceLine" id="cb11-28" data-line-number="28">    <span class="co"># Try reading the data and saving it in that dataset's slot</span></a>
 <a class="sourceLine" id="cb11-29" data-line-number="29">    <span class="co"># in the list</span></a>
