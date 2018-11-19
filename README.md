@@ -4,11 +4,11 @@
 # opendataes
 
 [![Travis build
-status](https://travis-ci.org/ropenspain/opendataes.svg?branch=master)](https://travis-ci.org/ropenspain/opendataes)
+status](https://travis-ci.org/rOpenSpain/opendataes.svg?branch=master)](https://travis-ci.org/rOpenSpain/opendataes)
 [![AppVeyor build
-status](https://ci.appveyor.com/api/projects/status/github/ropenspain/opendataes?branch=master&svg=true)](https://ci.appveyor.com/project/ropenspain/opendataes)
+status](https://ci.appveyor.com/api/projects/status/github/rOpenSpain/opendataes?branch=master&svg=true)](https://ci.appveyor.com/project/cimentadaj/opendataes)
 [![Coverage
-status](https://codecov.io/gh/ropenspain/opendataes/branch/master/graph/badge.svg)](https://codecov.io/github/ropenspain/opendataes?branch=master)
+status](https://codecov.io/gh/rOpenSpain/opendataes/branch/master/graph/badge.svg)](https://codecov.io/github/rOpenSpain/opendataes?branch=master)
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 

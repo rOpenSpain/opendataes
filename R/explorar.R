@@ -123,5 +123,7 @@ explorar_keywords <- function(keyword, publisher) {
   # Becasue we only accept one publisher, we need to run this only once at the end
   final_dt$publisher <- translate_publisher(code = toupper(publisher))
 
+  final_dt <- final_dt[!duplicated(final_dt$description), ]
+
   final_dt[c('description', 'publisher', 'is_readable', 'path_id', 'url')]
 }

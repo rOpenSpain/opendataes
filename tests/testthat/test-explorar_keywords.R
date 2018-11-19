@@ -5,6 +5,7 @@ check_format <- function(kw) {
   expect_equal(ncol(kw), 5)
   expect_equal(colnames(kw), c("description", "publisher", "is_readable", "path_id", "url"))
   expect_gt(nrow(kw), 1)
+  expect_true(all(!duplicated(kw$description)))
 }
 
 test_that("explorar_keywords returns correct format", {
