@@ -223,7 +223,7 @@ print.datos_gob_es <- function(x, ...) {# nocov start
     metadata <- x$metadata[1, ]
   }
 
-  check_read <- function(data) ncol(data) > 3 & !all(names(data) %in% c('name', 'format', "URL"))
+  check_read <- function(data) !all(names(data) %in% c('name', 'format', "URL"))
 
 
   # We ned to check whether data is a data frame (1 data read)
