@@ -243,9 +243,11 @@ extract_dataset_name <- function(data_list) {
     distribution <- data_list[['distribution']]
   }
 
+  check_if_title_exists <- function(x) if ("title" %in% names(x)) x$title[[1]] else "Distribución sin nombre"
+
   data_set_names <-
     vapply(distribution,
-           function(x) x$title[[1]], FUN.VALUE = character(1))
+           check_if_title_exists, FUN.VALUE = character(1))
 
   data_set_names
 }
