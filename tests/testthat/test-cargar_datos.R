@@ -19,6 +19,17 @@ standard_check <- function(res) {
 }
 
 
+determine_number <- function(x) {
+  check_read <- function(data) !all(names(data) %in% c('name', 'format', "URL"))
+
+  has_url_col <- vapply(x[[2]], check_read, logical(1))
+  number_of_reads  <- sum(has_url_col)
+
+
+  number_of_reads
+}
+
+
 test_that("cargar_datos for ONE dataset returns correct format", {
   skip_on_cran()
 
@@ -65,9 +76,30 @@ test_that("cargar_datos for more than one end path", {
   example_id <- c('l01080193-domicilios-segun-nacionalidad',
                   'l01080193-fecundidad-madres-de-15-a-19-anos-quinquenal-2003-2014')
 
-  expect_error(cargar_datos(example_id), "`x` must be a character of length 1", fixed = TRUE)
+  expect_error(cargar_datos(example_id),
+               "`x` must be a character of length 1", fixed = TRUE)
+  expect_error(cargar_datos.character(list(example_id)),
+               "`x` must be a character of length 1", fixed = TRUE)
 })
 
+test_that("Checks that encoding in cargar_datos is in correct format", {
+  example_id <- c('l01080193-domicilios-segun-nacionalidad')
+  encoding <- c("UTF-8", "latin1")
+
+
+  expect_error(cargar_datos(example_id, encoding = encoding),
+               "`encoding` must be a character of length 1", fixed = TRUE)
+
+  expect_error(cargar_datos(example_id, encoding = list(encoding)),
+               "`encoding` must be a character of length 1", fixed = TRUE)
+})
+
+test_that("cargar_datos for more than one end path", {
+  example_id <- c('l01080193-domicilios-segun-nacionalidad',
+                  'l01080193-fecundidad-madres-de-15-a-19-anos-quinquenal-2003-2014')
+
+  expect_error(cargar_datos(example_id), "`x` must be a character of length 1", fixed = TRUE)
+})
 
 
 test_that("cargar_datos doesn't read if it's not a character of length 1", {
@@ -170,5 +202,16 @@ test_that("cargar_datos throws errors when the keyword data frame is not in expe
   expect_error(cargar_datos(cp),
                "The keywords data frame must contain and have this order of columns: description, publisher, is_readable, path_id, url",
                fixed = TRUE)
+})
+
+# This test is implemented since we found some troubles when reading some datasets on different OS. Therefore,
+# since this test will run by Travis we ensure we have the same results in different OS
+test_that("Check that elections dataset is correctly read", {
+  skip_on_cran()
+  pt <- cargar_datos('l01080193-elecciones-al-parlamento-europeo-sobre-electores')
+  files_read <- determine_number(pt)
+
+  expect_gte(files_read, 2)
+
 })
 

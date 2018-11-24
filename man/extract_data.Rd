@@ -9,7 +9,12 @@ extract_data(data_list, encoding, guess_encoding, ...)
 \arguments{
 \item{data_list}{A data_list similar to resp$result$items[[1]] that contains information on a dataset}
 
-\item{encoding}{A valid encoding string passed to \code{\link[readr]{read_csv}}}
+\item{encoding}{The encoding passed to read (all) the files. Most cases should be resolved with either
+'UTF-8', 'latin1' or 'ASCII'.}
+
+\item{guess_encoding}{A logical stating whether to guess the encoding. This is set to TRUE by default.
+Whenever guess_encoding is set to TRUE, the 'encoding' argument is ignored. If \code{\link[readr]{guess_encoding}}
+fails to guess the encoding, cargar_datos falls back to the encoding argument.}
 
 \item{...}{Arguments passed to \code{\link[readr]{read_csv}} and all other \code{read_*} functions.}
 }

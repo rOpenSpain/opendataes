@@ -1,6 +1,6 @@
 context("test-csv_delim.R")
 
-encoding <- 'UTF-8'
+encoding <- readr::locale("es", encoding = "UTF-8")
 
 out1 <- csv_delim("a,b\n1,2,3\n")
 
