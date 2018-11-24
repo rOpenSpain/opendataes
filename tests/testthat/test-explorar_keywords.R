@@ -18,7 +18,6 @@ test_that("explorar_keywords returns correct format", {
 
 })
 
-
 test_that("explorar_keywords returns error when wrong publisher", {
 
   skip_on_cran()
@@ -35,7 +34,6 @@ test_that("explorar_keywords returns correct format when publisher is upper case
   kw <- explorar_keywords("vivienda", "L01080193") # Ayuntamiento de Barcelona
   check_format(kw)
 })
-
 
 test_that("explorar_keywords errors when inputs are not of correct length or format", {
 

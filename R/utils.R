@@ -120,6 +120,10 @@ determine_valid_urls <- function(.fun) {
 determine_dataset_name <- determine_valid_urls(extract_dataset_name)
 determine_dataset_url <- determine_valid_urls(extract_access_url)
 
+# If guess_encoding returns something, this function
+# will return the guessed encoding. If for any reason
+# guess_encoding cannot determine the encoding, it returns the
+# fall back encoding
 determine_dataset_encoding <- function(data_url, encoding) {
   guessed_encoding <- readr::guess_encoding(data_url)
 

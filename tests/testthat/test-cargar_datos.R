@@ -39,7 +39,6 @@ test_that("cargar_datos for ONE dataset returns correct format", {
   standard_check(res)
 })
 
-
 test_that("cargar_datos for SEVERAL dataset returns correct format", {
   skip_on_cran()
 
@@ -61,7 +60,6 @@ test_that("cargar_datos can read dates successfully while changing locale", {
   standard_check(res)
 })
 
-
 test_that("cargar_datos for inexistent dataset returns empty list", {
   example_id <- 'random_data'
   res <- cargar_datos(example_id)
@@ -70,7 +68,6 @@ test_that("cargar_datos for inexistent dataset returns empty list", {
   expect_is(res, "list")
   expect_length(res, 0)
 })
-
 
 test_that("cargar_datos for more than one end path", {
   example_id <- c('l01080193-domicilios-segun-nacionalidad',
@@ -94,13 +91,22 @@ test_that("Checks that encoding in cargar_datos is in correct format", {
                "`encoding` must be a character of length 1", fixed = TRUE)
 })
 
+test_that("Checks that guess_encoding in cargar_datos is in correct format", {
+  example_id <- c('l01080193-domicilios-segun-nacionalidad')
+
+  expect_error(cargar_datos(example_id, guess_encoding = c(TRUE, FALSE)),
+               "`guess_encoding` must be a logical of length 1", fixed = TRUE)
+
+  expect_error(cargar_datos(example_id, guess_encoding = "TRUE"),
+               "`guess_encoding` must be a logical of length 1", fixed = TRUE)
+})
+
 test_that("cargar_datos for more than one end path", {
   example_id <- c('l01080193-domicilios-segun-nacionalidad',
                   'l01080193-fecundidad-madres-de-15-a-19-anos-quinquenal-2003-2014')
 
   expect_error(cargar_datos(example_id), "`x` must be a character of length 1", fixed = TRUE)
 })
-
 
 test_that("cargar_datos doesn't read if it's not a character of length 1", {
 
@@ -116,6 +122,28 @@ test_that("cargar_datos doesn't read if it's not a character of length 1", {
   expect_error(cargar_datos.character(example_id), "`x` must be a character of length 1")
 })
 
+# test_that("cargar_datos assigns 'Distribucion sin nombre' when there is no name", {
+#   # This dataset has (or had) one of the files with a title and all other without titles
+#   id <- "l01280796-centros-de-servicios-sociales-municipales1"
+#   pt <- cargar_datos(id)
+#   expect_true("Distribucion sin nombre" %in% names(pt$data))
+#
+#   # This dataset has (or had) ALL of the files without titles. I repeat the same to test that both are assigned
+#   # a distribucion sin nombre
+#   id <- "l01280796-trafico-semaforos-con-avisadores-acusticos1"
+#   pt <- cargar_datos(id)
+#   expect_true("Distribucion sin nombre" %in% names(pt$data))
+# })
+
+# test_that("cargar_datos ignores encoding when guess_encoding is TRUE", {
+#   tst <- cargar_datos('l01080193-elecciones-al-parlamento-europeo-sobre-electores')
+# })
+#
+# test_that("cargar_datos uses encoding when guess_encoding is FALSE", {
+#   tst <- cargar_datos('l01080193-elecciones-al-parlamento-europeo-sobre-electores')
+#
+# })
+
 
 # For some reason, this crashes travis, which I don't know why.
 # test_that("cargar_datos uses encoding and readr arguments to read only 5 rows", {
@@ -128,8 +156,6 @@ test_that("cargar_datos doesn't read if it's not a character of length 1", {
 #
 #   expect_true(all(vapply(tst$data, nrow, FUN.VALUE = numeric(1)) == 5))
 # })
-
-
 
 test_that("cargar_datos returns links when format is not readable", {
   skip_on_cran()
@@ -155,7 +181,6 @@ test_that("cargar_datos returns tibbles with URL's when it cannot read the file"
   standard_check(pl)
 })
 
-
 # No need to check for the keyword's format and content because if this passes
 # it means it has the same structure as the character tests
 test_that("cargar_datos's character and keyword results match exactly", {
@@ -170,8 +195,6 @@ test_that("cargar_datos's character and keyword results match exactly", {
 
   expect_identical(character_method, keyword_method)
 })
-
-
 
 test_that("cargar_datos throws errors when the keyword data frame is not in expected format", {
   skip_on_cran()
@@ -204,14 +227,15 @@ test_that("cargar_datos throws errors when the keyword data frame is not in expe
                fixed = TRUE)
 })
 
-# This test is implemented since we found some troubles when reading some datasets on different OS. Therefore,
-# since this test will run by Travis we ensure we have the same results in different OS
+# This test is implemented since we found that reading the same file between Mac and Windows,
+# in Windows the files were read but in Mac they weren't. We found this was due to an encoding
+# problem and we fixed it. This test reads a dataset that previously was read in Windows
+# but not in Mac. This way, when we run this in Appveyor and Travis it should be true in both
 test_that("Check that elections dataset is correctly read", {
   skip_on_cran()
   pt <- cargar_datos('l01080193-elecciones-al-parlamento-europeo-sobre-electores')
   files_read <- determine_number(pt)
 
   expect_gte(files_read, 2)
-
 })
 
