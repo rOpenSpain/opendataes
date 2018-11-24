@@ -4,18 +4,19 @@
 \alias{cargar_datos}
 \title{Extract data and metadata from a given data set of \url{https://datos.gob.es/}}
 \usage{
-cargar_datos(x, encoding = "UTF-8", ...)
+cargar_datos(x, encoding = "UTF-8", guess_encoding = TRUE, ...)
 }
 \arguments{
 \item{x}{A \code{\link[tibble]{tibble}} given by \code{\link{explorar_keywords}} only containing one dataset (1 row) or
 the end path of a dataset such as 'l01280148-seguridad-ciudadana-actuaciones-de-seccion-del-menor-en-educacion-vial-20141'
 from \url{https://datos.gob.es/es/catalogo/l01280148-seguridad-ciudadana-actuaciones-de-seccion-del-menor-en-educacion-vial-20141}.}
 
-\item{encoding}{The encoding passed to read (all) the csv ('s). Most cases should be resolved with either
-'UTF-8', 'latin1' or 'ASCII'. There are edge cases such as when printing any of the data frames in the
-data slot results in the error 'input string 1 is invalid UTF-8'. When that happens, use
-\code{\link[readr]{guess_encoding}} to determine the encoding and try reading the dataset with the
-new encoding.}
+\item{encoding}{The encoding passed to read (all) the files. Most cases should be resolved with either
+'UTF-8', 'latin1' or 'ASCII'.}
+
+\item{guess_encoding}{A logical stating whether to guess the encoding. This is set to TRUE by default.
+Whenever guess_encoding is set to TRUE, the 'encoding' argument is ignored. If \code{\link[readr]{guess_encoding}}
+fails to guess the encoding, cargar_datos falls back to the encoding argument.}
 
 \item{...}{Arguments passed to \code{\link[readr]{read_csv}} and the other related \code{read_*} functions from \code{\link[readr]{readr}}.
 Internally, \code{cargar_datos} determines the delimiter of the file being read but the arguments

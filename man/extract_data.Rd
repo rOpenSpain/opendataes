@@ -4,7 +4,7 @@
 \alias{extract_data}
 \title{Extract data from a data_list.}
 \usage{
-extract_data(data_list, encoding, ...)
+extract_data(data_list, encoding, guess_encoding, ...)
 }
 \arguments{
 \item{data_list}{A data_list similar to resp$result$items[[1]] that contains information on a dataset}
