@@ -230,12 +230,6 @@ extract_url_format <- function(data_list) {
 }
 
 extract_dataset_name <- function(data_list) {
-  # There are as many dataset names as there are languages for
-  # the dataset. In practice, they're always the same but I
-  # search for the word title to just check that at least one is there.
-  if (!any(grepl("title", names(unlist(data_list$distribution))))) {
-    return("No dataset name available")
-  }
 
   # The name of the data, in principle, is according to the language.
   # That is, if there's english, catalan and spanish, there will be
@@ -290,7 +284,7 @@ extract_release_date <- function(data_list) {
   # So that we can read abbriated months
   # such as ene, mar
   spanish_locale <- if (.Platform$OS.type == "windows") "Spanish" else "es_ES.UTF-8"
-  # So that we can read abbriated months
+  # So that we can read abbreviated months
   # such as ene, mar
   orig_locale <- Sys.getlocale("LC_TIME")
   Sys.setlocale("LC_TIME", spanish_locale)
