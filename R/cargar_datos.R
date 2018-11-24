@@ -4,11 +4,12 @@
 #' the end path of a dataset such as 'l01280148-seguridad-ciudadana-actuaciones-de-seccion-del-menor-en-educacion-vial-20141'
 #' from \url{https://datos.gob.es/es/catalogo/l01280148-seguridad-ciudadana-actuaciones-de-seccion-del-menor-en-educacion-vial-20141}.
 #'
-#' @param encoding The encoding passed to read (all) the csv ('s). Most cases should be resolved with either
-#' 'UTF-8', 'latin1' or 'ASCII'. There are edge cases such as when printing any of the data frames in the
-#' data slot results in the error 'input string 1 is invalid UTF-8'. When that happens, use
-#' \code{\link[readr]{guess_encoding}} to determine the encoding and try reading the dataset with the
-#' new encoding.
+#' @param encoding The encoding passed to read (all) the files. Most cases should be resolved with either
+#' 'UTF-8', 'latin1' or 'ASCII'.
+#'
+#' @param guess_encoding A logical stating whether to guess the encoding. This is set to TRUE by default.
+#' Whenever guess_encoding is set to TRUE, the 'encoding' argument is ignored. If \code{\link[readr]{guess_encoding}}
+#' fails to guess the encoding, cargar_datos falls back to the encoding argument.
 #'
 #' @param ... Arguments passed to \code{\link[readr]{read_csv}} and the other related \code{read_*} functions from \code{\link[readr]{readr}}.
 #' Internally, \code{cargar_datos} determines the delimiter of the file being read but the arguments
@@ -167,7 +168,7 @@
 #' dts$data
 #' }
 #'
-cargar_datos <- function(x, encoding = 'UTF-8', ...) {
+cargar_datos <- function(x, encoding = 'UTF-8', guess_encoding = TRUE, ...) {
 
   x <- if (is.data.frame(x)) check_keywords_df(x) else x
 
@@ -175,14 +176,17 @@ cargar_datos <- function(x, encoding = 'UTF-8', ...) {
 }
 
 #' @export
-cargar_datos.datos_gob_es_keywords <- function(x, encoding = 'UTF-8', ...) {
-  cargar_datos(x$path_id, encoding, ...)
+cargar_datos.datos_gob_es_keywords <- function(x, encoding = 'UTF-8', guess_encoding = TRUE, ...) {
+  cargar_datos(x$path_id, encoding, guess_encoding, ...)
 }
 
 #' @export
-cargar_datos.character <- function(x, encoding = 'UTF-8', ...) {
+cargar_datos.character <- function(x, encoding = 'UTF-8', guess_encoding = TRUE, ...) {
 
   if (!is.character(x) || length(x) > 1) stop("`x` must be a character of length 1")
+  if (!is.character(encoding) || length(encoding) > 1) stop("`encoding` must be a character of length 1")
+  if (!is.logical(guess_encoding) || length(guess_encoding) > 1) stop("`guess_encoding` must be a logical of length 1")
+
 
   raw_json <- get_resp(path_dataset_id(x))
 
@@ -199,7 +203,7 @@ cargar_datos.character <- function(x, encoding = 'UTF-8', ...) {
     structure(
       list(
         metadata = extract_metadata(data_list),
-        data = suppress_all(extract_data(data_list, encoding, ...))
+        data = suppress_all(extract_data(data_list, encoding, guess_encoding, ...))
       ),
       class = "datos_gob_es"
     )

@@ -120,4 +120,19 @@ determine_valid_urls <- function(.fun) {
 determine_dataset_name <- determine_valid_urls(extract_dataset_name)
 determine_dataset_url <- determine_valid_urls(extract_access_url)
 
+determine_dataset_encoding <- function(data_url, encoding) {
+  guessed_encoding <- readr::guess_encoding(data_url)
+
+  # If nrow == 0 it means that there are no encodings
+  # with a threshold of confidence higher than 0.2
+  if (nrow(guessed_encoding) == 0) {
+    return(encoding)
+  # If the first encoding is NA, there was no encoding detected
+  } else if (is.na(guessed_encoding$encoding[1])) {
+    return(encoding)
+  } else {
+    return(guessed_encoding$encoding[1])
+  }
+}
+
 suppress_all <- function(x) suppressMessages(suppressWarnings(x))

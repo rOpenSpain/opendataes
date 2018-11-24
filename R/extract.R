@@ -12,7 +12,7 @@
 #' For example, this URL: http://datos.gob.es/es/catalogo/a02002834-numero-de-centros-segun-ancho-de-banda-de-la-conexion-a-internet-que-tiene-el-centro6
 #' says that it has a XML file but once you click on the 'download' XML, it redirects to a JavaScript based
 #' website that has the table. This file unfortunately is unreadable to the package.
-extract_data <- function(data_list, encoding, ...) {
+extract_data <- function(data_list, encoding, guess_encoding, ...) {
 
   # Check if the data_list is readable
   is_file_readable <- determine_dataset_url(data_list)
@@ -29,6 +29,8 @@ extract_data <- function(data_list, encoding, ...) {
     for (index in seq_along(is_file_readable)) {
 
       data_url <- names(is_file_readable)[index]
+
+      if (guess_encoding) encoding <- determine_dataset_encoding(data_url, encoding)
 
       custom_locale <- readr::locale("es", encoding = encoding)
 

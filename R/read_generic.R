@@ -25,8 +25,7 @@ determine_read_generic <- function(file, custom_locale) {
 # is cleaned and refactored
 csv_delim <- function(file, custom_locale, guess_max = 1000, threshold_rows = 0.9,
                       delim = c(',', '\t', ';', ' ', ':')) {
-
-  data <-
+    data <-
     tryCatch(
       readr::read_lines(file, n_max = guess_max, locale = custom_locale),
       error = function(e) NA_character_
