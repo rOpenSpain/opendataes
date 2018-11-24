@@ -1,8 +1,8 @@
 # This function receives a file, tries to determine the
 # delimiter and dispatches based on the separator of the file
 # to a read_* function from readr
-determine_read_generic <- function(file) {
-  delimiter <- csv_delim(file)
+determine_read_generic <- function(file, custom_locale) {
+  delimiter <- csv_delim(file, custom_locale)
 
   read_generic <-
     switch(delimiter,
@@ -23,12 +23,12 @@ determine_read_generic <- function(file) {
 # Ideally we'd like to eliminate this function altogether and port
 # it into a package that can be called once this function
 # is cleaned and refactored
-csv_delim <- function(file, guess_max = 1000, threshold_rows = 0.9,
+csv_delim <- function(file, custom_locale, guess_max = 1000, threshold_rows = 0.9,
                       delim = c(',', '\t', ';', ' ', ':')) {
 
   data <-
     tryCatch(
-      readr::read_lines(file, n_max = guess_max),
+      readr::read_lines(file, n_max = guess_max, locale = custom_locale),
       error = function(e) NA_character_
     )
 

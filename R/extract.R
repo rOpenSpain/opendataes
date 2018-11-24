@@ -29,10 +29,11 @@ extract_data <- function(data_list, encoding, ...) {
     for (index in seq_along(is_file_readable)) {
 
       data_url <- names(is_file_readable)[index]
-      # Determine the delimited of the file
-      read_generic <- determine_read_generic(data_url)
 
       custom_locale <- readr::locale("es", encoding = encoding)
+
+      # Determine the delimited of the file
+      read_generic <- determine_read_generic(data_url, custom_locale)
 
       # Try reading the data and saving it in **that** data frame's slot
       output_data[[index]] <-
