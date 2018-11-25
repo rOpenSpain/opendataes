@@ -122,19 +122,24 @@ test_that("cargar_datos doesn't read if it's not a character of length 1", {
   expect_error(cargar_datos.character(example_id), "`x` must be a character of length 1")
 })
 
-# test_that("cargar_datos assigns 'Distribucion sin nombre' when there is no name", {
-#   skip_on_cran()
-#   # This dataset has (or had) one of the files with a title and all other without titles
-#   id <- "l01280796-centros-de-servicios-sociales-municipales1"
-#   pt <- cargar_datos(id)
-#   expect_true("Distribucion sin nombre" %in% names(pt$data))
-#
-#   # This dataset has (or had) ALL of the files without titles. I repeat the same to test that both are assigned
-#   # a distribucion sin nombre
-#   id <- "l01280796-trafico-semaforos-con-avisadores-acusticos1"
-#   pt <- cargar_datos(id)
-#   expect_true("Distribucion sin nombre" %in% names(pt$data))
-# })
+# Run this when Madrid is included as publisher
+test_that("cargar_datos assigns 'Distribucion sin nombre' when there is no name", {
+  skip_on_cran()
+  # This dataset has (or had) one of the files with a title and all other without titles
+  id <- "l01280796-centros-de-servicios-sociales-municipales1"
+  pt <- cargar_datos(id)
+  expect_true("Distribucion sin nombre" %in% names(pt$data))
+
+  # This dataset has (or had) ALL of the files without titles. I repeat the same to test that both are assigned
+  # a distribucion sin nombre
+  id <- "l01280796-trafico-semaforos-con-avisadores-acusticos1"
+  pt <- cargar_datos(id)
+  expect_true("Distribucion sin nombre" %in% names(pt$data))
+
+  # This dataset has only ONE file and it has no names
+  pt <- cargar_datos('l01280796-perfiles-profesionales-de-concejales-directivos-eventuales-funcionarios-de-nivel-28-o-superior-y-vocales-vecinos-del-ayuntamiento-de-madrid')
+  expect_true("Distribucion sin nombre" %in% names(pt$data))
+})
 
 test_that("cargar_datos works fine when guess_encoding is FALSE", {
   skip_on_cran()
@@ -260,24 +265,3 @@ test_that("Check that elections dataset is correctly read", {
 
   expect_gte(files_read, 2)
 })
-
-
-# This test is implemented since we found that reading the same file between Mac and Windows,
-# in Windows the files were read but in Mac they weren't. We found this was due to an encoding
-# problem and we fixed it. This test reads a dataset that previously was read in Windows
-# but not in Mac. This way, when we run this in Appveyor and Travis it should be true in both
-test_that("Check that dataset without names are correctly read", {
-  skip_on_cran()
-
-  # Several datasets without names
-  pt <- cargar_datos('l01280796-instalaciones-municipales-con-zonas-wifi-gratuitas1')
-  # One dataset without names
-  pt2 <- cargar_datos('l01280796-perfiles-profesionales-de-concejales-directivos-eventuales-funcionarios-de-nivel-28-o-superior-y-vocales-vecinos-del-ayuntamiento-de-madrid')
-
-  expect_named(pt$data)
-  expect_named(pt2$data)
-
-  expect_true("Distribucion sin nombre" %in% names(pt$data))
-  expect_true("Distribucion sin nombre" %in% names(pt2$data))
-})
-
