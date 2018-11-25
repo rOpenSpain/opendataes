@@ -18,9 +18,10 @@ cache:
 environment:
   global:
     WARNINGS_ARE_ERRORS: 1
-    
+
   matrix:
   - R_VERSION: 3.4.4
+    USE_RTOOLS: true
     R_ARCH: x64
     GCC_PATH: mingw_64
 
