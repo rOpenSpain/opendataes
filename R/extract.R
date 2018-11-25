@@ -229,7 +229,35 @@ extract_url_format <- function(data_list) {
   correct_formats
 }
 
+#' Extract the dataset names from data_list
+#'
+#' For example, elecciones2016.csv and elecciones2014.csv
+#' @inheritParams extract_metadata
 extract_dataset_name <- function(data_list) {
+
+  # We've had problems with this. A data_list['distribution']
+  # might be a simple list with the details of a dataset (if that path_id only has
+  # ONE dataset). However, if that dataset has several files (xml, csv, whatever..)
+  # then it is a list with several slots where each slot contains the details of each
+  # datasets. Because we will use a vapply below, we always want the distribution (object below)
+  # to be a list where we can loop through each slot and grab the dataset name we need to check
+  # whether the data_list has only one dataset or many.
+
+  # If there is only ONE dataset, then the condition below should find that subsetting the
+  # distribution should already contain the details. For that reason, we test whether
+  # the slot _about is present. Why not test directly whether the 'title' of the dataset
+  # is in there? We are indeed looking for that! We don't do that because there are
+  # datasets which might not have a name (that is NO slot, but named as distribution without a name on the website).
+
+  # We assume that the dataset must have a _about field. If the dataset does, then we subset to keep
+  # that dataset as a list where the first slot contains the data of the only dataset. If we can't find
+  # the _about field it means that there's a lot of datasets and we double subset to keep each dataset
+  # as a slot, where each slot contains that format's details.
+  if ("_about" %in% names(data_list[['distribution']])) {
+    distribution <- data_list['distribution']
+  }  else {
+    distribution <- data_list[['distribution']]
+  }
 
   # The name of the data, in principle, is according to the language.
   # That is, if there's english, catalan and spanish, there will be
@@ -238,12 +266,6 @@ extract_dataset_name <- function(data_list) {
   # But to avoid creating a complex chain of which names to pick, I
   # always pick the first language, assuming that there's at least one
   # because the previous check makes sure there is at least one
-
-  if ("title" %in% names(data_list[['distribution']])) {
-    distribution <- data_list['distribution']
-  }  else {
-    distribution <- data_list[['distribution']]
-  }
 
   check_if_title_exists <- function(x) if ("title" %in% names(x)) x$title[[1]] else "Distribucion sin nombre"
 

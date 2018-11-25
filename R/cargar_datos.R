@@ -243,7 +243,7 @@ print.datos_gob_es <- function(x, ...) {# nocov start
   # This width allows the text to cut at the specified width of the console
   # automatically
   width_print <- getOption("width") - 18
-  # Add ellipsis if it's equalk or higher than the width
+  # Add ellipsis if it's equal or higher than the width
   ellipsis <- if (nchar(metadata$description) < width_print) "" else "..."
 
   cat("<datos.gob.es API>",

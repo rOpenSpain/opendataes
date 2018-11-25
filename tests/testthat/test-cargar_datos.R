@@ -261,3 +261,23 @@ test_that("Check that elections dataset is correctly read", {
   expect_gte(files_read, 2)
 })
 
+
+# This test is implemented since we found that reading the same file between Mac and Windows,
+# in Windows the files were read but in Mac they weren't. We found this was due to an encoding
+# problem and we fixed it. This test reads a dataset that previously was read in Windows
+# but not in Mac. This way, when we run this in Appveyor and Travis it should be true in both
+test_that("Check that dataset without names are correctly read", {
+  skip_on_cran()
+
+  # Several datasets without names
+  pt <- cargar_datos('l01280796-instalaciones-municipales-con-zonas-wifi-gratuitas1')
+  # One dataset without names
+  pt2 <- cargar_datos('l01280796-perfiles-profesionales-de-concejales-directivos-eventuales-funcionarios-de-nivel-28-o-superior-y-vocales-vecinos-del-ayuntamiento-de-madrid')
+
+  expect_named(pt$data)
+  expect_named(pt2$data)
+
+  expect_true("Distribucion sin nombre" %in% names(pt$data))
+  expect_true("Distribucion sin nombre" %in% names(pt2$data))
+})
+
