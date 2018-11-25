@@ -35,7 +35,7 @@ extract_data <- function(data_list, encoding, guess_encoding, ...) {
 
       data_url <- names(is_file_readable)[index]
 
-      if (guess_encoding) encoding <- determine_dataset_encoding(data_url, encoding)
+      if (guess_encoding) encoding <- suppress_all(determine_dataset_encoding(data_url, encoding))
 
       custom_locale <- readr::locale("es", encoding = encoding)
 

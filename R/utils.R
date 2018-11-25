@@ -125,13 +125,20 @@ determine_dataset_url <- determine_valid_urls(extract_access_url)
 # guess_encoding cannot determine the encoding, it returns the
 # fall back encoding
 determine_dataset_encoding <- function(data_url, encoding) {
-  guessed_encoding <- readr::guess_encoding(data_url)
+  # We have found some cases where the data is not hosted at the data_url provided by datos.gob.es
+  # and for this reason we have to control what happen if guess_encoding cannot read from this url
+  # If this occurs, it returns the fall back encoding
+  # An example of this case is l01280796-multas-de-circulacion-detalle1
+  guessed_encoding <- try(readr::guess_encoding(data_url), silent = TRUE)
 
   # If nrow == 0 it means that there are no encodings
   # with a threshold of confidence higher than 0.2
-  if (nrow(guessed_encoding) == 0) {
+  if (inherits(guessed_encoding, "try-error")) {
     return(encoding)
-  # If the first encoding is NA, there was no encoding detected
+  }
+  else if (nrow(guessed_encoding) == 0) {
+    return(encoding)
+    # If the first encoding is NA, there was no encoding detected
   } else if (is.na(guessed_encoding$encoding[1])) {
     return(encoding)
   } else {
