@@ -68,7 +68,7 @@ and pass it on to `cargar_datos`, and that is it.
 library(opendataes)
 
 id <- 'l01080193-elecciones-al-parlamento-europeo-sobre-electores'
-elections <- cargar_datos(id, encoding = 'latin1')
+elections <- cargar_datos(id)
 ```
 
 ### R-based search
@@ -101,7 +101,7 @@ final_dt
 And we pass it to `cargar_datos`
 
 ```{r}
-elections <- cargar_datos(final_dt, encoding = 'latin1')
+elections <- cargar_datos(final_dt)
 ```
 
 ### Usage

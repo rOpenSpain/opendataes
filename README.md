@@ -85,7 +85,7 @@ and pass it on to `cargar_datos`, and that is it.
 library(opendataes)
 
 id <- 'l01080193-elecciones-al-parlamento-europeo-sobre-electores'
-elections <- cargar_datos(id, encoding = 'latin1')
+elections <- cargar_datos(id)
 ```
 
 ### R-based search
@@ -147,7 +147,7 @@ final_dt
 And we pass it to `cargar_datos`
 
 ``` r
-elections <- cargar_datos(final_dt, encoding = 'latin1')
+elections <- cargar_datos(final_dt)
 ```
 
 ### Usage
@@ -187,11 +187,11 @@ elections$data
 #>    <int> <chr>         <dbl>     <dbl>    <dbl> <chr>   <dbl> <dbl> <dbl>
 #>  1    NA BARCE~          510       490      110 10,6       64    62    61
 #>  2     1 1. el~          375       625       75 5,1        55    63    41
-#>  3     1 2. el~          417       583       94 7,1        68    50    36
+#>  3     1 "2. e~          417       583       94 7,1        68    50    36
 #>  4     1 3. la~          367       633      104 5,4        42    57    33
 #>  5     1 4. Sa~          431       569       85 6,6        77    55    41
 #>  6     2 5. el~          557       443      132 12,9       72    52    59
-#>  7     2 6. la~          538       462      141 12,7       68    51    52
+#>  7     2 "6. l~          538       462      141 12,7       68    51    52
 #>  8     2 7. la~          575       425      119 17,6       74    40    65
 #>  9     2 8. l'~          551       449      117 16,4       65    42    61
 #> 10     2 9. la~          555       445      130 14,6       66    48    60
@@ -204,11 +204,11 @@ elections$data
 #>    <chr>  <chr>        <chr>  <chr> <dbl> <chr> <dbl> <chr> <chr>   <chr> 
 #>  1 BARCE~ <NA>         1,2    0,3     131 8,7      83 3,4   3,2     2,4   
 #>  2 1      1. el Raval  0,7    0,2     127 4,4      59 2,6   3,1     2,4   
-#>  3 1      2. el Barri~ 0,9    0,3     104 5,8      47 3,6   4,1     2,9   
+#>  3 1      "2. el Barr~ 0,9    0,3     104 5,8      47 3,6   4,1     2,9   
 #>  4 1      3. la Barce~ 0,5    0,2     129 4,8      48 2,6   2,3     1,7   
 #>  5 1      4. Sant Per~ 0,9    0,5     118 6,4      56 3,2   4,4     2,8   
 #>  6 2      5. el Fort ~ 1,3    0,3     122 11,0     84 4,3   3,8     2,7   
-#>  7 2      6. la Sagra~ 1,3    0,3     121 10,1     72 4,1   3,5     2,2   
+#>  7 2      "6. la Sagr~ 1,3    0,3     121 10,1     72 4,1   3,5     2,2   
 #>  8 2      7. la Dreta~ 1,6    0,3      91 14,7     94 4,0   3,9     3,1   
 #>  9 2      8. l'Antiga~ 1,4    0,3      97 13,3     89 3,6   3,5     2,7   
 #> 10 2      9. la Nova ~ 1,3    0,2     110 11,5     86 4,2   3,5     2,4   
