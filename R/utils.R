@@ -129,7 +129,7 @@ determine_dataset_encoding <- function(data_url, encoding) {
   # and for this reason we have to control what happen if guess_encoding cannot read from this url
   # If this occurs, it returns the fall back encoding
   # An example of this case is l01280796-multas-de-circulacion-detalle1
-  guessed_encoding <- try(readr::guess_encoding(data_url), silent = TRUE)
+  guessed_encoding <- suppress_all(try(readr::guess_encoding(data_url), silent = TRUE))
 
   # If nrow == 0 it means that there are no encodings
   # with a threshold of confidence higher than 0.2
