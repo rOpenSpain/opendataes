@@ -123,6 +123,7 @@ test_that("cargar_datos doesn't read if it's not a character of length 1", {
 })
 
 # test_that("cargar_datos assigns 'Distribucion sin nombre' when there is no name", {
+#   skip_on_cran()
 #   # This dataset has (or had) one of the files with a title and all other without titles
 #   id <- "l01280796-centros-de-servicios-sociales-municipales1"
 #   pt <- cargar_datos(id)
@@ -135,14 +136,36 @@ test_that("cargar_datos doesn't read if it's not a character of length 1", {
 #   expect_true("Distribucion sin nombre" %in% names(pt$data))
 # })
 
-# test_that("cargar_datos ignores encoding when guess_encoding is TRUE", {
-#   tst <- cargar_datos('l01080193-elecciones-al-parlamento-europeo-sobre-electores')
-# })
-#
-# test_that("cargar_datos uses encoding when guess_encoding is FALSE", {
-#   tst <- cargar_datos('l01080193-elecciones-al-parlamento-europeo-sobre-electores')
-#
-# })
+test_that("cargar_datos works fine when guess_encoding is FALSE", {
+  skip_on_cran()
+
+  tst <- cargar_datos('l01080193-elecciones-al-parlamento-europeo-sobre-electores',
+                      encoding = 'latin1',
+                      guess_encoding = FALSE)
+
+  standard_check(tst)
+})
+
+
+################
+# We should add a test that can confirm that when guess_encoding
+# is false, then the encoding argument is used. I cannot think of a proper
+# test because even if a CSV files is in, let's say, latin1, whenever a data
+# frame is read we cannot check what the initial encoding was. If we check
+# the encoding of the dataframe it would be normalized
+
+# For example...
+
+# Supose the file below is latin1 encoded
+# latin1_encoded <- "./mtcars.csv"
+
+# Supose I want to read it with the encoding ASCII and not GUESS the encoding
+# res <- cargar_datos(latin1_encoded, encoding = "ASCII", guess_encoding = FALSE)
+
+# If I would've set guess_encoding to TRUE, the guessed encoding would have been latin1
+# However, because the encoding argument overrides guess_encoding, how can I test whether
+# the resulting dataframe is indeed 'ASCII' encoded and not 'latin1' encoded?
+################
 
 
 # For some reason, this crashes travis, which I don't know why.
@@ -151,7 +174,6 @@ test_that("cargar_datos doesn't read if it's not a character of length 1", {
 #
 #   tst <-
 #     cargar_datos('l01080193-elecciones-al-parlamento-europeo-sobre-electores',
-#                  'latin1',
 #                  n_max = 5)
 #
 #   expect_true(all(vapply(tst$data, nrow, FUN.VALUE = numeric(1)) == 5))
