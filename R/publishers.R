@@ -30,8 +30,8 @@ cargar_publishers <- function() {
 #'
 #' publishers_available
 publishers_available <- tibble::tibble(
-  publishers = c("Ayuntamiento de Barcelona", "Ayuntamiento de Madrid"),
-  publisher_code = c("L01080193", "L01280796")
+  publishers = c("Ayuntamiento de Barcelona", "Ayuntamiento de Madrid", "Ayuntamiento de Valencia"),
+  publisher_code = c("L01080193", "L01280796", "L01462508")
 )
 
 #' Translate publisher code to publisher name
