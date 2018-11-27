@@ -30,30 +30,41 @@ csv_delim <- function(file, custom_locale, guess_max = 1000, threshold_rows = 0.
       readr::read_lines(file, n_max = guess_max, locale = custom_locale),
       error = function(e) NA_character_
     )
-
+  
+  # Split each line of the csv file into a list
   data <- strsplit(data, "\n")
-
+  
+  # Exclude empty rows
   filtered_data <- data[!vapply(data, function(x) is.null(x) | length(x) == 0, logical(1))]
 
   # Get the number of rows read after deleting the empty rows
   # in filtered_data because otherwise the threshold is calculated
   # wrongly
   rows_read <- min(length(filtered_data), guess_max)
-
+  
+  # Loop through each line if the csv file, separate each column and get
+  # the frequency of each character
   res <- lapply(filtered_data, function(x) table(strsplit(x, "")))
   table_names <- lapply(res, names)
 
   all_chars <- unlist(table_names)
 
   all_chars <- all_chars[all_chars %in% delim]
-
+  
+  # What is the percentage of rows where the
+  # delimiter is repeated?
   prop_repetition <- table(all_chars) / rows_read
+  
+  # If one or more delimiters are repeated in all rows
   if (one_true(prop_repetition == 1) %in% c('one true', '> one true')) {
+    # Then get their names
     repeated_names <- names(which(prop_repetition == 1))
   } else if (any(prop_repetition > threshold_rows)) {
+    # Otherwise get the delimiters which were repeated
+    # more times than the threshold
     repeated_names <- names(which(prop_repetition > threshold_rows))
   } else {
-    # Because no character was matched at or over the threshold of rows
+    # Because no delimiter was matched at or over the threshold of rows
     return (NA_character_)
   }
 
