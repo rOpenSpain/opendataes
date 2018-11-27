@@ -147,3 +147,41 @@ determine_dataset_encoding <- function(data_url, encoding) {
 }
 
 suppress_all <- function(x) suppressMessages(suppressWarnings(x))
+
+
+# This function checks the proportion of datasets that can be read from a specified publisher
+check_datasets_read <- function(publisher) {
+
+  message("Function started")
+  res <- get_resp_paginated(url = paste0("http://datos.gob.es/apidata/catalog/dataset/publisher/",publisher),
+                            num_pages = 1000)
+  message("Response obtained")
+  # The results is a data_list
+  datasets_can_read <- sapply(res$result$items, function(x) "csv" %in% determine_dataset_url(x))
+  filtered_data <- res$result$items[datasets_can_read]
+
+  # Here we obtain a vector with the URLs
+  urls <- sapply(filtered_data, extract_endpath)
+
+  # Apply cargar_Datos over all urls.
+  determine_number <- function(x) {
+    check_read <- function(data) !all(names(data) %in% c('name', 'format', "URL"))
+
+    has_url_col <- vapply(x[[2]], check_read, logical(1))
+    number_of_reads  <- sum(has_url_col)
+
+    number_of_reads
+  }
+
+  message("Reading data")
+  all_data <- sapply(urls, function(x) {
+    res <- determine_number(cargar_datos(x))
+    cat(paste0(x, ": ", res, "\n"))
+    res
+  })
+
+  # Count non zeros
+  message("Total files read determined")
+  count_non_zeros <- sapply(all_data, function(x) x != 0)
+  return(sum(count_non_zeros) / length(count_non_zeros))
+}
