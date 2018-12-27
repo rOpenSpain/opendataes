@@ -54,7 +54,7 @@ That said, let's explore the first step in the process.
 knitr::include_graphics("opendataes_diagram_step1.jpg")
 ```
 
-The first step begins with `cargar_datos`, which is the main function. It accepts the typical `path_id` of the dataset as a string (read the README or other vignette for some simpler cases). For example:
+The first step begins with `openes_load`, which is the main function. It accepts the typical `path_id` of the dataset as a string (read the README or other vignette for some simpler cases). For example:
 
 ```{r, echo = FALSE}
 library(opendataes)
@@ -65,29 +65,29 @@ path_id <- 'l01080193-elecciones-al-parlamento-europeo-sobre-electores'
 library(opendataes)
 
 path_id <- 'l01080193-elecciones-al-parlamento-europeo-sobre-electores'
-cargar_datos(path_id)
+openes_load(path_id)
 ```
 
-However, it also has a method for a dataframe, as the graph suggests. This method is strictly aimed at dataframes returned by `explorar_keywords` so it checks the format of the dataframe before hand.
+However, it also has a method for a dataframe, as the graph suggests. This method is strictly aimed at dataframes returned by `openes_keywords` so it checks the format of the dataframe before hand.
 
 ```{r}
-cargar_datos
+openes_load
 ```
 
-`cargar_datos` redirects to `check_keywords_df`, an internal function that checks whether the dataframe has the `path_id` column, among other checks. Finally, once the check succeeds, it assigns the dataframe a class `datos_gob_es_keywords` and passes it to the method dispatch `UseMethod`. The method for the class `datos_gob_es_keywords` merely subsets the `path_id` column to get the string and read it using the character method of `cargar_datos`:
+`openes_load` redirects to `check_keywords_df`, an internal function that checks whether the dataframe has the `path_id` column, among other checks. Finally, once the check succeeds, it assigns the dataframe a class `datos_gob_es_keywords` and passes it to the method dispatch `UseMethod`. The method for the class `datos_gob_es_keywords` merely subsets the `path_id` column to get the string and read it using the character method of `openes_load`:
 
 ```{r}
-opendataes:::cargar_datos.datos_gob_es_keywords
+opendataes:::openes_load.datos_gob_es_keywords
 ```
 
-So we end up with the same call as if we would've called the main argument with a string containing the `path_id`. As the diagram suggests, you can find these functions in the R script `R/cargar_datos.R` in the [Github repository](https://github.com/ropenspain/opendataes). Once `cargar_datos` passes the string as the main argument it constructs the whole path for the API using a family of functions found in `R/path.R`. More concretely, it defines the complete path using `path_dataset_id(path_id)` which returns the direct path of the API to query the data set. 
+So we end up with the same call as if we would've called the main argument with a string containing the `path_id`. As the diagram suggests, you can find these functions in the R script `R/openes_load.R` in the [Github repository](https://github.com/ropenspain/opendataes). Once `openes_load` passes the string as the main argument it constructs the whole path for the API using a family of functions found in `R/path.R`. More concretely, it defines the complete path using `path_dataset_id(path_id)` which returns the direct path of the API to query the data set. 
 
-At the end of this preprocessing step, `cargar_datos` passes this complete path to `get_resp` which sends a GET request to the API.
+At the end of this preprocessing step, `openes_load` passes this complete path to `get_resp` which sends a GET request to the API.
 
-We can see the whole process in the character method of `cargar_datos`:
+We can see the whole process in the character method of `openes_load`:
 
 ```{r}
-opendataes:::cargar_datos.character
+opendataes:::openes_load.character
 ```
 
 The function `get_resp` returns a list with the response from the API, which we've interally called a `data_list`. You will encounter this name in several places in the package as argument names or in the internal documentation. The `data_list` is just a list that contains the metadata of the dataset and the links to the data from the original publisher (for example, the direct links to the data from the Ayuntamiento de Madrid or Málaga) along with some information from the GET request.
@@ -102,9 +102,9 @@ data_list <- opendataes:::get_resp(opendataes:::path_dataset_id(path_id))
 data_list
 ```
 
-Before we extract the metadata and data, `cargar_datos` checks that the `data_list` is in the expected format, because otherwise none of the functions in the package would work. If the `data_list` is not in the correct format, `cargar_datos` returns an empty list.
+Before we extract the metadata and data, `openes_load` checks that the `data_list` is in the expected format, because otherwise none of the functions in the package would work. If the `data_list` is not in the correct format, `openes_load` returns an empty list.
 
-**Note**: `opendataes` really pushes for consistent outputs. That is, it usually returns a list with two slots containing the metadata and data and if the data poses some sort of problem, `cargar_datos` should return the same list with two slots but without the data itself. However, if the `data_list` is not in the correct format it means that the API is returning something odd in the first place. This is regardless of the quality, standardization or format of the dataset. In this scenario `cargar_datos` returns an empty list but this is open to debate. This is an area for improvements for new comers.
+**Note**: `opendataes` really pushes for consistent outputs. That is, it usually returns a list with two slots containing the metadata and data and if the data poses some sort of problem, `openes_load` should return the same list with two slots but without the data itself. However, if the `data_list` is not in the correct format it means that the API is returning something odd in the first place. This is regardless of the quality, standardization or format of the dataset. In this scenario `openes_load` returns an empty list but this is open to debate. This is an area for improvements for new comers.
 
 Getting back to the `data_list`, it is messy and not very intuitive. This is when we move to the second step of the diagram.
 
@@ -147,7 +147,7 @@ knitr::include_graphics("opendataes_diagram_step3.jpg")
 
 The first step is passing the `data_list` from above to `extract_data` which can be located at the path `R/extract.R`. The difficult part of reading the data is due to the fact that different publishers keep datasets with different formats. For example, the Ayuntamiento de Madrid might have a `csv` file with only one excel sheet in an organized tabular format but the Ayuntamiento de Arganda del Rey might have several sheets with several tables inside each sheet. There's really nothing that can be done about that if the aim of the package is to scale the data reading process across several publishers. The chosen solution, we believe, is the most conservative: limit the publishers and formats that `opendataes` can read and increase these two as their standardization practices grow.
 
-The first step that `cargar_datos` takes **before calling** `extract_data` functions is to check whether the data comes from our permitted publishers. If the dataset is not from an available publisher, it raises an error. This is done via `opendataes:::is_publisher_available` which extracts the publisher from the `data_list` and matches it with our list of available publishers.
+The first step that `openes_load` takes **before calling** `extract_data` functions is to check whether the data comes from our permitted publishers. If the dataset is not from an available publisher, it raises an error. This is done via `opendataes:::is_publisher_available` which extracts the publisher from the `data_list` and matches it with our list of available publishers.
 
 The criteria we think best to include new publishers is to check by brute force whether they have patterns of standardization. For example, the first publisher we accepted as reliable was 'Ayuntamiento of Barcelona' because we repeatedly found ourselves reading datasets from the same format which were very consistent and easy to read. For the list of available publishers that `opendataes` can read, we can look at `opendataes::publishers_available`.
 
@@ -251,7 +251,7 @@ The process explained above is very messy because of the main problem discussed 
 
 Providing specific arguments to each dataset being read would be too difficult considering that the user never knows the order at which each of the datasets are being read. Moreover, in order for the user to know which arguments should be passed to each dataset, the user would have had to read the data manually in the first place which really misses the whole point of streamlining the process of reading the data automatically.
 
-As a partial solution, `opendataes` provides the `...` argument in `cargar_datos` to allow the user to pass generic arguments to all datasets. In a similar line, `cargar_datos` allows the user to pass the `encoding` argument which is passed to the `read_generic` function when it is appropriate. Of course, any argument passed to `...` or `encoding` will be applied to all datasets being read. Once this process is over, `extract_data` will always return a list with `tibble`'s where each `tibble` could be the data itself or a `tibble` with the link and format that `read_generic` attempted to read but failed for some reason.
+As a partial solution, `opendataes` provides the `...` argument in `openes_load` to allow the user to pass generic arguments to all datasets. In a similar line, `openes_load` allows the user to pass the `encoding` argument which is passed to the `read_generic` function when it is appropriate. Of course, any argument passed to `...` or `encoding` will be applied to all datasets being read. Once this process is over, `extract_data` will always return a list with `tibble`'s where each `tibble` could be the data itself or a `tibble` with the link and format that `read_generic` attempted to read but failed for some reason.
 
 The final step is merely joining both the `metadata` and `data` into a list as the below image shows:
 

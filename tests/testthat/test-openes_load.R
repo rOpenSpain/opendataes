@@ -1,4 +1,4 @@
-context("test-cargardatos.R")
+context("test-openesload.R")
 
 standard_check <- function(res) {
   # Check classes
@@ -30,121 +30,121 @@ determine_number <- function(x) {
 }
 
 
-test_that("cargar_datos for ONE dataset returns correct format", {
+test_that("openes_load for ONE dataset returns correct format", {
   skip_on_cran()
 
   example_id <- 'l01080193-fecundidad-madres-de-15-a-19-anos-quinquenal-2003-2014'
-  res <- cargar_datos(example_id)
+  res <- openes_load(example_id)
 
   standard_check(res)
 })
 
-test_that("cargar_datos for SEVERAL dataset returns correct format", {
+test_that("openes_load for SEVERAL dataset returns correct format", {
   skip_on_cran()
 
   example_id <- 'l01080193-domicilios-segun-nacionalidad'
-  res <- cargar_datos(example_id)
+  res <- openes_load(example_id)
 
   standard_check(res)
 })
 
-test_that("cargar_datos can read dates successfully while changing locale", {
+test_that("openes_load can read dates successfully while changing locale", {
 
   # This dataset has a date of release in the month of 'dic' in Spanish.
   # Here we test that `extract_modified_date` and `extract_issued_date`
   # is not missing inside STANDARD CHECK. This test was included
   # because we were not changing the locale to Spanish before
   # and months such as ene (enero) or dic (diciembre) were throwing NA's.
-  res <- cargar_datos('l01080193-carta-arqueologica-de-barcelona')
+  res <- openes_load('l01080193-carta-arqueologica-de-barcelona')
 
   standard_check(res)
 })
 
-test_that("cargar_datos for inexistent dataset returns empty list", {
+test_that("openes_load for inexistent dataset returns empty list", {
   example_id <- 'random_data'
-  res <- cargar_datos(example_id)
+  res <- openes_load(example_id)
 
   # Check classes
   expect_is(res, "list")
   expect_length(res, 0)
 })
 
-test_that("cargar_datos for more than one end path", {
+test_that("openes_load for more than one end path", {
   example_id <- c('l01080193-domicilios-segun-nacionalidad',
                   'l01080193-fecundidad-madres-de-15-a-19-anos-quinquenal-2003-2014')
 
-  expect_error(cargar_datos(example_id),
+  expect_error(openes_load(example_id),
                "`x` must be a character of length 1", fixed = TRUE)
-  expect_error(cargar_datos.character(list(example_id)),
+  expect_error(openes_load.character(list(example_id)),
                "`x` must be a character of length 1", fixed = TRUE)
 })
 
-test_that("Checks that encoding in cargar_datos is in correct format", {
+test_that("Checks that encoding in openes_load is in correct format", {
   example_id <- c('l01080193-domicilios-segun-nacionalidad')
   encoding <- c("UTF-8", "latin1")
 
 
-  expect_error(cargar_datos(example_id, encoding = encoding),
+  expect_error(openes_load(example_id, encoding = encoding),
                "`encoding` must be a character of length 1", fixed = TRUE)
 
-  expect_error(cargar_datos(example_id, encoding = list(encoding)),
+  expect_error(openes_load(example_id, encoding = list(encoding)),
                "`encoding` must be a character of length 1", fixed = TRUE)
 })
 
-test_that("Checks that guess_encoding in cargar_datos is in correct format", {
+test_that("Checks that guess_encoding in openes_load is in correct format", {
   example_id <- c('l01080193-domicilios-segun-nacionalidad')
 
-  expect_error(cargar_datos(example_id, guess_encoding = c(TRUE, FALSE)),
+  expect_error(openes_load(example_id, guess_encoding = c(TRUE, FALSE)),
                "`guess_encoding` must be a logical of length 1", fixed = TRUE)
 
-  expect_error(cargar_datos(example_id, guess_encoding = "TRUE"),
+  expect_error(openes_load(example_id, guess_encoding = "TRUE"),
                "`guess_encoding` must be a logical of length 1", fixed = TRUE)
 })
 
-test_that("cargar_datos for more than one end path", {
+test_that("openes_load for more than one end path", {
   example_id <- c('l01080193-domicilios-segun-nacionalidad',
                   'l01080193-fecundidad-madres-de-15-a-19-anos-quinquenal-2003-2014')
 
-  expect_error(cargar_datos(example_id), "`x` must be a character of length 1", fixed = TRUE)
+  expect_error(openes_load(example_id), "`x` must be a character of length 1", fixed = TRUE)
 })
 
-test_that("cargar_datos doesn't read if it's not a character of length 1", {
+test_that("openes_load doesn't read if it's not a character of length 1", {
 
   # Factors
   example_id <- factor('l01080193-fecundidad-madres-de-15-a-19-anos-quinquenal-2003-2014')
-  expect_error(cargar_datos.character(example_id), "`x` must be a character of length 1")
+  expect_error(openes_load.character(example_id), "`x` must be a character of length 1")
 
   # Numerics
-  expect_error(cargar_datos.character(1), "`x` must be a character of length 1")
+  expect_error(openes_load.character(1), "`x` must be a character of length 1")
 
 
   example_id <- list('l01080193-domicilios-segun-nacionalidad')
-  expect_error(cargar_datos.character(example_id), "`x` must be a character of length 1")
+  expect_error(openes_load.character(example_id), "`x` must be a character of length 1")
 })
 
 # Run this when Madrid is included as publisher
-test_that("cargar_datos assigns 'Distribucion sin nombre' when there is no name", {
+test_that("openes_load assigns 'Distribucion sin nombre' when there is no name", {
   skip_on_cran()
   # This dataset has (or had) one of the files with a title and all other without titles
   id <- "l01280796-centros-de-servicios-sociales-municipales1"
-  pt <- cargar_datos(id)
+  pt <- openes_load(id)
   expect_true("Distribucion sin nombre" %in% names(pt$data))
 
   # This dataset has (or had) ALL of the files without titles. I repeat the same to test that both are assigned
   # a distribucion sin nombre
   id <- "l01280796-trafico-semaforos-con-avisadores-acusticos1"
-  pt <- cargar_datos(id)
+  pt <- openes_load(id)
   expect_true("Distribucion sin nombre" %in% names(pt$data))
 
   # This dataset has only ONE file and it has no names
-  pt <- cargar_datos('l01280796-perfiles-profesionales-de-concejales-directivos-eventuales-funcionarios-de-nivel-28-o-superior-y-vocales-vecinos-del-ayuntamiento-de-madrid')
+  pt <- openes_load('l01280796-perfiles-profesionales-de-concejales-directivos-eventuales-funcionarios-de-nivel-28-o-superior-y-vocales-vecinos-del-ayuntamiento-de-madrid')
   expect_true("Distribucion sin nombre" %in% names(pt$data))
 })
 
-test_that("cargar_datos works fine when guess_encoding is FALSE", {
+test_that("openes_load works fine when guess_encoding is FALSE", {
   skip_on_cran()
 
-  tst <- cargar_datos('l01080193-elecciones-al-parlamento-europeo-sobre-electores',
+  tst <- openes_load('l01080193-elecciones-al-parlamento-europeo-sobre-electores',
                       encoding = 'latin1',
                       guess_encoding = FALSE)
 
@@ -165,7 +165,7 @@ test_that("cargar_datos works fine when guess_encoding is FALSE", {
 # latin1_encoded <- "./mtcars.csv"
 
 # Supose I want to read it with the encoding ASCII and not GUESS the encoding
-# res <- cargar_datos(latin1_encoded, encoding = "ASCII", guess_encoding = FALSE)
+# res <- openes_load(latin1_encoded, encoding = "ASCII", guess_encoding = FALSE)
 
 # If I would've set guess_encoding to TRUE, the guessed encoding would have been latin1
 # However, because the encoding argument overrides guess_encoding, how can I test whether
@@ -174,82 +174,82 @@ test_that("cargar_datos works fine when guess_encoding is FALSE", {
 
 
 # For some reason, this crashes travis, which I don't know why.
-# test_that("cargar_datos uses encoding and readr arguments to read only 5 rows", {
+# test_that("openes_load uses encoding and readr arguments to read only 5 rows", {
 #   skip_on_cran()
 #
 #   tst <-
-#     cargar_datos('l01080193-elecciones-al-parlamento-europeo-sobre-electores',
+#     openes_load('l01080193-elecciones-al-parlamento-europeo-sobre-electores',
 #                  n_max = 5)
 #
 #   expect_true(all(vapply(tst$data, nrow, FUN.VALUE = numeric(1)) == 5))
 # })
 
-test_that("cargar_datos returns links when format is not readable", {
+test_that("openes_load returns links when format is not readable", {
   skip_on_cran()
 
-  not_readable <- cargar_datos("l01080193-estaciones-de-bicing-mecanicas-y-electricas")
+  not_readable <- openes_load("l01080193-estaciones-de-bicing-mecanicas-y-electricas")
   standard_check(not_readable)
 })
 
-test_that("cargar_datos fails for publisher not permitted", {
+test_that("openes_load fails for publisher not permitted", {
   skip_on_cran()
 
-  expect_error(cargar_datos("ea0008369-guias-para-la-gestion-publica-de-la-diversidad-religiosa-observatorio-del-pluralismo-religioso-en-espana"),
+  expect_error(openes_load("ea0008369-guias-para-la-gestion-publica-de-la-diversidad-religiosa-observatorio-del-pluralismo-religioso-en-espana"),
                "Publisher not available. Please check publishers_available() to get the available ones.",
                 fixed = TRUE)
 })
 
-test_that("cargar_datos returns tibbles with URL's when it cannot read the file", {
+test_that("openes_load returns tibbles with URL's when it cannot read the file", {
   skip_on_cran()
 
   id <- 'l01080193-descripcion-de-la-causalidad-de-los-accidentes-gestionados-por-la-guardia-urbana-en-la-ciudad-de-barcelona'
-  pl <- cargar_datos(id)
+  pl <- openes_load(id)
 
   standard_check(pl)
 })
 
 # No need to check for the keyword's format and content because if this passes
 # it means it has the same structure as the character tests
-test_that("cargar_datos's character and keyword results match exactly", {
+test_that("openes_load's character and keyword results match exactly", {
   skip_on_cran()
 
-  character_method <- cargar_datos('l01080193-elecciones-al-parlamento-europeo-sobre-electores', 'latin1', n_max = 5)
+  character_method <- openes_load('l01080193-elecciones-al-parlamento-europeo-sobre-electores', 'latin1', n_max = 5)
 
-  kw <- explorar_keywords("la Prosperitat", "l01080193")
+  kw <- openes_keywords("la Prosperitat", "l01080193")
 
   intm <- kw[grepl("Elecciones al Parlamento Europeo. % sobre electores", kw$description), ]
-  keyword_method <- cargar_datos.datos_gob_es_keywords(intm, 'latin1', n_max = 5)
+  keyword_method <- openes_load.datos_gob_es_keywords(intm, 'latin1', n_max = 5)
 
   expect_identical(character_method, keyword_method)
 })
 
-test_that("cargar_datos throws errors when the keyword data frame is not in expected format", {
+test_that("openes_load throws errors when the keyword data frame is not in expected format", {
   skip_on_cran()
 
-  cp <- explorar_keywords("la Prosperitat", "l01080193")
+  cp <- openes_keywords("la Prosperitat", "l01080193")
 
-  expect_error(cargar_datos(cp),
-               "The data frame resulted from explorar_keywords must have only 1 dataset (1 row). Make sure you filter down to only one dataset",
+  expect_error(openes_load(cp),
+               "The data frame resulted from openes_keywords must have only 1 dataset (1 row). Make sure you filter down to only one dataset",
                fixed = TRUE)
 
-  expect_error(cargar_datos(data.frame()),
-               "The data frame resulted from explorar_keywords must have only 1 dataset (1 row). Make sure you filter down to only one dataset",
+  expect_error(openes_load(data.frame()),
+               "The data frame resulted from openes_keywords must have only 1 dataset (1 row). Make sure you filter down to only one dataset",
                fixed = TRUE)
 
 
   cp <- cp[grepl("Elecciones al Parlamento Europeo. % sobre electores", cp$description), ]
   cp$path_id <- factor(cp$path_id)
 
-  expect_error(cargar_datos(cp),
+  expect_error(openes_load(cp),
                "Column `path_id` from the keywords data frame must be a character vector",
                fixed = TRUE)
 
-  kw <- explorar_keywords("Barcino", "l01080193")
-  expect_error(cargar_datos(kw),
+  kw <- openes_keywords("Barcino", "l01080193")
+  expect_error(openes_load(kw),
                "The chosen dataset from the keywords data frame is not readable")
 
   colnames(cp)[1] <- 'test'
-  expect_error(cargar_datos(cp),
+  expect_error(openes_load(cp),
                "The keywords data frame must contain and have this order of columns: description, publisher, is_readable, path_id, url",
                fixed = TRUE)
 })
@@ -260,7 +260,7 @@ test_that("cargar_datos throws errors when the keyword data frame is not in expe
 # but not in Mac. This way, when we run this in Appveyor and Travis it should be true in both
 test_that("Check that elections dataset is correctly read", {
   skip_on_cran()
-  pt <- cargar_datos('l01080193-elecciones-al-parlamento-europeo-sobre-electores')
+  pt <- openes_load('l01080193-elecciones-al-parlamento-europeo-sobre-electores')
   files_read <- determine_number(pt)
 
   expect_gte(files_read, 2)

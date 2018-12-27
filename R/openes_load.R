@@ -1,6 +1,6 @@
 #' Extract data and metadata from a given data set of \url{https://datos.gob.es/}
 #'
-#' @param x A \code{\link[tibble]{tibble}} given by \code{\link{explorar_keywords}} only containing one dataset (1 row) or
+#' @param x A \code{\link[tibble]{tibble}} given by \code{\link{openes_keywords}} only containing one dataset (1 row) or
 #' the end path of a dataset such as 'l01280148-seguridad-ciudadana-actuaciones-de-seccion-del-menor-en-educacion-vial-20141'
 #' from \url{https://datos.gob.es/es/catalogo/l01280148-seguridad-ciudadana-actuaciones-de-seccion-del-menor-en-educacion-vial-20141}.
 #'
@@ -9,19 +9,19 @@
 #'
 #' @param guess_encoding A logical stating whether to guess the encoding. This is set to TRUE by default.
 #' Whenever guess_encoding is set to TRUE, the 'encoding' argument is ignored. If \code{\link[readr]{guess_encoding}}
-#' fails to guess the encoding, cargar_datos falls back to the encoding argument.
+#' fails to guess the encoding, openes_load falls back to the encoding argument.
 #'
 #' @param ... Arguments passed to \code{\link[readr]{read_csv}} and the other related \code{read_*} functions from \code{\link[readr]{readr}}.
-#' Internally, \code{cargar_datos} determines the delimiter of the file being read but the arguments
-#' for each of these functions are practically the same, so it doesn't matter how \code{cargar_datos}
+#' Internally, \code{openes_load} determines the delimiter of the file being read but the arguments
+#' for each of these functions are practically the same, so it doesn't matter how \code{openes_load}
 #' determines the delimiter, any of the arguments will work on all \code{read_*} functions.
 #'
 #' @details
-#' \code{cargar_datos} can return two possible outcomes: either an empty list or a list with a slot called metadata
+#' \code{openes_load} can return two possible outcomes: either an empty list or a list with a slot called metadata
 #' and another slot called data. Whenever the \code{path_id} argument is an invalid dataset path, it will return an empty list.
-#' When \code{path_id} is a valid dataset path, \code{cargar_datos} will return an a list with the two slots described above.
+#' When \code{path_id} is a valid dataset path, \code{openes_load} will return an a list with the two slots described above.
 #'
-#' For the metadata slot, \code{cargar_datos} returns a \code{\link[tibble]{tibble}} with most available metadata of the dataset.
+#' For the metadata slot, \code{openes_load} returns a \code{\link[tibble]{tibble}} with most available metadata of the dataset.
 #' The columns are:
 #'
 #' \itemize{
@@ -34,7 +34,7 @@
 #' \item date_issued: the date at which the dataset was uploaded.
 #' \item date_modified: the date at which the last dataset was uploaded. If the dataset has only been uploaded once, this
 #' will return \code{'No modification date available'}.
-#' \item publisher: the entity that publishes the dataset. See \code{\link{cargar_publishers}} for all available publishers.
+#' \item publisher: the entity that publishes the dataset. See \code{\link{openes_load_publishers}} for all available publishers.
 #' \item publisher_data_url: the homepage of the dataset in the website of the publisher. This is helpful to look
 #' at the definitions of the columns in the dataset.
 #' }
@@ -51,11 +51,11 @@
 #' In case the API returns empty requests, both data and metadata will be empty \code{\link[tibble]{tibble}}'s
 #' with the same column names.
 #'
-#' For the data slot, \code{cargar_datos} returns a list containing at least one \code{\link[tibble]{tibble}}.
-#' If the dataset being request has file formats that \code{cargar_datos} can read (see \code{\link{permitted_formats}})
+#' For the data slot, \code{openes_load} returns a list containing at least one \code{\link[tibble]{tibble}}.
+#' If the dataset being request has file formats that \code{openes_load} can read (see \code{\link{permitted_formats}})
 #' it will read those files. If that dataset has several files, then it will return a list of the same length
 #' as there are datasets where each slot in that list is a \code{\link[tibble]{tibble}} with the data. If for
-#' some reason any of the datasets being read cannot be read, \code{cargar_datos} has a fall back mechanism
+#' some reason any of the datasets being read cannot be read, \code{openes_load} has a fall back mechanism
 #' that returns the format that attempted to read together with the URL so that the user can try to read the
 #' dataset directly. In any case, the result will always be a list with \code{\link[tibble]{tibble}}'s
 #' where each one could be the requested dataset (success) or a dataset with the format and url that attempted
@@ -67,15 +67,15 @@
 #' when the same dataset is repeated across time and we want to figure out which data is which from the slot.
 #'
 #' The API of \url{https://datos.gob.es/} is not completely homogenous because it is an aggregator
-#' of many different API's from different cities and provinces of Spain. \code{cargar_datos} can only read
+#' of many different API's from different cities and provinces of Spain. \code{openes_load} can only read
 #' a limited number of file formats but will keep increasing as the package evolves. You can check the available file formats
-#' in \code{\link{permitted_formats}}. If the file format of the requested \code{path_id} is not readable, \code{cargar_datos}
+#' in \code{\link{permitted_formats}}. If the file format of the requested \code{path_id} is not readable, \code{openes_load}
 #' will return a list with only one \code{\link[tibble]{tibble}} with all available formats with their respective data URL
 #' inside the data slot so that users can read the manually.
 #'
-#' In a similar line, in order for \code{cargar_datos} to provide the safest behavior, it is very conservative in which
+#' In a similar line, in order for \code{openes_load} to provide the safest behavior, it is very conservative in which
 #' publisher it can read from \url{https://datos.gob.es/}. Because some publishers do not have standardized datasets,
-#' reading many different publishers can become very messy. \code{cargar_datos} currently reads files from selected
+#' reading many different publishers can become very messy. \code{openes_load} currently reads files from selected
 #' publishers because they offer standardized datasets which makes it safer to read. As the package evolves and the
 #' data quality improves between publishers, the package will include more publishers. See the publishers that the
 #' package can read in \code{\link{publishers_available}}.
@@ -89,7 +89,7 @@
 #'
 #' # For a dataset with only one file to read
 #' example_id <- 'l01080193-fecundidad-madres-de-15-a-19-anos-quinquenal-2003-2014'
-#' some_data <- cargar_datos(example_id)
+#' some_data <- openes_load(example_id)
 #'
 #' # Print the file to get some useful information
 #' some_data
@@ -108,7 +108,7 @@
 #'
 #' \dontrun{
 #' example_id <- 'l01080193-domicilios-segun-nacionalidad'
-#' res <- cargar_datos(example_id)
+#' res <- openes_load(example_id)
 #'
 #' # Note that you can see how many files were read in '# of files read'
 #' res
@@ -130,7 +130,7 @@
 #' string <- "-gestionados-por-la-guardia-urbana-en-la-ciudad-de-barcelona"
 #'
 #' id <- paste0(long, string)
-#' pl <- cargar_datos(id)
+#' pl <- openes_load(id)
 #'
 #' # The dataset is read successfully but once we print them, there's an error
 #' pl$data
@@ -145,43 +145,43 @@
 #' library(readr)
 #' guess_encoding(pl$data[[1]])
 #'
-#' pl <- cargar_datos(id, 'ASCII')
+#' pl <- openes_load(id, 'ASCII')
 #'
 #' # Success
 #' pl$data
 #'
 #'
-#' # For exploring datasets with explorar_keywords and piping to cargar_datos
+#' # For exploring datasets with openes_keywords and piping to openes_load
 #' library(dplyr)
 #'
-#' kw <- explorar_keywords("turismo", "l01080193") # Ayuntamiento de Barcelona#'
+#' kw <- openes_keywords("turismo", "l01080193") # Ayuntamiento de Barcelona#'
 #' kw
 #'
 #' dts <-
 #'  kw %>%
 #'  filter(is_readable == TRUE,
 #'         grepl("Tipos de propietarios", description)) %>% # Narrow it down to only 1 dataset
-#'  cargar_datos()
+#'  openes_load()
 #'
 #' dts$metadata
 #'
 #' dts$data
 #' }
 #'
-cargar_datos <- function(x, encoding = 'UTF-8', guess_encoding = TRUE, ...) {
+openes_load <- function(x, encoding = 'UTF-8', guess_encoding = TRUE, ...) {
 
   x <- if (is.data.frame(x)) check_keywords_df(x) else x
 
-  UseMethod("cargar_datos", x)
+  UseMethod("openes_load", x)
 }
 
 #' @export
-cargar_datos.datos_gob_es_keywords <- function(x, encoding = 'UTF-8', guess_encoding = TRUE, ...) {
-  cargar_datos(x$path_id, encoding, guess_encoding, ...)
+openes_load.datos_gob_es_keywords <- function(x, encoding = 'UTF-8', guess_encoding = TRUE, ...) {
+  openes_load(x$path_id, encoding, guess_encoding, ...)
 }
 
 #' @export
-cargar_datos.character <- function(x, encoding = 'UTF-8', guess_encoding = TRUE, ...) {
+openes_load.character <- function(x, encoding = 'UTF-8', guess_encoding = TRUE, ...) {
 
   if (!is.character(x) || length(x) > 1) stop("`x` must be a character of length 1")
   if (!is.character(encoding) || length(encoding) > 1) stop("`encoding` must be a character of length 1")
@@ -256,10 +256,10 @@ print.datos_gob_es <- function(x, ...) {# nocov start
 }
 
 
-# Assign class so that cargar_datos knows what to do when encounters a dataframe
+# Assign class so that openes_load knows what to do when encounters a dataframe
 # like this one, namely read the path_id
 check_keywords_df <- function(df) {
-  if (nrow(df) != 1) stop("The data frame resulted from explorar_keywords must have only 1 dataset (1 row). Make sure you filter down to only one dataset")
+  if (nrow(df) != 1) stop("The data frame resulted from openes_keywords must have only 1 dataset (1 row). Make sure you filter down to only one dataset")
   if (!isTRUE(df$is_readable)) stop('The chosen dataset from the keywords data frame is not readable')
 
   columns <- c("description", "publisher", "is_readable", "path_id", "url")

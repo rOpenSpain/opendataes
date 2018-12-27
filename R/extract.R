@@ -6,7 +6,7 @@
 #'
 #' @param guess_encoding A logical stating whether to guess the encoding. This is set to TRUE by default.
 #' Whenever guess_encoding is set to TRUE, the 'encoding' argument is ignored. If \code{\link[readr]{guess_encoding}}
-#' fails to guess the encoding, cargar_datos falls back to the encoding argument.
+#' fails to guess the encoding, openes_load falls back to the encoding argument.
 #' @param ... Arguments passed to \code{\link[readr]{read_csv}} and all other \code{read_*} functions.
 #'
 #' @details \code{get_data} will accept the end path of a data base and it will search for the access url.

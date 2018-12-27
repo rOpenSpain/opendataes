@@ -163,7 +163,7 @@ check_datasets_read <- function(publisher) {
   # Here we obtain a vector with the URLs
   urls <- sapply(filtered_data, extract_endpath)
 
-  # Apply cargar_Datos over all urls.
+  # Apply openes_load over all urls.
   determine_number <- function(x) {
     check_read <- function(data) !all(names(data) %in% c('name', 'format', "URL"))
 
@@ -175,7 +175,7 @@ check_datasets_read <- function(publisher) {
 
   message("Reading data")
   all_data <- sapply(urls, function(x) {
-    res <- determine_number(cargar_datos(x))
+    res <- determine_number(openes_load(x))
     cat(paste0(x, ": ", res, "\n"))
     res
   })

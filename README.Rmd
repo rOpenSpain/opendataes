@@ -41,7 +41,7 @@ remotes::install_github("ropenspain/opendataes")
 
 ## Example
 
-The package has one main function that allows to read data from the API: `cargar_datos`. However, that function can be used in two different ways.
+The package has one main function that allows to read data from the API: `openes_load`. However, that function can be used in two different ways.
 
 ### Web-based search
 
@@ -52,7 +52,7 @@ You can search for a dataset [here](http://datos.gob.es/es/catalogo?_publisher_d
 <br/>
 <br/>
 
-`cargar_datos` needs only the end path of a given dataset to read the data. So, we copy this:
+`openes_load` needs only the end path of a given dataset to read the data. So, we copy this:
 
 <br/>
 <br/>
@@ -62,18 +62,18 @@ You can search for a dataset [here](http://datos.gob.es/es/catalogo?_publisher_d
 <br/>
 <br/>
 
-and pass it on to `cargar_datos`, and that is it.
+and pass it on to `openes_load`, and that is it.
 
 ```{r}
 library(opendataes)
 
 id <- 'l01080193-elecciones-al-parlamento-europeo-sobre-electores'
-elections <- cargar_datos(id)
+elections <- openes_load(id)
 ```
 
 ### R-based search
 
-Alternatively, `opendataes` allows to seach datasets by keywords. For example, to read the same data as before we could search for a keyword and specifying the publisher of that dataset. We know that the data belongs to the 'Ayuntamiento of Barcelona' but `explorar_keywords` requires that publisher's code.
+Alternatively, `opendataes` allows to seach datasets by keywords. For example, to read the same data as before we could search for a keyword and specifying the publisher of that dataset. We know that the data belongs to the 'Ayuntamiento of Barcelona' but `openes_keywords` requires that publisher's code.
 
 First we extract the code using the `publishers_available` data frame from `opendataes`:
 
@@ -86,11 +86,11 @@ pb_code <- publishers_available$publisher_code[publishers_available$publishers =
 And then we search for a given key keyword
 
 ```{r,}
-kw <- explorar_keywords('elecciones', pb_code)
+kw <- openes_keywords('elecciones', pb_code)
 kw
 ```
 
-Once we have that, `cargar_datos` only requires that we pass this exact data frame but only with one row. We can do some data munging and subset our data of interest.
+Once we have that, `openes_load` only requires that we pass this exact data frame but only with one row. We can do some data munging and subset our data of interest.
 
 ```{r}
 final_dt <- kw[grepl("Elecciones al Parlamento Europeo. % sobre electores", kw$description), ]
@@ -98,10 +98,10 @@ final_dt <- kw[grepl("Elecciones al Parlamento Europeo. % sobre electores", kw$d
 final_dt
 ```
 
-And we pass it to `cargar_datos`
+And we pass it to `openes_load`
 
 ```{r}
-elections <- cargar_datos(final_dt)
+elections <- openes_load(final_dt)
 ```
 
 ### Usage

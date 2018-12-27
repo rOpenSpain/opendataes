@@ -5,9 +5,9 @@
 #'
 #' @examples
 #'
-#' cargar_publishers()
+#' openes_load_publishers()
 #'
-cargar_publishers <- function() {
+openes_load_publishers <- function() {
   # Specify random huge number just to avoid running out of pages
   # in the future.
   resp <- get_resp_paginated(path_publishers(), 1000)
@@ -23,18 +23,18 @@ cargar_publishers <- function() {
 #'
 #' @return a \code{\link[tibble]{tibble}} with two columns: publishers and publisher_code
 #'
-#' @seealso \code{\link{cargar_publishers}}
+#' @seealso \code{\link{openes_load_publishers}}
 #' @export
 #'
 #' @examples
 #'
 #' publishers_available
 publishers_available <- tibble::tibble(
-  publishers = c("Ayuntamiento de Barcelona", "Ayuntamiento de Madrid", "Ayuntamiento de Valencia", 
+  publishers = c("Ayuntamiento de Barcelona", "Ayuntamiento de Madrid", "Ayuntamiento de Valencia",
                  "Ayuntamiento de Las Palmas de Gran Canaria", "Ayuntamiento de Bilbao",
                  "Ayuntamiento de Zaragoza", "Ayuntamiento de Malaga", "Ayuntamiento de Gijon",
                  "Ayuntamiento de Santander", "Ayuntamiento de Alcobendas"),
-  publisher_code = c("L01080193", "L01280796", "L01462508", "L01350167", "L01480209", "L01502973", 
+  publisher_code = c("L01080193", "L01280796", "L01462508", "L01350167", "L01480209", "L01502973",
                      "L01290672", "L01330241", "L01390759","L01280066")
 )
 
@@ -42,7 +42,7 @@ publishers_available <- tibble::tibble(
 #'
 #' @param code A publisher code
 translate_publisher <- function(code) {
-  all_publishers <- cargar_publishers()
+  all_publishers <- openes_load_publishers()
   all_publishers
   index <- which(all_publishers$publisher_code == code)
   if (length(index) == 0) return("Publisher not available")
