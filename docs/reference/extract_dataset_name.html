@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Build a url with a complete datasets/ prefix URL — path_datasets • opendataes</title>
+<title>Extract the dataset names from data_list — extract_dataset_name • opendataes</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Build a url with a complete datasets/ prefix URL — path_datasets" />
+<meta property="og:title" content="Extract the dataset names from data_list — extract_dataset_name" />
 
-<meta property="og:description" content="Build a url with a complete datasets/ prefix URL" />
+<meta property="og:description" content="For example, elecciones2016.csv and elecciones2014.csv" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -114,31 +114,25 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Build a url with a complete datasets/ prefix URL</h1>
-    <small class="dont-index">Source: <a href='https://github.com/ropenspain/opendataes/blob/master/R/path.R'><code>R/path.R</code></a></small>
-    <div class="hidden name"><code>path_datasets.Rd</code></div>
+    <h1>Extract the dataset names from data_list</h1>
+    <small class="dont-index">Source: <a href='https://github.com/ropenspain/opendataes/blob/master/R/extract.R'><code>R/extract.R</code></a></small>
+    <div class="hidden name"><code>extract_dataset_name.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Build a url with a complete datasets/ prefix URL</p>
+    <p>For example, elecciones2016.csv and elecciones2014.csv</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>path_datasets</span>(<span class='kw'>param</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>extract_dataset_name</span>(<span class='no'>data_list</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>param</th>
-      <td><p>Extra parameters to add to the url. For this function, this is
-useless because there's not further paths to the dataset end point. Keeping
-the argument for consistency</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Extra arguments passed to <code><a href='https://www.rdocumentation.org/packages/httr/topics/parse_url'>build_url</a></code></p></td>
+      <th>data_list</th>
+      <td><p>A data_list similar to resp$result$items[[1]] that contains information on a dataset</p></td>
     </tr>
     </table>
     
