@@ -49,6 +49,7 @@ test_that("openes_load for SEVERAL dataset returns correct format", {
 })
 
 test_that("openes_load can read dates successfully while changing locale", {
+  skip_on_cran()
 
   # This dataset has a date of release in the month of 'dic' in Spanish.
   # Here we test that `extract_modified_date` and `extract_issued_date`
