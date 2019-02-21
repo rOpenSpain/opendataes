@@ -67,7 +67,7 @@ and pass it on to `openes_load`, and that is it.
 ```{r}
 library(opendataes)
 
-id <- 'l01080193-elecciones-al-parlamento-europeo-sobre-electores'
+id <- 'l01080193-elecciones-al-parlamento-europeo-sobre-electores-de-la-ciudad-de-barcelona'
 elections <- openes_load(id)
 ```
 
