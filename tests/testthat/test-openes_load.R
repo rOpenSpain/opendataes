@@ -33,7 +33,7 @@ determine_number <- function(x) {
 test_that("openes_load for ONE dataset returns correct format", {
   skip_on_cran()
 
-  example_id <- 'l01080193-fecundidad-madres-de-15-a-19-anos-quinquenal-2003-2014'
+  example_id <- 'l01080193-tasa-especifica-de-fecundidad-en-madres-de-la-ciudad-de-barcelona-de-15-a-19-anos-quinquenal-2003-20141'
   res <- openes_load(example_id)
 
   standard_check(res)
@@ -42,24 +42,24 @@ test_that("openes_load for ONE dataset returns correct format", {
 test_that("openes_load for SEVERAL dataset returns correct format", {
   skip_on_cran()
 
-  example_id <- 'l01080193-domicilios-segun-nacionalidad'
+  example_id <- 'l01080193-domicilios-de-la-ciudad-de-barcelona-segun-nacionalidad2'
   res <- openes_load(example_id)
 
   standard_check(res)
 })
 
-test_that("openes_load can read dates successfully while changing locale", {
-  skip_on_cran()
-
-  # This dataset has a date of release in the month of 'dic' in Spanish.
-  # Here we test that `extract_modified_date` and `extract_issued_date`
-  # is not missing inside STANDARD CHECK. This test was included
-  # because we were not changing the locale to Spanish before
-  # and months such as ene (enero) or dic (diciembre) were throwing NA's.
-  res <- openes_load('l01080193-carta-arqueologica-de-barcelona')
-
-  standard_check(res)
-})
+# test_that("openes_load can read dates successfully while changing locale", {
+#   skip_on_cran()
+#
+#   # This dataset has a date of release in the month of 'dic' in Spanish.
+#   # Here we test that `extract_modified_date` and `extract_issued_date`
+#   # is not missing inside STANDARD CHECK. This test was included
+#   # because we were not changing the locale to Spanish before
+#   # and months such as ene (enero) or dic (diciembre) were throwing NA's.
+#   res <- openes_load('l01080193-carta-arqueologica-de-barcelona')
+#
+#   standard_check(res)
+# })
 
 test_that("openes_load for inexistent dataset returns empty list", {
   example_id <- 'random_data'
@@ -71,8 +71,8 @@ test_that("openes_load for inexistent dataset returns empty list", {
 })
 
 test_that("openes_load for more than one end path", {
-  example_id <- c('l01080193-domicilios-segun-nacionalidad',
-                  'l01080193-fecundidad-madres-de-15-a-19-anos-quinquenal-2003-2014')
+  example_id <- c('l01080193-domicilios-de-la-ciudad-de-barcelona-segun-nacionalidad2',
+                  'l01080193-tasa-especifica-de-fecundidad-en-madres-de-la-ciudad-de-barcelona-de-15-a-19-anos-quinquenal-2003-20141')
 
   expect_error(openes_load(example_id),
                "`x` must be a character of length 1", fixed = TRUE)
@@ -81,7 +81,7 @@ test_that("openes_load for more than one end path", {
 })
 
 test_that("Checks that encoding in openes_load is in correct format", {
-  example_id <- c('l01080193-domicilios-segun-nacionalidad')
+  example_id <- c('l01080193-domicilios-de-la-ciudad-de-barcelona-segun-nacionalidad2')
   encoding <- c("UTF-8", "latin1")
 
 
@@ -93,7 +93,7 @@ test_that("Checks that encoding in openes_load is in correct format", {
 })
 
 test_that("Checks that guess_encoding in openes_load is in correct format", {
-  example_id <- c('l01080193-domicilios-segun-nacionalidad')
+  example_id <- c('l01080193-domicilios-de-la-ciudad-de-barcelona-segun-nacionalidad2')
 
   expect_error(openes_load(example_id, guess_encoding = c(TRUE, FALSE)),
                "`guess_encoding` must be a logical of length 1", fixed = TRUE)
@@ -103,8 +103,8 @@ test_that("Checks that guess_encoding in openes_load is in correct format", {
 })
 
 test_that("openes_load for more than one end path", {
-  example_id <- c('l01080193-domicilios-segun-nacionalidad',
-                  'l01080193-fecundidad-madres-de-15-a-19-anos-quinquenal-2003-2014')
+  example_id <- c('l01080193-domicilios-de-la-ciudad-de-barcelona-segun-nacionalidad2',
+                  'l01080193-tasa-especifica-de-fecundidad-en-madres-de-la-ciudad-de-barcelona-de-15-a-19-anos-quinquenal-2003-20141')
 
   expect_error(openes_load(example_id), "`x` must be a character of length 1", fixed = TRUE)
 })
@@ -112,14 +112,14 @@ test_that("openes_load for more than one end path", {
 test_that("openes_load doesn't read if it's not a character of length 1", {
 
   # Factors
-  example_id <- factor('l01080193-fecundidad-madres-de-15-a-19-anos-quinquenal-2003-2014')
+  example_id <- factor('l01080193-tasa-especifica-de-fecundidad-en-madres-de-la-ciudad-de-barcelona-de-15-a-19-anos-quinquenal-2003-20141')
   expect_error(openes_load.character(example_id), "`x` must be a character of length 1")
 
   # Numerics
   expect_error(openes_load.character(1), "`x` must be a character of length 1")
 
 
-  example_id <- list('l01080193-domicilios-segun-nacionalidad')
+  example_id <- list('l01080193-domicilios-de-la-ciudad-de-barcelona-segun-nacionalidad2')
   expect_error(openes_load.character(example_id), "`x` must be a character of length 1")
 })
 
@@ -145,7 +145,7 @@ test_that("openes_load assigns 'Distribucion sin nombre' when there is no name",
 test_that("openes_load works fine when guess_encoding is FALSE", {
   skip_on_cran()
 
-  tst <- openes_load('l01080193-elecciones-al-parlamento-europeo-sobre-electores-de-la-ciudad-de-barcelona',
+  tst <- openes_load('l01080193-elecciones-al-parlamento-europeo-sobre-electores-de-la-ciudad-de-barcelona1',
                       encoding = 'latin1',
                       guess_encoding = FALSE)
 
@@ -179,7 +179,7 @@ test_that("openes_load works fine when guess_encoding is FALSE", {
 #   skip_on_cran()
 #
 #   tst <-
-#     openes_load('l01080193-elecciones-al-parlamento-europeo-sobre-electores-de-la-ciudad-de-barcelona',
+#     openes_load('l01080193-elecciones-al-parlamento-europeo-sobre-electores-de-la-ciudad-de-barcelona1',
 #                  n_max = 5)
 #
 #   expect_true(all(vapply(tst$data, nrow, FUN.VALUE = numeric(1)) == 5))
@@ -188,7 +188,7 @@ test_that("openes_load works fine when guess_encoding is FALSE", {
 test_that("openes_load returns links when format is not readable", {
   skip_on_cran()
 
-  not_readable <- openes_load("l01080193-estaciones-de-bicing-mecanicas-y-electricas")
+  not_readable <- openes_load("l01280796-bicimad-datos-de-la-situacion-de-estaciones-bicimad-por-dia-y-hora")
   standard_check(not_readable)
 })
 
@@ -203,7 +203,7 @@ test_that("openes_load fails for publisher not permitted", {
 test_that("openes_load returns tibbles with URL's when it cannot read the file", {
   skip_on_cran()
 
-  id <- 'l01080193-descripcion-de-la-causalidad-de-los-accidentes-gestionados-por-la-guardia-urbana-en-la-ciudad-de-barcelona'
+  id <- 'l01080193-descripcion-de-la-causalidad-de-los-accidentes-gestionados-por-la-guardia-urbana-en-la-ciudad-de-barcelona1'
   pl <- openes_load(id)
 
   standard_check(pl)
@@ -214,7 +214,7 @@ test_that("openes_load returns tibbles with URL's when it cannot read the file",
 test_that("openes_load's character and keyword results match exactly", {
   skip_on_cran()
 
-  character_method <- openes_load('l01080193-elecciones-al-parlamento-europeo-sobre-electores-de-la-ciudad-de-barcelona', 'latin1', n_max = 5)
+  character_method <- openes_load('l01080193-elecciones-al-parlamento-europeo-sobre-electores-de-la-ciudad-de-barcelona1', 'latin1', n_max = 5)
 
   kw <- openes_keywords("la Prosperitat", "l01080193")
 
@@ -261,7 +261,7 @@ test_that("openes_load throws errors when the keyword data frame is not in expec
 # but not in Mac. This way, when we run this in Appveyor and Travis it should be true in both
 test_that("Check that elections dataset is correctly read", {
   skip_on_cran()
-  pt <- openes_load('l01080193-elecciones-al-parlamento-europeo-sobre-electores-de-la-ciudad-de-barcelona')
+  pt <- openes_load('l01080193-elecciones-al-parlamento-europeo-sobre-electores-de-la-ciudad-de-barcelona1')
   files_read <- determine_number(pt)
 
   expect_gte(files_read, 2)
