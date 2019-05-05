@@ -29,7 +29,6 @@ knitr::include_graphics("opendataes_diagram.jpeg")
 
 <br>
 
-
 Woah, that's a lot of information. The package has three steps:
 
 1) Preparing the path and requesting data from the API
