@@ -6,7 +6,7 @@ output:
   html_document:
     theme: spacelab
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{'Ins and outs  of opendataes: a guide for collaboration'}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -58,13 +58,13 @@ The first step begins with `openes_load`, which is the main function. It accepts
 
 ```{r, echo = FALSE}
 library(opendataes)
-path_id <- 'l01080193-elecciones-al-parlamento-europeo-sobre-electores-de-la-ciudad-de-barcelona1'
+path_id <- 'l01080193-elecciones-al-parlamento-europeo-resultados-absolutos-por-seccion-censal-de-la-ciudad-de-barcelona'
 ```
 
 ```{r, eval = FALSE}
 library(opendataes)
 
-path_id <- 'l01080193-elecciones-al-parlamento-europeo-sobre-electores-de-la-ciudad-de-barcelona1'
+path_id <- 'l01080193-elecciones-al-parlamento-europeo-resultados-absolutos-por-seccion-censal-de-la-ciudad-de-barcelona'
 openes_load(path_id)
 ```
 
