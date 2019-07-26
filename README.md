@@ -1,47 +1,76 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-opendataes
-==========
 
-[![Travis build status](https://travis-ci.org/rOpenSpain/opendataes.svg?branch=master)](https://travis-ci.org/rOpenSpain/opendataes) [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/rOpenSpain/opendataes?branch=master&svg=true)](https://ci.appveyor.com/project/cimentadaj/opendataes) [![Coverage status](https://codecov.io/gh/rOpenSpain/opendataes/branch/master/graph/badge.svg)](https://codecov.io/github/rOpenSpain/opendataes?branch=master) [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+# opendataes
 
-Description
------------
+[![Travis build
+status](https://travis-ci.org/rOpenSpain/opendataes.svg?branch=master)](https://travis-ci.org/rOpenSpain/opendataes)
+[![AppVeyor build
+status](https://ci.appveyor.com/api/projects/status/github/rOpenSpain/opendataes?branch=master&svg=true)](https://ci.appveyor.com/project/cimentadaj/opendataes)
+[![Coverage
+status](https://codecov.io/gh/rOpenSpain/opendataes/branch/master/graph/badge.svg)](https://codecov.io/github/rOpenSpain/opendataes?branch=master)
+[![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 
-The goal of `opendataes` is to interact and download data from the <https://datos.gob.es> API.
+## Description
 
-This API is an effort from the Spanish government to unify all data sources from different provinces and regions into a single API. The API includes data from entities such as universities, small and big city halls, autonomous communities and Spain as a whole. With over 19,000 datasets in topics all the way from the number of parking spaces in a given city to the levels of air pollution at the regional level (at the moment of writing, October 2018), the API keeps growing with a rich set of public information that researchers and data analysts can use for their own research.
+The goal of `opendataes` is to interact and download data from the
+<https://datos.gob.es> API.
 
-Because aggregating data from all these different sources poses a challenge for reading different formats and harmonizing different datasets, `opendataes` is very conservative in what it can read. Once you install the package, you can print the contents of `permitted_formats` and `available_publishers` to explore which formats and publishers are available.
+This API is an effort from the Spanish government to unify all data
+sources from different provinces and regions into a single API. The API
+includes data from entities such as universities, small and big city
+halls, autonomous communities and Spain as a whole. With over 19,000
+datasets in topics all the way from the number of parking spaces in a
+given city to the levels of air pollution at the regional level (at the
+moment of writing, October 2018), the API keeps growing with a rich set
+of public information that researchers and data analysts can use for
+their own research.
 
-Collaboration
--------------
+Because aggregating data from all these different sources poses a
+challenge for reading different formats and harmonizing different
+datasets, `opendataes` is very conservative in what it can read. Once
+you install the package, you can print the contents of
+`permitted_formats` and `available_publishers` to explore which formats
+and publishers are available.
 
-This package is meant to be developed by the R community and it is completely open to new pull requests, ideas and collaborations. The idea of the package is to include as many formats and publishers as possible by bringing the support and knowledge of other developers If you're interested in collaborating, please check the vignettes as the package is described in detail there and file a pull request.
+## Collaboration
 
-Installation
-------------
+This package is meant to be developed by the R community and it is
+completely open to new pull requests, ideas and collaborations. The idea
+of the package is to include as many formats and publishers as possible
+by bringing the support and knowledge of other developers If you’re
+interested in collaborating, please check the vignettes as the package
+is described in detail there and file a pull request.
 
-`opendataes` is currently being tested and is not available on CRAN. You can install the development version from [Github](https://github.com) with:
+## Installation
+
+`opendataes` is currently being tested and is not available on CRAN. You
+can install the development version from [Github](https://github.com)
+with:
 
 ``` r
 remotes::install_github("ropenspain/opendataes")
 ```
 
-Example
--------
+## Example
 
-The package has one main function that allows to read data from the API: `openes_load`. However, that function can be used in two different ways.
+The package has one main function that allows to read data from the API:
+`openes_load`. However, that function can be used in two different ways.
 
 ### Web-based search
 
-You can search for a dataset [here](http://datos.gob.es/es/catalogo?_publisher_display_name_limit=0) and click on it's names to go to its homepage. You'll have something like this:
+You can search for a dataset
+[here](http://datos.gob.es/es/catalogo?_publisher_display_name_limit=0)
+and click on it’s names to go to its homepage. You’ll have something
+like this:
 
 <img src="man/figures/datos_web.png" align="center" />
 
 <br/> <br/>
 
-`openes_load` needs only the end path of a given dataset to read the data. So, we copy this:
+`openes_load` needs only the end path of a given dataset to read the
+data. So, we copy this:
 
 <br/> <br/>
 
@@ -54,54 +83,57 @@ and pass it on to `openes_load`, and that is it.
 ``` r
 library(opendataes)
 
-id <- 'l01080193-elecciones-al-parlamento-europeo-sobre-electores'
+id <- 'l01080193-elecciones-al-parlamento-europeo-resultados-absolutos-por-seccion-censal-de-la-ciudad-de-barcelona'
 elections <- openes_load(id)
 ```
 
 ### R-based search
 
-Alternatively, `opendataes` allows to seach datasets by keywords. For example, to read the same data as before we could search for a keyword and specifying the publisher of that dataset. We know that the data belongs to the 'Ayuntamiento of Barcelona' but `openes_keywords` requires that publisher's code.
+Alternatively, `opendataes` allows to seach datasets by keywords. For
+example, to read the same data as before we could search for a keyword
+and specifying the publisher of that dataset. We know that the data
+belongs to the ‘Ayuntamiento of Barcelona’ but `openes_keywords`
+requires that publisher’s code.
 
-First we extract the code using the `publishers_available` data frame from `opendataes`:
+First we extract the code using the `publishers_available` data frame
+from `opendataes`:
 
 ``` r
 pb_code <- publishers_available$publisher_code[publishers_available$publishers == 'Ayuntamiento de Barcelona']
 ```
 
-(you can check out the available publishers with `publishers_available`, which should increase as the package evolves)
+(you can check out the available publishers with `publishers_available`,
+which should increase as the package evolves)
 
 And then we search for a given key keyword
 
 ``` r
+
 kw <- openes_keywords('elecciones', pb_code)
 kw
-#> # A tibble: 12 x 5
-#>    description         publisher    is_readable path_id       url          
-#>    <chr>               <chr>        <lgl>       <chr>         <chr>        
-#>  1 Elecciones Locales~ Ayuntamient~ TRUE        l01080193-el~ http://datos~
-#>  2 Elecciones al Parl~ Ayuntamient~ TRUE        l01080193-el~ http://datos~
-#>  3 Elecciones Locales~ Ayuntamient~ TRUE        l01080193-el~ http://datos~
-#>  4 Elecciones al Parl~ Ayuntamient~ TRUE        l01080193-el~ http://datos~
-#>  5 Elecciones General~ Ayuntamient~ TRUE        l01080193-el~ http://datos~
-#>  6 Elecciones Locales~ Ayuntamient~ TRUE        l01080193-el~ http://datos~
-#>  7 Elecciones al Parl~ Ayuntamient~ TRUE        l01080193-el~ http://datos~
-#>  8 Elecciones al Parl~ Ayuntamient~ TRUE        l01080193-el~ http://datos~
-#>  9 Elecciones al Parl~ Ayuntamient~ TRUE        l01080193-el~ http://datos~
-#> 10 Elecciones al Parl~ Ayuntamient~ TRUE        l01080193-el~ http://datos~
-#> 11 Elecciones General~ Ayuntamient~ TRUE        l01080193-el~ http://datos~
-#> 12 Elecciones General~ Ayuntamient~ TRUE        l01080193-el~ http://datos~
+#> # A tibble: 4 x 5
+#>   description         publisher   is_readable path_id         url          
+#>   <chr>               <chr>       <lgl>       <chr>           <chr>        
+#> 1 Elecciones General… Ayuntamien… TRUE        l01080193-elec… http://datos…
+#> 2 Elecciones al Parl… Ayuntamien… TRUE        l01080193-elec… http://datos…
+#> 3 Elecciones al Parl… Ayuntamien… TRUE        l01080193-elec… http://datos…
+#> 4 Elecciones Locales… Ayuntamien… TRUE        l01080193-elec… http://datos…
 ```
 
-Once we have that, `openes_load` only requires that we pass this exact data frame but only with one row. We can do some data munging and subset our data of interest.
+Once we have that, `openes_load` only requires that we pass this exact
+data frame but only with one row. We can do some data munging and subset
+our data of interest.
 
 ``` r
-final_dt <- kw[grepl("Elecciones al Parlamento Europeo. % sobre electores", kw$description), ]
+final_dt <- kw[grepl("Elecciones al Parlamento Europeo. Resultados absolutos por sección censal de la ciudad de Barcelona",
+                     kw$description,
+                     fixed = TRUE), ]
 
 final_dt
 #> # A tibble: 1 x 5
-#>   description       publisher    is_readable path_id        url            
-#>   <chr>             <chr>        <lgl>       <chr>          <chr>          
-#> 1 Elecciones al Pa~ Ayuntamient~ TRUE        l01080193-ele~ http://datos.g~
+#>   description         publisher   is_readable path_id         url          
+#>   <chr>               <chr>       <lgl>       <chr>           <chr>        
+#> 1 Elecciones al Parl… Ayuntamien… TRUE        l01080193-elec… http://datos…
 ```
 
 And we pass it to `openes_load`
@@ -112,65 +144,84 @@ elections <- openes_load(final_dt)
 
 ### Usage
 
-Once we have the results, we get a print out of the relevant metadata of the dataset.
+Once we have the results, we get a print out of the relevant metadata of
+the dataset.
 
 ``` r
 elections
 #> <datos.gob.es API>
-#>    Description: Elecciones al Parlamento Europeo. % sobre electores
+#>    Description: Elecciones al Parlamento Europeo. Resultados absolutos po...
 #>    Publisher: Ayuntamiento de Barcelona
 #>    Languages: es, ca, en
 #>    Date of release: 2013-03-13 23:00:00
-#>    # of files read: 2 out of 2
+#>    # of files read: 3 out of 3
 ```
 
-But more importantly, we can subset the metadata of the dataset as well as the data that was read.
+But more importantly, we can subset the metadata of the dataset as well
+as the data that was read.
 
 ``` r
 elections$metadata
 #> # A tibble: 3 x 8
 #>   keywords language description url   date_issued         date_modified
 #>   <chr>    <chr>    <chr>       <chr> <dttm>              <chr>        
-#> 1 Año 200~ es       Elecciones~ http~ 2013-03-13 23:00:00 No modificat~
-#> 2 Año 200~ ca       Eleccions ~ http~ 2013-03-13 23:00:00 No modificat~
-#> 3 Año 200~ en       European P~ http~ 2013-03-13 23:00:00 No modificat~
-#> # ... with 2 more variables: publisher <chr>, publisher_data_url <chr>
+#> 1 Absolut… es       Elecciones… http… 2013-03-13 23:00:00 No modificat…
+#> 2 Absolut… ca       Eleccions … http… 2013-03-13 23:00:00 No modificat…
+#> 3 Absolut… en       European P… http… 2013-03-13 23:00:00 No modificat…
+#> # … with 2 more variables: publisher <chr>, publisher_data_url <chr>
 ```
 
 ``` r
 elections$data
-#> $`2014_europees-a02.csv`
-#> # A tibble: 74 x 14
-#>      Dte Barris Participacio Abstencio ERCNECat CIU   ICVEUIA   PSC    PP
-#>    <dbl> <chr>         <dbl>     <dbl>    <dbl> <chr>   <dbl> <dbl> <dbl>
-#>  1    NA BARCE~          510       490      110 10,6       64    62    61
-#>  2     1 1. el~          375       625       75 5,1        55    63    41
-#>  3     1 2. el~          417       583       94 7,1        68    50    36
-#>  4     1 3. la~          367       633      104 5,4        42    57    33
-#>  5     1 4. Sa~          431       569       85 6,6        77    55    41
-#>  6     2 5. el~          557       443      132 12,9       72    52    59
-#>  7     2 6. la~          538       462      141 12,7       68    51    52
-#>  8     2 7. la~          575       425      119 17,6       74    40    65
-#>  9     2 8. l'~          551       449      117 16,4       65    42    61
-#> 10     2 9. la~          555       445      130 14,6       66    48    60
-#> # ... with 64 more rows, and 5 more variables: Cs <dbl>, PODEMOS <chr>,
-#> #   Altres <dbl>, Blancs <chr>, Nuls <chr>
+#> $`2019_Eleccions_Parlament_Europeu.csv`
+#> # A tibble: 39,516 x 8
+#>      Any Codi_districte Nom_districte Codi_barri Nom_barri Seccio_censal
+#>    <dbl>          <dbl> <chr>              <dbl> <chr>     <chr>        
+#>  1  2019              1 Ciutat Vella           1 el Raval  001          
+#>  2  2019              1 Ciutat Vella           1 el Raval  002          
+#>  3  2019              1 Ciutat Vella           1 el Raval  003          
+#>  4  2019              1 Ciutat Vella           1 el Raval  004          
+#>  5  2019              1 Ciutat Vella           1 el Raval  005          
+#>  6  2019              1 Ciutat Vella           1 el Raval  006          
+#>  7  2019              1 Ciutat Vella           1 el Raval  007          
+#>  8  2019              1 Ciutat Vella           1 el Raval  008          
+#>  9  2019              1 Ciutat Vella           1 el Raval  009          
+#> 10  2019              1 Ciutat Vella           1 el Raval  010          
+#> # … with 39,506 more rows, and 2 more variables: Camp <chr>, Nombre <dbl>
 #> 
-#> $`2009_europees-a02.csv`
-#> # A tibble: 74 x 10
-#>    Dte    Barris        Blancs Nuls    PSC CIU      PP ERC   ICVEUIA Altres
-#>    <chr>  <chr>         <chr>  <chr> <dbl> <chr> <dbl> <chr> <chr>   <chr> 
-#>  1 BARCE~ <NA>          1,2    0,3     131 8,7      83 3,4   3,2     2,4   
-#>  2 1      1. el Raval   0,7    0,2     127 4,4      59 2,6   3,1     2,4   
-#>  3 1      2. el Barri ~ 0,9    0,3     104 5,8      47 3,6   4,1     2,9   
-#>  4 1      3. la Barcel~ 0,5    0,2     129 4,8      48 2,6   2,3     1,7   
-#>  5 1      4. Sant Pere~ 0,9    0,5     118 6,4      56 3,2   4,4     2,8   
-#>  6 2      5. el Fort P~ 1,3    0,3     122 11,0     84 4,3   3,8     2,7   
-#>  7 2      6. la Sagrad~ 1,3    0,3     121 10,1     72 4,1   3,5     2,2   
-#>  8 2      7. la Dreta ~ 1,6    0,3      91 14,7     94 4,0   3,9     3,1   
-#>  9 2      8. l'Antiga ~ 1,4    0,3      97 13,3     89 3,6   3,5     2,7   
-#> 10 2      9. la Nova E~ 1,3    0,2     110 11,5     86 4,2   3,5     2,4   
-#> # ... with 64 more rows
+#> $`2009_Eleccions_Parlament_Europeu.csv`
+#> # A tibble: 42,440 x 8
+#>      Any Codi_districte Nom_districte Codi_barri Nom_barri Seccio_censal
+#>    <dbl>          <dbl> <chr>              <dbl> <chr>     <chr>        
+#>  1  2009              1 Ciutat Vella           1 el Raval  001          
+#>  2  2009              1 Ciutat Vella           1 el Raval  002          
+#>  3  2009              1 Ciutat Vella           1 el Raval  003          
+#>  4  2009              1 Ciutat Vella           1 el Raval  004          
+#>  5  2009              1 Ciutat Vella           1 el Raval  005          
+#>  6  2009              1 Ciutat Vella           1 el Raval  006          
+#>  7  2009              1 Ciutat Vella           1 el Raval  007          
+#>  8  2009              1 Ciutat Vella           1 el Raval  008          
+#>  9  2009              1 Ciutat Vella           1 el Raval  009          
+#> 10  2009              1 Ciutat Vella           1 el Raval  010          
+#> # … with 42,430 more rows, and 2 more variables: Camp <chr>, Nombre <dbl>
+#> 
+#> $`2014_Eleccions_Parlament_Europeu.csv`
+#> # A tibble: 46,992 x 8
+#>      Any Codi_districte Nom_districte Codi_barri Nom_barri Seccio_censal
+#>    <dbl>          <dbl> <chr>              <dbl> <chr>     <chr>        
+#>  1  2014              1 Ciutat Vella           1 el Raval  001          
+#>  2  2014              1 Ciutat Vella           1 el Raval  002          
+#>  3  2014              1 Ciutat Vella           1 el Raval  003          
+#>  4  2014              1 Ciutat Vella           1 el Raval  004          
+#>  5  2014              1 Ciutat Vella           1 el Raval  005          
+#>  6  2014              1 Ciutat Vella           1 el Raval  006          
+#>  7  2014              1 Ciutat Vella           1 el Raval  007          
+#>  8  2014              1 Ciutat Vella           1 el Raval  008          
+#>  9  2014              1 Ciutat Vella           1 el Raval  009          
+#> 10  2014              1 Ciutat Vella           1 el Raval  010          
+#> # … with 46,982 more rows, and 2 more variables: Camp <chr>, Nombre <dbl>
 ```
 
-For a deeper explanation of what the columns of the metadata mean and some important caveats of what the package can and cannot do, please read the package's vignettes.
+For a deeper explanation of what the columns of the metadata mean and
+some important caveats of what the package can and cannot do, please
+read the package’s vignettes.

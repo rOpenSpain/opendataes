@@ -67,8 +67,9 @@ and pass it on to `openes_load`, and that is it.
 ```{r}
 library(opendataes)
 
-id <- 'l01080193-elecciones-al-parlamento-europeo-sobre-electores-de-la-ciudad-de-barcelona'
+id <- 'l01080193-elecciones-al-parlamento-europeo-resultados-absolutos-por-seccion-censal-de-la-ciudad-de-barcelona'
 elections <- openes_load(id)
+
 ```
 
 ### R-based search
@@ -86,14 +87,18 @@ pb_code <- publishers_available$publisher_code[publishers_available$publishers =
 And then we search for a given key keyword
 
 ```{r,}
+
 kw <- openes_keywords('elecciones', pb_code)
 kw
+
 ```
 
 Once we have that, `openes_load` only requires that we pass this exact data frame but only with one row. We can do some data munging and subset our data of interest.
 
 ```{r}
-final_dt <- kw[grepl("Elecciones al Parlamento Europeo. % sobre electores", kw$description), ]
+final_dt <- kw[grepl("Elecciones al Parlamento Europeo. Resultados absolutos por sección censal de la ciudad de Barcelona",
+                     kw$description,
+                     fixed = TRUE), ]
 
 final_dt
 ```
