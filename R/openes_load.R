@@ -208,7 +208,6 @@ openes_load.character <- function(x, encoding = 'UTF-8', guess_encoding = TRUE, 
       class = "datos_gob_es"
     )
 
-
   returned_list
 }
 
