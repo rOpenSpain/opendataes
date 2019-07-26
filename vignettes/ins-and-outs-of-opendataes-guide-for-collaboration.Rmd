@@ -6,7 +6,7 @@ output:
   html_document:
     theme: spacelab
 vignette: >
-  %\VignetteIndexEntry{'Ins and outs  of opendataes: a guide for collaboration'}
+  %\VignetteIndexEntry{Ins and outs  of opendataes: a guide for collaboration}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
