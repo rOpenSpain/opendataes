@@ -145,7 +145,7 @@ test_that("openes_load assigns 'Distribucion sin nombre' when there is no name",
 test_that("openes_load works fine when guess_encoding is FALSE", {
   skip_on_cran()
 
-  tst <- openes_load('l01080193-elecciones-al-parlamento-europeo-sobre-electores-de-la-ciudad-de-barcelona1',
+  tst <- openes_load('l01080193-elecciones-al-parlamento-europeo-resultados-absolutos-por-seccion-censal-de-la-ciudad-de-barcelona',
                       encoding = 'latin1',
                       guess_encoding = FALSE)
 
@@ -179,7 +179,7 @@ test_that("openes_load works fine when guess_encoding is FALSE", {
 #   skip_on_cran()
 #
 #   tst <-
-#     openes_load('l01080193-elecciones-al-parlamento-europeo-sobre-electores-de-la-ciudad-de-barcelona1',
+#     openes_load('l01080193-elecciones-al-parlamento-europeo-resultados-absolutos-por-seccion-censal-de-la-ciudad-de-barcelona',
 #                  n_max = 5)
 #
 #   expect_true(all(vapply(tst$data, nrow, FUN.VALUE = numeric(1)) == 5))
@@ -214,11 +214,16 @@ test_that("openes_load returns tibbles with URL's when it cannot read the file",
 test_that("openes_load's character and keyword results match exactly", {
   skip_on_cran()
 
-  character_method <- openes_load('l01080193-elecciones-al-parlamento-europeo-sobre-electores-de-la-ciudad-de-barcelona1', 'latin1', n_max = 5)
+  character_method <- openes_load('l01080193-elecciones-al-parlamento-europeo-resultados-absolutos-por-seccion-censal-de-la-ciudad-de-barcelona',
+                                  'latin1',
+                                  n_max = 5)
 
   kw <- openes_keywords("la Prosperitat", "l01080193")
 
-  intm <- kw[grepl("Elecciones al Parlamento Europeo. % sobre electores", kw$description), ]
+  intm <- kw[grepl("Elecciones al Parlamento Europeo. Resultados absolutos por sección censal de la ciudad de Barcelona",
+                   kw$description,
+                   fixed = TRUE), ]
+
   keyword_method <- openes_load.datos_gob_es_keywords(intm, 'latin1', n_max = 5)
 
   expect_identical(character_method, keyword_method)
@@ -238,7 +243,7 @@ test_that("openes_load throws errors when the keyword data frame is not in expec
                fixed = TRUE)
 
 
-  cp <- cp[grepl("Elecciones al Parlamento Europeo. % sobre electores", cp$description), ]
+  cp <- cp[grepl("Defunciones de hombres (quinquenal). 2006-2013", cp$description, fixed = TRUE), ]
   cp$path_id <- factor(cp$path_id)
 
   expect_error(openes_load(cp),
@@ -261,7 +266,7 @@ test_that("openes_load throws errors when the keyword data frame is not in expec
 # but not in Mac. This way, when we run this in Appveyor and Travis it should be true in both
 test_that("Check that elections dataset is correctly read", {
   skip_on_cran()
-  pt <- openes_load('l01080193-elecciones-al-parlamento-europeo-sobre-electores-de-la-ciudad-de-barcelona1')
+  pt <- openes_load('l01080193-elecciones-al-parlamento-europeo-resultados-absolutos-por-seccion-censal-de-la-ciudad-de-barcelona')
   files_read <- determine_number(pt)
 
   expect_gte(files_read, 2)
