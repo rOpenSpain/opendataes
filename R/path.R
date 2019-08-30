@@ -29,7 +29,9 @@ make_url <- function(path, param, ...) {
       class = "url"
     )
 
-  httr::build_url(semi_url)
+  # Make sure to replace all spaces with the valid URL
+  # escape code
+  gsub("\\s", "%20", trimws(httr::build_url(semi_url)))
 }
 
 
