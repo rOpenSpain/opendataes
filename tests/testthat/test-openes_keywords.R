@@ -50,5 +50,11 @@ test_that("openes_keywords errors when inputs are not of correct length or forma
                fixed = TRUE)
 
   # If there's no keyword, then the request is not found
-  expect_error(openes_keywords('', 'l01080193'), 'Not Found (HTTP 404).', fixed = TRUE)
+  expect_error(openes_keywords('', 'l01080193'),
+               class = c("http_404",
+                         "http_400",
+                         "http_error",
+                         "error",
+                         "condition")
+               )
 })
