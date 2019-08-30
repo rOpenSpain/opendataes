@@ -127,17 +127,13 @@
 <a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt;         check_keywords_df(x)</span></a>
 <a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt;     else x</span></a>
 <a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt;     UseMethod("openes_load", x)</span></a>
-<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt; }</span></a>
-<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt; &lt;bytecode: 0x1d64dc8&gt;</span></a>
-<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt; &lt;environment: namespace:opendataes&gt;</span></a></code></pre></div>
+<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt; }</span></a></code></pre></div>
 <p><code>openes_load</code> redirects to <code>check_keywords_df</code>, an internal function that checks whether the dataframe has the <code>path_id</code> column, among other checks. Finally, once the check succeeds, it assigns the dataframe a class <code>datos_gob_es_keywords</code> and passes it to the method dispatch <code>UseMethod</code>. The method for the class <code>datos_gob_es_keywords</code> merely subsets the <code>path_id</code> column to get the string and read it using the character method of <code>openes_load</code>:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">opendataes<span class="op">:::</span>openes_load.datos_gob_es_keywords</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt; function (x, encoding = "UTF-8", guess_encoding = TRUE, ...) </span></a>
 <a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt; {</span></a>
 <a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt;     openes_load(x$path_id, encoding, guess_encoding, ...)</span></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; }</span></a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; &lt;bytecode: 0x3485fa8&gt;</span></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; &lt;environment: namespace:opendataes&gt;</span></a></code></pre></div>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; }</span></a></code></pre></div>
 <p>So we end up with the same call as if we would’ve called the main argument with a string containing the <code>path_id</code>. As the diagram suggests, you can find these functions in the R script <code>R/openes_load.R</code> in the <a href="https://github.com/ropenspain/opendataes">Github repository</a>. Once <code>openes_load</code> passes the string as the main argument it constructs the whole path for the API using a family of functions found in <code>R/path.R</code>. More concretely, it defines the complete path using <code><a href="../reference/path_dataset_id.html">path_dataset_id(path_id)</a></code> which returns the direct path of the API to query the data set.</p>
 <p>At the end of this preprocessing step, <code>openes_load</code> passes this complete path to <code>get_resp</code> which sends a GET request to the API.</p>
 <p>We can see the whole process in the character method of <code>openes_load</code>:</p>
@@ -162,9 +158,7 @@
 <a class="sourceLine" id="cb4-19" data-line-number="19"><span class="co">#&gt;         data = suppress_all(extract_data(data_list, encoding, </span></a>
 <a class="sourceLine" id="cb4-20" data-line-number="20"><span class="co">#&gt;             guess_encoding, ...))), class = "datos_gob_es")</span></a>
 <a class="sourceLine" id="cb4-21" data-line-number="21"><span class="co">#&gt;     returned_list</span></a>
-<a class="sourceLine" id="cb4-22" data-line-number="22"><span class="co">#&gt; }</span></a>
-<a class="sourceLine" id="cb4-23" data-line-number="23"><span class="co">#&gt; &lt;bytecode: 0x393f160&gt;</span></a>
-<a class="sourceLine" id="cb4-24" data-line-number="24"><span class="co">#&gt; &lt;environment: namespace:opendataes&gt;</span></a></code></pre></div>
+<a class="sourceLine" id="cb4-22" data-line-number="22"><span class="co">#&gt; }</span></a></code></pre></div>
 <p>The function <code>get_resp</code> returns a list with the response from the API, which we’ve interally called a <code>data_list</code>. You will encounter this name in several places in the package as argument names or in the internal documentation. The <code>data_list</code> is just a list that contains the metadata of the dataset and the links to the data from the original publisher (for example, the direct links to the data from the Ayuntamiento de Madrid or Málaga) along with some information from the GET request.</p>
 <p>To visualize a real example of a <code>data_list</code> we can call it directly using the previous <code>path_id</code>:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># Note that these specific function calls might change in the future,</span></a>
