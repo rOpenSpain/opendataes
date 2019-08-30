@@ -17,6 +17,12 @@ knitr::opts_chunk$set(
   comment = "#>",
   fig.align="center"
 )
+
+# hack to avoid showing bytecode
+registerS3method("print", "function", function(x, ...) {
+  x <- capture.output(print.default(x, ...))
+  cat(x[1:(length(x)-2)], sep="\n")
+})
 ```
 
 `opendataes` is package that was ultimately though of to be maintained by the R community. The package is extremely useful in automating some tasks but also limited in some aspects. This vignette is aimed at describing in detail how the package works so that new users can understand the inner workings of `opendataes` and contribute more easily.
