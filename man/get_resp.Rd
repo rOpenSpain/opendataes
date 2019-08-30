@@ -4,10 +4,10 @@
 \alias{get_resp}
 \title{Make GET requests with repeated trials}
 \usage{
-get_resp(url, attempts_left = 5, ...)
+get_resp(ch_url, attempts_left = 5, ...)
 }
 \arguments{
-\item{url}{A url, preferably from the \code{path_*} functions}
+\item{ch_url}{A url, preferably from the \code{path_*} functions}
 
 \item{attempts_left}{Number of attempts of trying to request from the website}
 

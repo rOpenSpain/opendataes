@@ -4,10 +4,10 @@
 \alias{get_resp_paginated}
 \title{Make GET requests over several pages of an API}
 \usage{
-get_resp_paginated(url, num_pages = 1, page = 0, ...)
+get_resp_paginated(ch_url, num_pages = 1, page = 0, ...)
 }
 \arguments{
-\item{url}{URL to request from, preferably from the \code{path_*} functions}
+\item{ch_url}{URL to request from, preferably from the \code{path_*} functions}
 
 \item{num_pages}{Number of pages to request}
 

@@ -66,7 +66,7 @@ openes_keywords <- function(keyword, publisher) {
   lower_pub <- tolower(publisher)
 
   if (!(lower_pub %in% tolower(publishers_available$publisher_code)))
-    stop("Publisher `", publisher,"` not available. Please check publishers_available() to get the available ones.")
+    stop("Publisher `", publisher,"` not available. Please check publishers_available() to get the available ones.") #nolintr
 
   path_keyword <- path_explore_keyword(keyword)
   resp <- get_resp_paginated(path_keyword, num_pages = 1000) # num_pages to determinate

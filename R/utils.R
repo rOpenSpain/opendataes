@@ -1,6 +1,6 @@
 #' Make GET requests over several pages of an API
 #'
-#' @param url URL to request from, preferably from the \code{path_*} functions
+#' @param ch_url URL to request from, preferably from the \code{path_*} functions
 #' @param num_pages Number of pages to request
 #' @param page The page at which the request should being. This should rarely be used
 #' @param ... Arguments passed to \code{\link[httr]{GET}}
@@ -8,7 +8,7 @@
 #' @return the parsed JSON object as a list but inside the items
 #' slots it contains all data lists obtained from the pages specified
 #' in \code{num_pages}
-get_resp_paginated <- function(url, num_pages = 1, page = 0, ...) {
+get_resp_paginated <- function(ch_url, num_pages = 1, page = 0, ...) {
 
   # For the parsed items data_list
   data_list <- NULL
@@ -19,10 +19,11 @@ get_resp_paginated <- function(url, num_pages = 1, page = 0, ...) {
 
     # IMPORTANT!!
     # All number of page queries should be specified as arguments in this
-    # function rather than in the URL
-    url <- httr::modify_url(url, query = list("_pageSize" = 50, "_page" = page))
+    # function rather than in the CH_URL
+    ch_url <- httr::modify_url(ch_url,
+                               query = list("_pageSize" = 50, "_page" = page))
 
-    parsed_response <- get_resp(url)
+    parsed_response <- get_resp(ch_url)
 
     data_list <- parsed_response$result$items
     data_lists <- c(data_list, data_lists)
@@ -47,17 +48,17 @@ get_resp_paginated <- function(url, num_pages = 1, page = 0, ...) {
 
 #' Make GET requests with repeated trials
 #'
-#' @param url A url, preferably from the \code{path_*} functions
+#' @param ch_url A url, preferably from the \code{path_*} functions
 #' @param attempts_left Number of attempts of trying to request from the website
 #' @param ... Arguments passed to \code{\link[httr]{GET}}
-get_resp <- function(url, attempts_left = 5, ...) {
+get_resp <- function(ch_url, attempts_left = 5, ...) {
 
   # Handle so that the API knows who's downloading the data
   ua <- httr::user_agent("https://github.com/ropenspain/opendataes")
 
   stopifnot(attempts_left > 0)
 
-  resp <- httr::GET(url, ua, ...)
+  resp <- httr::GET(ch_url, ua, ...)
   # To avoid making too many quick requests
   Sys.sleep(1)
 
@@ -73,7 +74,7 @@ get_resp <- function(url, attempts_left = 5, ...) {
     httr::stop_for_status(resp) # Return appropiate error message
   } else { # Otherwise, sleep a second and try again
     Sys.sleep(1)
-    get_resp(url, attempts_left - 1)
+    get_resp(ch_url, attempts_left - 1)
   }
 
 }
@@ -153,7 +154,7 @@ suppress_all <- function(x) suppressMessages(suppressWarnings(x))
 check_datasets_read <- function(publisher) {
 
   message("Function started")
-  res <- get_resp_paginated(url = paste0("http://datos.gob.es/apidata/catalog/dataset/publisher/",publisher),
+  res <- get_resp_paginated(ch_url = paste0("http://datos.gob.es/apidata/catalog/dataset/publisher/",publisher),
                             num_pages = 1000)
   message("Response obtained")
   # The results is a data_list
