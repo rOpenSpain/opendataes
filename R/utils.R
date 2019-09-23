@@ -186,3 +186,7 @@ check_datasets_read <- function(publisher) {
   count_non_zeros <- sapply(all_data, function(x) x != 0)
   return(sum(count_non_zeros) / length(count_non_zeros))
 }
+.onAttach <- function(libname, pkgname) {
+   packageStartupMessage("\nPlease cite as: \n")
+   packageStartupMessage("Cimentada, J. and Jorge Lopez (2019). Interact with the datos.gob.es API to download public data from all of Spain R package version 0.0.1")
+}

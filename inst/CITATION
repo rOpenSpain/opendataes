@@ -1,0 +1,11 @@
+citHeader('To cite opendataes in publications use:')
+
+citEntry(
+  entry    = 'Manual',
+  title    = 'Interact with the datos.gob.es API to download public data from all of Spain',
+  author   = 'Jorge Cimentada and Jorge Lopez',
+  year     = '2019',
+  note     = 'R package version 0.0.1',
+  url      = 'https://github.com/ropenspain/opendataes, https://ropenspain.github.io/opendataes/',
+  textVersion = 'Cimentada, J. and Jorge Lopez (2019). Interact with the datos.gob.es API to download public data from all of Spain R package version 0.0.1'
+)
