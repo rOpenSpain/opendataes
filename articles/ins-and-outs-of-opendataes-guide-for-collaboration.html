@@ -117,524 +117,527 @@
 <a href="#preparing-and-calling-the-api" class="anchor"></a>Preparing and calling the API</h2>
 <p><img src="opendataes_diagram_step1.jpg" width="1100" height="200" style="display: block; margin: auto;"></p>
 <p>The first step begins with <code>openes_load</code>, which is the main function. It accepts the typical <code>path_id</code> of the dataset as a string (read the README or other vignette for some simpler cases). For example:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(opendataes)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb1-3" data-line-number="3">path_id &lt;-<span class="st"> 'l01080193-elecciones-al-parlamento-europeo-resultados-absolutos-por-seccion-censal-de-la-ciudad-de-barcelona'</span></a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="kw"><a href="../reference/openes_load.html">openes_load</a></span>(path_id)</a></code></pre></div>
+<pre><code>#&gt; 
+#&gt; Please cite as:
+#&gt; Cimentada, J. and Jorge Lopez (2019). Interact with the datos.gob.es API to download public data from all of Spain R package version 0.0.1</code></pre>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(opendataes)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">path_id &lt;-<span class="st"> 'l01080193-elecciones-al-parlamento-europeo-resultados-absolutos-por-seccion-censal-de-la-ciudad-de-barcelona'</span></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="kw"><a href="../reference/openes_load.html">openes_load</a></span>(path_id)</a></code></pre></div>
 <p>However, it also has a method for a dataframe, as the graph suggests. This method is strictly aimed at dataframes returned by <code>openes_keywords</code> so it checks the format of the dataframe before hand.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">openes_load</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&gt; function (x, encoding = "UTF-8", guess_encoding = TRUE, ...) </span></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt; {</span></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt;     x &lt;- if (is.data.frame(x)) </span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt;         check_keywords_df(x)</span></a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt;     else x</span></a>
-<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt;     UseMethod("openes_load", x)</span></a>
-<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt; }</span></a></code></pre></div>
-<p><code>openes_load</code> redirects to <code>check_keywords_df</code>, an internal function that checks whether the dataframe has the <code>path_id</code> column, among other checks. Finally, once the check succeeds, it assigns the dataframe a class <code>datos_gob_es_keywords</code> and passes it to the method dispatch <code>UseMethod</code>. The method for the class <code>datos_gob_es_keywords</code> merely subsets the <code>path_id</code> column to get the string and read it using the character method of <code>openes_load</code>:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">opendataes<span class="op">:::</span>openes_load.datos_gob_es_keywords</a>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">openes_load</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt; function (x, encoding = "UTF-8", guess_encoding = TRUE, ...) </span></a>
 <a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt; {</span></a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt;     openes_load(x$path_id, encoding, guess_encoding, ...)</span></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; }</span></a></code></pre></div>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt;     x &lt;- if (is.data.frame(x)) </span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt;         check_keywords_df(x)</span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt;     else x</span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt;     UseMethod("openes_load", x)</span></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt; }</span></a></code></pre></div>
+<p><code>openes_load</code> redirects to <code>check_keywords_df</code>, an internal function that checks whether the dataframe has the <code>path_id</code> column, among other checks. Finally, once the check succeeds, it assigns the dataframe a class <code>datos_gob_es_keywords</code> and passes it to the method dispatch <code>UseMethod</code>. The method for the class <code>datos_gob_es_keywords</code> merely subsets the <code>path_id</code> column to get the string and read it using the character method of <code>openes_load</code>:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">opendataes<span class="op">:::</span>openes_load.datos_gob_es_keywords</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">#&gt; function (x, encoding = "UTF-8", guess_encoding = TRUE, ...) </span></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">#&gt; {</span></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt;     openes_load(x$path_id, encoding, guess_encoding, ...)</span></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt; }</span></a></code></pre></div>
 <p>So we end up with the same call as if we would’ve called the main argument with a string containing the <code>path_id</code>. As the diagram suggests, you can find these functions in the R script <code>R/openes_load.R</code> in the <a href="https://github.com/ropenspain/opendataes">Github repository</a>. Once <code>openes_load</code> passes the string as the main argument it constructs the whole path for the API using a family of functions found in <code>R/path.R</code>. More concretely, it defines the complete path using <code><a href="../reference/path_dataset_id.html">path_dataset_id(path_id)</a></code> which returns the direct path of the API to query the data set.</p>
 <p>At the end of this preprocessing step, <code>openes_load</code> passes this complete path to <code>get_resp</code> which sends a GET request to the API.</p>
 <p>We can see the whole process in the character method of <code>openes_load</code>:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">opendataes<span class="op">:::</span>openes_load.character</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">#&gt; function (x, encoding = "UTF-8", guess_encoding = TRUE, ...) </span></a>
-<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">#&gt; {</span></a>
-<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt;     if (!is.character(x) || length(x) &gt; 1) </span></a>
-<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt;         stop("`x` must be a character of length 1")</span></a>
-<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt;     if (!is.character(encoding) || length(encoding) &gt; 1) </span></a>
-<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt;         stop("`encoding` must be a character of length 1")</span></a>
-<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt;     if (!is.logical(guess_encoding) || length(guess_encoding) &gt; </span></a>
-<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt;         1) </span></a>
-<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt;         stop("`guess_encoding` must be a logical of length 1")</span></a>
-<a class="sourceLine" id="cb4-11" data-line-number="11"><span class="co">#&gt;     raw_json &lt;- get_resp(path_dataset_id(x))</span></a>
-<a class="sourceLine" id="cb4-12" data-line-number="12"><span class="co">#&gt;     if (!data_list_correct(raw_json)) </span></a>
-<a class="sourceLine" id="cb4-13" data-line-number="13"><span class="co">#&gt;         return(list())</span></a>
-<a class="sourceLine" id="cb4-14" data-line-number="14"><span class="co">#&gt;     data_list &lt;- raw_json$result$items[[1]]</span></a>
-<a class="sourceLine" id="cb4-15" data-line-number="15"><span class="co">#&gt;     if (!is_publisher_available(data_list)) {</span></a>
-<a class="sourceLine" id="cb4-16" data-line-number="16"><span class="co">#&gt;         stop("Publisher not available. Please check publishers_available() to get the available ones.")</span></a>
-<a class="sourceLine" id="cb4-17" data-line-number="17"><span class="co">#&gt;     }</span></a>
-<a class="sourceLine" id="cb4-18" data-line-number="18"><span class="co">#&gt;     returned_list &lt;- structure(list(metadata = extract_metadata(data_list), </span></a>
-<a class="sourceLine" id="cb4-19" data-line-number="19"><span class="co">#&gt;         data = suppress_all(extract_data(data_list, encoding, </span></a>
-<a class="sourceLine" id="cb4-20" data-line-number="20"><span class="co">#&gt;             guess_encoding, ...))), class = "datos_gob_es")</span></a>
-<a class="sourceLine" id="cb4-21" data-line-number="21"><span class="co">#&gt;     returned_list</span></a>
-<a class="sourceLine" id="cb4-22" data-line-number="22"><span class="co">#&gt; }</span></a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">opendataes<span class="op">:::</span>openes_load.character</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co">#&gt; function (x, encoding = "UTF-8", guess_encoding = TRUE, ...) </span></a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">#&gt; {</span></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co">#&gt;     if (!is.character(x) || length(x) &gt; 1) </span></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt;         stop("`x` must be a character of length 1")</span></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt;     if (!is.character(encoding) || length(encoding) &gt; 1) </span></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt;         stop("`encoding` must be a character of length 1")</span></a>
+<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt;     if (!is.logical(guess_encoding) || length(guess_encoding) &gt; </span></a>
+<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt;         1) </span></a>
+<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">#&gt;         stop("`guess_encoding` must be a logical of length 1")</span></a>
+<a class="sourceLine" id="cb5-11" data-line-number="11"><span class="co">#&gt;     raw_json &lt;- get_resp(path_dataset_id(x))</span></a>
+<a class="sourceLine" id="cb5-12" data-line-number="12"><span class="co">#&gt;     if (!data_list_correct(raw_json)) </span></a>
+<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co">#&gt;         return(list())</span></a>
+<a class="sourceLine" id="cb5-14" data-line-number="14"><span class="co">#&gt;     data_list &lt;- raw_json$result$items[[1]]</span></a>
+<a class="sourceLine" id="cb5-15" data-line-number="15"><span class="co">#&gt;     if (!is_publisher_available(data_list)) {</span></a>
+<a class="sourceLine" id="cb5-16" data-line-number="16"><span class="co">#&gt;         stop("Publisher not available. Please check publishers_available() to get the available ones.")</span></a>
+<a class="sourceLine" id="cb5-17" data-line-number="17"><span class="co">#&gt;     }</span></a>
+<a class="sourceLine" id="cb5-18" data-line-number="18"><span class="co">#&gt;     returned_list &lt;- structure(list(metadata = extract_metadata(data_list), </span></a>
+<a class="sourceLine" id="cb5-19" data-line-number="19"><span class="co">#&gt;         data = suppress_all(extract_data(data_list, encoding, </span></a>
+<a class="sourceLine" id="cb5-20" data-line-number="20"><span class="co">#&gt;             guess_encoding, ...))), class = "datos_gob_es")</span></a>
+<a class="sourceLine" id="cb5-21" data-line-number="21"><span class="co">#&gt;     returned_list</span></a>
+<a class="sourceLine" id="cb5-22" data-line-number="22"><span class="co">#&gt; }</span></a></code></pre></div>
 <p>The function <code>get_resp</code> returns a list with the response from the API, which we’ve interally called a <code>data_list</code>. You will encounter this name in several places in the package as argument names or in the internal documentation. The <code>data_list</code> is just a list that contains the metadata of the dataset and the links to the data from the original publisher (for example, the direct links to the data from the Ayuntamiento de Madrid or Málaga) along with some information from the GET request.</p>
 <p>To visualize a real example of a <code>data_list</code> we can call it directly using the previous <code>path_id</code>:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># Note that these specific function calls might change in the future,</span></a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co"># but for the sake of showing the format of a data_list we run it.</span></a>
-<a class="sourceLine" id="cb5-3" data-line-number="3">data_list &lt;-<span class="st"> </span>opendataes<span class="op">:::</span><span class="kw"><a href="../reference/get_resp.html">get_resp</a></span>(opendataes<span class="op">:::</span><span class="kw"><a href="../reference/path_dataset_id.html">path_dataset_id</a></span>(path_id))</a>
-<a class="sourceLine" id="cb5-4" data-line-number="4">data_list</a>
-<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt; $format</span></a>
-<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt; [1] "linked-data-api"</span></a>
-<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt; $version</span></a>
-<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt; [1] "0.2"</span></a>
-<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-11" data-line-number="11"><span class="co">#&gt; $result</span></a>
-<a class="sourceLine" id="cb5-12" data-line-number="12"><span class="co">#&gt; $result$`_about`</span></a>
-<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co">#&gt; [1] "http://datos.gob.es/apidata/catalog/dataset/l01080193-elecciones-al-parlamento-europeo-resultados-absolutos-por-seccion-censal-de-la-ciudad-de-barcelona.json"</span></a>
-<a class="sourceLine" id="cb5-14" data-line-number="14"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-15" data-line-number="15"><span class="co">#&gt; $result$definition</span></a>
-<a class="sourceLine" id="cb5-16" data-line-number="16"><span class="co">#&gt; [1] "http://datos.gob.es/apidata/catalog/meta/dataset/_id.json"</span></a>
-<a class="sourceLine" id="cb5-17" data-line-number="17"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-18" data-line-number="18"><span class="co">#&gt; $result$extendedMetadataVersion</span></a>
-<a class="sourceLine" id="cb5-19" data-line-number="19"><span class="co">#&gt; [1] "http://datos.gob.es/apidata/catalog/dataset/l01080193-elecciones-al-parlamento-europeo-resultados-absolutos-por-seccion-censal-de-la-ciudad-de-barcelona.json?_metadata=all"</span></a>
-<a class="sourceLine" id="cb5-20" data-line-number="20"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-21" data-line-number="21"><span class="co">#&gt; $result$first</span></a>
-<a class="sourceLine" id="cb5-22" data-line-number="22"><span class="co">#&gt; [1] "http://datos.gob.es/apidata/catalog/dataset/l01080193-elecciones-al-parlamento-europeo-resultados-absolutos-por-seccion-censal-de-la-ciudad-de-barcelona.json?_page=0"</span></a>
-<a class="sourceLine" id="cb5-23" data-line-number="23"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-24" data-line-number="24"><span class="co">#&gt; $result$hasPart</span></a>
-<a class="sourceLine" id="cb5-25" data-line-number="25"><span class="co">#&gt; [1] "http://datos.gob.es/apidata/catalog/dataset/l01080193-elecciones-al-parlamento-europeo-resultados-absolutos-por-seccion-censal-de-la-ciudad-de-barcelona.json"</span></a>
-<a class="sourceLine" id="cb5-26" data-line-number="26"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-27" data-line-number="27"><span class="co">#&gt; $result$isPartOf</span></a>
-<a class="sourceLine" id="cb5-28" data-line-number="28"><span class="co">#&gt; [1] "http://datos.gob.es/apidata/catalog/dataset/l01080193-elecciones-al-parlamento-europeo-resultados-absolutos-por-seccion-censal-de-la-ciudad-de-barcelona.json"</span></a>
-<a class="sourceLine" id="cb5-29" data-line-number="29"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-30" data-line-number="30"><span class="co">#&gt; $result$items</span></a>
-<a class="sourceLine" id="cb5-31" data-line-number="31"><span class="co">#&gt; $result$items[[1]]</span></a>
-<a class="sourceLine" id="cb5-32" data-line-number="32"><span class="co">#&gt; $result$items[[1]]$`_about`</span></a>
-<a class="sourceLine" id="cb5-33" data-line-number="33"><span class="co">#&gt; [1] "http://datos.gob.es/catalogo/l01080193-elecciones-al-parlamento-europeo-resultados-absolutos-por-seccion-censal-de-la-ciudad-de-barcelona"</span></a>
-<a class="sourceLine" id="cb5-34" data-line-number="34"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-35" data-line-number="35"><span class="co">#&gt; $result$items[[1]]$accrualPeriodicity</span></a>
-<a class="sourceLine" id="cb5-36" data-line-number="36"><span class="co">#&gt; [1] "http://datos.gob.es/catalogo/l01080193-elecciones-al-parlamento-europeo-resultados-absolutos-por-seccion-censal-de-la-ciudad-de-barcelona/Frequency"</span></a>
-<a class="sourceLine" id="cb5-37" data-line-number="37"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-38" data-line-number="38"><span class="co">#&gt; $result$items[[1]]$description</span></a>
-<a class="sourceLine" id="cb5-39" data-line-number="39"><span class="co">#&gt; $result$items[[1]]$description[[1]]</span></a>
-<a class="sourceLine" id="cb5-40" data-line-number="40"><span class="co">#&gt; $result$items[[1]]$description[[1]]$`_value`</span></a>
-<a class="sourceLine" id="cb5-41" data-line-number="41"><span class="co">#&gt; [1] "Elecciones al Parlamento Europeo. Resultados absolutos por sección censal de la ciudad de Barcelona"</span></a>
-<a class="sourceLine" id="cb5-42" data-line-number="42"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-43" data-line-number="43"><span class="co">#&gt; $result$items[[1]]$description[[1]]$`_lang`</span></a>
-<a class="sourceLine" id="cb5-44" data-line-number="44"><span class="co">#&gt; [1] "es"</span></a>
-<a class="sourceLine" id="cb5-45" data-line-number="45"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-46" data-line-number="46"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-47" data-line-number="47"><span class="co">#&gt; $result$items[[1]]$description[[2]]</span></a>
-<a class="sourceLine" id="cb5-48" data-line-number="48"><span class="co">#&gt; $result$items[[1]]$description[[2]]$`_value`</span></a>
-<a class="sourceLine" id="cb5-49" data-line-number="49"><span class="co">#&gt; [1] "Eleccions al Parlament Europeu. Resultats absoluts per secció censal de la ciutat de Barcelona"</span></a>
-<a class="sourceLine" id="cb5-50" data-line-number="50"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-51" data-line-number="51"><span class="co">#&gt; $result$items[[1]]$description[[2]]$`_lang`</span></a>
-<a class="sourceLine" id="cb5-52" data-line-number="52"><span class="co">#&gt; [1] "ca"</span></a>
-<a class="sourceLine" id="cb5-53" data-line-number="53"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-54" data-line-number="54"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-55" data-line-number="55"><span class="co">#&gt; $result$items[[1]]$description[[3]]</span></a>
-<a class="sourceLine" id="cb5-56" data-line-number="56"><span class="co">#&gt; $result$items[[1]]$description[[3]]$`_value`</span></a>
-<a class="sourceLine" id="cb5-57" data-line-number="57"><span class="co">#&gt; [1] "European Parliament elections. Absolute results by census section of the Ciutat de Barcelona"</span></a>
-<a class="sourceLine" id="cb5-58" data-line-number="58"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-59" data-line-number="59"><span class="co">#&gt; $result$items[[1]]$description[[3]]$`_lang`</span></a>
-<a class="sourceLine" id="cb5-60" data-line-number="60"><span class="co">#&gt; [1] "en"</span></a>
-<a class="sourceLine" id="cb5-61" data-line-number="61"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-62" data-line-number="62"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-63" data-line-number="63"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-64" data-line-number="64"><span class="co">#&gt; $result$items[[1]]$distribution</span></a>
-<a class="sourceLine" id="cb5-65" data-line-number="65"><span class="co">#&gt; $result$items[[1]]$distribution[[1]]</span></a>
-<a class="sourceLine" id="cb5-66" data-line-number="66"><span class="co">#&gt; $result$items[[1]]$distribution[[1]]$`_about`</span></a>
-<a class="sourceLine" id="cb5-67" data-line-number="67"><span class="co">#&gt; [1] "http://datos.gob.es/catalogo/l01080193-elecciones-al-parlamento-europeo-resultados-absolutos-por-seccion-censal-de-la-ciudad-de-barcelona/resource/559e5c7f-2c46-4548-9e00-1853ec4a0f6d"</span></a>
-<a class="sourceLine" id="cb5-68" data-line-number="68"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-69" data-line-number="69"><span class="co">#&gt; $result$items[[1]]$distribution[[1]]$accessURL</span></a>
-<a class="sourceLine" id="cb5-70" data-line-number="70"><span class="co">#&gt; [1] "https://opendata-ajuntament.barcelona.cat/data/dataset/5745630c-77c0-431b-873d-4e83e021ebea/resource/d2350e16-4e9a-47f9-b7ae-6d72ef955371/download"</span></a>
-<a class="sourceLine" id="cb5-71" data-line-number="71"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-72" data-line-number="72"><span class="co">#&gt; $result$items[[1]]$distribution[[1]]$format</span></a>
-<a class="sourceLine" id="cb5-73" data-line-number="73"><span class="co">#&gt; $result$items[[1]]$distribution[[1]]$format$`_about`</span></a>
-<a class="sourceLine" id="cb5-74" data-line-number="74"><span class="co">#&gt; [1] "http://datos.gob.es/catalogo/l01080193-elecciones-al-parlamento-europeo-resultados-absolutos-por-seccion-censal-de-la-ciudad-de-barcelona/resource/559e5c7f-2c46-4548-9e00-1853ec4a0f6d/format"</span></a>
-<a class="sourceLine" id="cb5-75" data-line-number="75"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-76" data-line-number="76"><span class="co">#&gt; $result$items[[1]]$distribution[[1]]$format$type</span></a>
-<a class="sourceLine" id="cb5-77" data-line-number="77"><span class="co">#&gt; [1] "http://purl.org/dc/terms/IMT"</span></a>
-<a class="sourceLine" id="cb5-78" data-line-number="78"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-79" data-line-number="79"><span class="co">#&gt; $result$items[[1]]$distribution[[1]]$format$value</span></a>
-<a class="sourceLine" id="cb5-80" data-line-number="80"><span class="co">#&gt; [1] "text/csv"</span></a>
-<a class="sourceLine" id="cb5-81" data-line-number="81"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-82" data-line-number="82"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-83" data-line-number="83"><span class="co">#&gt; $result$items[[1]]$distribution[[1]]$identifier</span></a>
-<a class="sourceLine" id="cb5-84" data-line-number="84"><span class="co">#&gt; [1] "https://opendata-ajuntament.barcelona.cat/data/dataset/est-eleccions-europees-seccio-censal/resource/d2350e16-4e9a-47f9-b7ae-6d72ef955371"</span></a>
-<a class="sourceLine" id="cb5-85" data-line-number="85"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-86" data-line-number="86"><span class="co">#&gt; $result$items[[1]]$distribution[[1]]$title</span></a>
-<a class="sourceLine" id="cb5-87" data-line-number="87"><span class="co">#&gt; $result$items[[1]]$distribution[[1]]$title[[1]]</span></a>
-<a class="sourceLine" id="cb5-88" data-line-number="88"><span class="co">#&gt; [1] "2009_Eleccions_Parlament_Europeu.csv"</span></a>
-<a class="sourceLine" id="cb5-89" data-line-number="89"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-90" data-line-number="90"><span class="co">#&gt; $result$items[[1]]$distribution[[1]]$title[[2]]</span></a>
-<a class="sourceLine" id="cb5-91" data-line-number="91"><span class="co">#&gt; [1] "2009_Eleccions_Parlament_Europeu.csv"</span></a>
-<a class="sourceLine" id="cb5-92" data-line-number="92"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-93" data-line-number="93"><span class="co">#&gt; $result$items[[1]]$distribution[[1]]$title[[3]]</span></a>
-<a class="sourceLine" id="cb5-94" data-line-number="94"><span class="co">#&gt; [1] "2009_Eleccions_Parlament_Europeu.csv"</span></a>
-<a class="sourceLine" id="cb5-95" data-line-number="95"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-96" data-line-number="96"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-97" data-line-number="97"><span class="co">#&gt; $result$items[[1]]$distribution[[1]]$type</span></a>
-<a class="sourceLine" id="cb5-98" data-line-number="98"><span class="co">#&gt; [1] "http://www.w3.org/ns/dcat#Distribution"</span></a>
-<a class="sourceLine" id="cb5-99" data-line-number="99"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-100" data-line-number="100"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-101" data-line-number="101"><span class="co">#&gt; $result$items[[1]]$distribution[[2]]</span></a>
-<a class="sourceLine" id="cb5-102" data-line-number="102"><span class="co">#&gt; $result$items[[1]]$distribution[[2]]$`_about`</span></a>
-<a class="sourceLine" id="cb5-103" data-line-number="103"><span class="co">#&gt; [1] "http://datos.gob.es/catalogo/l01080193-elecciones-al-parlamento-europeo-resultados-absolutos-por-seccion-censal-de-la-ciudad-de-barcelona/resource/8a13792e-558e-4d6c-80f7-f8db1d459582"</span></a>
-<a class="sourceLine" id="cb5-104" data-line-number="104"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-105" data-line-number="105"><span class="co">#&gt; $result$items[[1]]$distribution[[2]]$accessURL</span></a>
-<a class="sourceLine" id="cb5-106" data-line-number="106"><span class="co">#&gt; [1] "https://opendata-ajuntament.barcelona.cat/data/dataset/5745630c-77c0-431b-873d-4e83e021ebea/resource/8aa88b93-727b-45be-a11f-5dcea459a47b/download"</span></a>
-<a class="sourceLine" id="cb5-107" data-line-number="107"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-108" data-line-number="108"><span class="co">#&gt; $result$items[[1]]$distribution[[2]]$format</span></a>
-<a class="sourceLine" id="cb5-109" data-line-number="109"><span class="co">#&gt; $result$items[[1]]$distribution[[2]]$format$`_about`</span></a>
-<a class="sourceLine" id="cb5-110" data-line-number="110"><span class="co">#&gt; [1] "http://datos.gob.es/catalogo/l01080193-elecciones-al-parlamento-europeo-resultados-absolutos-por-seccion-censal-de-la-ciudad-de-barcelona/resource/8a13792e-558e-4d6c-80f7-f8db1d459582/format"</span></a>
-<a class="sourceLine" id="cb5-111" data-line-number="111"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-112" data-line-number="112"><span class="co">#&gt; $result$items[[1]]$distribution[[2]]$format$type</span></a>
-<a class="sourceLine" id="cb5-113" data-line-number="113"><span class="co">#&gt; [1] "http://purl.org/dc/terms/IMT"</span></a>
-<a class="sourceLine" id="cb5-114" data-line-number="114"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-115" data-line-number="115"><span class="co">#&gt; $result$items[[1]]$distribution[[2]]$format$value</span></a>
-<a class="sourceLine" id="cb5-116" data-line-number="116"><span class="co">#&gt; [1] "text/csv"</span></a>
-<a class="sourceLine" id="cb5-117" data-line-number="117"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-118" data-line-number="118"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-119" data-line-number="119"><span class="co">#&gt; $result$items[[1]]$distribution[[2]]$identifier</span></a>
-<a class="sourceLine" id="cb5-120" data-line-number="120"><span class="co">#&gt; [1] "https://opendata-ajuntament.barcelona.cat/data/dataset/est-eleccions-europees-seccio-censal/resource/8aa88b93-727b-45be-a11f-5dcea459a47b"</span></a>
-<a class="sourceLine" id="cb5-121" data-line-number="121"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-122" data-line-number="122"><span class="co">#&gt; $result$items[[1]]$distribution[[2]]$title</span></a>
-<a class="sourceLine" id="cb5-123" data-line-number="123"><span class="co">#&gt; $result$items[[1]]$distribution[[2]]$title[[1]]</span></a>
-<a class="sourceLine" id="cb5-124" data-line-number="124"><span class="co">#&gt; [1] "2014_Eleccions_Parlament_Europeu.csv"</span></a>
-<a class="sourceLine" id="cb5-125" data-line-number="125"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-126" data-line-number="126"><span class="co">#&gt; $result$items[[1]]$distribution[[2]]$title[[2]]</span></a>
-<a class="sourceLine" id="cb5-127" data-line-number="127"><span class="co">#&gt; [1] "2014_Eleccions_Parlament_Europeu.csv"</span></a>
-<a class="sourceLine" id="cb5-128" data-line-number="128"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-129" data-line-number="129"><span class="co">#&gt; $result$items[[1]]$distribution[[2]]$title[[3]]</span></a>
-<a class="sourceLine" id="cb5-130" data-line-number="130"><span class="co">#&gt; [1] "2014_Eleccions_Parlament_Europeu.csv"</span></a>
-<a class="sourceLine" id="cb5-131" data-line-number="131"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-132" data-line-number="132"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-133" data-line-number="133"><span class="co">#&gt; $result$items[[1]]$distribution[[2]]$type</span></a>
-<a class="sourceLine" id="cb5-134" data-line-number="134"><span class="co">#&gt; [1] "http://www.w3.org/ns/dcat#Distribution"</span></a>
-<a class="sourceLine" id="cb5-135" data-line-number="135"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-136" data-line-number="136"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-137" data-line-number="137"><span class="co">#&gt; $result$items[[1]]$distribution[[3]]</span></a>
-<a class="sourceLine" id="cb5-138" data-line-number="138"><span class="co">#&gt; $result$items[[1]]$distribution[[3]]$`_about`</span></a>
-<a class="sourceLine" id="cb5-139" data-line-number="139"><span class="co">#&gt; [1] "http://datos.gob.es/catalogo/l01080193-elecciones-al-parlamento-europeo-resultados-absolutos-por-seccion-censal-de-la-ciudad-de-barcelona/resource/9331de5a-3284-4fe8-99c1-bb56bc375e48"</span></a>
-<a class="sourceLine" id="cb5-140" data-line-number="140"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-141" data-line-number="141"><span class="co">#&gt; $result$items[[1]]$distribution[[3]]$accessURL</span></a>
-<a class="sourceLine" id="cb5-142" data-line-number="142"><span class="co">#&gt; [1] "https://opendata-ajuntament.barcelona.cat/data/dataset/5745630c-77c0-431b-873d-4e83e021ebea/resource/bd503ce0-2848-4918-b2fd-71325f0d7dcc/download"</span></a>
-<a class="sourceLine" id="cb5-143" data-line-number="143"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-144" data-line-number="144"><span class="co">#&gt; $result$items[[1]]$distribution[[3]]$format</span></a>
-<a class="sourceLine" id="cb5-145" data-line-number="145"><span class="co">#&gt; $result$items[[1]]$distribution[[3]]$format$`_about`</span></a>
-<a class="sourceLine" id="cb5-146" data-line-number="146"><span class="co">#&gt; [1] "http://datos.gob.es/catalogo/l01080193-elecciones-al-parlamento-europeo-resultados-absolutos-por-seccion-censal-de-la-ciudad-de-barcelona/resource/9331de5a-3284-4fe8-99c1-bb56bc375e48/format"</span></a>
-<a class="sourceLine" id="cb5-147" data-line-number="147"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-148" data-line-number="148"><span class="co">#&gt; $result$items[[1]]$distribution[[3]]$format$type</span></a>
-<a class="sourceLine" id="cb5-149" data-line-number="149"><span class="co">#&gt; [1] "http://purl.org/dc/terms/IMT"</span></a>
-<a class="sourceLine" id="cb5-150" data-line-number="150"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-151" data-line-number="151"><span class="co">#&gt; $result$items[[1]]$distribution[[3]]$format$value</span></a>
-<a class="sourceLine" id="cb5-152" data-line-number="152"><span class="co">#&gt; [1] "text/csv"</span></a>
-<a class="sourceLine" id="cb5-153" data-line-number="153"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-154" data-line-number="154"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-155" data-line-number="155"><span class="co">#&gt; $result$items[[1]]$distribution[[3]]$identifier</span></a>
-<a class="sourceLine" id="cb5-156" data-line-number="156"><span class="co">#&gt; [1] "https://opendata-ajuntament.barcelona.cat/data/dataset/est-eleccions-europees-seccio-censal/resource/bd503ce0-2848-4918-b2fd-71325f0d7dcc"</span></a>
-<a class="sourceLine" id="cb5-157" data-line-number="157"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-158" data-line-number="158"><span class="co">#&gt; $result$items[[1]]$distribution[[3]]$title</span></a>
-<a class="sourceLine" id="cb5-159" data-line-number="159"><span class="co">#&gt; $result$items[[1]]$distribution[[3]]$title[[1]]</span></a>
-<a class="sourceLine" id="cb5-160" data-line-number="160"><span class="co">#&gt; [1] "2019_Eleccions_Parlament_Europeu.csv"</span></a>
-<a class="sourceLine" id="cb5-161" data-line-number="161"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-162" data-line-number="162"><span class="co">#&gt; $result$items[[1]]$distribution[[3]]$title[[2]]</span></a>
-<a class="sourceLine" id="cb5-163" data-line-number="163"><span class="co">#&gt; [1] "2019_Eleccions_Parlament_Europeu.csv"</span></a>
-<a class="sourceLine" id="cb5-164" data-line-number="164"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-165" data-line-number="165"><span class="co">#&gt; $result$items[[1]]$distribution[[3]]$title[[3]]</span></a>
-<a class="sourceLine" id="cb5-166" data-line-number="166"><span class="co">#&gt; [1] "2019_Eleccions_Parlament_Europeu.csv"</span></a>
-<a class="sourceLine" id="cb5-167" data-line-number="167"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-168" data-line-number="168"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-169" data-line-number="169"><span class="co">#&gt; $result$items[[1]]$distribution[[3]]$type</span></a>
-<a class="sourceLine" id="cb5-170" data-line-number="170"><span class="co">#&gt; [1] "http://www.w3.org/ns/dcat#Distribution"</span></a>
-<a class="sourceLine" id="cb5-171" data-line-number="171"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-172" data-line-number="172"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-173" data-line-number="173"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-174" data-line-number="174"><span class="co">#&gt; $result$items[[1]]$identifier</span></a>
-<a class="sourceLine" id="cb5-175" data-line-number="175"><span class="co">#&gt; [1] "https://opendata-ajuntament.barcelona.cat/data/dataset/est-eleccions-europees-seccio-censal"</span></a>
-<a class="sourceLine" id="cb5-176" data-line-number="176"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-177" data-line-number="177"><span class="co">#&gt; $result$items[[1]]$issued</span></a>
-<a class="sourceLine" id="cb5-178" data-line-number="178"><span class="co">#&gt; [1] "mié, 13 mar 2013 23:00:00 GMT+0000"</span></a>
-<a class="sourceLine" id="cb5-179" data-line-number="179"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-180" data-line-number="180"><span class="co">#&gt; $result$items[[1]]$keyword</span></a>
-<a class="sourceLine" id="cb5-181" data-line-number="181"><span class="co">#&gt; $result$items[[1]]$keyword[[1]]</span></a>
-<a class="sourceLine" id="cb5-182" data-line-number="182"><span class="co">#&gt; [1] "Absolutos"</span></a>
-<a class="sourceLine" id="cb5-183" data-line-number="183"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-184" data-line-number="184"><span class="co">#&gt; $result$items[[1]]$keyword[[2]]</span></a>
-<a class="sourceLine" id="cb5-185" data-line-number="185"><span class="co">#&gt; [1] "Año 2009"</span></a>
-<a class="sourceLine" id="cb5-186" data-line-number="186"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-187" data-line-number="187"><span class="co">#&gt; $result$items[[1]]$keyword[[3]]</span></a>
-<a class="sourceLine" id="cb5-188" data-line-number="188"><span class="co">#&gt; [1] "Año 2014"</span></a>
-<a class="sourceLine" id="cb5-189" data-line-number="189"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-190" data-line-number="190"><span class="co">#&gt; $result$items[[1]]$keyword[[4]]</span></a>
-<a class="sourceLine" id="cb5-191" data-line-number="191"><span class="co">#&gt; [1] "Barrio"</span></a>
-<a class="sourceLine" id="cb5-192" data-line-number="192"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-193" data-line-number="193"><span class="co">#&gt; $result$items[[1]]$keyword[[5]]</span></a>
-<a class="sourceLine" id="cb5-194" data-line-number="194"><span class="co">#&gt; [1] "Barrios Barcelona"</span></a>
-<a class="sourceLine" id="cb5-195" data-line-number="195"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-196" data-line-number="196"><span class="co">#&gt; $result$items[[1]]$keyword[[6]]</span></a>
-<a class="sourceLine" id="cb5-197" data-line-number="197"><span class="co">#&gt; [1] "Baró de Viver"</span></a>
-<a class="sourceLine" id="cb5-198" data-line-number="198"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-199" data-line-number="199"><span class="co">#&gt; $result$items[[1]]$keyword[[7]]</span></a>
-<a class="sourceLine" id="cb5-200" data-line-number="200"><span class="co">#&gt; [1] "Bon Pastor"</span></a>
-<a class="sourceLine" id="cb5-201" data-line-number="201"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-202" data-line-number="202"><span class="co">#&gt; $result$items[[1]]$keyword[[8]]</span></a>
-<a class="sourceLine" id="cb5-203" data-line-number="203"><span class="co">#&gt; [1] "Can Baró"</span></a>
-<a class="sourceLine" id="cb5-204" data-line-number="204"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-205" data-line-number="205"><span class="co">#&gt; $result$items[[1]]$keyword[[9]]</span></a>
-<a class="sourceLine" id="cb5-206" data-line-number="206"><span class="co">#&gt; [1] "Can Peguera"</span></a>
-<a class="sourceLine" id="cb5-207" data-line-number="207"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-208" data-line-number="208"><span class="co">#&gt; $result$items[[1]]$keyword[[10]]</span></a>
-<a class="sourceLine" id="cb5-209" data-line-number="209"><span class="co">#&gt; [1] "Canyelles"</span></a>
-<a class="sourceLine" id="cb5-210" data-line-number="210"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-211" data-line-number="211"><span class="co">#&gt; $result$items[[1]]$keyword[[11]]</span></a>
-<a class="sourceLine" id="cb5-212" data-line-number="212"><span class="co">#&gt; [1] "Ciutat Meridiana"</span></a>
-<a class="sourceLine" id="cb5-213" data-line-number="213"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-214" data-line-number="214"><span class="co">#&gt; $result$items[[1]]$keyword[[12]]</span></a>
-<a class="sourceLine" id="cb5-215" data-line-number="215"><span class="co">#&gt; [1] "Diagonal Mar i el Front Marítim del Poblenou"</span></a>
-<a class="sourceLine" id="cb5-216" data-line-number="216"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-217" data-line-number="217"><span class="co">#&gt; $result$items[[1]]$keyword[[13]]</span></a>
-<a class="sourceLine" id="cb5-218" data-line-number="218"><span class="co">#&gt; [1] "Elecciones europeas"</span></a>
-<a class="sourceLine" id="cb5-219" data-line-number="219"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-220" data-line-number="220"><span class="co">#&gt; $result$items[[1]]$keyword[[14]]</span></a>
-<a class="sourceLine" id="cb5-221" data-line-number="221"><span class="co">#&gt; [1] "Fort Pienc"</span></a>
-<a class="sourceLine" id="cb5-222" data-line-number="222"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-223" data-line-number="223"><span class="co">#&gt; $result$items[[1]]$keyword[[15]]</span></a>
-<a class="sourceLine" id="cb5-224" data-line-number="224"><span class="co">#&gt; [1] "Horta"</span></a>
-<a class="sourceLine" id="cb5-225" data-line-number="225"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-226" data-line-number="226"><span class="co">#&gt; $result$items[[1]]$keyword[[16]]</span></a>
-<a class="sourceLine" id="cb5-227" data-line-number="227"><span class="co">#&gt; [1] "Hostafrancs"</span></a>
-<a class="sourceLine" id="cb5-228" data-line-number="228"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-229" data-line-number="229"><span class="co">#&gt; $result$items[[1]]$keyword[[17]]</span></a>
-<a class="sourceLine" id="cb5-230" data-line-number="230"><span class="co">#&gt; [1] "Les Roquetes"</span></a>
-<a class="sourceLine" id="cb5-231" data-line-number="231"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-232" data-line-number="232"><span class="co">#&gt; $result$items[[1]]$keyword[[18]]</span></a>
-<a class="sourceLine" id="cb5-233" data-line-number="233"><span class="co">#&gt; [1] "Montbau"</span></a>
-<a class="sourceLine" id="cb5-234" data-line-number="234"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-235" data-line-number="235"><span class="co">#&gt; $result$items[[1]]$keyword[[19]]</span></a>
-<a class="sourceLine" id="cb5-236" data-line-number="236"><span class="co">#&gt; [1] "Navas"</span></a>
-<a class="sourceLine" id="cb5-237" data-line-number="237"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-238" data-line-number="238"><span class="co">#&gt; $result$items[[1]]$keyword[[20]]</span></a>
-<a class="sourceLine" id="cb5-239" data-line-number="239"><span class="co">#&gt; [1] "Pedralbes"</span></a>
-<a class="sourceLine" id="cb5-240" data-line-number="240"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-241" data-line-number="241"><span class="co">#&gt; $result$items[[1]]$keyword[[21]]</span></a>
-<a class="sourceLine" id="cb5-242" data-line-number="242"><span class="co">#&gt; [1] "Poble-sec"</span></a>
-<a class="sourceLine" id="cb5-243" data-line-number="243"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-244" data-line-number="244"><span class="co">#&gt; $result$items[[1]]$keyword[[22]]</span></a>
-<a class="sourceLine" id="cb5-245" data-line-number="245"><span class="co">#&gt; [1] "Poblenou"</span></a>
-<a class="sourceLine" id="cb5-246" data-line-number="246"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-247" data-line-number="247"><span class="co">#&gt; $result$items[[1]]$keyword[[23]]</span></a>
-<a class="sourceLine" id="cb5-248" data-line-number="248"><span class="co">#&gt; [1] "Porta"</span></a>
-<a class="sourceLine" id="cb5-249" data-line-number="249"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-250" data-line-number="250"><span class="co">#&gt; $result$items[[1]]$keyword[[24]]</span></a>
-<a class="sourceLine" id="cb5-251" data-line-number="251"><span class="co">#&gt; [1] "Provençals del Poblenou"</span></a>
-<a class="sourceLine" id="cb5-252" data-line-number="252"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-253" data-line-number="253"><span class="co">#&gt; $result$items[[1]]$keyword[[25]]</span></a>
-<a class="sourceLine" id="cb5-254" data-line-number="254"><span class="co">#&gt; [1] "Sant Andreu"</span></a>
-<a class="sourceLine" id="cb5-255" data-line-number="255"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-256" data-line-number="256"><span class="co">#&gt; $result$items[[1]]$keyword[[26]]</span></a>
-<a class="sourceLine" id="cb5-257" data-line-number="257"><span class="co">#&gt; [1] "Sant Antoni"</span></a>
-<a class="sourceLine" id="cb5-258" data-line-number="258"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-259" data-line-number="259"><span class="co">#&gt; $result$items[[1]]$keyword[[27]]</span></a>
-<a class="sourceLine" id="cb5-260" data-line-number="260"><span class="co">#&gt; [1] "Sant Genís dels Agudells"</span></a>
-<a class="sourceLine" id="cb5-261" data-line-number="261"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-262" data-line-number="262"><span class="co">#&gt; $result$items[[1]]$keyword[[28]]</span></a>
-<a class="sourceLine" id="cb5-263" data-line-number="263"><span class="co">#&gt; [1] "Sant Gervasi-Galvany"</span></a>
-<a class="sourceLine" id="cb5-264" data-line-number="264"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-265" data-line-number="265"><span class="co">#&gt; $result$items[[1]]$keyword[[29]]</span></a>
-<a class="sourceLine" id="cb5-266" data-line-number="266"><span class="co">#&gt; [1] "Sant Gervasi-la Bonanova"</span></a>
-<a class="sourceLine" id="cb5-267" data-line-number="267"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-268" data-line-number="268"><span class="co">#&gt; $result$items[[1]]$keyword[[30]]</span></a>
-<a class="sourceLine" id="cb5-269" data-line-number="269"><span class="co">#&gt; [1] "Sant Martí de Provençals"</span></a>
-<a class="sourceLine" id="cb5-270" data-line-number="270"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-271" data-line-number="271"><span class="co">#&gt; $result$items[[1]]$keyword[[31]]</span></a>
-<a class="sourceLine" id="cb5-272" data-line-number="272"><span class="co">#&gt; [1] "Sant Pere"</span></a>
-<a class="sourceLine" id="cb5-273" data-line-number="273"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-274" data-line-number="274"><span class="co">#&gt; $result$items[[1]]$keyword[[32]]</span></a>
-<a class="sourceLine" id="cb5-275" data-line-number="275"><span class="co">#&gt; [1] "Santa Caterina i la Ribera"</span></a>
-<a class="sourceLine" id="cb5-276" data-line-number="276"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-277" data-line-number="277"><span class="co">#&gt; $result$items[[1]]$keyword[[33]]</span></a>
-<a class="sourceLine" id="cb5-278" data-line-number="278"><span class="co">#&gt; [1] "Sants"</span></a>
-<a class="sourceLine" id="cb5-279" data-line-number="279"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-280" data-line-number="280"><span class="co">#&gt; $result$items[[1]]$keyword[[34]]</span></a>
-<a class="sourceLine" id="cb5-281" data-line-number="281"><span class="co">#&gt; [1] "Sants - Badal"</span></a>
-<a class="sourceLine" id="cb5-282" data-line-number="282"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-283" data-line-number="283"><span class="co">#&gt; $result$items[[1]]$keyword[[35]]</span></a>
-<a class="sourceLine" id="cb5-284" data-line-number="284"><span class="co">#&gt; [1] "Sarrià"</span></a>
-<a class="sourceLine" id="cb5-285" data-line-number="285"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-286" data-line-number="286"><span class="co">#&gt; $result$items[[1]]$keyword[[36]]</span></a>
-<a class="sourceLine" id="cb5-287" data-line-number="287"><span class="co">#&gt; [1] "Torre Baró"</span></a>
-<a class="sourceLine" id="cb5-288" data-line-number="288"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-289" data-line-number="289"><span class="co">#&gt; $result$items[[1]]$keyword[[37]]</span></a>
-<a class="sourceLine" id="cb5-290" data-line-number="290"><span class="co">#&gt; [1] "Vallbona"</span></a>
-<a class="sourceLine" id="cb5-291" data-line-number="291"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-292" data-line-number="292"><span class="co">#&gt; $result$items[[1]]$keyword[[38]]</span></a>
-<a class="sourceLine" id="cb5-293" data-line-number="293"><span class="co">#&gt; [1] "Vallcarca i els Penitents"</span></a>
-<a class="sourceLine" id="cb5-294" data-line-number="294"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-295" data-line-number="295"><span class="co">#&gt; $result$items[[1]]$keyword[[39]]</span></a>
-<a class="sourceLine" id="cb5-296" data-line-number="296"><span class="co">#&gt; [1] "Vallvidrera"</span></a>
-<a class="sourceLine" id="cb5-297" data-line-number="297"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-298" data-line-number="298"><span class="co">#&gt; $result$items[[1]]$keyword[[40]]</span></a>
-<a class="sourceLine" id="cb5-299" data-line-number="299"><span class="co">#&gt; [1] "Verdun"</span></a>
-<a class="sourceLine" id="cb5-300" data-line-number="300"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-301" data-line-number="301"><span class="co">#&gt; $result$items[[1]]$keyword[[41]]</span></a>
-<a class="sourceLine" id="cb5-302" data-line-number="302"><span class="co">#&gt; [1] "Vilapicina i la Torre Llobeta"</span></a>
-<a class="sourceLine" id="cb5-303" data-line-number="303"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-304" data-line-number="304"><span class="co">#&gt; $result$items[[1]]$keyword[[42]]</span></a>
-<a class="sourceLine" id="cb5-305" data-line-number="305"><span class="co">#&gt; [1] "el Baix Guinardó"</span></a>
-<a class="sourceLine" id="cb5-306" data-line-number="306"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-307" data-line-number="307"><span class="co">#&gt; $result$items[[1]]$keyword[[43]]</span></a>
-<a class="sourceLine" id="cb5-308" data-line-number="308"><span class="co">#&gt; [1] "el Besòs i el Maresme"</span></a>
-<a class="sourceLine" id="cb5-309" data-line-number="309"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-310" data-line-number="310"><span class="co">#&gt; $result$items[[1]]$keyword[[44]]</span></a>
-<a class="sourceLine" id="cb5-311" data-line-number="311"><span class="co">#&gt; [1] "el Camp d en Grassot i Gràcia Nova"</span></a>
-<a class="sourceLine" id="cb5-312" data-line-number="312"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-313" data-line-number="313"><span class="co">#&gt; $result$items[[1]]$keyword[[45]]</span></a>
-<a class="sourceLine" id="cb5-314" data-line-number="314"><span class="co">#&gt; [1] "el Camp de l Arpa del Clot"</span></a>
-<a class="sourceLine" id="cb5-315" data-line-number="315"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-316" data-line-number="316"><span class="co">#&gt; $result$items[[1]]$keyword[[46]]</span></a>
-<a class="sourceLine" id="cb5-317" data-line-number="317"><span class="co">#&gt; [1] "el Carmel"</span></a>
-<a class="sourceLine" id="cb5-318" data-line-number="318"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-319" data-line-number="319"><span class="co">#&gt; $result$items[[1]]$keyword[[47]]</span></a>
-<a class="sourceLine" id="cb5-320" data-line-number="320"><span class="co">#&gt; [1] "el Clot"</span></a>
-<a class="sourceLine" id="cb5-321" data-line-number="321"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-322" data-line-number="322"><span class="co">#&gt; $result$items[[1]]$keyword[[48]]</span></a>
-<a class="sourceLine" id="cb5-323" data-line-number="323"><span class="co">#&gt; [1] "el Coll"</span></a>
-<a class="sourceLine" id="cb5-324" data-line-number="324"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-325" data-line-number="325"><span class="co">#&gt; $result$items[[1]]$keyword[[49]]</span></a>
-<a class="sourceLine" id="cb5-326" data-line-number="326"><span class="co">#&gt; [1] "el Congrés i els Indians"</span></a>
-<a class="sourceLine" id="cb5-327" data-line-number="327"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-328" data-line-number="328"><span class="co">#&gt; $result$items[[1]]$keyword[[50]]</span></a>
-<a class="sourceLine" id="cb5-329" data-line-number="329"><span class="co">#&gt; [1] "el Guinardó"</span></a>
-<a class="sourceLine" id="cb5-330" data-line-number="330"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-331" data-line-number="331"><span class="co">#&gt; $result$items[[1]]$keyword[[51]]</span></a>
-<a class="sourceLine" id="cb5-332" data-line-number="332"><span class="co">#&gt; [1] "el Gòtic"</span></a>
-<a class="sourceLine" id="cb5-333" data-line-number="333"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-334" data-line-number="334"><span class="co">#&gt; $result$items[[1]]$keyword[[52]]</span></a>
-<a class="sourceLine" id="cb5-335" data-line-number="335"><span class="co">#&gt; [1] "el Parc i la Llacuna del Poblenou"</span></a>
-<a class="sourceLine" id="cb5-336" data-line-number="336"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-337" data-line-number="337"><span class="co">#&gt; $result$items[[1]]$keyword[[53]]</span></a>
-<a class="sourceLine" id="cb5-338" data-line-number="338"><span class="co">#&gt; [1] "el Putxet i el Farró"</span></a>
-<a class="sourceLine" id="cb5-339" data-line-number="339"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-340" data-line-number="340"><span class="co">#&gt; $result$items[[1]]$keyword[[54]]</span></a>
-<a class="sourceLine" id="cb5-341" data-line-number="341"><span class="co">#&gt; [1] "el Raval"</span></a>
-<a class="sourceLine" id="cb5-342" data-line-number="342"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-343" data-line-number="343"><span class="co">#&gt; $result$items[[1]]$keyword[[55]]</span></a>
-<a class="sourceLine" id="cb5-344" data-line-number="344"><span class="co">#&gt; [1] "el Tibidabo i les Planes"</span></a>
-<a class="sourceLine" id="cb5-345" data-line-number="345"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-346" data-line-number="346"><span class="co">#&gt; $result$items[[1]]$keyword[[56]]</span></a>
-<a class="sourceLine" id="cb5-347" data-line-number="347"><span class="co">#&gt; [1] "el Turó de la Peira"</span></a>
-<a class="sourceLine" id="cb5-348" data-line-number="348"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-349" data-line-number="349"><span class="co">#&gt; $result$items[[1]]$keyword[[57]]</span></a>
-<a class="sourceLine" id="cb5-350" data-line-number="350"><span class="co">#&gt; [1] "l Antiga Esquerra de l Eixample"</span></a>
-<a class="sourceLine" id="cb5-351" data-line-number="351"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-352" data-line-number="352"><span class="co">#&gt; $result$items[[1]]$keyword[[58]]</span></a>
-<a class="sourceLine" id="cb5-353" data-line-number="353"><span class="co">#&gt; [1] "la Barceloneta"</span></a>
-<a class="sourceLine" id="cb5-354" data-line-number="354"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-355" data-line-number="355"><span class="co">#&gt; $result$items[[1]]$keyword[[59]]</span></a>
-<a class="sourceLine" id="cb5-356" data-line-number="356"><span class="co">#&gt; [1] "la Bordeta"</span></a>
-<a class="sourceLine" id="cb5-357" data-line-number="357"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-358" data-line-number="358"><span class="co">#&gt; $result$items[[1]]$keyword[[60]]</span></a>
-<a class="sourceLine" id="cb5-359" data-line-number="359"><span class="co">#&gt; [1] "la Clota"</span></a>
-<a class="sourceLine" id="cb5-360" data-line-number="360"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-361" data-line-number="361"><span class="co">#&gt; $result$items[[1]]$keyword[[61]]</span></a>
-<a class="sourceLine" id="cb5-362" data-line-number="362"><span class="co">#&gt; [1] "la Dreta de l Eixample"</span></a>
-<a class="sourceLine" id="cb5-363" data-line-number="363"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-364" data-line-number="364"><span class="co">#&gt; $result$items[[1]]$keyword[[62]]</span></a>
-<a class="sourceLine" id="cb5-365" data-line-number="365"><span class="co">#&gt; [1] "la Font d en Fargues"</span></a>
-<a class="sourceLine" id="cb5-366" data-line-number="366"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-367" data-line-number="367"><span class="co">#&gt; $result$items[[1]]$keyword[[63]]</span></a>
-<a class="sourceLine" id="cb5-368" data-line-number="368"><span class="co">#&gt; [1] "la Font de la Guatlla"</span></a>
-<a class="sourceLine" id="cb5-369" data-line-number="369"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-370" data-line-number="370"><span class="co">#&gt; $result$items[[1]]$keyword[[64]]</span></a>
-<a class="sourceLine" id="cb5-371" data-line-number="371"><span class="co">#&gt; [1] "la Guineueta"</span></a>
-<a class="sourceLine" id="cb5-372" data-line-number="372"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-373" data-line-number="373"><span class="co">#&gt; $result$items[[1]]$keyword[[65]]</span></a>
-<a class="sourceLine" id="cb5-374" data-line-number="374"><span class="co">#&gt; [1] "la Marina de Port"</span></a>
-<a class="sourceLine" id="cb5-375" data-line-number="375"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-376" data-line-number="376"><span class="co">#&gt; $result$items[[1]]$keyword[[66]]</span></a>
-<a class="sourceLine" id="cb5-377" data-line-number="377"><span class="co">#&gt; [1] "la Marina del Prat Vermell"</span></a>
-<a class="sourceLine" id="cb5-378" data-line-number="378"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-379" data-line-number="379"><span class="co">#&gt; $result$items[[1]]$keyword[[67]]</span></a>
-<a class="sourceLine" id="cb5-380" data-line-number="380"><span class="co">#&gt; [1] "la Maternitat i Sant Ramon"</span></a>
-<a class="sourceLine" id="cb5-381" data-line-number="381"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-382" data-line-number="382"><span class="co">#&gt; $result$items[[1]]$keyword[[68]]</span></a>
-<a class="sourceLine" id="cb5-383" data-line-number="383"><span class="co">#&gt; [1] "la Nova Esquerra de l Eixample"</span></a>
-<a class="sourceLine" id="cb5-384" data-line-number="384"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-385" data-line-number="385"><span class="co">#&gt; $result$items[[1]]$keyword[[69]]</span></a>
-<a class="sourceLine" id="cb5-386" data-line-number="386"><span class="co">#&gt; [1] "la Prosperitat"</span></a>
-<a class="sourceLine" id="cb5-387" data-line-number="387"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-388" data-line-number="388"><span class="co">#&gt; $result$items[[1]]$keyword[[70]]</span></a>
-<a class="sourceLine" id="cb5-389" data-line-number="389"><span class="co">#&gt; [1] "la Sagrada Família"</span></a>
-<a class="sourceLine" id="cb5-390" data-line-number="390"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-391" data-line-number="391"><span class="co">#&gt; $result$items[[1]]$keyword[[71]]</span></a>
-<a class="sourceLine" id="cb5-392" data-line-number="392"><span class="co">#&gt; [1] "la Sagrera"</span></a>
-<a class="sourceLine" id="cb5-393" data-line-number="393"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-394" data-line-number="394"><span class="co">#&gt; $result$items[[1]]$keyword[[72]]</span></a>
-<a class="sourceLine" id="cb5-395" data-line-number="395"><span class="co">#&gt; [1] "la Salut"</span></a>
-<a class="sourceLine" id="cb5-396" data-line-number="396"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-397" data-line-number="397"><span class="co">#&gt; $result$items[[1]]$keyword[[73]]</span></a>
-<a class="sourceLine" id="cb5-398" data-line-number="398"><span class="co">#&gt; [1] "la Teixonera"</span></a>
-<a class="sourceLine" id="cb5-399" data-line-number="399"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-400" data-line-number="400"><span class="co">#&gt; $result$items[[1]]$keyword[[74]]</span></a>
-<a class="sourceLine" id="cb5-401" data-line-number="401"><span class="co">#&gt; [1] "la Trinitat Nova"</span></a>
-<a class="sourceLine" id="cb5-402" data-line-number="402"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-403" data-line-number="403"><span class="co">#&gt; $result$items[[1]]$keyword[[75]]</span></a>
-<a class="sourceLine" id="cb5-404" data-line-number="404"><span class="co">#&gt; [1] "la Trinitat Vella"</span></a>
-<a class="sourceLine" id="cb5-405" data-line-number="405"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-406" data-line-number="406"><span class="co">#&gt; $result$items[[1]]$keyword[[76]]</span></a>
-<a class="sourceLine" id="cb5-407" data-line-number="407"><span class="co">#&gt; [1] "la Vall d Hebron"</span></a>
-<a class="sourceLine" id="cb5-408" data-line-number="408"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-409" data-line-number="409"><span class="co">#&gt; $result$items[[1]]$keyword[[77]]</span></a>
-<a class="sourceLine" id="cb5-410" data-line-number="410"><span class="co">#&gt; [1] "la Verneda i la Pau"</span></a>
-<a class="sourceLine" id="cb5-411" data-line-number="411"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-412" data-line-number="412"><span class="co">#&gt; $result$items[[1]]$keyword[[78]]</span></a>
-<a class="sourceLine" id="cb5-413" data-line-number="413"><span class="co">#&gt; [1] "la Vila Olímpica del Poblenou"</span></a>
-<a class="sourceLine" id="cb5-414" data-line-number="414"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-415" data-line-number="415"><span class="co">#&gt; $result$items[[1]]$keyword[[79]]</span></a>
-<a class="sourceLine" id="cb5-416" data-line-number="416"><span class="co">#&gt; [1] "la Vila de Gràcia"</span></a>
-<a class="sourceLine" id="cb5-417" data-line-number="417"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-418" data-line-number="418"><span class="co">#&gt; $result$items[[1]]$keyword[[80]]</span></a>
-<a class="sourceLine" id="cb5-419" data-line-number="419"><span class="co">#&gt; [1] "les Corts"</span></a>
-<a class="sourceLine" id="cb5-420" data-line-number="420"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-421" data-line-number="421"><span class="co">#&gt; $result$items[[1]]$keyword[[81]]</span></a>
-<a class="sourceLine" id="cb5-422" data-line-number="422"><span class="co">#&gt; [1] "les Tres Torres"</span></a>
-<a class="sourceLine" id="cb5-423" data-line-number="423"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-424" data-line-number="424"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-425" data-line-number="425"><span class="co">#&gt; $result$items[[1]]$publisher</span></a>
-<a class="sourceLine" id="cb5-426" data-line-number="426"><span class="co">#&gt; [1] "http://datos.gob.es/recurso/sector-publico/org/Organismo/L01080193"</span></a>
-<a class="sourceLine" id="cb5-427" data-line-number="427"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-428" data-line-number="428"><span class="co">#&gt; $result$items[[1]]$references</span></a>
-<a class="sourceLine" id="cb5-429" data-line-number="429"><span class="co">#&gt; $result$items[[1]]$references[[1]]</span></a>
-<a class="sourceLine" id="cb5-430" data-line-number="430"><span class="co">#&gt; [1] "http://www.bcn.cat/estadistica/angles/dades/telec/eur/index.htm"</span></a>
-<a class="sourceLine" id="cb5-431" data-line-number="431"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-432" data-line-number="432"><span class="co">#&gt; $result$items[[1]]$references[[2]]</span></a>
-<a class="sourceLine" id="cb5-433" data-line-number="433"><span class="co">#&gt; [1] "http://www.bcn.cat/estadistica/castella/dades/telec/eur/index.htm"</span></a>
-<a class="sourceLine" id="cb5-434" data-line-number="434"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-435" data-line-number="435"><span class="co">#&gt; $result$items[[1]]$references[[3]]</span></a>
-<a class="sourceLine" id="cb5-436" data-line-number="436"><span class="co">#&gt; [1] "http://www.bcn.cat/estadistica/catala/dades/telec/eur/index.htm"</span></a>
-<a class="sourceLine" id="cb5-437" data-line-number="437"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-438" data-line-number="438"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-439" data-line-number="439"><span class="co">#&gt; $result$items[[1]]$theme</span></a>
-<a class="sourceLine" id="cb5-440" data-line-number="440"><span class="co">#&gt; [1] "http://datos.gob.es/kos/sector-publico/sector/sector-publico"</span></a>
-<a class="sourceLine" id="cb5-441" data-line-number="441"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-442" data-line-number="442"><span class="co">#&gt; $result$items[[1]]$title</span></a>
-<a class="sourceLine" id="cb5-443" data-line-number="443"><span class="co">#&gt; $result$items[[1]]$title[[1]]</span></a>
-<a class="sourceLine" id="cb5-444" data-line-number="444"><span class="co">#&gt; [1] "Elecciones al Parlamento Europeo. Resultados absolutos por sección censal de la ciudad de Barcelona"</span></a>
-<a class="sourceLine" id="cb5-445" data-line-number="445"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-446" data-line-number="446"><span class="co">#&gt; $result$items[[1]]$title[[2]]</span></a>
-<a class="sourceLine" id="cb5-447" data-line-number="447"><span class="co">#&gt; [1] "Eleccions al Parlament Europeu. Resultats absoluts per secció censal de la ciutat de Barcelona"</span></a>
-<a class="sourceLine" id="cb5-448" data-line-number="448"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-449" data-line-number="449"><span class="co">#&gt; $result$items[[1]]$title[[3]]</span></a>
-<a class="sourceLine" id="cb5-450" data-line-number="450"><span class="co">#&gt; [1] "European Parliament elections. Absolute results by census section of the city of Barcelona"</span></a>
-<a class="sourceLine" id="cb5-451" data-line-number="451"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-452" data-line-number="452"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-453" data-line-number="453"><span class="co">#&gt; $result$items[[1]]$type</span></a>
-<a class="sourceLine" id="cb5-454" data-line-number="454"><span class="co">#&gt; [1] "http://www.w3.org/ns/dcat#Dataset"</span></a>
-<a class="sourceLine" id="cb5-455" data-line-number="455"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-456" data-line-number="456"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-457" data-line-number="457"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-458" data-line-number="458"><span class="co">#&gt; $result$itemsPerPage</span></a>
-<a class="sourceLine" id="cb5-459" data-line-number="459"><span class="co">#&gt; [1] 10</span></a>
-<a class="sourceLine" id="cb5-460" data-line-number="460"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-461" data-line-number="461"><span class="co">#&gt; $result$page</span></a>
-<a class="sourceLine" id="cb5-462" data-line-number="462"><span class="co">#&gt; [1] 0</span></a>
-<a class="sourceLine" id="cb5-463" data-line-number="463"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-464" data-line-number="464"><span class="co">#&gt; $result$startIndex</span></a>
-<a class="sourceLine" id="cb5-465" data-line-number="465"><span class="co">#&gt; [1] 1</span></a>
-<a class="sourceLine" id="cb5-466" data-line-number="466"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-467" data-line-number="467"><span class="co">#&gt; $result$type</span></a>
-<a class="sourceLine" id="cb5-468" data-line-number="468"><span class="co">#&gt; $result$type[[1]]</span></a>
-<a class="sourceLine" id="cb5-469" data-line-number="469"><span class="co">#&gt; [1] "http://purl.org/linked-data/api/vocab#ListEndpoint"</span></a>
-<a class="sourceLine" id="cb5-470" data-line-number="470"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-471" data-line-number="471"><span class="co">#&gt; $result$type[[2]]</span></a>
-<a class="sourceLine" id="cb5-472" data-line-number="472"><span class="co">#&gt; [1] "http://purl.org/linked-data/api/vocab#Page"</span></a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="co"># Note that these specific function calls might change in the future,</span></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co"># but for the sake of showing the format of a data_list we run it.</span></a>
+<a class="sourceLine" id="cb6-3" data-line-number="3">data_list &lt;-<span class="st"> </span>opendataes<span class="op">:::</span><span class="kw"><a href="../reference/get_resp.html">get_resp</a></span>(opendataes<span class="op">:::</span><span class="kw"><a href="../reference/path_dataset_id.html">path_dataset_id</a></span>(path_id))</a>
+<a class="sourceLine" id="cb6-4" data-line-number="4">data_list</a>
+<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt; $format</span></a>
+<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt; [1] "linked-data-api"</span></a>
+<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt; $version</span></a>
+<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt; [1] "0.2"</span></a>
+<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">#&gt; $result</span></a>
+<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co">#&gt; $result$`_about`</span></a>
+<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="co">#&gt; [1] "http://datos.gob.es/apidata/catalog/dataset/l01080193-elecciones-al-parlamento-europeo-resultados-absolutos-por-seccion-censal-de-la-ciudad-de-barcelona.json"</span></a>
+<a class="sourceLine" id="cb6-14" data-line-number="14"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-15" data-line-number="15"><span class="co">#&gt; $result$definition</span></a>
+<a class="sourceLine" id="cb6-16" data-line-number="16"><span class="co">#&gt; [1] "http://datos.gob.es/apidata/catalog/meta/dataset/_id.json"</span></a>
+<a class="sourceLine" id="cb6-17" data-line-number="17"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-18" data-line-number="18"><span class="co">#&gt; $result$extendedMetadataVersion</span></a>
+<a class="sourceLine" id="cb6-19" data-line-number="19"><span class="co">#&gt; [1] "http://datos.gob.es/apidata/catalog/dataset/l01080193-elecciones-al-parlamento-europeo-resultados-absolutos-por-seccion-censal-de-la-ciudad-de-barcelona.json?_metadata=all"</span></a>
+<a class="sourceLine" id="cb6-20" data-line-number="20"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-21" data-line-number="21"><span class="co">#&gt; $result$first</span></a>
+<a class="sourceLine" id="cb6-22" data-line-number="22"><span class="co">#&gt; [1] "http://datos.gob.es/apidata/catalog/dataset/l01080193-elecciones-al-parlamento-europeo-resultados-absolutos-por-seccion-censal-de-la-ciudad-de-barcelona.json?_page=0"</span></a>
+<a class="sourceLine" id="cb6-23" data-line-number="23"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-24" data-line-number="24"><span class="co">#&gt; $result$hasPart</span></a>
+<a class="sourceLine" id="cb6-25" data-line-number="25"><span class="co">#&gt; [1] "http://datos.gob.es/apidata/catalog/dataset/l01080193-elecciones-al-parlamento-europeo-resultados-absolutos-por-seccion-censal-de-la-ciudad-de-barcelona.json"</span></a>
+<a class="sourceLine" id="cb6-26" data-line-number="26"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-27" data-line-number="27"><span class="co">#&gt; $result$isPartOf</span></a>
+<a class="sourceLine" id="cb6-28" data-line-number="28"><span class="co">#&gt; [1] "http://datos.gob.es/apidata/catalog/dataset/l01080193-elecciones-al-parlamento-europeo-resultados-absolutos-por-seccion-censal-de-la-ciudad-de-barcelona.json"</span></a>
+<a class="sourceLine" id="cb6-29" data-line-number="29"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-30" data-line-number="30"><span class="co">#&gt; $result$items</span></a>
+<a class="sourceLine" id="cb6-31" data-line-number="31"><span class="co">#&gt; $result$items[[1]]</span></a>
+<a class="sourceLine" id="cb6-32" data-line-number="32"><span class="co">#&gt; $result$items[[1]]$`_about`</span></a>
+<a class="sourceLine" id="cb6-33" data-line-number="33"><span class="co">#&gt; [1] "http://datos.gob.es/catalogo/l01080193-elecciones-al-parlamento-europeo-resultados-absolutos-por-seccion-censal-de-la-ciudad-de-barcelona"</span></a>
+<a class="sourceLine" id="cb6-34" data-line-number="34"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-35" data-line-number="35"><span class="co">#&gt; $result$items[[1]]$accrualPeriodicity</span></a>
+<a class="sourceLine" id="cb6-36" data-line-number="36"><span class="co">#&gt; [1] "http://datos.gob.es/catalogo/l01080193-elecciones-al-parlamento-europeo-resultados-absolutos-por-seccion-censal-de-la-ciudad-de-barcelona/Frequency"</span></a>
+<a class="sourceLine" id="cb6-37" data-line-number="37"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-38" data-line-number="38"><span class="co">#&gt; $result$items[[1]]$description</span></a>
+<a class="sourceLine" id="cb6-39" data-line-number="39"><span class="co">#&gt; $result$items[[1]]$description[[1]]</span></a>
+<a class="sourceLine" id="cb6-40" data-line-number="40"><span class="co">#&gt; $result$items[[1]]$description[[1]]$`_value`</span></a>
+<a class="sourceLine" id="cb6-41" data-line-number="41"><span class="co">#&gt; [1] "Elecciones al Parlamento Europeo. Resultados absolutos por sección censal de la ciudad de Barcelona"</span></a>
+<a class="sourceLine" id="cb6-42" data-line-number="42"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-43" data-line-number="43"><span class="co">#&gt; $result$items[[1]]$description[[1]]$`_lang`</span></a>
+<a class="sourceLine" id="cb6-44" data-line-number="44"><span class="co">#&gt; [1] "es"</span></a>
+<a class="sourceLine" id="cb6-45" data-line-number="45"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-46" data-line-number="46"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-47" data-line-number="47"><span class="co">#&gt; $result$items[[1]]$description[[2]]</span></a>
+<a class="sourceLine" id="cb6-48" data-line-number="48"><span class="co">#&gt; $result$items[[1]]$description[[2]]$`_value`</span></a>
+<a class="sourceLine" id="cb6-49" data-line-number="49"><span class="co">#&gt; [1] "Eleccions al Parlament Europeu. Resultats absoluts per secció censal de la ciutat de Barcelona"</span></a>
+<a class="sourceLine" id="cb6-50" data-line-number="50"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-51" data-line-number="51"><span class="co">#&gt; $result$items[[1]]$description[[2]]$`_lang`</span></a>
+<a class="sourceLine" id="cb6-52" data-line-number="52"><span class="co">#&gt; [1] "ca"</span></a>
+<a class="sourceLine" id="cb6-53" data-line-number="53"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-54" data-line-number="54"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-55" data-line-number="55"><span class="co">#&gt; $result$items[[1]]$description[[3]]</span></a>
+<a class="sourceLine" id="cb6-56" data-line-number="56"><span class="co">#&gt; $result$items[[1]]$description[[3]]$`_value`</span></a>
+<a class="sourceLine" id="cb6-57" data-line-number="57"><span class="co">#&gt; [1] "European Parliament elections. Absolute results by census section of the Ciutat de Barcelona"</span></a>
+<a class="sourceLine" id="cb6-58" data-line-number="58"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-59" data-line-number="59"><span class="co">#&gt; $result$items[[1]]$description[[3]]$`_lang`</span></a>
+<a class="sourceLine" id="cb6-60" data-line-number="60"><span class="co">#&gt; [1] "en"</span></a>
+<a class="sourceLine" id="cb6-61" data-line-number="61"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-62" data-line-number="62"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-63" data-line-number="63"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-64" data-line-number="64"><span class="co">#&gt; $result$items[[1]]$distribution</span></a>
+<a class="sourceLine" id="cb6-65" data-line-number="65"><span class="co">#&gt; $result$items[[1]]$distribution[[1]]</span></a>
+<a class="sourceLine" id="cb6-66" data-line-number="66"><span class="co">#&gt; $result$items[[1]]$distribution[[1]]$`_about`</span></a>
+<a class="sourceLine" id="cb6-67" data-line-number="67"><span class="co">#&gt; [1] "http://datos.gob.es/catalogo/l01080193-elecciones-al-parlamento-europeo-resultados-absolutos-por-seccion-censal-de-la-ciudad-de-barcelona/resource/559e5c7f-2c46-4548-9e00-1853ec4a0f6d"</span></a>
+<a class="sourceLine" id="cb6-68" data-line-number="68"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-69" data-line-number="69"><span class="co">#&gt; $result$items[[1]]$distribution[[1]]$accessURL</span></a>
+<a class="sourceLine" id="cb6-70" data-line-number="70"><span class="co">#&gt; [1] "https://opendata-ajuntament.barcelona.cat/data/dataset/5745630c-77c0-431b-873d-4e83e021ebea/resource/d2350e16-4e9a-47f9-b7ae-6d72ef955371/download"</span></a>
+<a class="sourceLine" id="cb6-71" data-line-number="71"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-72" data-line-number="72"><span class="co">#&gt; $result$items[[1]]$distribution[[1]]$format</span></a>
+<a class="sourceLine" id="cb6-73" data-line-number="73"><span class="co">#&gt; $result$items[[1]]$distribution[[1]]$format$`_about`</span></a>
+<a class="sourceLine" id="cb6-74" data-line-number="74"><span class="co">#&gt; [1] "http://datos.gob.es/catalogo/l01080193-elecciones-al-parlamento-europeo-resultados-absolutos-por-seccion-censal-de-la-ciudad-de-barcelona/resource/559e5c7f-2c46-4548-9e00-1853ec4a0f6d/format"</span></a>
+<a class="sourceLine" id="cb6-75" data-line-number="75"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-76" data-line-number="76"><span class="co">#&gt; $result$items[[1]]$distribution[[1]]$format$type</span></a>
+<a class="sourceLine" id="cb6-77" data-line-number="77"><span class="co">#&gt; [1] "http://purl.org/dc/terms/IMT"</span></a>
+<a class="sourceLine" id="cb6-78" data-line-number="78"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-79" data-line-number="79"><span class="co">#&gt; $result$items[[1]]$distribution[[1]]$format$value</span></a>
+<a class="sourceLine" id="cb6-80" data-line-number="80"><span class="co">#&gt; [1] "text/csv"</span></a>
+<a class="sourceLine" id="cb6-81" data-line-number="81"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-82" data-line-number="82"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-83" data-line-number="83"><span class="co">#&gt; $result$items[[1]]$distribution[[1]]$identifier</span></a>
+<a class="sourceLine" id="cb6-84" data-line-number="84"><span class="co">#&gt; [1] "https://opendata-ajuntament.barcelona.cat/data/dataset/est-eleccions-europees-seccio-censal/resource/d2350e16-4e9a-47f9-b7ae-6d72ef955371"</span></a>
+<a class="sourceLine" id="cb6-85" data-line-number="85"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-86" data-line-number="86"><span class="co">#&gt; $result$items[[1]]$distribution[[1]]$title</span></a>
+<a class="sourceLine" id="cb6-87" data-line-number="87"><span class="co">#&gt; $result$items[[1]]$distribution[[1]]$title[[1]]</span></a>
+<a class="sourceLine" id="cb6-88" data-line-number="88"><span class="co">#&gt; [1] "2009_Eleccions_Parlament_Europeu.csv"</span></a>
+<a class="sourceLine" id="cb6-89" data-line-number="89"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-90" data-line-number="90"><span class="co">#&gt; $result$items[[1]]$distribution[[1]]$title[[2]]</span></a>
+<a class="sourceLine" id="cb6-91" data-line-number="91"><span class="co">#&gt; [1] "2009_Eleccions_Parlament_Europeu.csv"</span></a>
+<a class="sourceLine" id="cb6-92" data-line-number="92"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-93" data-line-number="93"><span class="co">#&gt; $result$items[[1]]$distribution[[1]]$title[[3]]</span></a>
+<a class="sourceLine" id="cb6-94" data-line-number="94"><span class="co">#&gt; [1] "2009_Eleccions_Parlament_Europeu.csv"</span></a>
+<a class="sourceLine" id="cb6-95" data-line-number="95"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-96" data-line-number="96"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-97" data-line-number="97"><span class="co">#&gt; $result$items[[1]]$distribution[[1]]$type</span></a>
+<a class="sourceLine" id="cb6-98" data-line-number="98"><span class="co">#&gt; [1] "http://www.w3.org/ns/dcat#Distribution"</span></a>
+<a class="sourceLine" id="cb6-99" data-line-number="99"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-100" data-line-number="100"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-101" data-line-number="101"><span class="co">#&gt; $result$items[[1]]$distribution[[2]]</span></a>
+<a class="sourceLine" id="cb6-102" data-line-number="102"><span class="co">#&gt; $result$items[[1]]$distribution[[2]]$`_about`</span></a>
+<a class="sourceLine" id="cb6-103" data-line-number="103"><span class="co">#&gt; [1] "http://datos.gob.es/catalogo/l01080193-elecciones-al-parlamento-europeo-resultados-absolutos-por-seccion-censal-de-la-ciudad-de-barcelona/resource/8a13792e-558e-4d6c-80f7-f8db1d459582"</span></a>
+<a class="sourceLine" id="cb6-104" data-line-number="104"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-105" data-line-number="105"><span class="co">#&gt; $result$items[[1]]$distribution[[2]]$accessURL</span></a>
+<a class="sourceLine" id="cb6-106" data-line-number="106"><span class="co">#&gt; [1] "https://opendata-ajuntament.barcelona.cat/data/dataset/5745630c-77c0-431b-873d-4e83e021ebea/resource/8aa88b93-727b-45be-a11f-5dcea459a47b/download"</span></a>
+<a class="sourceLine" id="cb6-107" data-line-number="107"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-108" data-line-number="108"><span class="co">#&gt; $result$items[[1]]$distribution[[2]]$format</span></a>
+<a class="sourceLine" id="cb6-109" data-line-number="109"><span class="co">#&gt; $result$items[[1]]$distribution[[2]]$format$`_about`</span></a>
+<a class="sourceLine" id="cb6-110" data-line-number="110"><span class="co">#&gt; [1] "http://datos.gob.es/catalogo/l01080193-elecciones-al-parlamento-europeo-resultados-absolutos-por-seccion-censal-de-la-ciudad-de-barcelona/resource/8a13792e-558e-4d6c-80f7-f8db1d459582/format"</span></a>
+<a class="sourceLine" id="cb6-111" data-line-number="111"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-112" data-line-number="112"><span class="co">#&gt; $result$items[[1]]$distribution[[2]]$format$type</span></a>
+<a class="sourceLine" id="cb6-113" data-line-number="113"><span class="co">#&gt; [1] "http://purl.org/dc/terms/IMT"</span></a>
+<a class="sourceLine" id="cb6-114" data-line-number="114"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-115" data-line-number="115"><span class="co">#&gt; $result$items[[1]]$distribution[[2]]$format$value</span></a>
+<a class="sourceLine" id="cb6-116" data-line-number="116"><span class="co">#&gt; [1] "text/csv"</span></a>
+<a class="sourceLine" id="cb6-117" data-line-number="117"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-118" data-line-number="118"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-119" data-line-number="119"><span class="co">#&gt; $result$items[[1]]$distribution[[2]]$identifier</span></a>
+<a class="sourceLine" id="cb6-120" data-line-number="120"><span class="co">#&gt; [1] "https://opendata-ajuntament.barcelona.cat/data/dataset/est-eleccions-europees-seccio-censal/resource/8aa88b93-727b-45be-a11f-5dcea459a47b"</span></a>
+<a class="sourceLine" id="cb6-121" data-line-number="121"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-122" data-line-number="122"><span class="co">#&gt; $result$items[[1]]$distribution[[2]]$title</span></a>
+<a class="sourceLine" id="cb6-123" data-line-number="123"><span class="co">#&gt; $result$items[[1]]$distribution[[2]]$title[[1]]</span></a>
+<a class="sourceLine" id="cb6-124" data-line-number="124"><span class="co">#&gt; [1] "2014_Eleccions_Parlament_Europeu.csv"</span></a>
+<a class="sourceLine" id="cb6-125" data-line-number="125"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-126" data-line-number="126"><span class="co">#&gt; $result$items[[1]]$distribution[[2]]$title[[2]]</span></a>
+<a class="sourceLine" id="cb6-127" data-line-number="127"><span class="co">#&gt; [1] "2014_Eleccions_Parlament_Europeu.csv"</span></a>
+<a class="sourceLine" id="cb6-128" data-line-number="128"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-129" data-line-number="129"><span class="co">#&gt; $result$items[[1]]$distribution[[2]]$title[[3]]</span></a>
+<a class="sourceLine" id="cb6-130" data-line-number="130"><span class="co">#&gt; [1] "2014_Eleccions_Parlament_Europeu.csv"</span></a>
+<a class="sourceLine" id="cb6-131" data-line-number="131"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-132" data-line-number="132"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-133" data-line-number="133"><span class="co">#&gt; $result$items[[1]]$distribution[[2]]$type</span></a>
+<a class="sourceLine" id="cb6-134" data-line-number="134"><span class="co">#&gt; [1] "http://www.w3.org/ns/dcat#Distribution"</span></a>
+<a class="sourceLine" id="cb6-135" data-line-number="135"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-136" data-line-number="136"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-137" data-line-number="137"><span class="co">#&gt; $result$items[[1]]$distribution[[3]]</span></a>
+<a class="sourceLine" id="cb6-138" data-line-number="138"><span class="co">#&gt; $result$items[[1]]$distribution[[3]]$`_about`</span></a>
+<a class="sourceLine" id="cb6-139" data-line-number="139"><span class="co">#&gt; [1] "http://datos.gob.es/catalogo/l01080193-elecciones-al-parlamento-europeo-resultados-absolutos-por-seccion-censal-de-la-ciudad-de-barcelona/resource/9331de5a-3284-4fe8-99c1-bb56bc375e48"</span></a>
+<a class="sourceLine" id="cb6-140" data-line-number="140"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-141" data-line-number="141"><span class="co">#&gt; $result$items[[1]]$distribution[[3]]$accessURL</span></a>
+<a class="sourceLine" id="cb6-142" data-line-number="142"><span class="co">#&gt; [1] "https://opendata-ajuntament.barcelona.cat/data/dataset/5745630c-77c0-431b-873d-4e83e021ebea/resource/bd503ce0-2848-4918-b2fd-71325f0d7dcc/download"</span></a>
+<a class="sourceLine" id="cb6-143" data-line-number="143"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-144" data-line-number="144"><span class="co">#&gt; $result$items[[1]]$distribution[[3]]$format</span></a>
+<a class="sourceLine" id="cb6-145" data-line-number="145"><span class="co">#&gt; $result$items[[1]]$distribution[[3]]$format$`_about`</span></a>
+<a class="sourceLine" id="cb6-146" data-line-number="146"><span class="co">#&gt; [1] "http://datos.gob.es/catalogo/l01080193-elecciones-al-parlamento-europeo-resultados-absolutos-por-seccion-censal-de-la-ciudad-de-barcelona/resource/9331de5a-3284-4fe8-99c1-bb56bc375e48/format"</span></a>
+<a class="sourceLine" id="cb6-147" data-line-number="147"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-148" data-line-number="148"><span class="co">#&gt; $result$items[[1]]$distribution[[3]]$format$type</span></a>
+<a class="sourceLine" id="cb6-149" data-line-number="149"><span class="co">#&gt; [1] "http://purl.org/dc/terms/IMT"</span></a>
+<a class="sourceLine" id="cb6-150" data-line-number="150"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-151" data-line-number="151"><span class="co">#&gt; $result$items[[1]]$distribution[[3]]$format$value</span></a>
+<a class="sourceLine" id="cb6-152" data-line-number="152"><span class="co">#&gt; [1] "text/csv"</span></a>
+<a class="sourceLine" id="cb6-153" data-line-number="153"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-154" data-line-number="154"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-155" data-line-number="155"><span class="co">#&gt; $result$items[[1]]$distribution[[3]]$identifier</span></a>
+<a class="sourceLine" id="cb6-156" data-line-number="156"><span class="co">#&gt; [1] "https://opendata-ajuntament.barcelona.cat/data/dataset/est-eleccions-europees-seccio-censal/resource/bd503ce0-2848-4918-b2fd-71325f0d7dcc"</span></a>
+<a class="sourceLine" id="cb6-157" data-line-number="157"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-158" data-line-number="158"><span class="co">#&gt; $result$items[[1]]$distribution[[3]]$title</span></a>
+<a class="sourceLine" id="cb6-159" data-line-number="159"><span class="co">#&gt; $result$items[[1]]$distribution[[3]]$title[[1]]</span></a>
+<a class="sourceLine" id="cb6-160" data-line-number="160"><span class="co">#&gt; [1] "2019_Eleccions_Parlament_Europeu.csv"</span></a>
+<a class="sourceLine" id="cb6-161" data-line-number="161"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-162" data-line-number="162"><span class="co">#&gt; $result$items[[1]]$distribution[[3]]$title[[2]]</span></a>
+<a class="sourceLine" id="cb6-163" data-line-number="163"><span class="co">#&gt; [1] "2019_Eleccions_Parlament_Europeu.csv"</span></a>
+<a class="sourceLine" id="cb6-164" data-line-number="164"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-165" data-line-number="165"><span class="co">#&gt; $result$items[[1]]$distribution[[3]]$title[[3]]</span></a>
+<a class="sourceLine" id="cb6-166" data-line-number="166"><span class="co">#&gt; [1] "2019_Eleccions_Parlament_Europeu.csv"</span></a>
+<a class="sourceLine" id="cb6-167" data-line-number="167"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-168" data-line-number="168"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-169" data-line-number="169"><span class="co">#&gt; $result$items[[1]]$distribution[[3]]$type</span></a>
+<a class="sourceLine" id="cb6-170" data-line-number="170"><span class="co">#&gt; [1] "http://www.w3.org/ns/dcat#Distribution"</span></a>
+<a class="sourceLine" id="cb6-171" data-line-number="171"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-172" data-line-number="172"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-173" data-line-number="173"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-174" data-line-number="174"><span class="co">#&gt; $result$items[[1]]$identifier</span></a>
+<a class="sourceLine" id="cb6-175" data-line-number="175"><span class="co">#&gt; [1] "https://opendata-ajuntament.barcelona.cat/data/dataset/est-eleccions-europees-seccio-censal"</span></a>
+<a class="sourceLine" id="cb6-176" data-line-number="176"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-177" data-line-number="177"><span class="co">#&gt; $result$items[[1]]$issued</span></a>
+<a class="sourceLine" id="cb6-178" data-line-number="178"><span class="co">#&gt; [1] "mié, 13 mar 2013 23:00:00 GMT+0000"</span></a>
+<a class="sourceLine" id="cb6-179" data-line-number="179"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-180" data-line-number="180"><span class="co">#&gt; $result$items[[1]]$keyword</span></a>
+<a class="sourceLine" id="cb6-181" data-line-number="181"><span class="co">#&gt; $result$items[[1]]$keyword[[1]]</span></a>
+<a class="sourceLine" id="cb6-182" data-line-number="182"><span class="co">#&gt; [1] "Absolutos"</span></a>
+<a class="sourceLine" id="cb6-183" data-line-number="183"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-184" data-line-number="184"><span class="co">#&gt; $result$items[[1]]$keyword[[2]]</span></a>
+<a class="sourceLine" id="cb6-185" data-line-number="185"><span class="co">#&gt; [1] "Año 2009"</span></a>
+<a class="sourceLine" id="cb6-186" data-line-number="186"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-187" data-line-number="187"><span class="co">#&gt; $result$items[[1]]$keyword[[3]]</span></a>
+<a class="sourceLine" id="cb6-188" data-line-number="188"><span class="co">#&gt; [1] "Año 2014"</span></a>
+<a class="sourceLine" id="cb6-189" data-line-number="189"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-190" data-line-number="190"><span class="co">#&gt; $result$items[[1]]$keyword[[4]]</span></a>
+<a class="sourceLine" id="cb6-191" data-line-number="191"><span class="co">#&gt; [1] "Barrio"</span></a>
+<a class="sourceLine" id="cb6-192" data-line-number="192"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-193" data-line-number="193"><span class="co">#&gt; $result$items[[1]]$keyword[[5]]</span></a>
+<a class="sourceLine" id="cb6-194" data-line-number="194"><span class="co">#&gt; [1] "Barrios Barcelona"</span></a>
+<a class="sourceLine" id="cb6-195" data-line-number="195"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-196" data-line-number="196"><span class="co">#&gt; $result$items[[1]]$keyword[[6]]</span></a>
+<a class="sourceLine" id="cb6-197" data-line-number="197"><span class="co">#&gt; [1] "Baró de Viver"</span></a>
+<a class="sourceLine" id="cb6-198" data-line-number="198"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-199" data-line-number="199"><span class="co">#&gt; $result$items[[1]]$keyword[[7]]</span></a>
+<a class="sourceLine" id="cb6-200" data-line-number="200"><span class="co">#&gt; [1] "Bon Pastor"</span></a>
+<a class="sourceLine" id="cb6-201" data-line-number="201"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-202" data-line-number="202"><span class="co">#&gt; $result$items[[1]]$keyword[[8]]</span></a>
+<a class="sourceLine" id="cb6-203" data-line-number="203"><span class="co">#&gt; [1] "Can Baró"</span></a>
+<a class="sourceLine" id="cb6-204" data-line-number="204"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-205" data-line-number="205"><span class="co">#&gt; $result$items[[1]]$keyword[[9]]</span></a>
+<a class="sourceLine" id="cb6-206" data-line-number="206"><span class="co">#&gt; [1] "Can Peguera"</span></a>
+<a class="sourceLine" id="cb6-207" data-line-number="207"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-208" data-line-number="208"><span class="co">#&gt; $result$items[[1]]$keyword[[10]]</span></a>
+<a class="sourceLine" id="cb6-209" data-line-number="209"><span class="co">#&gt; [1] "Canyelles"</span></a>
+<a class="sourceLine" id="cb6-210" data-line-number="210"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-211" data-line-number="211"><span class="co">#&gt; $result$items[[1]]$keyword[[11]]</span></a>
+<a class="sourceLine" id="cb6-212" data-line-number="212"><span class="co">#&gt; [1] "Ciutat Meridiana"</span></a>
+<a class="sourceLine" id="cb6-213" data-line-number="213"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-214" data-line-number="214"><span class="co">#&gt; $result$items[[1]]$keyword[[12]]</span></a>
+<a class="sourceLine" id="cb6-215" data-line-number="215"><span class="co">#&gt; [1] "Diagonal Mar i el Front Marítim del Poblenou"</span></a>
+<a class="sourceLine" id="cb6-216" data-line-number="216"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-217" data-line-number="217"><span class="co">#&gt; $result$items[[1]]$keyword[[13]]</span></a>
+<a class="sourceLine" id="cb6-218" data-line-number="218"><span class="co">#&gt; [1] "Elecciones europeas"</span></a>
+<a class="sourceLine" id="cb6-219" data-line-number="219"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-220" data-line-number="220"><span class="co">#&gt; $result$items[[1]]$keyword[[14]]</span></a>
+<a class="sourceLine" id="cb6-221" data-line-number="221"><span class="co">#&gt; [1] "Fort Pienc"</span></a>
+<a class="sourceLine" id="cb6-222" data-line-number="222"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-223" data-line-number="223"><span class="co">#&gt; $result$items[[1]]$keyword[[15]]</span></a>
+<a class="sourceLine" id="cb6-224" data-line-number="224"><span class="co">#&gt; [1] "Horta"</span></a>
+<a class="sourceLine" id="cb6-225" data-line-number="225"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-226" data-line-number="226"><span class="co">#&gt; $result$items[[1]]$keyword[[16]]</span></a>
+<a class="sourceLine" id="cb6-227" data-line-number="227"><span class="co">#&gt; [1] "Hostafrancs"</span></a>
+<a class="sourceLine" id="cb6-228" data-line-number="228"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-229" data-line-number="229"><span class="co">#&gt; $result$items[[1]]$keyword[[17]]</span></a>
+<a class="sourceLine" id="cb6-230" data-line-number="230"><span class="co">#&gt; [1] "Les Roquetes"</span></a>
+<a class="sourceLine" id="cb6-231" data-line-number="231"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-232" data-line-number="232"><span class="co">#&gt; $result$items[[1]]$keyword[[18]]</span></a>
+<a class="sourceLine" id="cb6-233" data-line-number="233"><span class="co">#&gt; [1] "Montbau"</span></a>
+<a class="sourceLine" id="cb6-234" data-line-number="234"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-235" data-line-number="235"><span class="co">#&gt; $result$items[[1]]$keyword[[19]]</span></a>
+<a class="sourceLine" id="cb6-236" data-line-number="236"><span class="co">#&gt; [1] "Navas"</span></a>
+<a class="sourceLine" id="cb6-237" data-line-number="237"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-238" data-line-number="238"><span class="co">#&gt; $result$items[[1]]$keyword[[20]]</span></a>
+<a class="sourceLine" id="cb6-239" data-line-number="239"><span class="co">#&gt; [1] "Pedralbes"</span></a>
+<a class="sourceLine" id="cb6-240" data-line-number="240"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-241" data-line-number="241"><span class="co">#&gt; $result$items[[1]]$keyword[[21]]</span></a>
+<a class="sourceLine" id="cb6-242" data-line-number="242"><span class="co">#&gt; [1] "Poble-sec"</span></a>
+<a class="sourceLine" id="cb6-243" data-line-number="243"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-244" data-line-number="244"><span class="co">#&gt; $result$items[[1]]$keyword[[22]]</span></a>
+<a class="sourceLine" id="cb6-245" data-line-number="245"><span class="co">#&gt; [1] "Poblenou"</span></a>
+<a class="sourceLine" id="cb6-246" data-line-number="246"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-247" data-line-number="247"><span class="co">#&gt; $result$items[[1]]$keyword[[23]]</span></a>
+<a class="sourceLine" id="cb6-248" data-line-number="248"><span class="co">#&gt; [1] "Porta"</span></a>
+<a class="sourceLine" id="cb6-249" data-line-number="249"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-250" data-line-number="250"><span class="co">#&gt; $result$items[[1]]$keyword[[24]]</span></a>
+<a class="sourceLine" id="cb6-251" data-line-number="251"><span class="co">#&gt; [1] "Provençals del Poblenou"</span></a>
+<a class="sourceLine" id="cb6-252" data-line-number="252"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-253" data-line-number="253"><span class="co">#&gt; $result$items[[1]]$keyword[[25]]</span></a>
+<a class="sourceLine" id="cb6-254" data-line-number="254"><span class="co">#&gt; [1] "Sant Andreu"</span></a>
+<a class="sourceLine" id="cb6-255" data-line-number="255"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-256" data-line-number="256"><span class="co">#&gt; $result$items[[1]]$keyword[[26]]</span></a>
+<a class="sourceLine" id="cb6-257" data-line-number="257"><span class="co">#&gt; [1] "Sant Antoni"</span></a>
+<a class="sourceLine" id="cb6-258" data-line-number="258"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-259" data-line-number="259"><span class="co">#&gt; $result$items[[1]]$keyword[[27]]</span></a>
+<a class="sourceLine" id="cb6-260" data-line-number="260"><span class="co">#&gt; [1] "Sant Genís dels Agudells"</span></a>
+<a class="sourceLine" id="cb6-261" data-line-number="261"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-262" data-line-number="262"><span class="co">#&gt; $result$items[[1]]$keyword[[28]]</span></a>
+<a class="sourceLine" id="cb6-263" data-line-number="263"><span class="co">#&gt; [1] "Sant Gervasi-Galvany"</span></a>
+<a class="sourceLine" id="cb6-264" data-line-number="264"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-265" data-line-number="265"><span class="co">#&gt; $result$items[[1]]$keyword[[29]]</span></a>
+<a class="sourceLine" id="cb6-266" data-line-number="266"><span class="co">#&gt; [1] "Sant Gervasi-la Bonanova"</span></a>
+<a class="sourceLine" id="cb6-267" data-line-number="267"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-268" data-line-number="268"><span class="co">#&gt; $result$items[[1]]$keyword[[30]]</span></a>
+<a class="sourceLine" id="cb6-269" data-line-number="269"><span class="co">#&gt; [1] "Sant Martí de Provençals"</span></a>
+<a class="sourceLine" id="cb6-270" data-line-number="270"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-271" data-line-number="271"><span class="co">#&gt; $result$items[[1]]$keyword[[31]]</span></a>
+<a class="sourceLine" id="cb6-272" data-line-number="272"><span class="co">#&gt; [1] "Sant Pere"</span></a>
+<a class="sourceLine" id="cb6-273" data-line-number="273"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-274" data-line-number="274"><span class="co">#&gt; $result$items[[1]]$keyword[[32]]</span></a>
+<a class="sourceLine" id="cb6-275" data-line-number="275"><span class="co">#&gt; [1] "Santa Caterina i la Ribera"</span></a>
+<a class="sourceLine" id="cb6-276" data-line-number="276"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-277" data-line-number="277"><span class="co">#&gt; $result$items[[1]]$keyword[[33]]</span></a>
+<a class="sourceLine" id="cb6-278" data-line-number="278"><span class="co">#&gt; [1] "Sants"</span></a>
+<a class="sourceLine" id="cb6-279" data-line-number="279"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-280" data-line-number="280"><span class="co">#&gt; $result$items[[1]]$keyword[[34]]</span></a>
+<a class="sourceLine" id="cb6-281" data-line-number="281"><span class="co">#&gt; [1] "Sants - Badal"</span></a>
+<a class="sourceLine" id="cb6-282" data-line-number="282"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-283" data-line-number="283"><span class="co">#&gt; $result$items[[1]]$keyword[[35]]</span></a>
+<a class="sourceLine" id="cb6-284" data-line-number="284"><span class="co">#&gt; [1] "Sarrià"</span></a>
+<a class="sourceLine" id="cb6-285" data-line-number="285"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-286" data-line-number="286"><span class="co">#&gt; $result$items[[1]]$keyword[[36]]</span></a>
+<a class="sourceLine" id="cb6-287" data-line-number="287"><span class="co">#&gt; [1] "Torre Baró"</span></a>
+<a class="sourceLine" id="cb6-288" data-line-number="288"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-289" data-line-number="289"><span class="co">#&gt; $result$items[[1]]$keyword[[37]]</span></a>
+<a class="sourceLine" id="cb6-290" data-line-number="290"><span class="co">#&gt; [1] "Vallbona"</span></a>
+<a class="sourceLine" id="cb6-291" data-line-number="291"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-292" data-line-number="292"><span class="co">#&gt; $result$items[[1]]$keyword[[38]]</span></a>
+<a class="sourceLine" id="cb6-293" data-line-number="293"><span class="co">#&gt; [1] "Vallcarca i els Penitents"</span></a>
+<a class="sourceLine" id="cb6-294" data-line-number="294"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-295" data-line-number="295"><span class="co">#&gt; $result$items[[1]]$keyword[[39]]</span></a>
+<a class="sourceLine" id="cb6-296" data-line-number="296"><span class="co">#&gt; [1] "Vallvidrera"</span></a>
+<a class="sourceLine" id="cb6-297" data-line-number="297"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-298" data-line-number="298"><span class="co">#&gt; $result$items[[1]]$keyword[[40]]</span></a>
+<a class="sourceLine" id="cb6-299" data-line-number="299"><span class="co">#&gt; [1] "Verdun"</span></a>
+<a class="sourceLine" id="cb6-300" data-line-number="300"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-301" data-line-number="301"><span class="co">#&gt; $result$items[[1]]$keyword[[41]]</span></a>
+<a class="sourceLine" id="cb6-302" data-line-number="302"><span class="co">#&gt; [1] "Vilapicina i la Torre Llobeta"</span></a>
+<a class="sourceLine" id="cb6-303" data-line-number="303"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-304" data-line-number="304"><span class="co">#&gt; $result$items[[1]]$keyword[[42]]</span></a>
+<a class="sourceLine" id="cb6-305" data-line-number="305"><span class="co">#&gt; [1] "el Baix Guinardó"</span></a>
+<a class="sourceLine" id="cb6-306" data-line-number="306"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-307" data-line-number="307"><span class="co">#&gt; $result$items[[1]]$keyword[[43]]</span></a>
+<a class="sourceLine" id="cb6-308" data-line-number="308"><span class="co">#&gt; [1] "el Besòs i el Maresme"</span></a>
+<a class="sourceLine" id="cb6-309" data-line-number="309"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-310" data-line-number="310"><span class="co">#&gt; $result$items[[1]]$keyword[[44]]</span></a>
+<a class="sourceLine" id="cb6-311" data-line-number="311"><span class="co">#&gt; [1] "el Camp d en Grassot i Gràcia Nova"</span></a>
+<a class="sourceLine" id="cb6-312" data-line-number="312"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-313" data-line-number="313"><span class="co">#&gt; $result$items[[1]]$keyword[[45]]</span></a>
+<a class="sourceLine" id="cb6-314" data-line-number="314"><span class="co">#&gt; [1] "el Camp de l Arpa del Clot"</span></a>
+<a class="sourceLine" id="cb6-315" data-line-number="315"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-316" data-line-number="316"><span class="co">#&gt; $result$items[[1]]$keyword[[46]]</span></a>
+<a class="sourceLine" id="cb6-317" data-line-number="317"><span class="co">#&gt; [1] "el Carmel"</span></a>
+<a class="sourceLine" id="cb6-318" data-line-number="318"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-319" data-line-number="319"><span class="co">#&gt; $result$items[[1]]$keyword[[47]]</span></a>
+<a class="sourceLine" id="cb6-320" data-line-number="320"><span class="co">#&gt; [1] "el Clot"</span></a>
+<a class="sourceLine" id="cb6-321" data-line-number="321"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-322" data-line-number="322"><span class="co">#&gt; $result$items[[1]]$keyword[[48]]</span></a>
+<a class="sourceLine" id="cb6-323" data-line-number="323"><span class="co">#&gt; [1] "el Coll"</span></a>
+<a class="sourceLine" id="cb6-324" data-line-number="324"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-325" data-line-number="325"><span class="co">#&gt; $result$items[[1]]$keyword[[49]]</span></a>
+<a class="sourceLine" id="cb6-326" data-line-number="326"><span class="co">#&gt; [1] "el Congrés i els Indians"</span></a>
+<a class="sourceLine" id="cb6-327" data-line-number="327"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-328" data-line-number="328"><span class="co">#&gt; $result$items[[1]]$keyword[[50]]</span></a>
+<a class="sourceLine" id="cb6-329" data-line-number="329"><span class="co">#&gt; [1] "el Guinardó"</span></a>
+<a class="sourceLine" id="cb6-330" data-line-number="330"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-331" data-line-number="331"><span class="co">#&gt; $result$items[[1]]$keyword[[51]]</span></a>
+<a class="sourceLine" id="cb6-332" data-line-number="332"><span class="co">#&gt; [1] "el Gòtic"</span></a>
+<a class="sourceLine" id="cb6-333" data-line-number="333"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-334" data-line-number="334"><span class="co">#&gt; $result$items[[1]]$keyword[[52]]</span></a>
+<a class="sourceLine" id="cb6-335" data-line-number="335"><span class="co">#&gt; [1] "el Parc i la Llacuna del Poblenou"</span></a>
+<a class="sourceLine" id="cb6-336" data-line-number="336"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-337" data-line-number="337"><span class="co">#&gt; $result$items[[1]]$keyword[[53]]</span></a>
+<a class="sourceLine" id="cb6-338" data-line-number="338"><span class="co">#&gt; [1] "el Putxet i el Farró"</span></a>
+<a class="sourceLine" id="cb6-339" data-line-number="339"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-340" data-line-number="340"><span class="co">#&gt; $result$items[[1]]$keyword[[54]]</span></a>
+<a class="sourceLine" id="cb6-341" data-line-number="341"><span class="co">#&gt; [1] "el Raval"</span></a>
+<a class="sourceLine" id="cb6-342" data-line-number="342"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-343" data-line-number="343"><span class="co">#&gt; $result$items[[1]]$keyword[[55]]</span></a>
+<a class="sourceLine" id="cb6-344" data-line-number="344"><span class="co">#&gt; [1] "el Tibidabo i les Planes"</span></a>
+<a class="sourceLine" id="cb6-345" data-line-number="345"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-346" data-line-number="346"><span class="co">#&gt; $result$items[[1]]$keyword[[56]]</span></a>
+<a class="sourceLine" id="cb6-347" data-line-number="347"><span class="co">#&gt; [1] "el Turó de la Peira"</span></a>
+<a class="sourceLine" id="cb6-348" data-line-number="348"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-349" data-line-number="349"><span class="co">#&gt; $result$items[[1]]$keyword[[57]]</span></a>
+<a class="sourceLine" id="cb6-350" data-line-number="350"><span class="co">#&gt; [1] "l Antiga Esquerra de l Eixample"</span></a>
+<a class="sourceLine" id="cb6-351" data-line-number="351"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-352" data-line-number="352"><span class="co">#&gt; $result$items[[1]]$keyword[[58]]</span></a>
+<a class="sourceLine" id="cb6-353" data-line-number="353"><span class="co">#&gt; [1] "la Barceloneta"</span></a>
+<a class="sourceLine" id="cb6-354" data-line-number="354"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-355" data-line-number="355"><span class="co">#&gt; $result$items[[1]]$keyword[[59]]</span></a>
+<a class="sourceLine" id="cb6-356" data-line-number="356"><span class="co">#&gt; [1] "la Bordeta"</span></a>
+<a class="sourceLine" id="cb6-357" data-line-number="357"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-358" data-line-number="358"><span class="co">#&gt; $result$items[[1]]$keyword[[60]]</span></a>
+<a class="sourceLine" id="cb6-359" data-line-number="359"><span class="co">#&gt; [1] "la Clota"</span></a>
+<a class="sourceLine" id="cb6-360" data-line-number="360"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-361" data-line-number="361"><span class="co">#&gt; $result$items[[1]]$keyword[[61]]</span></a>
+<a class="sourceLine" id="cb6-362" data-line-number="362"><span class="co">#&gt; [1] "la Dreta de l Eixample"</span></a>
+<a class="sourceLine" id="cb6-363" data-line-number="363"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-364" data-line-number="364"><span class="co">#&gt; $result$items[[1]]$keyword[[62]]</span></a>
+<a class="sourceLine" id="cb6-365" data-line-number="365"><span class="co">#&gt; [1] "la Font d en Fargues"</span></a>
+<a class="sourceLine" id="cb6-366" data-line-number="366"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-367" data-line-number="367"><span class="co">#&gt; $result$items[[1]]$keyword[[63]]</span></a>
+<a class="sourceLine" id="cb6-368" data-line-number="368"><span class="co">#&gt; [1] "la Font de la Guatlla"</span></a>
+<a class="sourceLine" id="cb6-369" data-line-number="369"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-370" data-line-number="370"><span class="co">#&gt; $result$items[[1]]$keyword[[64]]</span></a>
+<a class="sourceLine" id="cb6-371" data-line-number="371"><span class="co">#&gt; [1] "la Guineueta"</span></a>
+<a class="sourceLine" id="cb6-372" data-line-number="372"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-373" data-line-number="373"><span class="co">#&gt; $result$items[[1]]$keyword[[65]]</span></a>
+<a class="sourceLine" id="cb6-374" data-line-number="374"><span class="co">#&gt; [1] "la Marina de Port"</span></a>
+<a class="sourceLine" id="cb6-375" data-line-number="375"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-376" data-line-number="376"><span class="co">#&gt; $result$items[[1]]$keyword[[66]]</span></a>
+<a class="sourceLine" id="cb6-377" data-line-number="377"><span class="co">#&gt; [1] "la Marina del Prat Vermell"</span></a>
+<a class="sourceLine" id="cb6-378" data-line-number="378"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-379" data-line-number="379"><span class="co">#&gt; $result$items[[1]]$keyword[[67]]</span></a>
+<a class="sourceLine" id="cb6-380" data-line-number="380"><span class="co">#&gt; [1] "la Maternitat i Sant Ramon"</span></a>
+<a class="sourceLine" id="cb6-381" data-line-number="381"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-382" data-line-number="382"><span class="co">#&gt; $result$items[[1]]$keyword[[68]]</span></a>
+<a class="sourceLine" id="cb6-383" data-line-number="383"><span class="co">#&gt; [1] "la Nova Esquerra de l Eixample"</span></a>
+<a class="sourceLine" id="cb6-384" data-line-number="384"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-385" data-line-number="385"><span class="co">#&gt; $result$items[[1]]$keyword[[69]]</span></a>
+<a class="sourceLine" id="cb6-386" data-line-number="386"><span class="co">#&gt; [1] "la Prosperitat"</span></a>
+<a class="sourceLine" id="cb6-387" data-line-number="387"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-388" data-line-number="388"><span class="co">#&gt; $result$items[[1]]$keyword[[70]]</span></a>
+<a class="sourceLine" id="cb6-389" data-line-number="389"><span class="co">#&gt; [1] "la Sagrada Família"</span></a>
+<a class="sourceLine" id="cb6-390" data-line-number="390"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-391" data-line-number="391"><span class="co">#&gt; $result$items[[1]]$keyword[[71]]</span></a>
+<a class="sourceLine" id="cb6-392" data-line-number="392"><span class="co">#&gt; [1] "la Sagrera"</span></a>
+<a class="sourceLine" id="cb6-393" data-line-number="393"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-394" data-line-number="394"><span class="co">#&gt; $result$items[[1]]$keyword[[72]]</span></a>
+<a class="sourceLine" id="cb6-395" data-line-number="395"><span class="co">#&gt; [1] "la Salut"</span></a>
+<a class="sourceLine" id="cb6-396" data-line-number="396"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-397" data-line-number="397"><span class="co">#&gt; $result$items[[1]]$keyword[[73]]</span></a>
+<a class="sourceLine" id="cb6-398" data-line-number="398"><span class="co">#&gt; [1] "la Teixonera"</span></a>
+<a class="sourceLine" id="cb6-399" data-line-number="399"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-400" data-line-number="400"><span class="co">#&gt; $result$items[[1]]$keyword[[74]]</span></a>
+<a class="sourceLine" id="cb6-401" data-line-number="401"><span class="co">#&gt; [1] "la Trinitat Nova"</span></a>
+<a class="sourceLine" id="cb6-402" data-line-number="402"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-403" data-line-number="403"><span class="co">#&gt; $result$items[[1]]$keyword[[75]]</span></a>
+<a class="sourceLine" id="cb6-404" data-line-number="404"><span class="co">#&gt; [1] "la Trinitat Vella"</span></a>
+<a class="sourceLine" id="cb6-405" data-line-number="405"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-406" data-line-number="406"><span class="co">#&gt; $result$items[[1]]$keyword[[76]]</span></a>
+<a class="sourceLine" id="cb6-407" data-line-number="407"><span class="co">#&gt; [1] "la Vall d Hebron"</span></a>
+<a class="sourceLine" id="cb6-408" data-line-number="408"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-409" data-line-number="409"><span class="co">#&gt; $result$items[[1]]$keyword[[77]]</span></a>
+<a class="sourceLine" id="cb6-410" data-line-number="410"><span class="co">#&gt; [1] "la Verneda i la Pau"</span></a>
+<a class="sourceLine" id="cb6-411" data-line-number="411"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-412" data-line-number="412"><span class="co">#&gt; $result$items[[1]]$keyword[[78]]</span></a>
+<a class="sourceLine" id="cb6-413" data-line-number="413"><span class="co">#&gt; [1] "la Vila Olímpica del Poblenou"</span></a>
+<a class="sourceLine" id="cb6-414" data-line-number="414"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-415" data-line-number="415"><span class="co">#&gt; $result$items[[1]]$keyword[[79]]</span></a>
+<a class="sourceLine" id="cb6-416" data-line-number="416"><span class="co">#&gt; [1] "la Vila de Gràcia"</span></a>
+<a class="sourceLine" id="cb6-417" data-line-number="417"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-418" data-line-number="418"><span class="co">#&gt; $result$items[[1]]$keyword[[80]]</span></a>
+<a class="sourceLine" id="cb6-419" data-line-number="419"><span class="co">#&gt; [1] "les Corts"</span></a>
+<a class="sourceLine" id="cb6-420" data-line-number="420"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-421" data-line-number="421"><span class="co">#&gt; $result$items[[1]]$keyword[[81]]</span></a>
+<a class="sourceLine" id="cb6-422" data-line-number="422"><span class="co">#&gt; [1] "les Tres Torres"</span></a>
+<a class="sourceLine" id="cb6-423" data-line-number="423"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-424" data-line-number="424"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-425" data-line-number="425"><span class="co">#&gt; $result$items[[1]]$publisher</span></a>
+<a class="sourceLine" id="cb6-426" data-line-number="426"><span class="co">#&gt; [1] "http://datos.gob.es/recurso/sector-publico/org/Organismo/L01080193"</span></a>
+<a class="sourceLine" id="cb6-427" data-line-number="427"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-428" data-line-number="428"><span class="co">#&gt; $result$items[[1]]$references</span></a>
+<a class="sourceLine" id="cb6-429" data-line-number="429"><span class="co">#&gt; $result$items[[1]]$references[[1]]</span></a>
+<a class="sourceLine" id="cb6-430" data-line-number="430"><span class="co">#&gt; [1] "http://www.bcn.cat/estadistica/angles/dades/telec/eur/index.htm"</span></a>
+<a class="sourceLine" id="cb6-431" data-line-number="431"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-432" data-line-number="432"><span class="co">#&gt; $result$items[[1]]$references[[2]]</span></a>
+<a class="sourceLine" id="cb6-433" data-line-number="433"><span class="co">#&gt; [1] "http://www.bcn.cat/estadistica/castella/dades/telec/eur/index.htm"</span></a>
+<a class="sourceLine" id="cb6-434" data-line-number="434"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-435" data-line-number="435"><span class="co">#&gt; $result$items[[1]]$references[[3]]</span></a>
+<a class="sourceLine" id="cb6-436" data-line-number="436"><span class="co">#&gt; [1] "http://www.bcn.cat/estadistica/catala/dades/telec/eur/index.htm"</span></a>
+<a class="sourceLine" id="cb6-437" data-line-number="437"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-438" data-line-number="438"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-439" data-line-number="439"><span class="co">#&gt; $result$items[[1]]$theme</span></a>
+<a class="sourceLine" id="cb6-440" data-line-number="440"><span class="co">#&gt; [1] "http://datos.gob.es/kos/sector-publico/sector/sector-publico"</span></a>
+<a class="sourceLine" id="cb6-441" data-line-number="441"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-442" data-line-number="442"><span class="co">#&gt; $result$items[[1]]$title</span></a>
+<a class="sourceLine" id="cb6-443" data-line-number="443"><span class="co">#&gt; $result$items[[1]]$title[[1]]</span></a>
+<a class="sourceLine" id="cb6-444" data-line-number="444"><span class="co">#&gt; [1] "Elecciones al Parlamento Europeo. Resultados absolutos por sección censal de la ciudad de Barcelona"</span></a>
+<a class="sourceLine" id="cb6-445" data-line-number="445"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-446" data-line-number="446"><span class="co">#&gt; $result$items[[1]]$title[[2]]</span></a>
+<a class="sourceLine" id="cb6-447" data-line-number="447"><span class="co">#&gt; [1] "Eleccions al Parlament Europeu. Resultats absoluts per secció censal de la ciutat de Barcelona"</span></a>
+<a class="sourceLine" id="cb6-448" data-line-number="448"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-449" data-line-number="449"><span class="co">#&gt; $result$items[[1]]$title[[3]]</span></a>
+<a class="sourceLine" id="cb6-450" data-line-number="450"><span class="co">#&gt; [1] "European Parliament elections. Absolute results by census section of the city of Barcelona"</span></a>
+<a class="sourceLine" id="cb6-451" data-line-number="451"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-452" data-line-number="452"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-453" data-line-number="453"><span class="co">#&gt; $result$items[[1]]$type</span></a>
+<a class="sourceLine" id="cb6-454" data-line-number="454"><span class="co">#&gt; [1] "http://www.w3.org/ns/dcat#Dataset"</span></a>
+<a class="sourceLine" id="cb6-455" data-line-number="455"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-456" data-line-number="456"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-457" data-line-number="457"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-458" data-line-number="458"><span class="co">#&gt; $result$itemsPerPage</span></a>
+<a class="sourceLine" id="cb6-459" data-line-number="459"><span class="co">#&gt; [1] 10</span></a>
+<a class="sourceLine" id="cb6-460" data-line-number="460"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-461" data-line-number="461"><span class="co">#&gt; $result$page</span></a>
+<a class="sourceLine" id="cb6-462" data-line-number="462"><span class="co">#&gt; [1] 0</span></a>
+<a class="sourceLine" id="cb6-463" data-line-number="463"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-464" data-line-number="464"><span class="co">#&gt; $result$startIndex</span></a>
+<a class="sourceLine" id="cb6-465" data-line-number="465"><span class="co">#&gt; [1] 1</span></a>
+<a class="sourceLine" id="cb6-466" data-line-number="466"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-467" data-line-number="467"><span class="co">#&gt; $result$type</span></a>
+<a class="sourceLine" id="cb6-468" data-line-number="468"><span class="co">#&gt; $result$type[[1]]</span></a>
+<a class="sourceLine" id="cb6-469" data-line-number="469"><span class="co">#&gt; [1] "http://purl.org/linked-data/api/vocab#ListEndpoint"</span></a>
+<a class="sourceLine" id="cb6-470" data-line-number="470"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-471" data-line-number="471"><span class="co">#&gt; $result$type[[2]]</span></a>
+<a class="sourceLine" id="cb6-472" data-line-number="472"><span class="co">#&gt; [1] "http://purl.org/linked-data/api/vocab#Page"</span></a></code></pre></div>
 <p>Before we extract the metadata and data, <code>openes_load</code> checks that the <code>data_list</code> is in the expected format, because otherwise none of the functions in the package would work. If the <code>data_list</code> is not in the correct format, <code>openes_load</code> returns an empty list.</p>
 <p><strong>Note</strong>: <code>opendataes</code> really pushes for consistent outputs. That is, it usually returns a list with two slots containing the metadata and data and if the data poses some sort of problem, <code>openes_load</code> should return the same list with two slots but without the data itself. However, if the <code>data_list</code> is not in the correct format it means that the API is returning something odd in the first place. This is regardless of the quality, standardization or format of the dataset. In this scenario <code>openes_load</code> returns an empty list but this is open to debate. This is an area for improvements for new comers.</p>
 <p>Getting back to the <code>data_list</code>, it is messy and not very intuitive. This is when we move to the second step of the diagram.</p>
@@ -645,25 +648,25 @@
 <p><img src="opendataes_diagram_step2.jpg" width="900" height="300" style="display: block; margin: auto;"></p>
 <p>The metadata is scattered around the <code>data_list</code> but it keeps consistent names so <code>opendataes</code> provides several <code>extract_*</code> functions that are present in the diagram. We combine all of these ‘helper’ functions into <code>extract_metadata</code> to provide a general <code>tibble</code> of metadata. In the example below, we need to dig deeper into the list structure of <code>data_list</code> to get to where the data actually is.</p>
 <p>For example..</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="co"># This is the slot where the data is. This is the case</span></a>
-<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co"># even when there are several datasets to read.</span></a>
-<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="co"># It is safe only to search HERE for the data</span></a>
-<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co"># and metadata</span></a>
-<a class="sourceLine" id="cb6-5" data-line-number="5">data_list &lt;-<span class="st"> </span>data_list<span class="op">$</span>result<span class="op">$</span>items[[<span class="dv">1</span>]]</a>
-<a class="sourceLine" id="cb6-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb6-7" data-line-number="7">opendataes<span class="op">:::</span><span class="kw"><a href="../reference/extract_metadata.html">extract_metadata</a></span>(data_list)</a>
-<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt; # A tibble: 3 x 8</span></a>
-<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt;   keywords language description url   date_issued         date_modified</span></a>
-<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;       &lt;chr&gt; &lt;dttm&gt;              &lt;chr&gt;        </span></a>
-<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">#&gt; 1 Absolut… es       Elecciones… http… 2013-03-13 23:00:00 No modificat…</span></a>
-<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co">#&gt; 2 Absolut… ca       Eleccions … http… 2013-03-13 23:00:00 No modificat…</span></a>
-<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="co">#&gt; 3 Absolut… en       European P… http… 2013-03-13 23:00:00 No modificat…</span></a>
-<a class="sourceLine" id="cb6-14" data-line-number="14"><span class="co">#&gt; # … with 2 more variables: publisher &lt;chr&gt;, publisher_data_url &lt;chr&gt;</span></a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># This is the slot where the data is. This is the case</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co"># even when there are several datasets to read.</span></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co"># It is safe only to search HERE for the data</span></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co"># and metadata</span></a>
+<a class="sourceLine" id="cb7-5" data-line-number="5">data_list &lt;-<span class="st"> </span>data_list<span class="op">$</span>result<span class="op">$</span>items[[<span class="dv">1</span>]]</a>
+<a class="sourceLine" id="cb7-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb7-7" data-line-number="7">opendataes<span class="op">:::</span><span class="kw"><a href="../reference/extract_metadata.html">extract_metadata</a></span>(data_list)</a>
+<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">#&gt; # A tibble: 3 x 8</span></a>
+<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">#&gt;   keywords language description url   date_issued         date_modified</span></a>
+<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;       &lt;chr&gt; &lt;dttm&gt;              &lt;chr&gt;        </span></a>
+<a class="sourceLine" id="cb7-11" data-line-number="11"><span class="co">#&gt; 1 Absolut… es       Elecciones… http… 2013-03-13 23:00:00 No modificat…</span></a>
+<a class="sourceLine" id="cb7-12" data-line-number="12"><span class="co">#&gt; 2 Absolut… ca       Eleccions … http… 2013-03-13 23:00:00 No modificat…</span></a>
+<a class="sourceLine" id="cb7-13" data-line-number="13"><span class="co">#&gt; 3 Absolut… en       European P… http… 2013-03-13 23:00:00 No modificat…</span></a>
+<a class="sourceLine" id="cb7-14" data-line-number="14"><span class="co">#&gt; # … with 2 more variables: publisher &lt;chr&gt;, publisher_data_url &lt;chr&gt;</span></a></code></pre></div>
 <p>Inside this function we’re just calling separate <code>extract_*</code> functions to grab each piece of metadata. For example..</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">keywords &lt;-<span class="st"> </span><span class="kw"><a href="../reference/extract_keywords.html">extract_keywords</a></span>(data_list)</a>
-<a class="sourceLine" id="cb7-2" data-line-number="2">description &lt;-<span class="st"> </span><span class="kw"><a href="../reference/extract_description.html">extract_description</a></span>(data_list)</a>
-<a class="sourceLine" id="cb7-3" data-line-number="3">languages &lt;-<span class="st"> </span><span class="kw"><a href="../reference/extract_language.html">extract_language</a></span>(data_list)</a>
-<a class="sourceLine" id="cb7-4" data-line-number="4">url_path &lt;-<span class="st"> </span><span class="kw"><a href="../reference/extract_url.html">extract_url</a></span>(data_list)</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">keywords &lt;-<span class="st"> </span><span class="kw"><a href="../reference/extract_keywords.html">extract_keywords</a></span>(data_list)</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">description &lt;-<span class="st"> </span><span class="kw"><a href="../reference/extract_description.html">extract_description</a></span>(data_list)</a>
+<a class="sourceLine" id="cb8-3" data-line-number="3">languages &lt;-<span class="st"> </span><span class="kw"><a href="../reference/extract_language.html">extract_language</a></span>(data_list)</a>
+<a class="sourceLine" id="cb8-4" data-line-number="4">url_path &lt;-<span class="st"> </span><span class="kw"><a href="../reference/extract_url.html">extract_url</a></span>(data_list)</a></code></pre></div>
 <p>Once that’s done, the metadata is ready. For more detailed readings of the source code, each of these functions are located in the <code>R/extract.R</code> path. Now we move on to the trickiest step: extracting the data.</p>
 </div>
 <div id="extracting-the-data" class="section level2">
@@ -673,91 +676,91 @@
 <p>The first step is passing the <code>data_list</code> from above to <code>extract_data</code> which can be located at the path <code>R/extract.R</code>. The difficult part of reading the data is due to the fact that different publishers keep datasets with different formats. For example, the Ayuntamiento de Madrid might have a <code>csv</code> file with only one excel sheet in an organized tabular format but the Ayuntamiento de Arganda del Rey might have several sheets with several tables inside each sheet. There’s really nothing that can be done about that if the aim of the package is to scale the data reading process across several publishers. The chosen solution, we believe, is the most conservative: limit the publishers and formats that <code>opendataes</code> can read and increase these two as their standardization practices grow.</p>
 <p>The first step that <code>openes_load</code> takes <strong>before calling</strong> <code>extract_data</code> functions is to check whether the data comes from our permitted publishers. If the dataset is not from an available publisher, it raises an error. This is done via <code>opendataes:::is_publisher_available</code> which extracts the publisher from the <code>data_list</code> and matches it with our list of available publishers.</p>
 <p>The criteria we think best to include new publishers is to check by brute force whether they have patterns of standardization. For example, the first publisher we accepted as reliable was ‘Ayuntamiento of Barcelona’ because we repeatedly found ourselves reading datasets from the same format which were very consistent and easy to read. For the list of available publishers that <code>opendataes</code> can read, we can look at <code><a href="../reference/publishers_available.html">opendataes::publishers_available</a></code>.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">publishers_available</a>
-<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co">#&gt; # A tibble: 10 x 2</span></a>
-<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt;    publishers                                 publisher_code</span></a>
-<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt;    &lt;chr&gt;                                      &lt;chr&gt;         </span></a>
-<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt;  1 Ayuntamiento de Barcelona                  L01080193     </span></a>
-<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt;  2 Ayuntamiento de Madrid                     L01280796     </span></a>
-<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt;  3 Ayuntamiento de Valencia                   L01462508     </span></a>
-<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt;  4 Ayuntamiento de Las Palmas de Gran Canaria L01350167     </span></a>
-<a class="sourceLine" id="cb8-9" data-line-number="9"><span class="co">#&gt;  5 Ayuntamiento de Bilbao                     L01480209     </span></a>
-<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt;  6 Ayuntamiento de Zaragoza                   L01502973     </span></a>
-<a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co">#&gt;  7 Ayuntamiento de Malaga                     L01290672     </span></a>
-<a class="sourceLine" id="cb8-12" data-line-number="12"><span class="co">#&gt;  8 Ayuntamiento de Gijon                      L01330241     </span></a>
-<a class="sourceLine" id="cb8-13" data-line-number="13"><span class="co">#&gt;  9 Ayuntamiento de Santander                  L01390759     </span></a>
-<a class="sourceLine" id="cb8-14" data-line-number="14"><span class="co">#&gt; 10 Ayuntamiento de Alcobendas                 L01280066</span></a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">publishers_available</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="co">#&gt; # A tibble: 10 x 2</span></a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="co">#&gt;    publishers                                 publisher_code</span></a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co">#&gt;    &lt;chr&gt;                                      &lt;chr&gt;         </span></a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co">#&gt;  1 Ayuntamiento de Barcelona                  L01080193     </span></a>
+<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="co">#&gt;  2 Ayuntamiento de Madrid                     L01280796     </span></a>
+<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="co">#&gt;  3 Ayuntamiento de Valencia                   L01462508     </span></a>
+<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="co">#&gt;  4 Ayuntamiento de Las Palmas de Gran Canaria L01350167     </span></a>
+<a class="sourceLine" id="cb9-9" data-line-number="9"><span class="co">#&gt;  5 Ayuntamiento de Bilbao                     L01480209     </span></a>
+<a class="sourceLine" id="cb9-10" data-line-number="10"><span class="co">#&gt;  6 Ayuntamiento de Zaragoza                   L01502973     </span></a>
+<a class="sourceLine" id="cb9-11" data-line-number="11"><span class="co">#&gt;  7 Ayuntamiento de Malaga                     L01290672     </span></a>
+<a class="sourceLine" id="cb9-12" data-line-number="12"><span class="co">#&gt;  8 Ayuntamiento de Gijon                      L01330241     </span></a>
+<a class="sourceLine" id="cb9-13" data-line-number="13"><span class="co">#&gt;  9 Ayuntamiento de Santander                  L01390759     </span></a>
+<a class="sourceLine" id="cb9-14" data-line-number="14"><span class="co">#&gt; 10 Ayuntamiento de Alcobendas                 L01280066</span></a></code></pre></div>
 <p>This is one of the main areas were <code>opendataes</code> needs support. We are always welcoming pull requests that would allow us to read new publishers as long as we can have some sort of proof of consistency in their datasets.</p>
 <p>The second problem, and very related to the previous, is the formats that <code>opendataes</code> can read. Because standardization across datasets is one of our main concerns, we are interested in reading formats which are consistent and predictable for reading purposes. Fortunately, around 70% of all datasets in <code>datos.gob.es</code> are <code>csv</code> files, a very standard format. For that reason, it is the first format that we give preference for reading. You can check the permitted formats with <code><a href="../reference/permitted_formats.html">opendataes::permitted_formats</a></code>.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">permitted_formats</a>
-<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="co">#&gt; [1] "csv"</span></a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">permitted_formats</a>
+<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="co">#&gt; [1] "csv"</span></a></code></pre></div>
 <p>This is one are where we are actively looking for new pull requests as we are interested in broadening the scope of formats that <code>opendataes</code> can read.</p>
 <p>From the package’s perspective there are two things that can be done to further increase the number of publishers and formats: push each of our publishers for greater standardization and check whether we can read a reasonable number of file formats from a given publisher.</p>
 <p>Having said that, the first thing that <code>extract_data</code> does is to check whether the selected dataset has any of the formats that <code>opendataes</code> can read. If it doesn’t, then it doesn’t attempt to read anything but merely returns the dataset’s URL’s in all the formats available. For example it returns a tibble like this one..</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="co"># $`unavailable_formats`</span></a>
-<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="co"># A tibble: 13 x 3</span></a>
-<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="co">#   name                       format URL                                                                           </span></a>
-<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co">#   &lt;chr&gt;                      &lt;chr&gt;  &lt;chr&gt;                                                                         </span></a>
-<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="co"># 1 2018_3T_CARRIL_BICI_CONST~ zip    http://opendata-ajuntament.barcelona.cat/resources/bcn/2018_3T_CARRIL_BICI_CO~</span></a>
-<a class="sourceLine" id="cb10-6" data-line-number="6"><span class="co"># 2 CARRIL_BICI_CONSTRUCCIO.s~ NA     http://opendata-ajuntament.barcelona.cat/resources/bcn/CARRIL_BICI_CONSTRUCCI~</span></a>
-<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co"># 3 CARRIL_BICI_CONSTRUCCIO.p~ asc    http://opendata-ajuntament.barcelona.cat/resources/bcn/CARRIL_BICI_CONSTRUCCI~</span></a>
-<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="co"># 4 2018_2T_CARRIL_BICI_CONST~ zip    http://opendata-ajuntament.barcelona.cat/resources/bcn/2018_2T_CARRIL_BICI_CO~</span></a>
-<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="co"># 5 CARRIL_BICI_CONSTRUCCIO.g~ json   http://opendata-ajuntament.barcelona.cat/resources/bcn/CARRIL_BICI_CONSTRUCCI~</span></a>
-<a class="sourceLine" id="cb10-10" data-line-number="10"><span class="co"># 6 CARRIL_BICI_CONSTRUCCIO.z~ zip    http://opendata-ajuntament.barcelona.cat/resources/bcn/CARRIL_BICI_CONSTRUCCI~</span></a>
-<a class="sourceLine" id="cb10-11" data-line-number="11"><span class="co"># 7 2017_4T_CARRIL_BICI_CONS.~ zip    http://opendata-ajuntament.barcelona.cat/data/dataset/edee68e3-5ff1-43d0-b556~</span></a>
-<a class="sourceLine" id="cb10-12" data-line-number="12"><span class="co"># 8 2018_1T_CARRIL_BICI_CONS.~ zip    http://opendata-ajuntament.barcelona.cat/data/dataset/edee68e3-5ff1-43d0-b556~</span></a>
-<a class="sourceLine" id="cb10-13" data-line-number="13"><span class="co"># 9 2017_3T_CARRIL_BICI_CONS.~ zip    http://opendata-ajuntament.barcelona.cat/data/dataset/edee68e3-5ff1-43d0-b556~</span></a>
-<a class="sourceLine" id="cb10-14" data-line-number="14"><span class="co"># 10 CARRIL_BICI_CONSTRUCCIO.d~ asc    http://opendata-ajuntament.barcelona.cat/resources/bcn/CARRIL_BICI_CONSTRUCCI~</span></a>
-<a class="sourceLine" id="cb10-15" data-line-number="15"><span class="co"># 11 CARRIL_BICI_CONSTRUCCIO.s~ NA     http://opendata-ajuntament.barcelona.cat/resources/bcn/CARRIL_BICI_CONSTRUCCI~</span></a>
-<a class="sourceLine" id="cb10-16" data-line-number="16"><span class="co"># 12 2017_2T_CARRIL_BICI_CONS.~ zip    http://opendata-ajuntament.barcelona.cat/data/dataset/edee68e3-5ff1-43d0-b556~</span></a>
-<a class="sourceLine" id="cb10-17" data-line-number="17"><span class="co"># 13 2017_1T_CARRIL_BICI_CONS.~ zip    http://opendata-ajuntament.barcelona.cat/data/dataset/edee68e3-5ff1-43d0-b556~</span></a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="co"># $`unavailable_formats`</span></a>
+<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="co"># A tibble: 13 x 3</span></a>
+<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="co">#   name                       format URL                                                                           </span></a>
+<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="co">#   &lt;chr&gt;                      &lt;chr&gt;  &lt;chr&gt;                                                                         </span></a>
+<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="co"># 1 2018_3T_CARRIL_BICI_CONST~ zip    http://opendata-ajuntament.barcelona.cat/resources/bcn/2018_3T_CARRIL_BICI_CO~</span></a>
+<a class="sourceLine" id="cb11-6" data-line-number="6"><span class="co"># 2 CARRIL_BICI_CONSTRUCCIO.s~ NA     http://opendata-ajuntament.barcelona.cat/resources/bcn/CARRIL_BICI_CONSTRUCCI~</span></a>
+<a class="sourceLine" id="cb11-7" data-line-number="7"><span class="co"># 3 CARRIL_BICI_CONSTRUCCIO.p~ asc    http://opendata-ajuntament.barcelona.cat/resources/bcn/CARRIL_BICI_CONSTRUCCI~</span></a>
+<a class="sourceLine" id="cb11-8" data-line-number="8"><span class="co"># 4 2018_2T_CARRIL_BICI_CONST~ zip    http://opendata-ajuntament.barcelona.cat/resources/bcn/2018_2T_CARRIL_BICI_CO~</span></a>
+<a class="sourceLine" id="cb11-9" data-line-number="9"><span class="co"># 5 CARRIL_BICI_CONSTRUCCIO.g~ json   http://opendata-ajuntament.barcelona.cat/resources/bcn/CARRIL_BICI_CONSTRUCCI~</span></a>
+<a class="sourceLine" id="cb11-10" data-line-number="10"><span class="co"># 6 CARRIL_BICI_CONSTRUCCIO.z~ zip    http://opendata-ajuntament.barcelona.cat/resources/bcn/CARRIL_BICI_CONSTRUCCI~</span></a>
+<a class="sourceLine" id="cb11-11" data-line-number="11"><span class="co"># 7 2017_4T_CARRIL_BICI_CONS.~ zip    http://opendata-ajuntament.barcelona.cat/data/dataset/edee68e3-5ff1-43d0-b556~</span></a>
+<a class="sourceLine" id="cb11-12" data-line-number="12"><span class="co"># 8 2018_1T_CARRIL_BICI_CONS.~ zip    http://opendata-ajuntament.barcelona.cat/data/dataset/edee68e3-5ff1-43d0-b556~</span></a>
+<a class="sourceLine" id="cb11-13" data-line-number="13"><span class="co"># 9 2017_3T_CARRIL_BICI_CONS.~ zip    http://opendata-ajuntament.barcelona.cat/data/dataset/edee68e3-5ff1-43d0-b556~</span></a>
+<a class="sourceLine" id="cb11-14" data-line-number="14"><span class="co"># 10 CARRIL_BICI_CONSTRUCCIO.d~ asc    http://opendata-ajuntament.barcelona.cat/resources/bcn/CARRIL_BICI_CONSTRUCCI~</span></a>
+<a class="sourceLine" id="cb11-15" data-line-number="15"><span class="co"># 11 CARRIL_BICI_CONSTRUCCIO.s~ NA     http://opendata-ajuntament.barcelona.cat/resources/bcn/CARRIL_BICI_CONSTRUCCI~</span></a>
+<a class="sourceLine" id="cb11-16" data-line-number="16"><span class="co"># 12 2017_2T_CARRIL_BICI_CONS.~ zip    http://opendata-ajuntament.barcelona.cat/data/dataset/edee68e3-5ff1-43d0-b556~</span></a>
+<a class="sourceLine" id="cb11-17" data-line-number="17"><span class="co"># 13 2017_1T_CARRIL_BICI_CONS.~ zip    http://opendata-ajuntament.barcelona.cat/data/dataset/edee68e3-5ff1-43d0-b556~</span></a></code></pre></div>
 <p>where the user would get each file name with it’s format and direct URL, in case they want to read it manually. In case the dataset has at least <strong>one</strong> of the permitted formats, then the process is different: <code>extract_data</code> extracts all URL’s of the permitted format. As an ilustrative example, a dataset could have several files as can be seen in the image below:</p>
 <p><img src="datos_formats.png" width="1200" height="600" style="display: block; margin: auto;"></p>
 <p>The above image shows the accidents in the city of Barcelona for years 2010, 2011, etc.. where each of these datasets is in <code>csv</code>, <code>xlsx</code> and <code>xml</code> formats. What <code>extract_data</code> does is pick the permitted format in the order of preference of <code><a href="../reference/permitted_formats.html">opendataes::permitted_formats</a></code> and extract all of the URL’s for that format. In this case, it would extract all of the URL’s for the accidents in <code>csv</code> for the year 2010, 2011, etc..</p>
 <p>Once those URL’s are extracted, a loop begins for each of the URL’s where each URL is passed to <code>read_generic</code>, located at <code>R/read_generic.R</code>, to determine the function to read the data based on the format. Once the function is determined, <code>read_generic</code> attempts to read the URL. If for any reason reading the data raises an error, inside the same loop, <code>extract_datos</code> merely records the format and URL and returns a dataframe with the info that it attempted to read. This is done to preserve the structure of the results and to give the user the option to try to read it manually. If the reading process was successful, then it simply returns the data as a <code>tibble</code>.</p>
 <p>This is what really happens behind the scenes with commented code:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="co"># If there is any format to read continue, otherwise return</span></a>
-<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="co"># A dataset with all formats and their respective URL</span></a>
-<a class="sourceLine" id="cb11-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="co"># is_file_readable here contains the formats that matched between</span></a>
-<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="co"># the data_list and the permitted_formats</span></a>
-<a class="sourceLine" id="cb11-6" data-line-number="6"><span class="cf">if</span> (<span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(is_file_readable) <span class="op">!=</span><span class="st"> </span><span class="dv">0</span>) {</a>
-<a class="sourceLine" id="cb11-7" data-line-number="7">  </a>
-<a class="sourceLine" id="cb11-8" data-line-number="8">  <span class="co"># Determine the NAME of the datafiles</span></a>
-<a class="sourceLine" id="cb11-9" data-line-number="9">  names_datasets &lt;-<span class="st"> </span><span class="kw">determine_dataset_name</span>(data_list)</a>
-<a class="sourceLine" id="cb11-10" data-line-number="10">  </a>
-<a class="sourceLine" id="cb11-11" data-line-number="11">  <span class="co"># Make sure the URL's and dataset names are in the same order.</span></a>
-<a class="sourceLine" id="cb11-12" data-line-number="12">  <span class="cf">if</span> (<span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/all.html">all</a></span>(names_datasets <span class="op">==</span><span class="st"> </span>is_file_readable)) <span class="kw"><a href="https://rdrr.io/r/base/stop.html">stop</a></span>(<span class="st">"Data cannot be read because it is not in correct order"</span>)</a>
-<a class="sourceLine" id="cb11-13" data-line-number="13">  </a>
-<a class="sourceLine" id="cb11-14" data-line-number="14">  <span class="co"># Create empty list to fill it with the data</span></a>
-<a class="sourceLine" id="cb11-15" data-line-number="15">  output_data &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/vector.html">vector</a></span>(<span class="st">"list"</span>, <span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(is_file_readable))</a>
-<a class="sourceLine" id="cb11-16" data-line-number="16">  </a>
-<a class="sourceLine" id="cb11-17" data-line-number="17">  <span class="co"># Loop over the index of each URL</span></a>
-<a class="sourceLine" id="cb11-18" data-line-number="18">  <span class="cf">for</span> (index <span class="cf">in</span> <span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq_along</a></span>(is_file_readable)) {</a>
-<a class="sourceLine" id="cb11-19" data-line-number="19">    <span class="co"># Grab the URL</span></a>
-<a class="sourceLine" id="cb11-20" data-line-number="20">    data_url &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(is_file_readable)[index]</a>
-<a class="sourceLine" id="cb11-21" data-line-number="21">    <span class="co"># Determine the read_ function to be used from the format of the URL</span></a>
-<a class="sourceLine" id="cb11-22" data-line-number="22">    read_generic &lt;-<span class="st"> </span><span class="kw">determine_read_generic</span>(data_url)</a>
-<a class="sourceLine" id="cb11-23" data-line-number="23">    <span class="co"># Because there are different languages in Spain, set the encoding</span></a>
-<a class="sourceLine" id="cb11-24" data-line-number="24">    <span class="co"># to be used when reading the dataset. This is where the encoding argument</span></a>
-<a class="sourceLine" id="cb11-25" data-line-number="25">    <span class="co"># is passed to</span></a>
-<a class="sourceLine" id="cb11-26" data-line-number="26">    custom_locale &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw"><a href="https://readr.tidyverse.org/reference/locale.html">locale</a></span>(<span class="st">"es"</span>, <span class="dt">encoding =</span> encoding)</a>
-<a class="sourceLine" id="cb11-27" data-line-number="27">    </a>
-<a class="sourceLine" id="cb11-28" data-line-number="28">    <span class="co"># Try reading the data and saving it in that dataset's slot</span></a>
-<a class="sourceLine" id="cb11-29" data-line-number="29">    <span class="co"># in the list</span></a>
-<a class="sourceLine" id="cb11-30" data-line-number="30">    output_data[[index]] &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/try.html">try</a></span>(<span class="kw">read_generic</span>(<span class="dt">file =</span> data_url, <span class="dt">locale =</span> custom_locale, ...), <span class="dt">silent =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb11-31" data-line-number="31">    </a>
-<a class="sourceLine" id="cb11-32" data-line-number="32">    <span class="co"># If there was an error reading the dataset, fill the same slot</span></a>
-<a class="sourceLine" id="cb11-33" data-line-number="33">    <span class="co"># with the format and URL that it attempted to read.</span></a>
-<a class="sourceLine" id="cb11-34" data-line-number="34">    <span class="cf">if</span> (<span class="kw"><a href="https://rdrr.io/r/base/class.html">inherits</a></span>(output_data[[index]], <span class="st">"try-error"</span>)) {</a>
-<a class="sourceLine" id="cb11-35" data-line-number="35">      output_data[[index]] &lt;-<span class="st"> </span>tibble<span class="op">::</span><span class="kw"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="dt">format =</span> is_file_readable[index], </a>
-<a class="sourceLine" id="cb11-36" data-line-number="36">                                             <span class="dt">URL =</span> <span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(is_file_readable[index]))</a>
-<a class="sourceLine" id="cb11-37" data-line-number="37">    }</a>
-<a class="sourceLine" id="cb11-38" data-line-number="38">  }</a>
-<a class="sourceLine" id="cb11-39" data-line-number="39">  <span class="co"># Assign the names of each data slot so that users can identify which</span></a>
-<a class="sourceLine" id="cb11-40" data-line-number="40">  <span class="co"># name belongs to which dataset.</span></a>
-<a class="sourceLine" id="cb11-41" data-line-number="41">  <span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(output_data) &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(names_datasets)</a>
-<a class="sourceLine" id="cb11-42" data-line-number="42">}</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="co"># If there is any format to read continue, otherwise return</span></a>
+<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="co"># A dataset with all formats and their respective URL</span></a>
+<a class="sourceLine" id="cb12-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="co"># is_file_readable here contains the formats that matched between</span></a>
+<a class="sourceLine" id="cb12-5" data-line-number="5"><span class="co"># the data_list and the permitted_formats</span></a>
+<a class="sourceLine" id="cb12-6" data-line-number="6"><span class="cf">if</span> (<span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(is_file_readable) <span class="op">!=</span><span class="st"> </span><span class="dv">0</span>) {</a>
+<a class="sourceLine" id="cb12-7" data-line-number="7">  </a>
+<a class="sourceLine" id="cb12-8" data-line-number="8">  <span class="co"># Determine the NAME of the datafiles</span></a>
+<a class="sourceLine" id="cb12-9" data-line-number="9">  names_datasets &lt;-<span class="st"> </span><span class="kw">determine_dataset_name</span>(data_list)</a>
+<a class="sourceLine" id="cb12-10" data-line-number="10">  </a>
+<a class="sourceLine" id="cb12-11" data-line-number="11">  <span class="co"># Make sure the URL's and dataset names are in the same order.</span></a>
+<a class="sourceLine" id="cb12-12" data-line-number="12">  <span class="cf">if</span> (<span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/all.html">all</a></span>(names_datasets <span class="op">==</span><span class="st"> </span>is_file_readable)) <span class="kw"><a href="https://rdrr.io/r/base/stop.html">stop</a></span>(<span class="st">"Data cannot be read because it is not in correct order"</span>)</a>
+<a class="sourceLine" id="cb12-13" data-line-number="13">  </a>
+<a class="sourceLine" id="cb12-14" data-line-number="14">  <span class="co"># Create empty list to fill it with the data</span></a>
+<a class="sourceLine" id="cb12-15" data-line-number="15">  output_data &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/vector.html">vector</a></span>(<span class="st">"list"</span>, <span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(is_file_readable))</a>
+<a class="sourceLine" id="cb12-16" data-line-number="16">  </a>
+<a class="sourceLine" id="cb12-17" data-line-number="17">  <span class="co"># Loop over the index of each URL</span></a>
+<a class="sourceLine" id="cb12-18" data-line-number="18">  <span class="cf">for</span> (index <span class="cf">in</span> <span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq_along</a></span>(is_file_readable)) {</a>
+<a class="sourceLine" id="cb12-19" data-line-number="19">    <span class="co"># Grab the URL</span></a>
+<a class="sourceLine" id="cb12-20" data-line-number="20">    data_url &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(is_file_readable)[index]</a>
+<a class="sourceLine" id="cb12-21" data-line-number="21">    <span class="co"># Determine the read_ function to be used from the format of the URL</span></a>
+<a class="sourceLine" id="cb12-22" data-line-number="22">    read_generic &lt;-<span class="st"> </span><span class="kw">determine_read_generic</span>(data_url)</a>
+<a class="sourceLine" id="cb12-23" data-line-number="23">    <span class="co"># Because there are different languages in Spain, set the encoding</span></a>
+<a class="sourceLine" id="cb12-24" data-line-number="24">    <span class="co"># to be used when reading the dataset. This is where the encoding argument</span></a>
+<a class="sourceLine" id="cb12-25" data-line-number="25">    <span class="co"># is passed to</span></a>
+<a class="sourceLine" id="cb12-26" data-line-number="26">    custom_locale &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw"><a href="https://readr.tidyverse.org/reference/locale.html">locale</a></span>(<span class="st">"es"</span>, <span class="dt">encoding =</span> encoding)</a>
+<a class="sourceLine" id="cb12-27" data-line-number="27">    </a>
+<a class="sourceLine" id="cb12-28" data-line-number="28">    <span class="co"># Try reading the data and saving it in that dataset's slot</span></a>
+<a class="sourceLine" id="cb12-29" data-line-number="29">    <span class="co"># in the list</span></a>
+<a class="sourceLine" id="cb12-30" data-line-number="30">    output_data[[index]] &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/try.html">try</a></span>(<span class="kw">read_generic</span>(<span class="dt">file =</span> data_url, <span class="dt">locale =</span> custom_locale, ...), <span class="dt">silent =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb12-31" data-line-number="31">    </a>
+<a class="sourceLine" id="cb12-32" data-line-number="32">    <span class="co"># If there was an error reading the dataset, fill the same slot</span></a>
+<a class="sourceLine" id="cb12-33" data-line-number="33">    <span class="co"># with the format and URL that it attempted to read.</span></a>
+<a class="sourceLine" id="cb12-34" data-line-number="34">    <span class="cf">if</span> (<span class="kw"><a href="https://rdrr.io/r/base/class.html">inherits</a></span>(output_data[[index]], <span class="st">"try-error"</span>)) {</a>
+<a class="sourceLine" id="cb12-35" data-line-number="35">      output_data[[index]] &lt;-<span class="st"> </span>tibble<span class="op">::</span><span class="kw"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="dt">format =</span> is_file_readable[index], </a>
+<a class="sourceLine" id="cb12-36" data-line-number="36">                                             <span class="dt">URL =</span> <span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(is_file_readable[index]))</a>
+<a class="sourceLine" id="cb12-37" data-line-number="37">    }</a>
+<a class="sourceLine" id="cb12-38" data-line-number="38">  }</a>
+<a class="sourceLine" id="cb12-39" data-line-number="39">  <span class="co"># Assign the names of each data slot so that users can identify which</span></a>
+<a class="sourceLine" id="cb12-40" data-line-number="40">  <span class="co"># name belongs to which dataset.</span></a>
+<a class="sourceLine" id="cb12-41" data-line-number="41">  <span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(output_data) &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(names_datasets)</a>
+<a class="sourceLine" id="cb12-42" data-line-number="42">}</a></code></pre></div>
 <p>The process explained above is very messy because of the main problem discussed above: not all datasets are standardized. For example, in one of the <code>csv</code> files from above there could’ve been a starting blank line whereas in the second dataset there was no such line. Manually, this is easy to handle by just providing an argument such as <code>skip</code> to skip the first line. However, once we scale it to different datasets which don’t have a standardized structure, it becomes very messy.</p>
 <p>Providing specific arguments to each dataset being read would be too difficult considering that the user never knows the order at which each of the datasets are being read. Moreover, in order for the user to know which arguments should be passed to each dataset, the user would have had to read the data manually in the first place which really misses the whole point of streamlining the process of reading the data automatically.</p>
 <p>As a partial solution, <code>opendataes</code> provides the <code>...</code> argument in <code>openes_load</code> to allow the user to pass generic arguments to all datasets. In a similar line, <code>openes_load</code> allows the user to pass the <code>encoding</code> argument which is passed to the <code>read_generic</code> function when it is appropriate. Of course, any argument passed to <code>...</code> or <code>encoding</code> will be applied to all datasets being read. Once this process is over, <code>extract_data</code> will always return a list with <code>tibble</code>’s where each <code>tibble</code> could be the data itself or a <code>tibble</code> with the link and format that <code>read_generic</code> attempted to read but failed for some reason.</p>

@@ -101,19 +101,22 @@
 <p>First, let’s read through a messy dataset, or in other words, a real-world dataset. An interesting data is one from the Ayuntamiento de Barcelona which details the causes of car accidents in the city. We could do this in two ways: either searching for the direct end path of the URL in <a href="https://datos.gob.es" class="uri">https://datos.gob.es</a> or we could search for the data interactively through keywords.</p>
 <p>To search for keywords we need to know in advanced which publisher published the data that we’re looking for. Because only very few (as of October 2018) publishers have standardized datasets across their datasets, <code>opendataes</code> will aggregate new publishers slowly as they can show to provide stableness. We can check out which publishers are available with <code>publishers_available</code>.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(opendataes)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb1-3" data-line-number="3">publishers_available</a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&gt;                                    publishers publisher_code</span></a>
-<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#&gt; 1                   Ayuntamiento de Barcelona      L01080193</span></a>
-<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">#&gt; 2                      Ayuntamiento de Madrid      L01280796</span></a>
-<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#&gt; 3                    Ayuntamiento de Valencia      L01462508</span></a>
-<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">#&gt; 4  Ayuntamiento de Las Palmas de Gran Canaria      L01350167</span></a>
-<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#&gt; 5                      Ayuntamiento de Bilbao      L01480209</span></a>
-<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="co">#&gt; 6                    Ayuntamiento de Zaragoza      L01502973</span></a>
-<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="co">#&gt; 7                      Ayuntamiento de Malaga      L01290672</span></a>
-<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="co">#&gt; 8                       Ayuntamiento de Gijon      L01330241</span></a>
-<a class="sourceLine" id="cb1-13" data-line-number="13"><span class="co">#&gt; 9                   Ayuntamiento de Santander      L01390759</span></a>
-<a class="sourceLine" id="cb1-14" data-line-number="14"><span class="co">#&gt; 10                 Ayuntamiento de Alcobendas      L01280066</span></a></code></pre></div>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co">#&gt; Please cite as:</span></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&gt; Cimentada, J. and Jorge Lopez (2019). Interact with the datos.gob.es API to download public data from all of Spain R package version 0.0.1</span></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6">publishers_available</a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#&gt;                                    publishers publisher_code</span></a>
+<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">#&gt; 1                   Ayuntamiento de Barcelona      L01080193</span></a>
+<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#&gt; 2                      Ayuntamiento de Madrid      L01280796</span></a>
+<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="co">#&gt; 3                    Ayuntamiento de Valencia      L01462508</span></a>
+<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="co">#&gt; 4  Ayuntamiento de Las Palmas de Gran Canaria      L01350167</span></a>
+<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="co">#&gt; 5                      Ayuntamiento de Bilbao      L01480209</span></a>
+<a class="sourceLine" id="cb1-13" data-line-number="13"><span class="co">#&gt; 6                    Ayuntamiento de Zaragoza      L01502973</span></a>
+<a class="sourceLine" id="cb1-14" data-line-number="14"><span class="co">#&gt; 7                      Ayuntamiento de Malaga      L01290672</span></a>
+<a class="sourceLine" id="cb1-15" data-line-number="15"><span class="co">#&gt; 8                       Ayuntamiento de Gijon      L01330241</span></a>
+<a class="sourceLine" id="cb1-16" data-line-number="16"><span class="co">#&gt; 9                   Ayuntamiento de Santander      L01390759</span></a>
+<a class="sourceLine" id="cb1-17" data-line-number="17"><span class="co">#&gt; 10                 Ayuntamiento de Alcobendas      L01280066</span></a></code></pre></div>
 <p>Let’s subset the code of ‘Ayuntamiento de Barcelona’ and search for the keyword ‘accidentes’ which means accidents.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">pub_code &lt;-<span class="st"> </span>publishers_available<span class="op">$</span>publisher_code[publishers_available<span class="op">$</span>publishers <span class="op">==</span><span class="st"> 'Ayuntamiento de Barcelona'</span>]</a>
 <a class="sourceLine" id="cb2-2" data-line-number="2">kw &lt;-<span class="st"> </span><span class="kw"><a href="../reference/openes_keywords.html">openes_keywords</a></span>(<span class="st">'accidentes'</span>, pub_code)</a>
