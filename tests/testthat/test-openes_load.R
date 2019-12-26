@@ -218,9 +218,9 @@ test_that("openes_load's character and keyword results match exactly", {
                                   'latin1',
                                   n_max = 5)
 
-  kw <- openes_keywords("la Prosperitat", "l01080193")
+  kw <- openes_keywords("el Raval", "l01080193")
 
-  intm <- kw[grepl("Elecciones al Parlamento Europeo. Resultados absolutos por sección censal de la ciudad de Barcelona",
+  intm <- kw[grepl("Resultados absolutos de las elecciones al Parlamento Europeo de la ciudad de Barcelona",
                    kw$description,
                    fixed = TRUE), ]
 
