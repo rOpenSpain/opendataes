@@ -85,7 +85,7 @@
       <h1>Understanding opendataes: a case study approach</h1>
                         <h4 class="author">Jorge Cimentada and Jorge Lopez</h4>
             
-            <h4 class="date">2020-01-06</h4>
+            <h4 class="date">2020-01-07</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ropenspain/opendataes/blob/master/vignettes/understanding-opendataes-a-case-study-approach.Rmd"><code>vignettes/understanding-opendataes-a-case-study-approach.Rmd</code></a></small>
       <div class="hidden name"><code>understanding-opendataes-a-case-study-approach.Rmd</code></div>
@@ -159,117 +159,117 @@
 <a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt; # … with 2 more variables: publisher &lt;chr&gt;, publisher_data_url &lt;chr&gt;</span></a></code></pre></div>
 <p>and the data slot:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">accidents<span class="op">$</span>data</a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&gt; $`2015_ACCIDENTS_TIPUS_GU_BCN_.csv`</span></a>
-<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">#&gt; # A tibble: 10,521 x 20</span></a>
-<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt;    `Número d'exped… `Codi districte` `Nom districte` `Codi barri` `Nom barri`</span></a>
-<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt;    &lt;chr&gt;                       &lt;dbl&gt; &lt;chr&gt;                  &lt;dbl&gt; &lt;chr&gt;      </span></a>
-<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt;  1 2015S000215                    10 Sant Martí                64 el Camp de…</span></a>
-<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt;  2 2015S000787                    10 Sant Martí                64 el Camp de…</span></a>
-<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">#&gt;  3 2015S000390                    10 Sant Martí                64 el Camp de…</span></a>
-<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">#&gt;  4 2015S007294                    10 Sant Martí                64 el Camp de…</span></a>
-<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="co">#&gt;  5 2015S009836                    10 Sant Martí                64 el Camp de…</span></a>
-<a class="sourceLine" id="cb7-11" data-line-number="11"><span class="co">#&gt;  6 2015S009453                    10 Sant Martí                64 el Camp de…</span></a>
-<a class="sourceLine" id="cb7-12" data-line-number="12"><span class="co">#&gt;  7 2015S007312                    10 Sant Martí                64 el Camp de…</span></a>
-<a class="sourceLine" id="cb7-13" data-line-number="13"><span class="co">#&gt;  8 2015S004660                    10 Sant Martí                64 el Camp de…</span></a>
-<a class="sourceLine" id="cb7-14" data-line-number="14"><span class="co">#&gt;  9 2015S006407                    10 Sant Martí                64 el Camp de…</span></a>
-<a class="sourceLine" id="cb7-15" data-line-number="15"><span class="co">#&gt; 10 2015S009834                    10 Sant Martí                64 el Camp de…</span></a>
-<a class="sourceLine" id="cb7-16" data-line-number="16"><span class="co">#&gt; # … with 10,511 more rows, and 15 more variables: `Codi carrer` &lt;dbl&gt;, `Nom</span></a>
-<a class="sourceLine" id="cb7-17" data-line-number="17"><span class="co">#&gt; #   carrer` &lt;chr&gt;, `Num postal caption` &lt;chr&gt;, `Descripció dia setmana` &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb7-18" data-line-number="18"><span class="co">#&gt; #   `Dia setmana` &lt;chr&gt;, `Descripció tipus dia` &lt;chr&gt;, `NK Any` &lt;dbl&gt;, `Mes de</span></a>
-<a class="sourceLine" id="cb7-19" data-line-number="19"><span class="co">#&gt; #   any` &lt;dbl&gt;, `Nom mes` &lt;chr&gt;, `Dia de mes` &lt;dbl&gt;, `Hora de dia` &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb7-20" data-line-number="20"><span class="co">#&gt; #   `Descripció torn` &lt;chr&gt;, `Descripció tipus accident` &lt;chr&gt;, `Coordenada UTM</span></a>
-<a class="sourceLine" id="cb7-21" data-line-number="21"><span class="co">#&gt; #   (Y)` &lt;dbl&gt;, `Coordenada UTM (X)` &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb7-22" data-line-number="22"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb7-23" data-line-number="23"><span class="co">#&gt; $`2018_ACCIDENTS_TIPUS_GU_BCN`</span></a>
-<a class="sourceLine" id="cb7-24" data-line-number="24"><span class="co">#&gt; # A tibble: 10,551 x 22</span></a>
-<a class="sourceLine" id="cb7-25" data-line-number="25"><span class="co">#&gt;    Codi_expedient Codi_districte Nom_districte Codi_barri Nom_barri Codi_carrer</span></a>
-<a class="sourceLine" id="cb7-26" data-line-number="26"><span class="co">#&gt;    &lt;chr&gt;                   &lt;dbl&gt; &lt;chr&gt;              &lt;dbl&gt; &lt;chr&gt;           &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb7-27" data-line-number="27"><span class="co">#&gt;  1 2018S000001                 3 Sants-Montju…         11 el Poble…      198804</span></a>
-<a class="sourceLine" id="cb7-28" data-line-number="28"><span class="co">#&gt;  2 2018S000002                 2 Eixample               9 la Nova …      361406</span></a>
-<a class="sourceLine" id="cb7-29" data-line-number="29"><span class="co">#&gt;  3 2018S000003                10 Sant Martí            64 el Camp …      161407</span></a>
-<a class="sourceLine" id="cb7-30" data-line-number="30"><span class="co">#&gt;  4 2018S000004                 8 Nou Barris            44 Vilapici…      111704</span></a>
-<a class="sourceLine" id="cb7-31" data-line-number="31"><span class="co">#&gt;  5 2018S000005                 8 Nou Barris            56 Vallbona       330606</span></a>
-<a class="sourceLine" id="cb7-32" data-line-number="32"><span class="co">#&gt;  6 2018S000006                 4 Les Corts             19 les Corts      144601</span></a>
-<a class="sourceLine" id="cb7-33" data-line-number="33"><span class="co">#&gt;  7 2018S000007                10 Sant Martí            73 la Verne…       60807</span></a>
-<a class="sourceLine" id="cb7-34" data-line-number="34"><span class="co">#&gt;  8 2018S000008                 3 Sants-Montju…         17 Sants - …      312400</span></a>
-<a class="sourceLine" id="cb7-35" data-line-number="35"><span class="co">#&gt;  9 2018S000009                 2 Eixample              10 Sant Ant…      323203</span></a>
-<a class="sourceLine" id="cb7-36" data-line-number="36"><span class="co">#&gt; 10 2018S000010                 8 Nou Barris            45 Porta          100209</span></a>
-<a class="sourceLine" id="cb7-37" data-line-number="37"><span class="co">#&gt; # … with 10,541 more rows, and 16 more variables: Nom_carrer &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb7-38" data-line-number="38"><span class="co">#&gt; #   Num_postal &lt;chr&gt;, Dia_setmana &lt;chr&gt;, ID_Dia_setmana &lt;chr&gt;, Tipus_dia &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb7-39" data-line-number="39"><span class="co">#&gt; #   Any &lt;dbl&gt;, Mes &lt;dbl&gt;, Nom_mes &lt;chr&gt;, Dia_de_mes &lt;dbl&gt;, Hora_de_dia &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb7-40" data-line-number="40"><span class="co">#&gt; #   Torn &lt;chr&gt;, Tipus_accident &lt;chr&gt;, Coordenada_UTM_X &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb7-41" data-line-number="41"><span class="co">#&gt; #   Coordenada_UTM_Y &lt;dbl&gt;, Longitud &lt;dbl&gt;, Latitud &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb7-42" data-line-number="42"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb7-43" data-line-number="43"><span class="co">#&gt; $`2016_ACCIDENTS_TIPUS_GU_BCN.csv`</span></a>
-<a class="sourceLine" id="cb7-44" data-line-number="44"><span class="co">#&gt; # A tibble: 10,701 x 22</span></a>
-<a class="sourceLine" id="cb7-45" data-line-number="45"><span class="co">#&gt;    Numero_expedient Codi_districte Nom_districte Codi_barri Nom_barri</span></a>
-<a class="sourceLine" id="cb7-46" data-line-number="46"><span class="co">#&gt;    &lt;chr&gt;                     &lt;dbl&gt; &lt;chr&gt;              &lt;dbl&gt; &lt;chr&gt;    </span></a>
-<a class="sourceLine" id="cb7-47" data-line-number="47"><span class="co">#&gt;  1 2016S002575                  10 Sant Martí            64 el Camp …</span></a>
-<a class="sourceLine" id="cb7-48" data-line-number="48"><span class="co">#&gt;  2 2016S001146                  10 Sant Martí            64 el Camp …</span></a>
-<a class="sourceLine" id="cb7-49" data-line-number="49"><span class="co">#&gt;  3 2016S009619                  10 Sant Martí            64 el Camp …</span></a>
-<a class="sourceLine" id="cb7-50" data-line-number="50"><span class="co">#&gt;  4 2016S003881                  10 Sant Martí            64 el Camp …</span></a>
-<a class="sourceLine" id="cb7-51" data-line-number="51"><span class="co">#&gt;  5 2016S004162                  10 Sant Martí            64 el Camp …</span></a>
-<a class="sourceLine" id="cb7-52" data-line-number="52"><span class="co">#&gt;  6 2016S009951                  10 Sant Martí            64 el Camp …</span></a>
-<a class="sourceLine" id="cb7-53" data-line-number="53"><span class="co">#&gt;  7 2016S004619                  10 Sant Martí            64 el Camp …</span></a>
-<a class="sourceLine" id="cb7-54" data-line-number="54"><span class="co">#&gt;  8 2016S009702                  10 Sant Martí            64 el Camp …</span></a>
-<a class="sourceLine" id="cb7-55" data-line-number="55"><span class="co">#&gt;  9 2016S003529                  10 Sant Martí            64 el Camp …</span></a>
-<a class="sourceLine" id="cb7-56" data-line-number="56"><span class="co">#&gt; 10 2016S008654                  10 Sant Martí            64 el Camp …</span></a>
-<a class="sourceLine" id="cb7-57" data-line-number="57"><span class="co">#&gt; # … with 10,691 more rows, and 17 more variables: Codi_carrer &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb7-58" data-line-number="58"><span class="co">#&gt; #   Nom_carrer &lt;chr&gt;, Num_postal_caption &lt;chr&gt;, Descripcio_dia_setmana &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb7-59" data-line-number="59"><span class="co">#&gt; #   Dia_setmana &lt;chr&gt;, Descripcio_tipus_dia &lt;chr&gt;, Any &lt;dbl&gt;, Mes_any &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb7-60" data-line-number="60"><span class="co">#&gt; #   Nom_mes &lt;chr&gt;, Dia_mes &lt;dbl&gt;, Hora_dia &lt;dbl&gt;, Descripcio_torn &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb7-61" data-line-number="61"><span class="co">#&gt; #   Descripcio_tipus_accident &lt;chr&gt;, Coordenada_UTM_X &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb7-62" data-line-number="62"><span class="co">#&gt; #   Coordenada_UTM_Y &lt;dbl&gt;, Longitud &lt;dbl&gt;, Latitud &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb7-63" data-line-number="63"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb7-64" data-line-number="64"><span class="co">#&gt; $`2010_ACCIDENTS_TIPUS_GU_BCN_.csv`</span></a>
-<a class="sourceLine" id="cb7-65" data-line-number="65"><span class="co">#&gt; # A tibble: 1 x 2</span></a>
-<a class="sourceLine" id="cb7-66" data-line-number="66"><span class="co">#&gt;   format URL                                                                    </span></a>
-<a class="sourceLine" id="cb7-67" data-line-number="67"><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;                                                                  </span></a>
-<a class="sourceLine" id="cb7-68" data-line-number="68"><span class="co">#&gt; 1 csv    https://opendata-ajuntament.barcelona.cat/data/dataset/834b8920-0685-4…</span></a>
-<a class="sourceLine" id="cb7-69" data-line-number="69"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb7-70" data-line-number="70"><span class="co">#&gt; $`2011_ACCIDENTS_TIPUS_GU_BCN_.csv`</span></a>
-<a class="sourceLine" id="cb7-71" data-line-number="71"><span class="co">#&gt; # A tibble: 1 x 2</span></a>
-<a class="sourceLine" id="cb7-72" data-line-number="72"><span class="co">#&gt;   format URL                                                                    </span></a>
-<a class="sourceLine" id="cb7-73" data-line-number="73"><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;                                                                  </span></a>
-<a class="sourceLine" id="cb7-74" data-line-number="74"><span class="co">#&gt; 1 csv    https://opendata-ajuntament.barcelona.cat/data/dataset/834b8920-0685-4…</span></a>
-<a class="sourceLine" id="cb7-75" data-line-number="75"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb7-76" data-line-number="76"><span class="co">#&gt; $`2012_ACCIDENTS_TIPUS_GU_BCN_.csv`</span></a>
-<a class="sourceLine" id="cb7-77" data-line-number="77"><span class="co">#&gt; # A tibble: 1 x 2</span></a>
-<a class="sourceLine" id="cb7-78" data-line-number="78"><span class="co">#&gt;   format URL                                                                    </span></a>
-<a class="sourceLine" id="cb7-79" data-line-number="79"><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;                                                                  </span></a>
-<a class="sourceLine" id="cb7-80" data-line-number="80"><span class="co">#&gt; 1 csv    https://opendata-ajuntament.barcelona.cat/data/dataset/834b8920-0685-4…</span></a>
-<a class="sourceLine" id="cb7-81" data-line-number="81"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb7-82" data-line-number="82"><span class="co">#&gt; $`2013_ACCIDENTS_TIPUS_GU_BCN_.csv`</span></a>
-<a class="sourceLine" id="cb7-83" data-line-number="83"><span class="co">#&gt; # A tibble: 1 x 2</span></a>
-<a class="sourceLine" id="cb7-84" data-line-number="84"><span class="co">#&gt;   format URL                                                                    </span></a>
-<a class="sourceLine" id="cb7-85" data-line-number="85"><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;                                                                  </span></a>
-<a class="sourceLine" id="cb7-86" data-line-number="86"><span class="co">#&gt; 1 csv    https://opendata-ajuntament.barcelona.cat/data/dataset/834b8920-0685-4…</span></a>
-<a class="sourceLine" id="cb7-87" data-line-number="87"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb7-88" data-line-number="88"><span class="co">#&gt; $`2014_ACCIDENTS_TIPUS_GU_BCN_.csv`</span></a>
-<a class="sourceLine" id="cb7-89" data-line-number="89"><span class="co">#&gt; # A tibble: 1 x 2</span></a>
-<a class="sourceLine" id="cb7-90" data-line-number="90"><span class="co">#&gt;   format URL                                                                    </span></a>
-<a class="sourceLine" id="cb7-91" data-line-number="91"><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;                                                                  </span></a>
-<a class="sourceLine" id="cb7-92" data-line-number="92"><span class="co">#&gt; 1 csv    https://opendata-ajuntament.barcelona.cat/data/dataset/834b8920-0685-4…</span></a>
-<a class="sourceLine" id="cb7-93" data-line-number="93"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb7-94" data-line-number="94"><span class="co">#&gt; $`2017_ACCIDENTS_TIPUS_GU_BCN`</span></a>
-<a class="sourceLine" id="cb7-95" data-line-number="95"><span class="co">#&gt; # A tibble: 11,009 x 22</span></a>
-<a class="sourceLine" id="cb7-96" data-line-number="96"><span class="co">#&gt;    Numero_expedient Codi_districte Nom_districte Codi_barri Nom_barri</span></a>
-<a class="sourceLine" id="cb7-97" data-line-number="97"><span class="co">#&gt;    &lt;chr&gt;                     &lt;dbl&gt; &lt;chr&gt;              &lt;dbl&gt; &lt;chr&gt;    </span></a>
-<a class="sourceLine" id="cb7-98" data-line-number="98"><span class="co">#&gt;  1 2017S009418                  -1 Desconegut            -1 Desconeg…</span></a>
-<a class="sourceLine" id="cb7-99" data-line-number="99"><span class="co">#&gt;  2 2017S008852                  -1 Desconegut            -1 Desconeg…</span></a>
-<a class="sourceLine" id="cb7-100" data-line-number="100"><span class="co">#&gt;  3 2017S001023                  10 Sant Martí            64 el Camp …</span></a>
-<a class="sourceLine" id="cb7-101" data-line-number="101"><span class="co">#&gt;  4 2017S009198                  10 Sant Martí            64 el Camp …</span></a>
-<a class="sourceLine" id="cb7-102" data-line-number="102"><span class="co">#&gt;  5 2017S006546                  10 Sant Martí            64 el Camp …</span></a>
-<a class="sourceLine" id="cb7-103" data-line-number="103"><span class="co">#&gt;  6 2017S003698                  10 Sant Martí            64 el Camp …</span></a>
-<a class="sourceLine" id="cb7-104" data-line-number="104"><span class="co">#&gt;  7 2017S004977                  10 Sant Martí            64 el Camp …</span></a>
-<a class="sourceLine" id="cb7-105" data-line-number="105"><span class="co">#&gt;  8 2017S008080                  10 Sant Martí            64 el Camp …</span></a>
-<a class="sourceLine" id="cb7-106" data-line-number="106"><span class="co">#&gt;  9 2017S004521                  10 Sant Martí            64 el Camp …</span></a>
-<a class="sourceLine" id="cb7-107" data-line-number="107"><span class="co">#&gt; 10 2017S004180                  10 Sant Martí            64 el Camp …</span></a>
-<a class="sourceLine" id="cb7-108" data-line-number="108"><span class="co">#&gt; # … with 10,999 more rows, and 17 more variables: Codi_carrer &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb7-109" data-line-number="109"><span class="co">#&gt; #   Nom_carrer &lt;chr&gt;, Num_postal_caption &lt;chr&gt;, Descripcio_dia_setmana &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb7-110" data-line-number="110"><span class="co">#&gt; #   Dia_setmana &lt;chr&gt;, Descripcio_tipus_dia &lt;chr&gt;, Any &lt;dbl&gt;, Mes_any &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb7-111" data-line-number="111"><span class="co">#&gt; #   Nom_mes &lt;chr&gt;, Dia_mes &lt;dbl&gt;, Hora_dia &lt;dbl&gt;, Descripcio_torn &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb7-112" data-line-number="112"><span class="co">#&gt; #   Descripcio_tipus_accident &lt;chr&gt;, Coordenada_UTM_X &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&gt; $`2011_ACCIDENTS_TIPUS_GU_BCN_.csv`</span></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">#&gt; # A tibble: 1 x 2</span></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt;   format URL                                                                    </span></a>
+<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;                                                                  </span></a>
+<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt; 1 csv    https://opendata-ajuntament.barcelona.cat/data/dataset/834b8920-0685-4…</span></a>
+<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">#&gt; $`2017_ACCIDENTS_TIPUS_GU_BCN`</span></a>
+<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">#&gt; # A tibble: 11,009 x 22</span></a>
+<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="co">#&gt;    Numero_expedient Codi_districte Nom_districte Codi_barri Nom_barri</span></a>
+<a class="sourceLine" id="cb7-11" data-line-number="11"><span class="co">#&gt;    &lt;chr&gt;                     &lt;dbl&gt; &lt;chr&gt;              &lt;dbl&gt; &lt;chr&gt;    </span></a>
+<a class="sourceLine" id="cb7-12" data-line-number="12"><span class="co">#&gt;  1 2017S009418                  -1 Desconegut            -1 Desconeg…</span></a>
+<a class="sourceLine" id="cb7-13" data-line-number="13"><span class="co">#&gt;  2 2017S008852                  -1 Desconegut            -1 Desconeg…</span></a>
+<a class="sourceLine" id="cb7-14" data-line-number="14"><span class="co">#&gt;  3 2017S001023                  10 Sant Martí            64 el Camp …</span></a>
+<a class="sourceLine" id="cb7-15" data-line-number="15"><span class="co">#&gt;  4 2017S009198                  10 Sant Martí            64 el Camp …</span></a>
+<a class="sourceLine" id="cb7-16" data-line-number="16"><span class="co">#&gt;  5 2017S006546                  10 Sant Martí            64 el Camp …</span></a>
+<a class="sourceLine" id="cb7-17" data-line-number="17"><span class="co">#&gt;  6 2017S003698                  10 Sant Martí            64 el Camp …</span></a>
+<a class="sourceLine" id="cb7-18" data-line-number="18"><span class="co">#&gt;  7 2017S004977                  10 Sant Martí            64 el Camp …</span></a>
+<a class="sourceLine" id="cb7-19" data-line-number="19"><span class="co">#&gt;  8 2017S008080                  10 Sant Martí            64 el Camp …</span></a>
+<a class="sourceLine" id="cb7-20" data-line-number="20"><span class="co">#&gt;  9 2017S004521                  10 Sant Martí            64 el Camp …</span></a>
+<a class="sourceLine" id="cb7-21" data-line-number="21"><span class="co">#&gt; 10 2017S004180                  10 Sant Martí            64 el Camp …</span></a>
+<a class="sourceLine" id="cb7-22" data-line-number="22"><span class="co">#&gt; # … with 10,999 more rows, and 17 more variables: Codi_carrer &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb7-23" data-line-number="23"><span class="co">#&gt; #   Nom_carrer &lt;chr&gt;, Num_postal_caption &lt;chr&gt;, Descripcio_dia_setmana &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb7-24" data-line-number="24"><span class="co">#&gt; #   Dia_setmana &lt;chr&gt;, Descripcio_tipus_dia &lt;chr&gt;, Any &lt;dbl&gt;, Mes_any &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb7-25" data-line-number="25"><span class="co">#&gt; #   Nom_mes &lt;chr&gt;, Dia_mes &lt;dbl&gt;, Hora_dia &lt;dbl&gt;, Descripcio_torn &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb7-26" data-line-number="26"><span class="co">#&gt; #   Descripcio_tipus_accident &lt;chr&gt;, Coordenada_UTM_X &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb7-27" data-line-number="27"><span class="co">#&gt; #   Coordenada_UTM_Y &lt;dbl&gt;, Longitud &lt;dbl&gt;, Latitud &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb7-28" data-line-number="28"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb7-29" data-line-number="29"><span class="co">#&gt; $`2012_ACCIDENTS_TIPUS_GU_BCN_.csv`</span></a>
+<a class="sourceLine" id="cb7-30" data-line-number="30"><span class="co">#&gt; # A tibble: 1 x 2</span></a>
+<a class="sourceLine" id="cb7-31" data-line-number="31"><span class="co">#&gt;   format URL                                                                    </span></a>
+<a class="sourceLine" id="cb7-32" data-line-number="32"><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;                                                                  </span></a>
+<a class="sourceLine" id="cb7-33" data-line-number="33"><span class="co">#&gt; 1 csv    https://opendata-ajuntament.barcelona.cat/data/dataset/834b8920-0685-4…</span></a>
+<a class="sourceLine" id="cb7-34" data-line-number="34"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb7-35" data-line-number="35"><span class="co">#&gt; $`2010_ACCIDENTS_TIPUS_GU_BCN_.csv`</span></a>
+<a class="sourceLine" id="cb7-36" data-line-number="36"><span class="co">#&gt; # A tibble: 1 x 2</span></a>
+<a class="sourceLine" id="cb7-37" data-line-number="37"><span class="co">#&gt;   format URL                                                                    </span></a>
+<a class="sourceLine" id="cb7-38" data-line-number="38"><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;                                                                  </span></a>
+<a class="sourceLine" id="cb7-39" data-line-number="39"><span class="co">#&gt; 1 csv    https://opendata-ajuntament.barcelona.cat/data/dataset/834b8920-0685-4…</span></a>
+<a class="sourceLine" id="cb7-40" data-line-number="40"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb7-41" data-line-number="41"><span class="co">#&gt; $`2015_ACCIDENTS_TIPUS_GU_BCN_.csv`</span></a>
+<a class="sourceLine" id="cb7-42" data-line-number="42"><span class="co">#&gt; # A tibble: 10,521 x 20</span></a>
+<a class="sourceLine" id="cb7-43" data-line-number="43"><span class="co">#&gt;    `Número d'exped… `Codi districte` `Nom districte` `Codi barri` `Nom barri`</span></a>
+<a class="sourceLine" id="cb7-44" data-line-number="44"><span class="co">#&gt;    &lt;chr&gt;                       &lt;dbl&gt; &lt;chr&gt;                  &lt;dbl&gt; &lt;chr&gt;      </span></a>
+<a class="sourceLine" id="cb7-45" data-line-number="45"><span class="co">#&gt;  1 2015S000215                    10 Sant Martí                64 el Camp de…</span></a>
+<a class="sourceLine" id="cb7-46" data-line-number="46"><span class="co">#&gt;  2 2015S000787                    10 Sant Martí                64 el Camp de…</span></a>
+<a class="sourceLine" id="cb7-47" data-line-number="47"><span class="co">#&gt;  3 2015S000390                    10 Sant Martí                64 el Camp de…</span></a>
+<a class="sourceLine" id="cb7-48" data-line-number="48"><span class="co">#&gt;  4 2015S007294                    10 Sant Martí                64 el Camp de…</span></a>
+<a class="sourceLine" id="cb7-49" data-line-number="49"><span class="co">#&gt;  5 2015S009836                    10 Sant Martí                64 el Camp de…</span></a>
+<a class="sourceLine" id="cb7-50" data-line-number="50"><span class="co">#&gt;  6 2015S009453                    10 Sant Martí                64 el Camp de…</span></a>
+<a class="sourceLine" id="cb7-51" data-line-number="51"><span class="co">#&gt;  7 2015S007312                    10 Sant Martí                64 el Camp de…</span></a>
+<a class="sourceLine" id="cb7-52" data-line-number="52"><span class="co">#&gt;  8 2015S004660                    10 Sant Martí                64 el Camp de…</span></a>
+<a class="sourceLine" id="cb7-53" data-line-number="53"><span class="co">#&gt;  9 2015S006407                    10 Sant Martí                64 el Camp de…</span></a>
+<a class="sourceLine" id="cb7-54" data-line-number="54"><span class="co">#&gt; 10 2015S009834                    10 Sant Martí                64 el Camp de…</span></a>
+<a class="sourceLine" id="cb7-55" data-line-number="55"><span class="co">#&gt; # … with 10,511 more rows, and 15 more variables: `Codi carrer` &lt;dbl&gt;, `Nom</span></a>
+<a class="sourceLine" id="cb7-56" data-line-number="56"><span class="co">#&gt; #   carrer` &lt;chr&gt;, `Num postal caption` &lt;chr&gt;, `Descripció dia setmana` &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb7-57" data-line-number="57"><span class="co">#&gt; #   `Dia setmana` &lt;chr&gt;, `Descripció tipus dia` &lt;chr&gt;, `NK Any` &lt;dbl&gt;, `Mes de</span></a>
+<a class="sourceLine" id="cb7-58" data-line-number="58"><span class="co">#&gt; #   any` &lt;dbl&gt;, `Nom mes` &lt;chr&gt;, `Dia de mes` &lt;dbl&gt;, `Hora de dia` &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb7-59" data-line-number="59"><span class="co">#&gt; #   `Descripció torn` &lt;chr&gt;, `Descripció tipus accident` &lt;chr&gt;, `Coordenada UTM</span></a>
+<a class="sourceLine" id="cb7-60" data-line-number="60"><span class="co">#&gt; #   (Y)` &lt;dbl&gt;, `Coordenada UTM (X)` &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb7-61" data-line-number="61"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb7-62" data-line-number="62"><span class="co">#&gt; $`2016_ACCIDENTS_TIPUS_GU_BCN.csv`</span></a>
+<a class="sourceLine" id="cb7-63" data-line-number="63"><span class="co">#&gt; # A tibble: 10,701 x 22</span></a>
+<a class="sourceLine" id="cb7-64" data-line-number="64"><span class="co">#&gt;    Numero_expedient Codi_districte Nom_districte Codi_barri Nom_barri</span></a>
+<a class="sourceLine" id="cb7-65" data-line-number="65"><span class="co">#&gt;    &lt;chr&gt;                     &lt;dbl&gt; &lt;chr&gt;              &lt;dbl&gt; &lt;chr&gt;    </span></a>
+<a class="sourceLine" id="cb7-66" data-line-number="66"><span class="co">#&gt;  1 2016S002575                  10 Sant Martí            64 el Camp …</span></a>
+<a class="sourceLine" id="cb7-67" data-line-number="67"><span class="co">#&gt;  2 2016S001146                  10 Sant Martí            64 el Camp …</span></a>
+<a class="sourceLine" id="cb7-68" data-line-number="68"><span class="co">#&gt;  3 2016S009619                  10 Sant Martí            64 el Camp …</span></a>
+<a class="sourceLine" id="cb7-69" data-line-number="69"><span class="co">#&gt;  4 2016S003881                  10 Sant Martí            64 el Camp …</span></a>
+<a class="sourceLine" id="cb7-70" data-line-number="70"><span class="co">#&gt;  5 2016S004162                  10 Sant Martí            64 el Camp …</span></a>
+<a class="sourceLine" id="cb7-71" data-line-number="71"><span class="co">#&gt;  6 2016S009951                  10 Sant Martí            64 el Camp …</span></a>
+<a class="sourceLine" id="cb7-72" data-line-number="72"><span class="co">#&gt;  7 2016S004619                  10 Sant Martí            64 el Camp …</span></a>
+<a class="sourceLine" id="cb7-73" data-line-number="73"><span class="co">#&gt;  8 2016S009702                  10 Sant Martí            64 el Camp …</span></a>
+<a class="sourceLine" id="cb7-74" data-line-number="74"><span class="co">#&gt;  9 2016S003529                  10 Sant Martí            64 el Camp …</span></a>
+<a class="sourceLine" id="cb7-75" data-line-number="75"><span class="co">#&gt; 10 2016S008654                  10 Sant Martí            64 el Camp …</span></a>
+<a class="sourceLine" id="cb7-76" data-line-number="76"><span class="co">#&gt; # … with 10,691 more rows, and 17 more variables: Codi_carrer &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb7-77" data-line-number="77"><span class="co">#&gt; #   Nom_carrer &lt;chr&gt;, Num_postal_caption &lt;chr&gt;, Descripcio_dia_setmana &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb7-78" data-line-number="78"><span class="co">#&gt; #   Dia_setmana &lt;chr&gt;, Descripcio_tipus_dia &lt;chr&gt;, Any &lt;dbl&gt;, Mes_any &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb7-79" data-line-number="79"><span class="co">#&gt; #   Nom_mes &lt;chr&gt;, Dia_mes &lt;dbl&gt;, Hora_dia &lt;dbl&gt;, Descripcio_torn &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb7-80" data-line-number="80"><span class="co">#&gt; #   Descripcio_tipus_accident &lt;chr&gt;, Coordenada_UTM_X &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb7-81" data-line-number="81"><span class="co">#&gt; #   Coordenada_UTM_Y &lt;dbl&gt;, Longitud &lt;dbl&gt;, Latitud &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb7-82" data-line-number="82"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb7-83" data-line-number="83"><span class="co">#&gt; $`2013_ACCIDENTS_TIPUS_GU_BCN_.csv`</span></a>
+<a class="sourceLine" id="cb7-84" data-line-number="84"><span class="co">#&gt; # A tibble: 1 x 2</span></a>
+<a class="sourceLine" id="cb7-85" data-line-number="85"><span class="co">#&gt;   format URL                                                                    </span></a>
+<a class="sourceLine" id="cb7-86" data-line-number="86"><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;                                                                  </span></a>
+<a class="sourceLine" id="cb7-87" data-line-number="87"><span class="co">#&gt; 1 csv    https://opendata-ajuntament.barcelona.cat/data/dataset/834b8920-0685-4…</span></a>
+<a class="sourceLine" id="cb7-88" data-line-number="88"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb7-89" data-line-number="89"><span class="co">#&gt; $`2014_ACCIDENTS_TIPUS_GU_BCN_.csv`</span></a>
+<a class="sourceLine" id="cb7-90" data-line-number="90"><span class="co">#&gt; # A tibble: 1 x 2</span></a>
+<a class="sourceLine" id="cb7-91" data-line-number="91"><span class="co">#&gt;   format URL                                                                    </span></a>
+<a class="sourceLine" id="cb7-92" data-line-number="92"><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;                                                                  </span></a>
+<a class="sourceLine" id="cb7-93" data-line-number="93"><span class="co">#&gt; 1 csv    https://opendata-ajuntament.barcelona.cat/data/dataset/834b8920-0685-4…</span></a>
+<a class="sourceLine" id="cb7-94" data-line-number="94"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb7-95" data-line-number="95"><span class="co">#&gt; $`2018_ACCIDENTS_TIPUS_GU_BCN`</span></a>
+<a class="sourceLine" id="cb7-96" data-line-number="96"><span class="co">#&gt; # A tibble: 10,551 x 22</span></a>
+<a class="sourceLine" id="cb7-97" data-line-number="97"><span class="co">#&gt;    Codi_expedient Codi_districte Nom_districte Codi_barri Nom_barri Codi_carrer</span></a>
+<a class="sourceLine" id="cb7-98" data-line-number="98"><span class="co">#&gt;    &lt;chr&gt;                   &lt;dbl&gt; &lt;chr&gt;              &lt;dbl&gt; &lt;chr&gt;           &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb7-99" data-line-number="99"><span class="co">#&gt;  1 2018S000001                 3 Sants-Montju…         11 el Poble…      198804</span></a>
+<a class="sourceLine" id="cb7-100" data-line-number="100"><span class="co">#&gt;  2 2018S000002                 2 Eixample               9 la Nova …      361406</span></a>
+<a class="sourceLine" id="cb7-101" data-line-number="101"><span class="co">#&gt;  3 2018S000003                10 Sant Martí            64 el Camp …      161407</span></a>
+<a class="sourceLine" id="cb7-102" data-line-number="102"><span class="co">#&gt;  4 2018S000004                 8 Nou Barris            44 Vilapici…      111704</span></a>
+<a class="sourceLine" id="cb7-103" data-line-number="103"><span class="co">#&gt;  5 2018S000005                 8 Nou Barris            56 Vallbona       330606</span></a>
+<a class="sourceLine" id="cb7-104" data-line-number="104"><span class="co">#&gt;  6 2018S000006                 4 Les Corts             19 les Corts      144601</span></a>
+<a class="sourceLine" id="cb7-105" data-line-number="105"><span class="co">#&gt;  7 2018S000007                10 Sant Martí            73 la Verne…       60807</span></a>
+<a class="sourceLine" id="cb7-106" data-line-number="106"><span class="co">#&gt;  8 2018S000008                 3 Sants-Montju…         17 Sants - …      312400</span></a>
+<a class="sourceLine" id="cb7-107" data-line-number="107"><span class="co">#&gt;  9 2018S000009                 2 Eixample              10 Sant Ant…      323203</span></a>
+<a class="sourceLine" id="cb7-108" data-line-number="108"><span class="co">#&gt; 10 2018S000010                 8 Nou Barris            45 Porta          100209</span></a>
+<a class="sourceLine" id="cb7-109" data-line-number="109"><span class="co">#&gt; # … with 10,541 more rows, and 16 more variables: Nom_carrer &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb7-110" data-line-number="110"><span class="co">#&gt; #   Num_postal &lt;chr&gt;, Dia_setmana &lt;chr&gt;, ID_Dia_setmana &lt;chr&gt;, Tipus_dia &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb7-111" data-line-number="111"><span class="co">#&gt; #   Any &lt;dbl&gt;, Mes &lt;dbl&gt;, Nom_mes &lt;chr&gt;, Dia_de_mes &lt;dbl&gt;, Hora_de_dia &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb7-112" data-line-number="112"><span class="co">#&gt; #   Torn &lt;chr&gt;, Tipus_accident &lt;chr&gt;, Coordenada_UTM_X &lt;dbl&gt;,</span></a>
 <a class="sourceLine" id="cb7-113" data-line-number="113"><span class="co">#&gt; #   Coordenada_UTM_Y &lt;dbl&gt;, Longitud &lt;dbl&gt;, Latitud &lt;dbl&gt;</span></a></code></pre></div>
 <p>Oopss, that’s a weird error. This is one problem that can happen quite often because Spain shares many languages inside it’s territory and some datasets might have different encodings. We can figure out the encoding with <code>readr</code> and just pass it to <code>openes_load</code>.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="co"># Figure out the encoding using only the first dataset which suggests it's ASCII</span></a>
@@ -284,117 +284,117 @@
 <a class="sourceLine" id="cb8-10" data-line-number="10">accidents &lt;-<span class="st"> </span><span class="kw"><a href="../reference/openes_load.html">openes_load</a></span>(kw, <span class="dt">encoding =</span> <span class="st">'ASCII'</span>)</a></code></pre></div>
 <p>The result in the data slot is always a list that will contain data frames either with the data (if it was successful in reading it) or with the URL to the dataset (if it failed reading it for some reason).</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">accidents<span class="op">$</span>data</a>
-<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="co">#&gt; $`2015_ACCIDENTS_TIPUS_GU_BCN_.csv`</span></a>
-<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="co">#&gt; # A tibble: 10,521 x 20</span></a>
-<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co">#&gt;    `Número d'exped… `Codi districte` `Nom districte` `Codi barri` `Nom barri`</span></a>
-<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co">#&gt;    &lt;chr&gt;                       &lt;dbl&gt; &lt;chr&gt;                  &lt;dbl&gt; &lt;chr&gt;      </span></a>
-<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="co">#&gt;  1 2015S000215                    10 Sant Martí                64 el Camp de…</span></a>
-<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="co">#&gt;  2 2015S000787                    10 Sant Martí                64 el Camp de…</span></a>
-<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="co">#&gt;  3 2015S000390                    10 Sant Martí                64 el Camp de…</span></a>
-<a class="sourceLine" id="cb9-9" data-line-number="9"><span class="co">#&gt;  4 2015S007294                    10 Sant Martí                64 el Camp de…</span></a>
-<a class="sourceLine" id="cb9-10" data-line-number="10"><span class="co">#&gt;  5 2015S009836                    10 Sant Martí                64 el Camp de…</span></a>
-<a class="sourceLine" id="cb9-11" data-line-number="11"><span class="co">#&gt;  6 2015S009453                    10 Sant Martí                64 el Camp de…</span></a>
-<a class="sourceLine" id="cb9-12" data-line-number="12"><span class="co">#&gt;  7 2015S007312                    10 Sant Martí                64 el Camp de…</span></a>
-<a class="sourceLine" id="cb9-13" data-line-number="13"><span class="co">#&gt;  8 2015S004660                    10 Sant Martí                64 el Camp de…</span></a>
-<a class="sourceLine" id="cb9-14" data-line-number="14"><span class="co">#&gt;  9 2015S006407                    10 Sant Martí                64 el Camp de…</span></a>
-<a class="sourceLine" id="cb9-15" data-line-number="15"><span class="co">#&gt; 10 2015S009834                    10 Sant Martí                64 el Camp de…</span></a>
-<a class="sourceLine" id="cb9-16" data-line-number="16"><span class="co">#&gt; # … with 10,511 more rows, and 15 more variables: `Codi carrer` &lt;dbl&gt;, `Nom</span></a>
-<a class="sourceLine" id="cb9-17" data-line-number="17"><span class="co">#&gt; #   carrer` &lt;chr&gt;, `Num postal caption` &lt;chr&gt;, `Descripció dia setmana` &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb9-18" data-line-number="18"><span class="co">#&gt; #   `Dia setmana` &lt;chr&gt;, `Descripció tipus dia` &lt;chr&gt;, `NK Any` &lt;dbl&gt;, `Mes de</span></a>
-<a class="sourceLine" id="cb9-19" data-line-number="19"><span class="co">#&gt; #   any` &lt;dbl&gt;, `Nom mes` &lt;chr&gt;, `Dia de mes` &lt;dbl&gt;, `Hora de dia` &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb9-20" data-line-number="20"><span class="co">#&gt; #   `Descripció torn` &lt;chr&gt;, `Descripció tipus accident` &lt;chr&gt;, `Coordenada UTM</span></a>
-<a class="sourceLine" id="cb9-21" data-line-number="21"><span class="co">#&gt; #   (Y)` &lt;dbl&gt;, `Coordenada UTM (X)` &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb9-22" data-line-number="22"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb9-23" data-line-number="23"><span class="co">#&gt; $`2018_ACCIDENTS_TIPUS_GU_BCN`</span></a>
-<a class="sourceLine" id="cb9-24" data-line-number="24"><span class="co">#&gt; # A tibble: 10,551 x 22</span></a>
-<a class="sourceLine" id="cb9-25" data-line-number="25"><span class="co">#&gt;    Codi_expedient Codi_districte Nom_districte Codi_barri Nom_barri Codi_carrer</span></a>
-<a class="sourceLine" id="cb9-26" data-line-number="26"><span class="co">#&gt;    &lt;chr&gt;                   &lt;dbl&gt; &lt;chr&gt;              &lt;dbl&gt; &lt;chr&gt;           &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb9-27" data-line-number="27"><span class="co">#&gt;  1 2018S000001                 3 Sants-Montju…         11 el Poble…      198804</span></a>
-<a class="sourceLine" id="cb9-28" data-line-number="28"><span class="co">#&gt;  2 2018S000002                 2 Eixample               9 la Nova …      361406</span></a>
-<a class="sourceLine" id="cb9-29" data-line-number="29"><span class="co">#&gt;  3 2018S000003                10 Sant Martí            64 el Camp …      161407</span></a>
-<a class="sourceLine" id="cb9-30" data-line-number="30"><span class="co">#&gt;  4 2018S000004                 8 Nou Barris            44 Vilapici…      111704</span></a>
-<a class="sourceLine" id="cb9-31" data-line-number="31"><span class="co">#&gt;  5 2018S000005                 8 Nou Barris            56 Vallbona       330606</span></a>
-<a class="sourceLine" id="cb9-32" data-line-number="32"><span class="co">#&gt;  6 2018S000006                 4 Les Corts             19 les Corts      144601</span></a>
-<a class="sourceLine" id="cb9-33" data-line-number="33"><span class="co">#&gt;  7 2018S000007                10 Sant Martí            73 la Verne…       60807</span></a>
-<a class="sourceLine" id="cb9-34" data-line-number="34"><span class="co">#&gt;  8 2018S000008                 3 Sants-Montju…         17 Sants - …      312400</span></a>
-<a class="sourceLine" id="cb9-35" data-line-number="35"><span class="co">#&gt;  9 2018S000009                 2 Eixample              10 Sant Ant…      323203</span></a>
-<a class="sourceLine" id="cb9-36" data-line-number="36"><span class="co">#&gt; 10 2018S000010                 8 Nou Barris            45 Porta          100209</span></a>
-<a class="sourceLine" id="cb9-37" data-line-number="37"><span class="co">#&gt; # … with 10,541 more rows, and 16 more variables: Nom_carrer &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb9-38" data-line-number="38"><span class="co">#&gt; #   Num_postal &lt;chr&gt;, Dia_setmana &lt;chr&gt;, ID_Dia_setmana &lt;chr&gt;, Tipus_dia &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb9-39" data-line-number="39"><span class="co">#&gt; #   Any &lt;dbl&gt;, Mes &lt;dbl&gt;, Nom_mes &lt;chr&gt;, Dia_de_mes &lt;dbl&gt;, Hora_de_dia &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb9-40" data-line-number="40"><span class="co">#&gt; #   Torn &lt;chr&gt;, Tipus_accident &lt;chr&gt;, Coordenada_UTM_X &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb9-41" data-line-number="41"><span class="co">#&gt; #   Coordenada_UTM_Y &lt;dbl&gt;, Longitud &lt;dbl&gt;, Latitud &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb9-42" data-line-number="42"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb9-43" data-line-number="43"><span class="co">#&gt; $`2016_ACCIDENTS_TIPUS_GU_BCN.csv`</span></a>
-<a class="sourceLine" id="cb9-44" data-line-number="44"><span class="co">#&gt; # A tibble: 10,701 x 22</span></a>
-<a class="sourceLine" id="cb9-45" data-line-number="45"><span class="co">#&gt;    Numero_expedient Codi_districte Nom_districte Codi_barri Nom_barri</span></a>
-<a class="sourceLine" id="cb9-46" data-line-number="46"><span class="co">#&gt;    &lt;chr&gt;                     &lt;dbl&gt; &lt;chr&gt;              &lt;dbl&gt; &lt;chr&gt;    </span></a>
-<a class="sourceLine" id="cb9-47" data-line-number="47"><span class="co">#&gt;  1 2016S002575                  10 Sant Martí            64 el Camp …</span></a>
-<a class="sourceLine" id="cb9-48" data-line-number="48"><span class="co">#&gt;  2 2016S001146                  10 Sant Martí            64 el Camp …</span></a>
-<a class="sourceLine" id="cb9-49" data-line-number="49"><span class="co">#&gt;  3 2016S009619                  10 Sant Martí            64 el Camp …</span></a>
-<a class="sourceLine" id="cb9-50" data-line-number="50"><span class="co">#&gt;  4 2016S003881                  10 Sant Martí            64 el Camp …</span></a>
-<a class="sourceLine" id="cb9-51" data-line-number="51"><span class="co">#&gt;  5 2016S004162                  10 Sant Martí            64 el Camp …</span></a>
-<a class="sourceLine" id="cb9-52" data-line-number="52"><span class="co">#&gt;  6 2016S009951                  10 Sant Martí            64 el Camp …</span></a>
-<a class="sourceLine" id="cb9-53" data-line-number="53"><span class="co">#&gt;  7 2016S004619                  10 Sant Martí            64 el Camp …</span></a>
-<a class="sourceLine" id="cb9-54" data-line-number="54"><span class="co">#&gt;  8 2016S009702                  10 Sant Martí            64 el Camp …</span></a>
-<a class="sourceLine" id="cb9-55" data-line-number="55"><span class="co">#&gt;  9 2016S003529                  10 Sant Martí            64 el Camp …</span></a>
-<a class="sourceLine" id="cb9-56" data-line-number="56"><span class="co">#&gt; 10 2016S008654                  10 Sant Martí            64 el Camp …</span></a>
-<a class="sourceLine" id="cb9-57" data-line-number="57"><span class="co">#&gt; # … with 10,691 more rows, and 17 more variables: Codi_carrer &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb9-58" data-line-number="58"><span class="co">#&gt; #   Nom_carrer &lt;chr&gt;, Num_postal_caption &lt;chr&gt;, Descripcio_dia_setmana &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb9-59" data-line-number="59"><span class="co">#&gt; #   Dia_setmana &lt;chr&gt;, Descripcio_tipus_dia &lt;chr&gt;, Any &lt;dbl&gt;, Mes_any &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb9-60" data-line-number="60"><span class="co">#&gt; #   Nom_mes &lt;chr&gt;, Dia_mes &lt;dbl&gt;, Hora_dia &lt;dbl&gt;, Descripcio_torn &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb9-61" data-line-number="61"><span class="co">#&gt; #   Descripcio_tipus_accident &lt;chr&gt;, Coordenada_UTM_X &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb9-62" data-line-number="62"><span class="co">#&gt; #   Coordenada_UTM_Y &lt;dbl&gt;, Longitud &lt;dbl&gt;, Latitud &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb9-63" data-line-number="63"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb9-64" data-line-number="64"><span class="co">#&gt; $`2010_ACCIDENTS_TIPUS_GU_BCN_.csv`</span></a>
-<a class="sourceLine" id="cb9-65" data-line-number="65"><span class="co">#&gt; # A tibble: 1 x 2</span></a>
-<a class="sourceLine" id="cb9-66" data-line-number="66"><span class="co">#&gt;   format URL                                                                    </span></a>
-<a class="sourceLine" id="cb9-67" data-line-number="67"><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;                                                                  </span></a>
-<a class="sourceLine" id="cb9-68" data-line-number="68"><span class="co">#&gt; 1 csv    https://opendata-ajuntament.barcelona.cat/data/dataset/834b8920-0685-4…</span></a>
-<a class="sourceLine" id="cb9-69" data-line-number="69"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb9-70" data-line-number="70"><span class="co">#&gt; $`2011_ACCIDENTS_TIPUS_GU_BCN_.csv`</span></a>
-<a class="sourceLine" id="cb9-71" data-line-number="71"><span class="co">#&gt; # A tibble: 1 x 2</span></a>
-<a class="sourceLine" id="cb9-72" data-line-number="72"><span class="co">#&gt;   format URL                                                                    </span></a>
-<a class="sourceLine" id="cb9-73" data-line-number="73"><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;                                                                  </span></a>
-<a class="sourceLine" id="cb9-74" data-line-number="74"><span class="co">#&gt; 1 csv    https://opendata-ajuntament.barcelona.cat/data/dataset/834b8920-0685-4…</span></a>
-<a class="sourceLine" id="cb9-75" data-line-number="75"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb9-76" data-line-number="76"><span class="co">#&gt; $`2012_ACCIDENTS_TIPUS_GU_BCN_.csv`</span></a>
-<a class="sourceLine" id="cb9-77" data-line-number="77"><span class="co">#&gt; # A tibble: 1 x 2</span></a>
-<a class="sourceLine" id="cb9-78" data-line-number="78"><span class="co">#&gt;   format URL                                                                    </span></a>
-<a class="sourceLine" id="cb9-79" data-line-number="79"><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;                                                                  </span></a>
-<a class="sourceLine" id="cb9-80" data-line-number="80"><span class="co">#&gt; 1 csv    https://opendata-ajuntament.barcelona.cat/data/dataset/834b8920-0685-4…</span></a>
-<a class="sourceLine" id="cb9-81" data-line-number="81"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb9-82" data-line-number="82"><span class="co">#&gt; $`2013_ACCIDENTS_TIPUS_GU_BCN_.csv`</span></a>
-<a class="sourceLine" id="cb9-83" data-line-number="83"><span class="co">#&gt; # A tibble: 1 x 2</span></a>
-<a class="sourceLine" id="cb9-84" data-line-number="84"><span class="co">#&gt;   format URL                                                                    </span></a>
-<a class="sourceLine" id="cb9-85" data-line-number="85"><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;                                                                  </span></a>
-<a class="sourceLine" id="cb9-86" data-line-number="86"><span class="co">#&gt; 1 csv    https://opendata-ajuntament.barcelona.cat/data/dataset/834b8920-0685-4…</span></a>
-<a class="sourceLine" id="cb9-87" data-line-number="87"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb9-88" data-line-number="88"><span class="co">#&gt; $`2014_ACCIDENTS_TIPUS_GU_BCN_.csv`</span></a>
-<a class="sourceLine" id="cb9-89" data-line-number="89"><span class="co">#&gt; # A tibble: 1 x 2</span></a>
-<a class="sourceLine" id="cb9-90" data-line-number="90"><span class="co">#&gt;   format URL                                                                    </span></a>
-<a class="sourceLine" id="cb9-91" data-line-number="91"><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;                                                                  </span></a>
-<a class="sourceLine" id="cb9-92" data-line-number="92"><span class="co">#&gt; 1 csv    https://opendata-ajuntament.barcelona.cat/data/dataset/834b8920-0685-4…</span></a>
-<a class="sourceLine" id="cb9-93" data-line-number="93"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb9-94" data-line-number="94"><span class="co">#&gt; $`2017_ACCIDENTS_TIPUS_GU_BCN`</span></a>
-<a class="sourceLine" id="cb9-95" data-line-number="95"><span class="co">#&gt; # A tibble: 11,009 x 22</span></a>
-<a class="sourceLine" id="cb9-96" data-line-number="96"><span class="co">#&gt;    Numero_expedient Codi_districte Nom_districte Codi_barri Nom_barri</span></a>
-<a class="sourceLine" id="cb9-97" data-line-number="97"><span class="co">#&gt;    &lt;chr&gt;                     &lt;dbl&gt; &lt;chr&gt;              &lt;dbl&gt; &lt;chr&gt;    </span></a>
-<a class="sourceLine" id="cb9-98" data-line-number="98"><span class="co">#&gt;  1 2017S009418                  -1 Desconegut            -1 Desconeg…</span></a>
-<a class="sourceLine" id="cb9-99" data-line-number="99"><span class="co">#&gt;  2 2017S008852                  -1 Desconegut            -1 Desconeg…</span></a>
-<a class="sourceLine" id="cb9-100" data-line-number="100"><span class="co">#&gt;  3 2017S001023                  10 Sant Martí            64 el Camp …</span></a>
-<a class="sourceLine" id="cb9-101" data-line-number="101"><span class="co">#&gt;  4 2017S009198                  10 Sant Martí            64 el Camp …</span></a>
-<a class="sourceLine" id="cb9-102" data-line-number="102"><span class="co">#&gt;  5 2017S006546                  10 Sant Martí            64 el Camp …</span></a>
-<a class="sourceLine" id="cb9-103" data-line-number="103"><span class="co">#&gt;  6 2017S003698                  10 Sant Martí            64 el Camp …</span></a>
-<a class="sourceLine" id="cb9-104" data-line-number="104"><span class="co">#&gt;  7 2017S004977                  10 Sant Martí            64 el Camp …</span></a>
-<a class="sourceLine" id="cb9-105" data-line-number="105"><span class="co">#&gt;  8 2017S008080                  10 Sant Martí            64 el Camp …</span></a>
-<a class="sourceLine" id="cb9-106" data-line-number="106"><span class="co">#&gt;  9 2017S004521                  10 Sant Martí            64 el Camp …</span></a>
-<a class="sourceLine" id="cb9-107" data-line-number="107"><span class="co">#&gt; 10 2017S004180                  10 Sant Martí            64 el Camp …</span></a>
-<a class="sourceLine" id="cb9-108" data-line-number="108"><span class="co">#&gt; # … with 10,999 more rows, and 17 more variables: Codi_carrer &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb9-109" data-line-number="109"><span class="co">#&gt; #   Nom_carrer &lt;chr&gt;, Num_postal_caption &lt;chr&gt;, Descripcio_dia_setmana &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb9-110" data-line-number="110"><span class="co">#&gt; #   Dia_setmana &lt;chr&gt;, Descripcio_tipus_dia &lt;chr&gt;, Any &lt;dbl&gt;, Mes_any &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb9-111" data-line-number="111"><span class="co">#&gt; #   Nom_mes &lt;chr&gt;, Dia_mes &lt;dbl&gt;, Hora_dia &lt;dbl&gt;, Descripcio_torn &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb9-112" data-line-number="112"><span class="co">#&gt; #   Descripcio_tipus_accident &lt;chr&gt;, Coordenada_UTM_X &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="co">#&gt; $`2011_ACCIDENTS_TIPUS_GU_BCN_.csv`</span></a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="co">#&gt; # A tibble: 1 x 2</span></a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co">#&gt;   format URL                                                                    </span></a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;                                                                  </span></a>
+<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="co">#&gt; 1 csv    https://opendata-ajuntament.barcelona.cat/data/dataset/834b8920-0685-4…</span></a>
+<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="co">#&gt; $`2017_ACCIDENTS_TIPUS_GU_BCN`</span></a>
+<a class="sourceLine" id="cb9-9" data-line-number="9"><span class="co">#&gt; # A tibble: 11,009 x 22</span></a>
+<a class="sourceLine" id="cb9-10" data-line-number="10"><span class="co">#&gt;    Numero_expedient Codi_districte Nom_districte Codi_barri Nom_barri</span></a>
+<a class="sourceLine" id="cb9-11" data-line-number="11"><span class="co">#&gt;    &lt;chr&gt;                     &lt;dbl&gt; &lt;chr&gt;              &lt;dbl&gt; &lt;chr&gt;    </span></a>
+<a class="sourceLine" id="cb9-12" data-line-number="12"><span class="co">#&gt;  1 2017S009418                  -1 Desconegut            -1 Desconeg…</span></a>
+<a class="sourceLine" id="cb9-13" data-line-number="13"><span class="co">#&gt;  2 2017S008852                  -1 Desconegut            -1 Desconeg…</span></a>
+<a class="sourceLine" id="cb9-14" data-line-number="14"><span class="co">#&gt;  3 2017S001023                  10 Sant Martí            64 el Camp …</span></a>
+<a class="sourceLine" id="cb9-15" data-line-number="15"><span class="co">#&gt;  4 2017S009198                  10 Sant Martí            64 el Camp …</span></a>
+<a class="sourceLine" id="cb9-16" data-line-number="16"><span class="co">#&gt;  5 2017S006546                  10 Sant Martí            64 el Camp …</span></a>
+<a class="sourceLine" id="cb9-17" data-line-number="17"><span class="co">#&gt;  6 2017S003698                  10 Sant Martí            64 el Camp …</span></a>
+<a class="sourceLine" id="cb9-18" data-line-number="18"><span class="co">#&gt;  7 2017S004977                  10 Sant Martí            64 el Camp …</span></a>
+<a class="sourceLine" id="cb9-19" data-line-number="19"><span class="co">#&gt;  8 2017S008080                  10 Sant Martí            64 el Camp …</span></a>
+<a class="sourceLine" id="cb9-20" data-line-number="20"><span class="co">#&gt;  9 2017S004521                  10 Sant Martí            64 el Camp …</span></a>
+<a class="sourceLine" id="cb9-21" data-line-number="21"><span class="co">#&gt; 10 2017S004180                  10 Sant Martí            64 el Camp …</span></a>
+<a class="sourceLine" id="cb9-22" data-line-number="22"><span class="co">#&gt; # … with 10,999 more rows, and 17 more variables: Codi_carrer &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb9-23" data-line-number="23"><span class="co">#&gt; #   Nom_carrer &lt;chr&gt;, Num_postal_caption &lt;chr&gt;, Descripcio_dia_setmana &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb9-24" data-line-number="24"><span class="co">#&gt; #   Dia_setmana &lt;chr&gt;, Descripcio_tipus_dia &lt;chr&gt;, Any &lt;dbl&gt;, Mes_any &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb9-25" data-line-number="25"><span class="co">#&gt; #   Nom_mes &lt;chr&gt;, Dia_mes &lt;dbl&gt;, Hora_dia &lt;dbl&gt;, Descripcio_torn &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb9-26" data-line-number="26"><span class="co">#&gt; #   Descripcio_tipus_accident &lt;chr&gt;, Coordenada_UTM_X &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb9-27" data-line-number="27"><span class="co">#&gt; #   Coordenada_UTM_Y &lt;dbl&gt;, Longitud &lt;dbl&gt;, Latitud &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb9-28" data-line-number="28"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb9-29" data-line-number="29"><span class="co">#&gt; $`2012_ACCIDENTS_TIPUS_GU_BCN_.csv`</span></a>
+<a class="sourceLine" id="cb9-30" data-line-number="30"><span class="co">#&gt; # A tibble: 1 x 2</span></a>
+<a class="sourceLine" id="cb9-31" data-line-number="31"><span class="co">#&gt;   format URL                                                                    </span></a>
+<a class="sourceLine" id="cb9-32" data-line-number="32"><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;                                                                  </span></a>
+<a class="sourceLine" id="cb9-33" data-line-number="33"><span class="co">#&gt; 1 csv    https://opendata-ajuntament.barcelona.cat/data/dataset/834b8920-0685-4…</span></a>
+<a class="sourceLine" id="cb9-34" data-line-number="34"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb9-35" data-line-number="35"><span class="co">#&gt; $`2010_ACCIDENTS_TIPUS_GU_BCN_.csv`</span></a>
+<a class="sourceLine" id="cb9-36" data-line-number="36"><span class="co">#&gt; # A tibble: 1 x 2</span></a>
+<a class="sourceLine" id="cb9-37" data-line-number="37"><span class="co">#&gt;   format URL                                                                    </span></a>
+<a class="sourceLine" id="cb9-38" data-line-number="38"><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;                                                                  </span></a>
+<a class="sourceLine" id="cb9-39" data-line-number="39"><span class="co">#&gt; 1 csv    https://opendata-ajuntament.barcelona.cat/data/dataset/834b8920-0685-4…</span></a>
+<a class="sourceLine" id="cb9-40" data-line-number="40"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb9-41" data-line-number="41"><span class="co">#&gt; $`2015_ACCIDENTS_TIPUS_GU_BCN_.csv`</span></a>
+<a class="sourceLine" id="cb9-42" data-line-number="42"><span class="co">#&gt; # A tibble: 10,521 x 20</span></a>
+<a class="sourceLine" id="cb9-43" data-line-number="43"><span class="co">#&gt;    `Número d'exped… `Codi districte` `Nom districte` `Codi barri` `Nom barri`</span></a>
+<a class="sourceLine" id="cb9-44" data-line-number="44"><span class="co">#&gt;    &lt;chr&gt;                       &lt;dbl&gt; &lt;chr&gt;                  &lt;dbl&gt; &lt;chr&gt;      </span></a>
+<a class="sourceLine" id="cb9-45" data-line-number="45"><span class="co">#&gt;  1 2015S000215                    10 Sant Martí                64 el Camp de…</span></a>
+<a class="sourceLine" id="cb9-46" data-line-number="46"><span class="co">#&gt;  2 2015S000787                    10 Sant Martí                64 el Camp de…</span></a>
+<a class="sourceLine" id="cb9-47" data-line-number="47"><span class="co">#&gt;  3 2015S000390                    10 Sant Martí                64 el Camp de…</span></a>
+<a class="sourceLine" id="cb9-48" data-line-number="48"><span class="co">#&gt;  4 2015S007294                    10 Sant Martí                64 el Camp de…</span></a>
+<a class="sourceLine" id="cb9-49" data-line-number="49"><span class="co">#&gt;  5 2015S009836                    10 Sant Martí                64 el Camp de…</span></a>
+<a class="sourceLine" id="cb9-50" data-line-number="50"><span class="co">#&gt;  6 2015S009453                    10 Sant Martí                64 el Camp de…</span></a>
+<a class="sourceLine" id="cb9-51" data-line-number="51"><span class="co">#&gt;  7 2015S007312                    10 Sant Martí                64 el Camp de…</span></a>
+<a class="sourceLine" id="cb9-52" data-line-number="52"><span class="co">#&gt;  8 2015S004660                    10 Sant Martí                64 el Camp de…</span></a>
+<a class="sourceLine" id="cb9-53" data-line-number="53"><span class="co">#&gt;  9 2015S006407                    10 Sant Martí                64 el Camp de…</span></a>
+<a class="sourceLine" id="cb9-54" data-line-number="54"><span class="co">#&gt; 10 2015S009834                    10 Sant Martí                64 el Camp de…</span></a>
+<a class="sourceLine" id="cb9-55" data-line-number="55"><span class="co">#&gt; # … with 10,511 more rows, and 15 more variables: `Codi carrer` &lt;dbl&gt;, `Nom</span></a>
+<a class="sourceLine" id="cb9-56" data-line-number="56"><span class="co">#&gt; #   carrer` &lt;chr&gt;, `Num postal caption` &lt;chr&gt;, `Descripció dia setmana` &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb9-57" data-line-number="57"><span class="co">#&gt; #   `Dia setmana` &lt;chr&gt;, `Descripció tipus dia` &lt;chr&gt;, `NK Any` &lt;dbl&gt;, `Mes de</span></a>
+<a class="sourceLine" id="cb9-58" data-line-number="58"><span class="co">#&gt; #   any` &lt;dbl&gt;, `Nom mes` &lt;chr&gt;, `Dia de mes` &lt;dbl&gt;, `Hora de dia` &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb9-59" data-line-number="59"><span class="co">#&gt; #   `Descripció torn` &lt;chr&gt;, `Descripció tipus accident` &lt;chr&gt;, `Coordenada UTM</span></a>
+<a class="sourceLine" id="cb9-60" data-line-number="60"><span class="co">#&gt; #   (Y)` &lt;dbl&gt;, `Coordenada UTM (X)` &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb9-61" data-line-number="61"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb9-62" data-line-number="62"><span class="co">#&gt; $`2016_ACCIDENTS_TIPUS_GU_BCN.csv`</span></a>
+<a class="sourceLine" id="cb9-63" data-line-number="63"><span class="co">#&gt; # A tibble: 10,701 x 22</span></a>
+<a class="sourceLine" id="cb9-64" data-line-number="64"><span class="co">#&gt;    Numero_expedient Codi_districte Nom_districte Codi_barri Nom_barri</span></a>
+<a class="sourceLine" id="cb9-65" data-line-number="65"><span class="co">#&gt;    &lt;chr&gt;                     &lt;dbl&gt; &lt;chr&gt;              &lt;dbl&gt; &lt;chr&gt;    </span></a>
+<a class="sourceLine" id="cb9-66" data-line-number="66"><span class="co">#&gt;  1 2016S002575                  10 Sant Martí            64 el Camp …</span></a>
+<a class="sourceLine" id="cb9-67" data-line-number="67"><span class="co">#&gt;  2 2016S001146                  10 Sant Martí            64 el Camp …</span></a>
+<a class="sourceLine" id="cb9-68" data-line-number="68"><span class="co">#&gt;  3 2016S009619                  10 Sant Martí            64 el Camp …</span></a>
+<a class="sourceLine" id="cb9-69" data-line-number="69"><span class="co">#&gt;  4 2016S003881                  10 Sant Martí            64 el Camp …</span></a>
+<a class="sourceLine" id="cb9-70" data-line-number="70"><span class="co">#&gt;  5 2016S004162                  10 Sant Martí            64 el Camp …</span></a>
+<a class="sourceLine" id="cb9-71" data-line-number="71"><span class="co">#&gt;  6 2016S009951                  10 Sant Martí            64 el Camp …</span></a>
+<a class="sourceLine" id="cb9-72" data-line-number="72"><span class="co">#&gt;  7 2016S004619                  10 Sant Martí            64 el Camp …</span></a>
+<a class="sourceLine" id="cb9-73" data-line-number="73"><span class="co">#&gt;  8 2016S009702                  10 Sant Martí            64 el Camp …</span></a>
+<a class="sourceLine" id="cb9-74" data-line-number="74"><span class="co">#&gt;  9 2016S003529                  10 Sant Martí            64 el Camp …</span></a>
+<a class="sourceLine" id="cb9-75" data-line-number="75"><span class="co">#&gt; 10 2016S008654                  10 Sant Martí            64 el Camp …</span></a>
+<a class="sourceLine" id="cb9-76" data-line-number="76"><span class="co">#&gt; # … with 10,691 more rows, and 17 more variables: Codi_carrer &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb9-77" data-line-number="77"><span class="co">#&gt; #   Nom_carrer &lt;chr&gt;, Num_postal_caption &lt;chr&gt;, Descripcio_dia_setmana &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb9-78" data-line-number="78"><span class="co">#&gt; #   Dia_setmana &lt;chr&gt;, Descripcio_tipus_dia &lt;chr&gt;, Any &lt;dbl&gt;, Mes_any &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb9-79" data-line-number="79"><span class="co">#&gt; #   Nom_mes &lt;chr&gt;, Dia_mes &lt;dbl&gt;, Hora_dia &lt;dbl&gt;, Descripcio_torn &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb9-80" data-line-number="80"><span class="co">#&gt; #   Descripcio_tipus_accident &lt;chr&gt;, Coordenada_UTM_X &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb9-81" data-line-number="81"><span class="co">#&gt; #   Coordenada_UTM_Y &lt;dbl&gt;, Longitud &lt;dbl&gt;, Latitud &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb9-82" data-line-number="82"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb9-83" data-line-number="83"><span class="co">#&gt; $`2013_ACCIDENTS_TIPUS_GU_BCN_.csv`</span></a>
+<a class="sourceLine" id="cb9-84" data-line-number="84"><span class="co">#&gt; # A tibble: 1 x 2</span></a>
+<a class="sourceLine" id="cb9-85" data-line-number="85"><span class="co">#&gt;   format URL                                                                    </span></a>
+<a class="sourceLine" id="cb9-86" data-line-number="86"><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;                                                                  </span></a>
+<a class="sourceLine" id="cb9-87" data-line-number="87"><span class="co">#&gt; 1 csv    https://opendata-ajuntament.barcelona.cat/data/dataset/834b8920-0685-4…</span></a>
+<a class="sourceLine" id="cb9-88" data-line-number="88"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb9-89" data-line-number="89"><span class="co">#&gt; $`2014_ACCIDENTS_TIPUS_GU_BCN_.csv`</span></a>
+<a class="sourceLine" id="cb9-90" data-line-number="90"><span class="co">#&gt; # A tibble: 1 x 2</span></a>
+<a class="sourceLine" id="cb9-91" data-line-number="91"><span class="co">#&gt;   format URL                                                                    </span></a>
+<a class="sourceLine" id="cb9-92" data-line-number="92"><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;                                                                  </span></a>
+<a class="sourceLine" id="cb9-93" data-line-number="93"><span class="co">#&gt; 1 csv    https://opendata-ajuntament.barcelona.cat/data/dataset/834b8920-0685-4…</span></a>
+<a class="sourceLine" id="cb9-94" data-line-number="94"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb9-95" data-line-number="95"><span class="co">#&gt; $`2018_ACCIDENTS_TIPUS_GU_BCN`</span></a>
+<a class="sourceLine" id="cb9-96" data-line-number="96"><span class="co">#&gt; # A tibble: 10,551 x 22</span></a>
+<a class="sourceLine" id="cb9-97" data-line-number="97"><span class="co">#&gt;    Codi_expedient Codi_districte Nom_districte Codi_barri Nom_barri Codi_carrer</span></a>
+<a class="sourceLine" id="cb9-98" data-line-number="98"><span class="co">#&gt;    &lt;chr&gt;                   &lt;dbl&gt; &lt;chr&gt;              &lt;dbl&gt; &lt;chr&gt;           &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb9-99" data-line-number="99"><span class="co">#&gt;  1 2018S000001                 3 Sants-Montju…         11 el Poble…      198804</span></a>
+<a class="sourceLine" id="cb9-100" data-line-number="100"><span class="co">#&gt;  2 2018S000002                 2 Eixample               9 la Nova …      361406</span></a>
+<a class="sourceLine" id="cb9-101" data-line-number="101"><span class="co">#&gt;  3 2018S000003                10 Sant Martí            64 el Camp …      161407</span></a>
+<a class="sourceLine" id="cb9-102" data-line-number="102"><span class="co">#&gt;  4 2018S000004                 8 Nou Barris            44 Vilapici…      111704</span></a>
+<a class="sourceLine" id="cb9-103" data-line-number="103"><span class="co">#&gt;  5 2018S000005                 8 Nou Barris            56 Vallbona       330606</span></a>
+<a class="sourceLine" id="cb9-104" data-line-number="104"><span class="co">#&gt;  6 2018S000006                 4 Les Corts             19 les Corts      144601</span></a>
+<a class="sourceLine" id="cb9-105" data-line-number="105"><span class="co">#&gt;  7 2018S000007                10 Sant Martí            73 la Verne…       60807</span></a>
+<a class="sourceLine" id="cb9-106" data-line-number="106"><span class="co">#&gt;  8 2018S000008                 3 Sants-Montju…         17 Sants - …      312400</span></a>
+<a class="sourceLine" id="cb9-107" data-line-number="107"><span class="co">#&gt;  9 2018S000009                 2 Eixample              10 Sant Ant…      323203</span></a>
+<a class="sourceLine" id="cb9-108" data-line-number="108"><span class="co">#&gt; 10 2018S000010                 8 Nou Barris            45 Porta          100209</span></a>
+<a class="sourceLine" id="cb9-109" data-line-number="109"><span class="co">#&gt; # … with 10,541 more rows, and 16 more variables: Nom_carrer &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb9-110" data-line-number="110"><span class="co">#&gt; #   Num_postal &lt;chr&gt;, Dia_setmana &lt;chr&gt;, ID_Dia_setmana &lt;chr&gt;, Tipus_dia &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb9-111" data-line-number="111"><span class="co">#&gt; #   Any &lt;dbl&gt;, Mes &lt;dbl&gt;, Nom_mes &lt;chr&gt;, Dia_de_mes &lt;dbl&gt;, Hora_de_dia &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb9-112" data-line-number="112"><span class="co">#&gt; #   Torn &lt;chr&gt;, Tipus_accident &lt;chr&gt;, Coordenada_UTM_X &lt;dbl&gt;,</span></a>
 <a class="sourceLine" id="cb9-113" data-line-number="113"><span class="co">#&gt; #   Coordenada_UTM_Y &lt;dbl&gt;, Longitud &lt;dbl&gt;, Latitud &lt;dbl&gt;</span></a></code></pre></div>
 <p>As we can see, the data slot from <code>openes_load</code> read a list of data frames but why so many?</p>
 <p>This becomes clear once we look at the website of the dataset we’re reading:</p>
@@ -404,11 +404,11 @@
 <p>How does <code>openes_load</code> handle this? Well, to avoid problems between some datasets having slightly different structures between formats, it always aims for the simpler formats in an order of preference. You can check which formats are available with <code>permitted_formats</code> although the user should never have to worry about this because the functions take care of this. However, if you try to read a dataset which only has formats that are not in <code>permitted_formats</code>, <code>openes_load</code> will return the same data structure as if there were a dataset, but the <code>data</code> slot will contain a <code>tibble</code> with the format URL’s of the non-available formats so that the user can read this directly (for example, try reading this <code><a href="../reference/openes_load.html">openes_load('l01080193-carta-arqueologica-de-barcelona')</a></code>).</p>
 <p>Coming back to the accidents data, this explains why many datasets were read. We can compare the name of each dataset to figure out what they mean.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(accidents<span class="op">$</span>data)</a>
-<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="co">#&gt; [1] "2015_ACCIDENTS_TIPUS_GU_BCN_.csv" "2018_ACCIDENTS_TIPUS_GU_BCN"     </span></a>
-<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="co">#&gt; [3] "2016_ACCIDENTS_TIPUS_GU_BCN.csv"  "2010_ACCIDENTS_TIPUS_GU_BCN_.csv"</span></a>
-<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co">#&gt; [5] "2011_ACCIDENTS_TIPUS_GU_BCN_.csv" "2012_ACCIDENTS_TIPUS_GU_BCN_.csv"</span></a>
+<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="co">#&gt; [1] "2011_ACCIDENTS_TIPUS_GU_BCN_.csv" "2017_ACCIDENTS_TIPUS_GU_BCN"     </span></a>
+<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="co">#&gt; [3] "2012_ACCIDENTS_TIPUS_GU_BCN_.csv" "2010_ACCIDENTS_TIPUS_GU_BCN_.csv"</span></a>
+<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co">#&gt; [5] "2015_ACCIDENTS_TIPUS_GU_BCN_.csv" "2016_ACCIDENTS_TIPUS_GU_BCN.csv" </span></a>
 <a class="sourceLine" id="cb10-5" data-line-number="5"><span class="co">#&gt; [7] "2013_ACCIDENTS_TIPUS_GU_BCN_.csv" "2014_ACCIDENTS_TIPUS_GU_BCN_.csv"</span></a>
-<a class="sourceLine" id="cb10-6" data-line-number="6"><span class="co">#&gt; [9] "2017_ACCIDENTS_TIPUS_GU_BCN"</span></a></code></pre></div>
+<a class="sourceLine" id="cb10-6" data-line-number="6"><span class="co">#&gt; [9] "2018_ACCIDENTS_TIPUS_GU_BCN"</span></a></code></pre></div>
 <p>They’re the causes of accidents for different years. Let’s sort them according to the year and check whether all were read.</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">accidents<span class="op">$</span>data &lt;-<span class="st"> </span>accidents<span class="op">$</span>data[<span class="kw"><a href="https://rdrr.io/r/base/sort.html">sort</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(accidents<span class="op">$</span>data))]</a>
 <a class="sourceLine" id="cb11-2" data-line-number="2">accidents<span class="op">$</span>data</a>
