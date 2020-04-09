@@ -6,19 +6,19 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Interact with the datos.gob.es API to download public data from all of Spain • opendataes</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
+<script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="Interact with the datos.gob.es API to download public data from all of Spain">
 <meta property="og:description" content="Easily interact with the API from http://datos.gob.es to download data over 19,000 files from all different provinces of Spain. ">
-<meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-<body>
+<body data-spy="scroll" data-target="#toc">
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -64,7 +64,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/ropenspain/opendataes">
+  <a href="https://github.com/ropenspain/opendataes/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -101,7 +101,7 @@
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p><code>opendataes</code> is currently being tested and is not available on CRAN. You can install the development version from <a href="https://github.com">Github</a> with:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">remotes<span class="op">::</span><span class="kw"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span>(<span class="st">"ropenspain/opendataes"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="r"><span class="kw pkg">remotes</span><span class="kw ns">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span>(<span class="st">"ropenspain/opendataes"</span>)</pre></div>
 </div>
 <div id="example" class="section level2">
 <h2 class="hasAnchor">
@@ -118,121 +118,121 @@
 <p><img src="reference/figures/datos_url.png" align="center"></p>
 <p><br><br></p>
 <p>and pass it on to <code>openes_load</code>, and that is it.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(opendataes)</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3">id &lt;-<span class="st"> 'l01080193-elecciones-al-parlamento-europeo-resultados-absolutos-por-seccion-censal-de-la-ciudad-de-barcelona'</span></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4">elections &lt;-<span class="st"> </span><span class="kw"><a href="reference/openes_load.html">openes_load</a></span>(id)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">opendataes</span>)
+
+<span class="no">id</span> <span class="kw">&lt;-</span> <span class="st">'l01080193-elecciones-al-parlamento-europeo-resultados-absolutos-por-seccion-censal-de-la-ciudad-de-barcelona'</span>
+<span class="no">elections</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/openes_load.html">openes_load</a></span>(<span class="no">id</span>)</pre></div>
 </div>
 <div id="r-based-search" class="section level3">
 <h3 class="hasAnchor">
 <a href="#r-based-search" class="anchor"></a>R-based search</h3>
 <p>Alternatively, <code>opendataes</code> allows to seach datasets by keywords. For example, to read the same data as before we could search for a keyword and specifying the publisher of that dataset. We know that the data belongs to the ‘Ayuntamiento of Barcelona’ but <code>openes_keywords</code> requires that publisher’s code.</p>
 <p>First we extract the code using the <code>publishers_available</code> data frame from <code>opendataes</code>:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">pb_code &lt;-<span class="st"> </span>publishers_available<span class="op">$</span>publisher_code[publishers_available<span class="op">$</span>publishers <span class="op">==</span><span class="st"> 'Ayuntamiento de Barcelona'</span>]</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="r"><span class="no">pb_code</span> <span class="kw">&lt;-</span> <span class="no">publishers_available</span>$<span class="no">publisher_code</span>[<span class="no">publishers_available</span>$<span class="no">publishers</span> <span class="kw">==</span> <span class="st">'Ayuntamiento de Barcelona'</span>]</pre></div>
 <p>(you can check out the available publishers with <code>publishers_available</code>, which should increase as the package evolves)</p>
 <p>And then we search for a given key keyword</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"></a>
-<a class="sourceLine" id="cb4-2" data-line-number="2">kw &lt;-<span class="st"> </span><span class="kw"><a href="reference/openes_keywords.html">openes_keywords</a></span>(<span class="st">'elecciones'</span>, pb_code)</a>
-<a class="sourceLine" id="cb4-3" data-line-number="3">kw</a>
-<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt; # A tibble: 4 x 5</span></a>
-<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt;   description         publisher   is_readable path_id         url          </span></a>
-<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt;   &lt;chr&gt;               &lt;chr&gt;       &lt;lgl&gt;       &lt;chr&gt;           &lt;chr&gt;        </span></a>
-<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt; 1 Elecciones General… Ayuntamien… TRUE        l01080193-elec… http://datos…</span></a>
-<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt; 2 Elecciones al Parl… Ayuntamien… TRUE        l01080193-elec… http://datos…</span></a>
-<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt; 3 Elecciones al Parl… Ayuntamien… TRUE        l01080193-elec… http://datos…</span></a>
-<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt; 4 Elecciones Locales… Ayuntamien… TRUE        l01080193-elec… http://datos…</span></a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="r">
+<span class="no">kw</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/openes_keywords.html">openes_keywords</a></span>(<span class="st">'elecciones'</span>, <span class="no">pb_code</span>)
+<span class="no">kw</span>
+<span class="co">#&gt; # A tibble: 4 x 5</span>
+<span class="co">#&gt;   description         publisher   is_readable path_id         url          </span>
+<span class="co">#&gt;   &lt;chr&gt;               &lt;chr&gt;       &lt;lgl&gt;       &lt;chr&gt;           &lt;chr&gt;        </span>
+<span class="co">#&gt; 1 Elecciones General… Ayuntamien… TRUE        l01080193-elec… http://datos…</span>
+<span class="co">#&gt; 2 Elecciones al Parl… Ayuntamien… TRUE        l01080193-elec… http://datos…</span>
+<span class="co">#&gt; 3 Elecciones al Parl… Ayuntamien… TRUE        l01080193-elec… http://datos…</span>
+<span class="co">#&gt; 4 Elecciones Locales… Ayuntamien… TRUE        l01080193-elec… http://datos…</span></pre></div>
 <p>Once we have that, <code>openes_load</code> only requires that we pass this exact data frame but only with one row. We can do some data munging and subset our data of interest.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">final_dt &lt;-<span class="st"> </span>kw[<span class="kw"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span>(<span class="st">"Elecciones al Parlamento Europeo. Resultados absolutos por sección censal de la ciudad de Barcelona"</span>,</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2">                     kw<span class="op">$</span>description,</a>
-<a class="sourceLine" id="cb5-3" data-line-number="3">                     <span class="dt">fixed =</span> <span class="ot">TRUE</span>), ]</a>
-<a class="sourceLine" id="cb5-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb5-5" data-line-number="5">final_dt</a>
-<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt; # A tibble: 1 x 5</span></a>
-<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt;   description         publisher   is_readable path_id         url          </span></a>
-<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt;   &lt;chr&gt;               &lt;chr&gt;       &lt;lgl&gt;       &lt;chr&gt;           &lt;chr&gt;        </span></a>
-<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt; 1 Elecciones al Parl… Ayuntamien… TRUE        l01080193-elec… http://datos…</span></a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="r"><span class="no">final_dt</span> <span class="kw">&lt;-</span> <span class="no">kw</span>[<span class="fu"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span>(<span class="st">"Elecciones al Parlamento Europeo. Resultados absolutos por sección censal de la ciudad de Barcelona"</span>,
+                     <span class="no">kw</span>$<span class="no">description</span>,
+                     <span class="kw">fixed</span> <span class="kw">=</span> <span class="fl">TRUE</span>), ]
+
+<span class="no">final_dt</span>
+<span class="co">#&gt; # A tibble: 1 x 5</span>
+<span class="co">#&gt;   description         publisher   is_readable path_id         url          </span>
+<span class="co">#&gt;   &lt;chr&gt;               &lt;chr&gt;       &lt;lgl&gt;       &lt;chr&gt;           &lt;chr&gt;        </span>
+<span class="co">#&gt; 1 Elecciones al Parl… Ayuntamien… TRUE        l01080193-elec… http://datos…</span></pre></div>
 <p>And we pass it to <code>openes_load</code></p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">elections &lt;-<span class="st"> </span><span class="kw"><a href="reference/openes_load.html">openes_load</a></span>(final_dt)</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="r"><span class="no">elections</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/openes_load.html">openes_load</a></span>(<span class="no">final_dt</span>)</pre></div>
 </div>
 <div id="usage" class="section level3">
 <h3 class="hasAnchor">
 <a href="#usage" class="anchor"></a>Usage</h3>
 <p>Once we have the results, we get a print out of the relevant metadata of the dataset.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">elections</a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&gt; &lt;datos.gob.es API&gt;</span></a>
-<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">#&gt;    Description: Elecciones al Parlamento Europeo. Resultados absolutos po...</span></a>
-<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt;    Publisher: Ayuntamiento de Barcelona</span></a>
-<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt;    Languages: es, ca, en</span></a>
-<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt;    Date of release: 2013-03-13 23:00:00</span></a>
-<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt;    # of files read: 3 out of 3</span></a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="r"><span class="no">elections</span>
+<span class="co">#&gt; &lt;datos.gob.es API&gt;</span>
+<span class="co">#&gt;    Description: Elecciones al Parlamento Europeo. Resultados absolutos po...</span>
+<span class="co">#&gt;    Publisher: Ayuntamiento de Barcelona</span>
+<span class="co">#&gt;    Languages: es, ca, en</span>
+<span class="co">#&gt;    Date of release: 2013-03-13 23:00:00</span>
+<span class="co">#&gt;    # of files read: 3 out of 3</span></pre></div>
 <p>But more importantly, we can subset the metadata of the dataset as well as the data that was read.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">elections<span class="op">$</span>metadata</a>
-<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co">#&gt; # A tibble: 3 x 8</span></a>
-<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt;   keywords language description url   date_issued         date_modified</span></a>
-<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;       &lt;chr&gt; &lt;dttm&gt;              &lt;chr&gt;        </span></a>
-<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt; 1 Absolut… es       Elecciones… http… 2013-03-13 23:00:00 No modificat…</span></a>
-<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt; 2 Absolut… ca       Eleccions … http… 2013-03-13 23:00:00 No modificat…</span></a>
-<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt; 3 Absolut… en       European P… http… 2013-03-13 23:00:00 No modificat…</span></a>
-<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt; # … with 2 more variables: publisher &lt;chr&gt;, publisher_data_url &lt;chr&gt;</span></a></code></pre></div>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">elections<span class="op">$</span>data</a>
-<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="co">#&gt; $`2019_Eleccions_Parlament_Europeu.csv`</span></a>
-<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="co">#&gt; # A tibble: 39,516 x 8</span></a>
-<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co">#&gt;      Any Codi_districte Nom_districte Codi_barri Nom_barri Seccio_censal</span></a>
-<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co">#&gt;    &lt;dbl&gt;          &lt;dbl&gt; &lt;chr&gt;              &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;        </span></a>
-<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="co">#&gt;  1  2019              1 Ciutat Vella           1 el Raval  001          </span></a>
-<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="co">#&gt;  2  2019              1 Ciutat Vella           1 el Raval  002          </span></a>
-<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="co">#&gt;  3  2019              1 Ciutat Vella           1 el Raval  003          </span></a>
-<a class="sourceLine" id="cb9-9" data-line-number="9"><span class="co">#&gt;  4  2019              1 Ciutat Vella           1 el Raval  004          </span></a>
-<a class="sourceLine" id="cb9-10" data-line-number="10"><span class="co">#&gt;  5  2019              1 Ciutat Vella           1 el Raval  005          </span></a>
-<a class="sourceLine" id="cb9-11" data-line-number="11"><span class="co">#&gt;  6  2019              1 Ciutat Vella           1 el Raval  006          </span></a>
-<a class="sourceLine" id="cb9-12" data-line-number="12"><span class="co">#&gt;  7  2019              1 Ciutat Vella           1 el Raval  007          </span></a>
-<a class="sourceLine" id="cb9-13" data-line-number="13"><span class="co">#&gt;  8  2019              1 Ciutat Vella           1 el Raval  008          </span></a>
-<a class="sourceLine" id="cb9-14" data-line-number="14"><span class="co">#&gt;  9  2019              1 Ciutat Vella           1 el Raval  009          </span></a>
-<a class="sourceLine" id="cb9-15" data-line-number="15"><span class="co">#&gt; 10  2019              1 Ciutat Vella           1 el Raval  010          </span></a>
-<a class="sourceLine" id="cb9-16" data-line-number="16"><span class="co">#&gt; # … with 39,506 more rows, and 2 more variables: Camp &lt;chr&gt;, Nombre &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb9-17" data-line-number="17"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb9-18" data-line-number="18"><span class="co">#&gt; $`2009_Eleccions_Parlament_Europeu.csv`</span></a>
-<a class="sourceLine" id="cb9-19" data-line-number="19"><span class="co">#&gt; # A tibble: 42,440 x 8</span></a>
-<a class="sourceLine" id="cb9-20" data-line-number="20"><span class="co">#&gt;      Any Codi_districte Nom_districte Codi_barri Nom_barri Seccio_censal</span></a>
-<a class="sourceLine" id="cb9-21" data-line-number="21"><span class="co">#&gt;    &lt;dbl&gt;          &lt;dbl&gt; &lt;chr&gt;              &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;        </span></a>
-<a class="sourceLine" id="cb9-22" data-line-number="22"><span class="co">#&gt;  1  2009              1 Ciutat Vella           1 el Raval  001          </span></a>
-<a class="sourceLine" id="cb9-23" data-line-number="23"><span class="co">#&gt;  2  2009              1 Ciutat Vella           1 el Raval  002          </span></a>
-<a class="sourceLine" id="cb9-24" data-line-number="24"><span class="co">#&gt;  3  2009              1 Ciutat Vella           1 el Raval  003          </span></a>
-<a class="sourceLine" id="cb9-25" data-line-number="25"><span class="co">#&gt;  4  2009              1 Ciutat Vella           1 el Raval  004          </span></a>
-<a class="sourceLine" id="cb9-26" data-line-number="26"><span class="co">#&gt;  5  2009              1 Ciutat Vella           1 el Raval  005          </span></a>
-<a class="sourceLine" id="cb9-27" data-line-number="27"><span class="co">#&gt;  6  2009              1 Ciutat Vella           1 el Raval  006          </span></a>
-<a class="sourceLine" id="cb9-28" data-line-number="28"><span class="co">#&gt;  7  2009              1 Ciutat Vella           1 el Raval  007          </span></a>
-<a class="sourceLine" id="cb9-29" data-line-number="29"><span class="co">#&gt;  8  2009              1 Ciutat Vella           1 el Raval  008          </span></a>
-<a class="sourceLine" id="cb9-30" data-line-number="30"><span class="co">#&gt;  9  2009              1 Ciutat Vella           1 el Raval  009          </span></a>
-<a class="sourceLine" id="cb9-31" data-line-number="31"><span class="co">#&gt; 10  2009              1 Ciutat Vella           1 el Raval  010          </span></a>
-<a class="sourceLine" id="cb9-32" data-line-number="32"><span class="co">#&gt; # … with 42,430 more rows, and 2 more variables: Camp &lt;chr&gt;, Nombre &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb9-33" data-line-number="33"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb9-34" data-line-number="34"><span class="co">#&gt; $`2014_Eleccions_Parlament_Europeu.csv`</span></a>
-<a class="sourceLine" id="cb9-35" data-line-number="35"><span class="co">#&gt; # A tibble: 46,992 x 8</span></a>
-<a class="sourceLine" id="cb9-36" data-line-number="36"><span class="co">#&gt;      Any Codi_districte Nom_districte Codi_barri Nom_barri Seccio_censal</span></a>
-<a class="sourceLine" id="cb9-37" data-line-number="37"><span class="co">#&gt;    &lt;dbl&gt;          &lt;dbl&gt; &lt;chr&gt;              &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;        </span></a>
-<a class="sourceLine" id="cb9-38" data-line-number="38"><span class="co">#&gt;  1  2014              1 Ciutat Vella           1 el Raval  001          </span></a>
-<a class="sourceLine" id="cb9-39" data-line-number="39"><span class="co">#&gt;  2  2014              1 Ciutat Vella           1 el Raval  002          </span></a>
-<a class="sourceLine" id="cb9-40" data-line-number="40"><span class="co">#&gt;  3  2014              1 Ciutat Vella           1 el Raval  003          </span></a>
-<a class="sourceLine" id="cb9-41" data-line-number="41"><span class="co">#&gt;  4  2014              1 Ciutat Vella           1 el Raval  004          </span></a>
-<a class="sourceLine" id="cb9-42" data-line-number="42"><span class="co">#&gt;  5  2014              1 Ciutat Vella           1 el Raval  005          </span></a>
-<a class="sourceLine" id="cb9-43" data-line-number="43"><span class="co">#&gt;  6  2014              1 Ciutat Vella           1 el Raval  006          </span></a>
-<a class="sourceLine" id="cb9-44" data-line-number="44"><span class="co">#&gt;  7  2014              1 Ciutat Vella           1 el Raval  007          </span></a>
-<a class="sourceLine" id="cb9-45" data-line-number="45"><span class="co">#&gt;  8  2014              1 Ciutat Vella           1 el Raval  008          </span></a>
-<a class="sourceLine" id="cb9-46" data-line-number="46"><span class="co">#&gt;  9  2014              1 Ciutat Vella           1 el Raval  009          </span></a>
-<a class="sourceLine" id="cb9-47" data-line-number="47"><span class="co">#&gt; 10  2014              1 Ciutat Vella           1 el Raval  010          </span></a>
-<a class="sourceLine" id="cb9-48" data-line-number="48"><span class="co">#&gt; # … with 46,982 more rows, and 2 more variables: Camp &lt;chr&gt;, Nombre &lt;dbl&gt;</span></a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="r"><span class="no">elections</span>$<span class="no">metadata</span>
+<span class="co">#&gt; # A tibble: 3 x 8</span>
+<span class="co">#&gt;   keywords language description url   date_issued         date_modified</span>
+<span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;       &lt;chr&gt; &lt;dttm&gt;              &lt;chr&gt;        </span>
+<span class="co">#&gt; 1 Absolut… es       Elecciones… http… 2013-03-13 23:00:00 No modificat…</span>
+<span class="co">#&gt; 2 Absolut… ca       Eleccions … http… 2013-03-13 23:00:00 No modificat…</span>
+<span class="co">#&gt; 3 Absolut… en       European P… http… 2013-03-13 23:00:00 No modificat…</span>
+<span class="co">#&gt; # … with 2 more variables: publisher &lt;chr&gt;, publisher_data_url &lt;chr&gt;</span></pre></div>
+<div class="sourceCode" id="cb9"><pre class="r"><span class="no">elections</span>$<span class="no">data</span>
+<span class="co">#&gt; $`2019_Eleccions_Parlament_Europeu.csv`</span>
+<span class="co">#&gt; # A tibble: 39,516 x 8</span>
+<span class="co">#&gt;      Any Codi_districte Nom_districte Codi_barri Nom_barri Seccio_censal</span>
+<span class="co">#&gt;    &lt;dbl&gt;          &lt;dbl&gt; &lt;chr&gt;              &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;        </span>
+<span class="co">#&gt;  1  2019              1 Ciutat Vella           1 el Raval  001          </span>
+<span class="co">#&gt;  2  2019              1 Ciutat Vella           1 el Raval  002          </span>
+<span class="co">#&gt;  3  2019              1 Ciutat Vella           1 el Raval  003          </span>
+<span class="co">#&gt;  4  2019              1 Ciutat Vella           1 el Raval  004          </span>
+<span class="co">#&gt;  5  2019              1 Ciutat Vella           1 el Raval  005          </span>
+<span class="co">#&gt;  6  2019              1 Ciutat Vella           1 el Raval  006          </span>
+<span class="co">#&gt;  7  2019              1 Ciutat Vella           1 el Raval  007          </span>
+<span class="co">#&gt;  8  2019              1 Ciutat Vella           1 el Raval  008          </span>
+<span class="co">#&gt;  9  2019              1 Ciutat Vella           1 el Raval  009          </span>
+<span class="co">#&gt; 10  2019              1 Ciutat Vella           1 el Raval  010          </span>
+<span class="co">#&gt; # … with 39,506 more rows, and 2 more variables: Camp &lt;chr&gt;, Nombre &lt;dbl&gt;</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $`2009_Eleccions_Parlament_Europeu.csv`</span>
+<span class="co">#&gt; # A tibble: 42,440 x 8</span>
+<span class="co">#&gt;      Any Codi_districte Nom_districte Codi_barri Nom_barri Seccio_censal</span>
+<span class="co">#&gt;    &lt;dbl&gt;          &lt;dbl&gt; &lt;chr&gt;              &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;        </span>
+<span class="co">#&gt;  1  2009              1 Ciutat Vella           1 el Raval  001          </span>
+<span class="co">#&gt;  2  2009              1 Ciutat Vella           1 el Raval  002          </span>
+<span class="co">#&gt;  3  2009              1 Ciutat Vella           1 el Raval  003          </span>
+<span class="co">#&gt;  4  2009              1 Ciutat Vella           1 el Raval  004          </span>
+<span class="co">#&gt;  5  2009              1 Ciutat Vella           1 el Raval  005          </span>
+<span class="co">#&gt;  6  2009              1 Ciutat Vella           1 el Raval  006          </span>
+<span class="co">#&gt;  7  2009              1 Ciutat Vella           1 el Raval  007          </span>
+<span class="co">#&gt;  8  2009              1 Ciutat Vella           1 el Raval  008          </span>
+<span class="co">#&gt;  9  2009              1 Ciutat Vella           1 el Raval  009          </span>
+<span class="co">#&gt; 10  2009              1 Ciutat Vella           1 el Raval  010          </span>
+<span class="co">#&gt; # … with 42,430 more rows, and 2 more variables: Camp &lt;chr&gt;, Nombre &lt;dbl&gt;</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $`2014_Eleccions_Parlament_Europeu.csv`</span>
+<span class="co">#&gt; # A tibble: 46,992 x 8</span>
+<span class="co">#&gt;      Any Codi_districte Nom_districte Codi_barri Nom_barri Seccio_censal</span>
+<span class="co">#&gt;    &lt;dbl&gt;          &lt;dbl&gt; &lt;chr&gt;              &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;        </span>
+<span class="co">#&gt;  1  2014              1 Ciutat Vella           1 el Raval  001          </span>
+<span class="co">#&gt;  2  2014              1 Ciutat Vella           1 el Raval  002          </span>
+<span class="co">#&gt;  3  2014              1 Ciutat Vella           1 el Raval  003          </span>
+<span class="co">#&gt;  4  2014              1 Ciutat Vella           1 el Raval  004          </span>
+<span class="co">#&gt;  5  2014              1 Ciutat Vella           1 el Raval  005          </span>
+<span class="co">#&gt;  6  2014              1 Ciutat Vella           1 el Raval  006          </span>
+<span class="co">#&gt;  7  2014              1 Ciutat Vella           1 el Raval  007          </span>
+<span class="co">#&gt;  8  2014              1 Ciutat Vella           1 el Raval  008          </span>
+<span class="co">#&gt;  9  2014              1 Ciutat Vella           1 el Raval  009          </span>
+<span class="co">#&gt; 10  2014              1 Ciutat Vella           1 el Raval  010          </span>
+<span class="co">#&gt; # … with 46,982 more rows, and 2 more variables: Camp &lt;chr&gt;, Nombre &lt;dbl&gt;</span></pre></div>
 <p>For a deeper explanation of what the columns of the metadata mean and some important caveats of what the package can and cannot do, please read the package’s vignettes.</p>
 </div>
 </div>
 </div>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
 <h2>Links</h2>
 <ul class="list-unstyled">
-<li>Browse source code at <br><a href="https://github.com/ropenspain/opendataes">https://​github.com/​ropenspain/​opendataes</a>
+<li>Browse source code at <br><a href="https://github.com/ropenspain/opendataes/">https://​github.com/​ropenspain/​opendataes/​</a>
 </li>
 <li>Report a bug at <br><a href="https://github.com/ropenspain/opendataes/issues">https://​github.com/​ropenspain/​opendataes/​issues</a>
 </li>
@@ -277,7 +277,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>
