@@ -33,7 +33,7 @@ determine_number <- function(x) {
 test_that("openes_load for ONE dataset returns correct format", {
   skip_on_cran()
 
-  example_id <- 'l01080193-tasa-especifica-de-fecundidad-en-madres-de-la-ciudad-de-barcelona-de-15-a-19-anos-quinquenal-2003-20141'
+  example_id <- 'l01080193-tasa-especifica-de-fecundidad-en-madres-de-15-a-19-anos-de-la-ciudad-de-barcelona1'
   res <- openes_load(example_id)
 
   standard_check(res)
@@ -42,7 +42,7 @@ test_that("openes_load for ONE dataset returns correct format", {
 test_that("openes_load for SEVERAL dataset returns correct format", {
   skip_on_cran()
 
-  example_id <- 'l01080193-domicilios-de-la-ciudad-de-barcelona-segun-nacionalidad2'
+  example_id <- 'l01080193-domicilios-de-la-ciudad-de-barcelona-segun-la-nacionalidad-de-los-residentes'
   res <- openes_load(example_id)
 
   standard_check(res)
@@ -71,8 +71,8 @@ test_that("openes_load for inexistent dataset returns empty list", {
 })
 
 test_that("openes_load for more than one end path", {
-  example_id <- c('l01080193-domicilios-de-la-ciudad-de-barcelona-segun-nacionalidad2',
-                  'l01080193-tasa-especifica-de-fecundidad-en-madres-de-la-ciudad-de-barcelona-de-15-a-19-anos-quinquenal-2003-20141')
+  example_id <- c('l01080193-domicilios-de-la-ciudad-de-barcelona-segun-la-nacionalidad-de-los-residentes',
+                  'l01080193-tasa-especifica-de-fecundidad-en-madres-de-15-a-19-anos-de-la-ciudad-de-barcelona1')
 
   expect_error(openes_load(example_id),
                "`x` must be a character of length 1", fixed = TRUE)
@@ -81,7 +81,7 @@ test_that("openes_load for more than one end path", {
 })
 
 test_that("Checks that encoding in openes_load is in correct format", {
-  example_id <- c('l01080193-domicilios-de-la-ciudad-de-barcelona-segun-nacionalidad2')
+  example_id <- c('l01080193-domicilios-de-la-ciudad-de-barcelona-segun-la-nacionalidad-de-los-residentes')
   encoding <- c("UTF-8", "latin1")
 
 
@@ -93,7 +93,7 @@ test_that("Checks that encoding in openes_load is in correct format", {
 })
 
 test_that("Checks that guess_encoding in openes_load is in correct format", {
-  example_id <- c('l01080193-domicilios-de-la-ciudad-de-barcelona-segun-nacionalidad2')
+  example_id <- c('l01080193-domicilios-de-la-ciudad-de-barcelona-segun-la-nacionalidad-de-los-residentes')
 
   expect_error(openes_load(example_id, guess_encoding = c(TRUE, FALSE)),
                "`guess_encoding` must be a logical of length 1", fixed = TRUE)
@@ -103,8 +103,8 @@ test_that("Checks that guess_encoding in openes_load is in correct format", {
 })
 
 test_that("openes_load for more than one end path", {
-  example_id <- c('l01080193-domicilios-de-la-ciudad-de-barcelona-segun-nacionalidad2',
-                  'l01080193-tasa-especifica-de-fecundidad-en-madres-de-la-ciudad-de-barcelona-de-15-a-19-anos-quinquenal-2003-20141')
+  example_id <- c('l01080193-domicilios-de-la-ciudad-de-barcelona-segun-la-nacionalidad-de-los-residentes',
+                  'l01080193-tasa-especifica-de-fecundidad-en-madres-de-15-a-19-anos-de-la-ciudad-de-barcelona1')
 
   expect_error(openes_load(example_id), "`x` must be a character of length 1", fixed = TRUE)
 })
@@ -112,14 +112,14 @@ test_that("openes_load for more than one end path", {
 test_that("openes_load doesn't read if it's not a character of length 1", {
 
   # Factors
-  example_id <- factor('l01080193-tasa-especifica-de-fecundidad-en-madres-de-la-ciudad-de-barcelona-de-15-a-19-anos-quinquenal-2003-20141')
+  example_id <- factor('l01080193-tasa-especifica-de-fecundidad-en-madres-de-15-a-19-anos-de-la-ciudad-de-barcelona1')
   expect_error(openes_load.character(example_id), "`x` must be a character of length 1")
 
   # Numerics
   expect_error(openes_load.character(1), "`x` must be a character of length 1")
 
 
-  example_id <- list('l01080193-domicilios-de-la-ciudad-de-barcelona-segun-nacionalidad2')
+  example_id <- list('l01080193-domicilios-de-la-ciudad-de-barcelona-segun-la-nacionalidad-de-los-residentes')
   expect_error(openes_load.character(example_id), "`x` must be a character of length 1")
 })
 
@@ -127,25 +127,25 @@ test_that("openes_load doesn't read if it's not a character of length 1", {
 test_that("openes_load assigns 'Distribucion sin nombre' when there is no name", {
   skip_on_cran()
   # This dataset has (or had) one of the files with a title and all other without titles
-  id <- "l01280796-centros-de-servicios-sociales-municipales1"
+  id <- "l01280796-centros-de-servicios-sociales-municipales"
   pt <- openes_load(id)
   expect_true("Distribucion sin nombre" %in% names(pt$data))
 
   # This dataset has (or had) ALL of the files without titles. I repeat the same to test that both are assigned
   # a distribucion sin nombre
-  id <- "l01280796-trafico-semaforos-con-avisadores-acusticos1"
-  pt <- openes_load(id)
-  expect_true("Distribucion sin nombre" %in% names(pt$data))
+  #id <- "l01280796-trafico-semaforos-con-avisadores-acusticos"
+  #pt <- openes_load(id)
+  #expect_true("Distribucion sin nombre" %in% names(pt$data))
 
   # This dataset has only ONE file and it has no names
-  pt <- openes_load('l01280796-perfiles-profesionales-de-concejales-directivos-eventuales-funcionarios-de-nivel-28-o-superior-y-vocales-vecinos-del-ayuntamiento-de-madrid')
+  pt <- openes_load('l01280796-perfiles-profesionales-de-concejales-directivos-eventuales-funcionarios-de-nivel-28-o-superior-y-vocales-vecinos-del-ayuntamiento-de-madrid1')
   expect_true("Distribucion sin nombre" %in% names(pt$data))
 })
 
 test_that("openes_load works fine when guess_encoding is FALSE", {
   skip_on_cran()
 
-  tst <- openes_load('l01080193-elecciones-al-parlamento-europeo-resultados-absolutos-por-seccion-censal-de-la-ciudad-de-barcelona',
+  tst <- openes_load('l01080193-resultados-absolutos-de-las-elecciones-al-parlamento-europeo-de-la-ciudad-de-barcelona',
                       encoding = 'latin1',
                       guess_encoding = FALSE)
 
@@ -188,7 +188,7 @@ test_that("openes_load works fine when guess_encoding is FALSE", {
 test_that("openes_load returns links when format is not readable", {
   skip_on_cran()
 
-  not_readable <- openes_load("l01280796-bicimad-datos-de-la-situacion-de-estaciones-bicimad-por-dia-y-hora")
+  not_readable <- openes_load("l01280796-bicimad-datos-de-la-situacion-de-estaciones-bicimad-por-dia-y-hora1")
   standard_check(not_readable)
 })
 
@@ -203,7 +203,7 @@ test_that("openes_load fails for publisher not permitted", {
 test_that("openes_load returns tibbles with URL's when it cannot read the file", {
   skip_on_cran()
 
-  id <- 'l01080193-descripcion-de-la-causalidad-de-los-accidentes-gestionados-por-la-guardia-urbana-en-la-ciudad-de-barcelona1'
+  id <- 'l01080193-descripcion-de-la-causalidad-de-los-accidentes-gestionados-por-la-guardia-urbana-en-la-ciudad-de-barcelona'
   pl <- openes_load(id)
 
   standard_check(pl)
@@ -214,11 +214,11 @@ test_that("openes_load returns tibbles with URL's when it cannot read the file",
 test_that("openes_load's character and keyword results match exactly", {
   skip_on_cran()
 
-  character_method <- openes_load('l01080193-elecciones-al-parlamento-europeo-resultados-absolutos-por-seccion-censal-de-la-ciudad-de-barcelona',
+  character_method <- openes_load('l01080193-resultados-absolutos-de-las-elecciones-al-parlamento-europeo-de-la-ciudad-de-barcelona',
                                   'latin1',
                                   n_max = 5)
 
-  kw <- openes_keywords("el Raval", "l01080193")
+  kw <- openes_keywords("elecciones", "l01080193")
 
   intm <- kw[grepl("Resultados absolutos de las elecciones al Parlamento Europeo de la ciudad de Barcelona",
                    kw$description,
@@ -243,7 +243,7 @@ test_that("openes_load throws errors when the keyword data frame is not in expec
                fixed = TRUE)
 
 
-  cp <- cp[grepl("Defunciones de hombres (quinquenal). 2006-2013", cp$description, fixed = TRUE), ]
+  cp <- cp[grepl("Evolución semestral (Base 2008=100). Cambio de fuente", cp$description, fixed = TRUE), ]
   cp$path_id <- factor(cp$path_id)
 
   expect_error(openes_load(cp),
@@ -266,7 +266,7 @@ test_that("openes_load throws errors when the keyword data frame is not in expec
 # but not in Mac. This way, when we run this in Appveyor and Travis it should be true in both
 test_that("Check that elections dataset is correctly read", {
   skip_on_cran()
-  pt <- openes_load('l01080193-elecciones-al-parlamento-europeo-resultados-absolutos-por-seccion-censal-de-la-ciudad-de-barcelona')
+  pt <- openes_load('l01080193-resultados-absolutos-de-las-elecciones-al-parlamento-europeo-de-la-ciudad-de-barcelona')
   files_read <- determine_number(pt)
 
   expect_gte(files_read, 2)

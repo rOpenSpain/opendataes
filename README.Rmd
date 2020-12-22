@@ -67,7 +67,7 @@ and pass it on to `openes_load`, and that is it.
 ```{r}
 library(opendataes)
 
-id <- 'l01080193-elecciones-al-parlamento-europeo-resultados-absolutos-por-seccion-censal-de-la-ciudad-de-barcelona'
+id <- 'l01080193-resultados-absolutos-de-las-elecciones-al-parlamento-europeo-de-la-ciudad-de-barcelona'
 elections <- openes_load(id)
 
 ```
@@ -96,7 +96,7 @@ kw
 Once we have that, `openes_load` only requires that we pass this exact data frame but only with one row. We can do some data munging and subset our data of interest.
 
 ```{r}
-final_dt <- kw[grepl("Elecciones al Parlamento Europeo. Resultados absolutos por sección censal de la ciudad de Barcelona",
+final_dt <- kw[grepl("Resultados absolutos de las elecciones al Parlamento Europeo de la ciudad de Barcelona",
                      kw$description,
                      fixed = TRUE), ]
 

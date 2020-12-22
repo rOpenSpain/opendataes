@@ -82,8 +82,11 @@ and pass it on to `openes_load`, and that is it.
 
 ``` r
 library(opendataes)
+#> 
+#> Please cite as:
+#> Cimentada, J. and Jorge Lopez (2019). Interact with the datos.gob.es API to download public data from all of Spain R package version 0.0.1
 
-id <- 'l01080193-elecciones-al-parlamento-europeo-resultados-absolutos-por-seccion-censal-de-la-ciudad-de-barcelona'
+id <- 'l01080193-resultados-absolutos-de-las-elecciones-al-parlamento-europeo-de-la-ciudad-de-barcelona'
 elections <- openes_load(id)
 ```
 
@@ -112,12 +115,12 @@ And then we search for a given key keyword
 kw <- openes_keywords('elecciones', pb_code)
 kw
 #> # A tibble: 4 x 5
-#>   description         publisher   is_readable path_id         url          
-#>   <chr>               <chr>       <lgl>       <chr>           <chr>        
-#> 1 Elecciones General… Ayuntamien… TRUE        l01080193-elec… http://datos…
-#> 2 Elecciones al Parl… Ayuntamien… TRUE        l01080193-elec… http://datos…
-#> 3 Elecciones al Parl… Ayuntamien… TRUE        l01080193-elec… http://datos…
-#> 4 Elecciones Locales… Ayuntamien… TRUE        l01080193-elec… http://datos…
+#>   description           publisher    is_readable path_id          url           
+#>   <chr>                 <chr>        <lgl>       <chr>            <chr>         
+#> 1 Resultados absolutos… Ayuntamient… TRUE        l01080193-resul… http://datos.…
+#> 2 Resultados absolutos… Ayuntamient… TRUE        l01080193-resul… http://datos.…
+#> 3 Resultados absolutos… Ayuntamient… TRUE        l01080193-resul… http://datos.…
+#> 4 Resultados absolutos… Ayuntamient… TRUE        l01080193-resul… http://datos.…
 ```
 
 Once we have that, `openes_load` only requires that we pass this exact
@@ -125,15 +128,15 @@ data frame but only with one row. We can do some data munging and subset
 our data of interest.
 
 ``` r
-final_dt <- kw[grepl("Elecciones al Parlamento Europeo. Resultados absolutos por sección censal de la ciudad de Barcelona",
+final_dt <- kw[grepl("Resultados absolutos de las elecciones al Parlamento Europeo de la ciudad de Barcelona",
                      kw$description,
                      fixed = TRUE), ]
 
 final_dt
 #> # A tibble: 1 x 5
-#>   description         publisher   is_readable path_id         url          
-#>   <chr>               <chr>       <lgl>       <chr>           <chr>        
-#> 1 Elecciones al Parl… Ayuntamien… TRUE        l01080193-elec… http://datos…
+#>   description           publisher    is_readable path_id          url           
+#>   <chr>                 <chr>        <lgl>       <chr>            <chr>         
+#> 1 Resultados absolutos… Ayuntamient… TRUE        l01080193-resul… http://datos.…
 ```
 
 And we pass it to `openes_load`
@@ -150,9 +153,9 @@ the dataset.
 ``` r
 elections
 #> <datos.gob.es API>
-#>    Description: Elecciones al Parlamento Europeo. Resultados absolutos po...
+#>    Description: Resultados absolutos de las elecciones al Parlamento Europeo d...
 #>    Publisher: Ayuntamiento de Barcelona
-#>    Languages: es, ca, en
+#>    Languages: en, es, ca
 #>    Date of release: 2013-03-13 23:00:00
 #>    # of files read: 3 out of 3
 ```
@@ -165,9 +168,9 @@ elections$metadata
 #> # A tibble: 3 x 8
 #>   keywords language description url   date_issued         date_modified
 #>   <chr>    <chr>    <chr>       <chr> <dttm>              <chr>        
-#> 1 Absolut… es       Elecciones… http… 2013-03-13 23:00:00 No modificat…
-#> 2 Absolut… ca       Eleccions … http… 2013-03-13 23:00:00 No modificat…
-#> 3 Absolut… en       European P… http… 2013-03-13 23:00:00 No modificat…
+#> 1 Absolut… en       Absolute r… http… 2013-03-13 23:00:00 No modificat…
+#> 2 Absolut… es       Resultados… http… 2013-03-13 23:00:00 No modificat…
+#> 3 Absolut… ca       Resultats … http… 2013-03-13 23:00:00 No modificat…
 #> # … with 2 more variables: publisher <chr>, publisher_data_url <chr>
 ```
 
@@ -175,51 +178,51 @@ elections$metadata
 elections$data
 #> $`2019_Eleccions_Parlament_Europeu.csv`
 #> # A tibble: 39,516 x 8
-#>      Any Codi_districte Nom_districte Codi_barri Nom_barri Seccio_censal
-#>    <dbl>          <dbl> <chr>              <dbl> <chr>     <chr>        
-#>  1  2019              1 Ciutat Vella           1 el Raval  001          
-#>  2  2019              1 Ciutat Vella           1 el Raval  002          
-#>  3  2019              1 Ciutat Vella           1 el Raval  003          
-#>  4  2019              1 Ciutat Vella           1 el Raval  004          
-#>  5  2019              1 Ciutat Vella           1 el Raval  005          
-#>  6  2019              1 Ciutat Vella           1 el Raval  006          
-#>  7  2019              1 Ciutat Vella           1 el Raval  007          
-#>  8  2019              1 Ciutat Vella           1 el Raval  008          
-#>  9  2019              1 Ciutat Vella           1 el Raval  009          
-#> 10  2019              1 Ciutat Vella           1 el Raval  010          
-#> # … with 39,506 more rows, and 2 more variables: Camp <chr>, Nombre <dbl>
-#> 
-#> $`2009_Eleccions_Parlament_Europeu.csv`
-#> # A tibble: 42,440 x 8
-#>      Any Codi_districte Nom_districte Codi_barri Nom_barri Seccio_censal
-#>    <dbl>          <dbl> <chr>              <dbl> <chr>     <chr>        
-#>  1  2009              1 Ciutat Vella           1 el Raval  001          
-#>  2  2009              1 Ciutat Vella           1 el Raval  002          
-#>  3  2009              1 Ciutat Vella           1 el Raval  003          
-#>  4  2009              1 Ciutat Vella           1 el Raval  004          
-#>  5  2009              1 Ciutat Vella           1 el Raval  005          
-#>  6  2009              1 Ciutat Vella           1 el Raval  006          
-#>  7  2009              1 Ciutat Vella           1 el Raval  007          
-#>  8  2009              1 Ciutat Vella           1 el Raval  008          
-#>  9  2009              1 Ciutat Vella           1 el Raval  009          
-#> 10  2009              1 Ciutat Vella           1 el Raval  010          
-#> # … with 42,430 more rows, and 2 more variables: Camp <chr>, Nombre <dbl>
+#>      Any Codi_districte Nom_districte Codi_barri Nom_barri Seccio_censal Camp 
+#>    <dbl>          <dbl> <chr>         <chr>      <chr>             <dbl> <chr>
+#>  1  2019              1 Ciutat Vella  01         el Raval              1 Elec…
+#>  2  2019              1 Ciutat Vella  01         el Raval              2 Elec…
+#>  3  2019              1 Ciutat Vella  01         el Raval              3 Elec…
+#>  4  2019              1 Ciutat Vella  01         el Raval              4 Elec…
+#>  5  2019              1 Ciutat Vella  01         el Raval              5 Elec…
+#>  6  2019              1 Ciutat Vella  01         el Raval              6 Elec…
+#>  7  2019              1 Ciutat Vella  01         el Raval              7 Elec…
+#>  8  2019              1 Ciutat Vella  01         el Raval              8 Elec…
+#>  9  2019              1 Ciutat Vella  01         el Raval              9 Elec…
+#> 10  2019              1 Ciutat Vella  01         el Raval             10 Elec…
+#> # … with 39,506 more rows, and 1 more variable: Nombre <dbl>
 #> 
 #> $`2014_Eleccions_Parlament_Europeu.csv`
 #> # A tibble: 46,992 x 8
-#>      Any Codi_districte Nom_districte Codi_barri Nom_barri Seccio_censal
-#>    <dbl>          <dbl> <chr>              <dbl> <chr>     <chr>        
-#>  1  2014              1 Ciutat Vella           1 el Raval  001          
-#>  2  2014              1 Ciutat Vella           1 el Raval  002          
-#>  3  2014              1 Ciutat Vella           1 el Raval  003          
-#>  4  2014              1 Ciutat Vella           1 el Raval  004          
-#>  5  2014              1 Ciutat Vella           1 el Raval  005          
-#>  6  2014              1 Ciutat Vella           1 el Raval  006          
-#>  7  2014              1 Ciutat Vella           1 el Raval  007          
-#>  8  2014              1 Ciutat Vella           1 el Raval  008          
-#>  9  2014              1 Ciutat Vella           1 el Raval  009          
-#> 10  2014              1 Ciutat Vella           1 el Raval  010          
-#> # … with 46,982 more rows, and 2 more variables: Camp <chr>, Nombre <dbl>
+#>      Any Codi_districte Nom_districte Codi_barri Nom_barri Seccio_censal Camp 
+#>    <dbl>          <dbl> <chr>              <dbl> <chr>     <chr>         <chr>
+#>  1  2014              1 Ciutat Vella           1 el Raval  001           Elec…
+#>  2  2014              1 Ciutat Vella           1 el Raval  002           Elec…
+#>  3  2014              1 Ciutat Vella           1 el Raval  003           Elec…
+#>  4  2014              1 Ciutat Vella           1 el Raval  004           Elec…
+#>  5  2014              1 Ciutat Vella           1 el Raval  005           Elec…
+#>  6  2014              1 Ciutat Vella           1 el Raval  006           Elec…
+#>  7  2014              1 Ciutat Vella           1 el Raval  007           Elec…
+#>  8  2014              1 Ciutat Vella           1 el Raval  008           Elec…
+#>  9  2014              1 Ciutat Vella           1 el Raval  009           Elec…
+#> 10  2014              1 Ciutat Vella           1 el Raval  010           Elec…
+#> # … with 46,982 more rows, and 1 more variable: Nombre <dbl>
+#> 
+#> $`2009_Eleccions_Parlament_Europeu.csv`
+#> # A tibble: 42,440 x 8
+#>      Any Codi_districte Nom_districte Codi_barri Nom_barri Seccio_censal Camp 
+#>    <dbl>          <dbl> <chr>              <dbl> <chr>     <chr>         <chr>
+#>  1  2009              1 Ciutat Vella           1 el Raval  001           Elec…
+#>  2  2009              1 Ciutat Vella           1 el Raval  002           Elec…
+#>  3  2009              1 Ciutat Vella           1 el Raval  003           Elec…
+#>  4  2009              1 Ciutat Vella           1 el Raval  004           Elec…
+#>  5  2009              1 Ciutat Vella           1 el Raval  005           Elec…
+#>  6  2009              1 Ciutat Vella           1 el Raval  006           Elec…
+#>  7  2009              1 Ciutat Vella           1 el Raval  007           Elec…
+#>  8  2009              1 Ciutat Vella           1 el Raval  008           Elec…
+#>  9  2009              1 Ciutat Vella           1 el Raval  009           Elec…
+#> 10  2009              1 Ciutat Vella           1 el Raval  010           Elec…
+#> # … with 42,430 more rows, and 1 more variable: Nombre <dbl>
 ```
 
 For a deeper explanation of what the columns of the metadata mean and
