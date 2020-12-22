@@ -64,13 +64,13 @@ The first step begins with `openes_load`, which is the main function. It accepts
 
 ```{r, echo = FALSE}
 library(opendataes)
-path_id <- 'l01080193-elecciones-al-parlamento-europeo-resultados-absolutos-por-seccion-censal-de-la-ciudad-de-barcelona'
+path_id <- 'l01080193-resultados-absolutos-de-las-elecciones-al-parlamento-europeo-de-la-ciudad-de-barcelona'
 ```
 
 ```{r, eval = FALSE}
 library(opendataes)
 
-path_id <- 'l01080193-elecciones-al-parlamento-europeo-resultados-absolutos-por-seccion-censal-de-la-ciudad-de-barcelona'
+path_id <- 'l01080193-resultados-absolutos-de-las-elecciones-al-parlamento-europeo-de-la-ciudad-de-barcelona'
 openes_load(path_id)
 ```
 
