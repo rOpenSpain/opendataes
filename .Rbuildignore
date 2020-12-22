@@ -10,3 +10,5 @@
 ^to-do\.txt$
 ^testing_for_errors.R$
 ^docs$
+^\.github$
+^_pkgdown\.yml$
