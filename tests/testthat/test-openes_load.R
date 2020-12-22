@@ -145,7 +145,7 @@ test_that("openes_load assigns 'Distribucion sin nombre' when there is no name",
 test_that("openes_load works fine when guess_encoding is FALSE", {
   skip_on_cran()
 
-  tst <- openes_load('l01080193-elecciones-al-parlamento-europeo-resultados-absolutos-por-seccion-censal-de-la-ciudad-de-barcelona',
+  tst <- openes_load('l01080193-resultados-absolutos-de-las-elecciones-al-parlamento-europeo-de-la-ciudad-de-barcelona',
                       encoding = 'latin1',
                       guess_encoding = FALSE)
 
@@ -214,13 +214,13 @@ test_that("openes_load returns tibbles with URL's when it cannot read the file",
 test_that("openes_load's character and keyword results match exactly", {
   skip_on_cran()
 
-  character_method <- openes_load('l01080193-elecciones-al-parlamento-europeo-resultados-absolutos-por-seccion-censal-de-la-ciudad-de-barcelona',
+  character_method <- openes_load('l01080193-resultados-absolutos-de-las-elecciones-al-parlamento-europeo-de-la-ciudad-de-barcelona',
                                   'latin1',
                                   n_max = 5)
 
   kw <- openes_keywords("el Raval", "l01080193")
 
-  intm <- kw[grepl("Resultados absolutos de las elecciones al Parlamento Europeo de la ciudad de Barcelona",
+  intm <- kw[grepl("l01080193-resultados-absolutos-de-las-elecciones-al-parlamento-europeo-de-la-ciudad-de-barcelona",
                    kw$description,
                    fixed = TRUE), ]
 
@@ -266,7 +266,7 @@ test_that("openes_load throws errors when the keyword data frame is not in expec
 # but not in Mac. This way, when we run this in Appveyor and Travis it should be true in both
 test_that("Check that elections dataset is correctly read", {
   skip_on_cran()
-  pt <- openes_load('l01080193-elecciones-al-parlamento-europeo-resultados-absolutos-por-seccion-censal-de-la-ciudad-de-barcelona')
+  pt <- openes_load('l01080193-resultados-absolutos-de-las-elecciones-al-parlamento-europeo-de-la-ciudad-de-barcelona')
   files_read <- determine_number(pt)
 
   expect_gte(files_read, 2)
