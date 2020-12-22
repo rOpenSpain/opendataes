@@ -16,7 +16,7 @@ Imports:
     httr,
     readr,
     tibble
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.1
 Suggests: 
     testthat,
     covr,
