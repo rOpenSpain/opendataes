@@ -58,7 +58,7 @@ get_resp <- function(ch_url, attempts_left = 5, ...) {
 
   stopifnot(attempts_left > 0)
 
-  resp <- httr::GET(ch_url, ua, ...)
+  resp <- httr::GET(ch_url, ua, httr::timeout(120), ...)
   # To avoid making too many quick requests
   Sys.sleep(1)
 

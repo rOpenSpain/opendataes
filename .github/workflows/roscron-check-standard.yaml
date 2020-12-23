@@ -3,11 +3,10 @@
 on:
   push:
     branches:
-      - main
       - master
+      - fix-gha
   pull_request:
     branches:
-      - main
       - master
   schedule:
       - cron:  '30 08 1 * *'
@@ -66,16 +65,24 @@ jobs:
             eval sudo $cmd
           done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu", "20.04"))')
 
+      - name: SetLocale
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update && sudo apt-get install tzdata locales -y && sudo locale-gen es_ES.UTF-8
+          sudo localectl set-locale LANG="es_ES.UTF-8"
+          export LANG="es_ES.UTF-8"
+          sudo update-locale
+
       - name: Install dependencies
         run: |
+          install.packages(c("remotes", "rcmdcheck"))
           remotes::install_deps(dependencies = TRUE)
-          remotes::install_cran("rcmdcheck")
         shell: Rscript {0}
 
       - name: Check
         env:
           _R_CHECK_CRAN_INCOMING_REMOTE_: false
-        run: rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "warning", check_dir = "check")
+        run: rcmdcheck::rcmdcheck(args = c("--no-manual"), error_on = "warning", check_dir = "check")
         shell: Rscript {0}
 
       - name: Upload check results

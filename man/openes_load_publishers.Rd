@@ -14,6 +14,7 @@ Request all available publishers from \url{https://datos.gob.es/}
 }
 \examples{
 
+\donttest{
 openes_load_publishers()
-
+}
 }
