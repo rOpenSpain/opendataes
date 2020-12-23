@@ -3,11 +3,10 @@
 on:
   push:
     branches:
-      - main
       - master
+      - fix-gha
   pull_request:
     branches:
-      - main
       - master
   schedule:
       - cron:  '30 08 1 * *'
@@ -68,14 +67,12 @@ jobs:
 
       - name: Install dependencies
         run: |
+          install.packages(c("remotes", "rcmdcheck"))
           remotes::install_deps(dependencies = TRUE)
-          remotes::install_cran("rcmdcheck")
         shell: Rscript {0}
 
       - name: Check
-        env:
-          _R_CHECK_CRAN_INCOMING_REMOTE_: false
-        run: rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "warning", check_dir = "check")
+        run: rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "error")
         shell: Rscript {0}
 
       - name: Upload check results

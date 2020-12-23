@@ -5,8 +5,9 @@
 #'
 #' @examples
 #'
+#'\donttest{
 #' openes_load_publishers()
-#'
+#'}
 openes_load_publishers <- function() {
   # Specify random huge number just to avoid running out of pages
   # in the future.
