@@ -98,7 +98,8 @@ package can read in \code{\link{publishers_available}}.
 \examples{
 
 # For a dataset with only one file to read
-example_id <- 'l01080193-fecundidad-madres-de-15-a-19-anos-quinquenal-2003-2014'
+\donttest{
+example_id <- 'l01080193-fecundidad-en-madres-de-15-a-19-anos-de-la-ciudad-de-barcelona1'
 some_data <- openes_load(example_id)
 
 # Print the file to get some useful information
@@ -113,6 +114,7 @@ some_data$metadata
 # to the homepage of dataset at the publisher's website
 # some_data$metadata$publisher_data_url
 some_data$data
+}
 
 # For a dataset with many files
 
