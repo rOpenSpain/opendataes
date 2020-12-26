@@ -53,8 +53,8 @@ kw
 
 # Notice how we narrow down to only 1 dataset
 dts <-
- kw \%>\%
- filter(grepl("Precios", description)) \%>\% # Narrow it down to only 1 dataset
+ kw %>%
+ filter(grepl("Precios", description)) %>% # Narrow it down to only 1 dataset
  openes_load('ASCII')
 
 # Notice that we had to specify the encoding because printing the dataset returns an error.
