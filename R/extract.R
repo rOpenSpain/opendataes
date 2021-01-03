@@ -267,7 +267,8 @@ extract_dataset_name <- function(data_list) {
   # always pick the first language, assuming that there's at least one
   # because the previous check makes sure there is at least one
 
-  check_if_title_exists <- function(x) if ("title" %in% names(x)) x$title[[1]] else "Distribucion sin nombre"
+  check_if_title_exists <- function(x) if ("title" %in% names(x[[1]])) x[[1]]$title[[1]][['_value']] else "Distribucion sin nombre"
+
 
   data_set_names <-
     vapply(distribution,
