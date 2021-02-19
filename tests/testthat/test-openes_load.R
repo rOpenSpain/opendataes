@@ -232,7 +232,7 @@ test_that("openes_load's character and keyword results match exactly", {
 test_that("openes_load throws errors when the keyword data frame is not in expected format", {
   skip_on_cran()
 
-  cp <- openes_keywords("la Prosperitat", "l01080193")
+  cp <- openes_keywords("renta", "l01080193")
 
   expect_error(openes_load(cp),
                "The data frame resulted from openes_keywords must have only 1 dataset (1 row). Make sure you filter down to only one dataset",
@@ -243,7 +243,7 @@ test_that("openes_load throws errors when the keyword data frame is not in expec
                fixed = TRUE)
 
 
-  cp <- cp[grepl("Evolución semestral (Base 2008=100). Cambio de fuente", cp$description, fixed = TRUE), ]
+  cp <- cp[grepl("Distribución territorial de la renta familiar en la ciudad de Barcelona.", cp$description, fixed = TRUE), ]
   cp$path_id <- factor(cp$path_id)
 
   expect_error(openes_load(cp),
