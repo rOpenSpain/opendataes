@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - master
-      - fix-gha
+      - fix-dataset-name
   pull_request:
     branches:
       - master

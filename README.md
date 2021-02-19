@@ -3,10 +3,8 @@
 
 # opendataes
 
-[![Travis build
-status](https://travis-ci.org/rOpenSpain/opendataes.svg?branch=master)](https://travis-ci.org/rOpenSpain/opendataes)
-[![AppVeyor build
-status](https://ci.appveyor.com/api/projects/status/github/rOpenSpain/opendataes?branch=master&svg=true)](https://ci.appveyor.com/project/cimentadaj/opendataes)
+[![R build
+status](https://github.com/rOpenSpain/opendataes/workflows/R-CMD-check/badge.svg)](https://github.com/rOpenSpain/opendataes/actions)
 [![Coverage
 status](https://codecov.io/gh/rOpenSpain/opendataes/branch/master/graph/badge.svg)](https://codecov.io/github/rOpenSpain/opendataes?branch=master)
 [![Lifecycle:

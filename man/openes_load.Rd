@@ -170,9 +170,9 @@ kw <- openes_keywords("turismo", "l01080193") # Ayuntamiento de Barcelona#'
 kw
 
 dts <-
- kw \%>\%
+ kw %>%
  filter(is_readable == TRUE,
-        grepl("Tipos de propietarios", description)) \%>\% # Narrow it down to only 1 dataset
+        grepl("Tipos de propietarios", description)) %>% # Narrow it down to only 1 dataset
  openes_load()
 
 dts$metadata
