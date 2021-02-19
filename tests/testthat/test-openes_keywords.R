@@ -10,6 +10,7 @@ check_format <- function(kw) {
 
 test_that("openes_keywords returns correct format", {
 
+  skip_on_ci()
   skip_on_cran()
 
   kw <- openes_keywords("vivienda", "l01080193") # Ayuntamiento de Barcelona
@@ -30,6 +31,7 @@ test_that("openes_keywords returns error when wrong publisher", {
 test_that("openes_keywords returns correct format when publisher is upper case", {
 
   skip_on_cran()
+  skip_on_ci()
 
   kw <- openes_keywords("vivienda", "L01080193") # Ayuntamiento de Barcelona
   check_format(kw)
