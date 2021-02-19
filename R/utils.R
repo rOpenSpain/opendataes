@@ -55,6 +55,7 @@ get_resp <- function(ch_url, attempts_left = 5, ...) {
 
   # Handle so that the API knows who's downloading the data
   ua <- httr::user_agent("https://github.com/ropenspain/opendataes")
+  timeout <- httr::config(connecttimeout = 60)
 
   stopifnot(attempts_left > 0)
 
