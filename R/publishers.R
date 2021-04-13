@@ -34,9 +34,9 @@ publishers_available <- tibble::tibble(
   publishers = c("Ayuntamiento de Barcelona", "Ayuntamiento de Madrid", "Ayuntamiento de Valencia",
                  "Ayuntamiento de Las Palmas de Gran Canaria", "Ayuntamiento de Bilbao",
                  "Ayuntamiento de Zaragoza", "Ayuntamiento de Malaga", "Ayuntamiento de Gijon",
-                 "Ayuntamiento de Santander", "Ayuntamiento de Alcobendas"),
+                 "Ayuntamiento de Santander", "Ayuntamiento de Alcobendas", "Junta de Castilla y León"),
   publisher_code = c("L01080193", "L01280796", "L01462508", "L01350167", "L01480209", "L01502973",
-                     "L01290672", "L01330241", "L01390759","L01280066")
+                     "L01290672", "L01330241", "L01390759","L01280066", "A07002862")
 )
 
 #' Translate publisher code to publisher name
